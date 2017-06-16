@@ -122,8 +122,10 @@
 
 \floatname{algorithm}{Algoritem}
 \algnewcommand\algorithmicto{\textbf{to}}
+\algnewcommand\algorithmicin{\textbf{in}}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
 \algrenewtext{For}[3]{$\algorithmicfor\ #1 \gets #2\ \algorithmicto\ #3\ \algorithmicdo$}
-
+\algdef{S}[FOR]{ForEach}[2]{\algorithmicforeach\ #1\ \algorithmicin\ #2\ \algorithmicdo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%           DOCUMENT           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -583,7 +585,7 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
   enačbe~\eqref{eq:general-problem}.
   \label{alg:metoda}
   \begin{algorithmic}[1]
-    \Function{solve}{$\Omega, \L, f, \Rc, g, N, Q, n, m, b, w$}
+    \Function{reši}{$\Omega, \L, f, \Rc, g, N, Q, n, m, b, w$}
     \State $x \gets \textsc{diskretiziraj}(\Omega, N, Q)$
     \Comment{$x$ postane seznam $N$ točk, brez škode za splošnost naj leži prvih
     $Q$ točk v $\Omega$ in preostalih $N-Q$ na $\partial \Omega$.}
@@ -665,10 +667,11 @@ pomeni, da smo dobro popisali celotno področje in upamo, da s tem tudi obnašan
 funkcije $u$, hrakti pa si zaradi numerične stabilnosti ne želimo, da bi bile
 točke preveč skupaj. Uvedimo dve količini, ki nam merita ti dve lastnosti.
 Za dano domeno $\Omega$ in množico točk $X$ definirajmo
-\begin{align*}
+\begin{align}
   h_\Omega(X) &= \max_{p \in \Omega} \min_{x \in X} \|p - x\| \\
-  S(X) &= \min_{\substack{x, y \in \Omega \\ x \neq y}} \|x-y\|
-\end{align*}
+  \label{eq:def-hs}
+  S(X) &= \min_{\substack{x, y \in \Omega \\ x \neq y}} \|x-y\| \nonumber
+\end{align}
 Količina $h$ pove, da ne glede na to, kje v domeni smo, imamo na razdalji manj ali enako $h$
 vsaj eno diskretizacijsko točko. Količina $S$ pa pove, kako blizu so si
 diskretizacijske točke med seboj. Dobra diskretizacija želi maksimizirati $S$ in
@@ -687,6 +690,13 @@ v~\cite{hannay2004fibonacci} ali~v~\cite{gonzalez2010measurement}.
 Pri razlikah domen preprosto izbrišemo točke, ki so padle izven domene,
 pri unijah pa naredimo tudi unijo diskretizacij. Pri tem lahko potem naredimo še
 en korak in pobrišemo ven kakšno izmed točk, ki so si preblizu skupaj.
+Primeri domen in njihovih diskretizacij dobljenih na ta način so prikazani na sliki~\ref{fig:domains}.
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/domains_generated.png}
+  \caption{Primeri domen in njihovih diskretizacij.}
+  \label{fig:domains}
+\end{figure}
 
 Pri enakomerni diskretizaciji smo močno uporabili naše znanje o domeni in njeni
 obliki. Lahko pa, da tega nimamo na voljo in želimo splošnejši algoritem, ki
@@ -699,18 +709,98 @@ pristanejo v notranjosti. Še boljšo diskretizacijo dobimo, če namesto
 psevdonaključnih števil uporabimo kvazinaključna števila, ki imajo manjšo
 diskrepanco. Več o tem si bralec lahko prebere v~\cite{morokoff1994quasi}.
 
-Primeri domen in njihovih diskretizacij so prikazani na sliki~\ref{fig:domains}.
+Kljub njihovi splošnosti so naključne diskretizacije precej slabe, kot na primer
+naključna diskretizacija kroga na sliki~\ref{fig:relax-circle} (levo).
+Pri tem, da bi točke v domeni porazdelili čimbolj enakomerno, si lahko pomagamo
+s preprostim iterativnim postopkom, za katerega se izkaže, da v praksi dobro
+deluje. Navdih jemljemo iz fizike in si zamislimo, da je vsaka točka naboj, ki
+se odbija od sosednjih točk in pustimo fiziki, da opravi svoje delo.
+Na vsako točko tako deluje neka sila, ki jo sili
+stran od drugih točk, v prazen prostor. Točko lahko malo premaknemo v smeri
+sile, ponovno izračunamo medsebojne sile in postopek ponavljamo. Pri tem točkam
+na robu ne dovolimo premikanja in če kakšna točka iz notranjosti zleze iz
+domene, jo postavimo na naključno mesto nazaj v domeno. Zapis zgornjega postopka
+je v psevdokodi je podan kot algoritem~\ref{alg:relax}. Postopku se kdaj reče
+tudi \emph{sprostitev} \ang{relaxation} domene, kajti na začetku so med točkami
+napetosti, ki jih s premikanjem poskušajo minimizirati. Rezultati na primeru
+izboljšanja naključne diskretizacije kroga so podani na
+sliki~\ref{fig:relax-circle}.
+
+\begin{algorithm}[!ht]
+  \caption{Algoritem za izboljšanje kvalitete diskretizacije domene.}
+  \textbf{Vhod:} \\
+  \newcommand{\listbullet}{\hspace*{10pt}$\bullet$\hspace*{-5pt}}
+  \begin{tabular}{llll}
+    \listbullet & $\Omega$  & \ldots & domena \\
+    \listbullet & $N$       & \ldots & število diskretizacijskih točk \\
+    \listbullet & $Q$       & \ldots & število diskretizacijskih točk v
+    notranjosti $\Omega$ \\
+    \listbullet & $X$       & \ldots & seznam diskretizacijskih točk, prvih $Q$
+    je v notranjosti. \\
+    \listbullet & $I$       & \ldots & število iteracij \\
+    \listbullet & $s$       & \ldots & število sosedov, ki jih upoštevamo pri delovanju sile \\
+    \listbullet & $F_0$     & \ldots & delež sile, ki vpliva na premik \\
+    \listbullet & $\alpha$  & \ldots & eksponent v sili                \\
+  \end{tabular} \\
+  \textbf{Izhod:} Nov seznam diskretizacijskih točk.
+  \label{alg:relax}
+  \begin{algorithmic}[1]
+    \Function{izboljšaj}{$\Omega, N, Q, X, I, s, F_0, \alpha$}
+    \State $r_0 \gets \left( \frac{\textsc{volumen}(\Omega)}{N}
+    \right)^{\frac{1}{\textsc{dimenzija}(\Omega)}}$ \Comment{Približek povprečne
+    razdalje med točkami}.
+    \For{i}{1}{I}
+    \For{j}{1}{Q}
+    \State $\vec{F} \gets \vec{0}$
+    \ForEach{y}{\{najbližjih $s$ sosedov $X[i]$\}}
+    \State $\vec{r} \gets \frac{X[i] - y}{r_0}$ \Comment{Brezdimenzijski vektor
+    razdalje.}
+    \State $\vec{F} \gets \vec{F} + \cdot \frac{\vec{r}}{\|\vec{r}\|^\alpha}$
+    \EndFor
+    \State $X[i] \gets X[i] + F_0 \vec{F}$.
+    \If{$X[i] \notin \Omega$}
+    \State $X[i] \gets $ naključna pozicija znotraj $\Omega$
+    \EndIf
+    \EndFor
+    \EndFor
+    \State \Return $X$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.3\textwidth]{images/domain_circle.png}
+  \hspace{1em}
+  \includegraphics[width=0.3\textwidth]{images/domain_circle_relaxed.png}
+  \caption{Primerjava domene z naključno diskretizacijo (levo) in domene po
+  izvedbi 10 iteracij algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$, $s
+  = 6$, $\alpha = 3$ (desno).}
+  \label{fig:relax-circle}
+\end{figure}
+
+Da algoritem izboljša kvaliteto aproksimacije se vidi tudi, če izračunamo
+parametra $h$ in $S$. Pričakujemo, da se bo $S$ povečal, saj se točke, ki so
+bolj skupaj, bolj odbijajo. Na sliki~\ref{fig:relax-hs} vidimo primerjavo med
+kvaliteto diskretizacije s Fibonaccijevo mrežo in njeno 10-kratno izboljšavo.
+Vidimo da se $h$ ni bistveno spremenil, le varianca se mu je malce povečala,
+$S$ pa se je v povprečju precej izboljšal in izkazuje celo lepše obnašanje kot
+prej.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{images/domains_generated.png}
-  \caption{Primeri domen in njihovih diskretizacij.}
-  \label{fig:domains}
+  \includegraphics[width=0.8\textwidth]{images/relax_improvement.png}
+  \caption{Sprememba $h$ in $S$ po 10 iteracijah algoritma~\ref{alg:relax} s
+  parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem
+  krogu z začetno Fibonaccijevo mrežo v odvisnosti od $N$ z razmerjem robnih in
+  notranjih točk $x : \frac{12}{\pi} \sqrt{x}$.}
+  \label{fig:relax-hs}
 \end{figure}
 
-% relax --
 
 \subsubsection{Iskanje najbližjih sosedov}
+
+blah blah pogost problem, veliko algoritmov, nlogn struktura
 
 \subsubsection{Časovna zahtevnost}
 
