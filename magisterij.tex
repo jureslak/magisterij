@@ -6,11 +6,13 @@
 \usepackage{url}
 \usepackage[dvipsnames,usenames]{color}
 \usepackage{graphicx}
+\usepackage{minted}
+% \usemintedstyle{mathematica}
+\usemintedstyle{mathematicanotebook}
+\renewcommand\listingscaption{Program}
 
-% mine
 % \usepackage[all]{xy}  % diagrami
-\usepackage{mathrsfs} % for mathscr
-\usepackage{stmaryrd} % oklepaji
+% \usepackage{stmaryrd} % Bold math in sections
 \usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
   linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
   menucolor=black, runcolor=black, urlcolor=black, pdfencoding=unicode
@@ -24,14 +26,14 @@
 \topmargin-5mm
 \addtolength{\footskip}{10pt}
 \pagestyle{plain}
-\overfullrule=15pt % oznaci predlogo vrstico
+\overfullrule=50pt % označi predlogo vrstico
 
-
-% ukazi za matematicna okolja
+% ukazi za matematična okolja
 \theoremstyle{definition} % tekst napisan pokoncno
 \newtheorem{definicija}{Definicija}[section]
 \newtheorem{primer}[definicija]{Primer}
 \newtheorem{opomba}[definicija]{Opomba}
+\newtheorem{aksiom}{Aksiom}
 
 \theoremstyle{plain} % tekst napisan posevno
 \newtheorem{lema}[definicija]{Lema}
@@ -50,6 +52,7 @@
 \newcommand{\Nc}{\mathcal{N}}
 \newcommand{\I}{\mathcal{I}}
 \newcommand{\B}{\mathcal{B}}
+\renewcommand{\P}{\mathcal{P}}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\T}{\mathsf{T}}
 
@@ -69,12 +72,15 @@
 % vstavi svoje definicije ...
 \hypersetup{pdftitle={\naslovdela}}
 \hypersetup{pdfauthor={\imeavtorja}}
-\hypersetup{pdfsubject={delo diplomskega seminarja}}
+\hypersetup{pdfsubject={magistrska naloga}}
 
 % matematika
 \newcommand{\lap}{\operatorname{lap}}
 \renewcommand{\div}{\operatorname{div}}
 \newcommand{\grad}{\operatorname{grad}}
+\newcommand{\Lap}{\operatorname{Lap}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\Grad}{\operatorname{Grad}}
 \renewcommand{\b}{\boldsymbol}
 \let\oldphi\phi
 \renewcommand{\phi}{\varphi}
@@ -102,16 +108,38 @@
 \newcommand{\ddz}[1]{\dd{#1}{z}}
 \newcommand{\ddth}[1]{\dd{#1}{\theta}}
 
+\newcommand{\DD}[2]{\ensuremath{\frac{D #1}{D #2}}}
+\newcommand{\DDt}[1]{\DD{#1}{t}}
+
+% vectors
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vt}{\vec{t}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\va}{\vec{a}}
+\newcommand{\vn}{\vec{n}}
+\newcommand{\vf}{\vec{f}}
+\newcommand{\vm}{\vec{m}}
+\newcommand{\vi}{\vec{\imath}}
+\newcommand{\vj}{\vec{\jmath}}
+\newcommand{\vk}{\vec{k}}
+\newcommand{\ei}{\vec{e}_1}
+\newcommand{\ej}{\vec{e}_2}
+\newcommand{\ek}{\vec{e}_3}
+
+% tensors
+\newcommand{\ts}{\sigma}
+
 % operators
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\nnz}{nnz}
+\DeclareMathOperator{\tr}{tr}
 
 % slovnica
-\newcommand{\ang}[1]{\text{(\textit{angl.} #1)}}
-
+\newcommand{\ang}[1]{(\textit{angl.}\ #1)}
+\newcommand{\algorithmlist}{\hspace*{5pt}}
 
 % bold math in sections
-\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
+% \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
 \makeatletter
 \g@addto@macro\bfseries{\boldmath}
 \makeatother
@@ -131,9 +159,9 @@
 %%%%%%           DOCUMENT           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\pagenumbering{roman}
-
 \begin{document}
+
+\pagenumbering{roman}
 
 % od tod do povzetka ne spreminjaj nicesar
 \thispagestyle{empty}
@@ -187,6 +215,703 @@ TBA
 Uporabili bomo~\cite{lebedev2009introduction}.
 
 \newpage
+
+\section{Teorija linearne elastičnosti}
+Teorija linearne elastičnosti se ukvarja  \dots
+
+\subsection{Osnove gibanja}
+
+\begin{definicija}
+  \emph{Materialno telo} $\B$ je odprta povezana podmnožica v $\R^3$ z odsekoma gladkim
+  robom skupaj z družino bijekcij
+  \[
+    \b\chi = \{\chi \colon\B\to\chi(\B) \subseteq \R^3\},
+  \]
+  da je za vsaki $\chi_1, \chi_2 \in \b\chi$ preslikava
+  $\chi_2\circ\chi_1^{-1}\colon \chi_1(\B) \to \chi_2(\B)$
+  difeomorfizem.
+
+  Preslikavam $\chi \in \b\chi$ pravimo \emph{konfiguracije} telesa. Odlikovani
+  konfiguraciji $\chi_R$ pravimo \emph{referenčna konfiguracija} in telo v tej
+  konfiguraciji označevali z $B$.
+\end{definicija}
+
+\begin{definicija}
+  \label{def:gibanje}
+  Gibanje telesa $\B$ je gladka družina konfiguracij
+  \[
+    \{\chi_t\colon \B \to\chi_t(\B) \subseteq \R^3, t \in \R\}.
+  \]
+  Tem konfiguracijam pravimo \emph{prostorske konfiguracije}. Telo v prostorski
+  konfiguraciji označujemo z $B_t$.
+\end{definicija}
+Koordinatam telesa v referenčni konfiguraciji pravimo \emph{referenčne
+koordinate} in jih pišemo z velikimi tiskanimi črkami, npr.\ $X \in \chi_R(\B)$.
+Koordinatam telesa v prostorski konfiguraciji pravimo \emph{prostorske
+koordinate} in jih pišemo z malimi črkami, npr. $x \in \chi_t(\B)$.
+
+Gladkost gibanja glede na $t$ iz definicije~\ref{def:gibanje} pomeni, da je
+preslikava
+\begin{align*}
+  \tilde{x}\colon \R \times \chi_R(\B) \subset \R \times \R^3&\to \R^3 \\
+  (t, X) &\mapsto \chi_t(\chi_R^{-1}(X))
+\end{align*}
+gladka kot funkcija iz $\R^4$ v $\R^3$.
+Preslikava $\tilde x$ nam podaja zvezo med prostorskimi in referenčnimi
+koordinatami
+\[
+  x = \tilde x(t, X).
+\]
+Pogosto opustimo strog zapis s preslikavami in pišemo kar $x = x(t, X)$.
+Ker je za vsak $t$ preslikava $X \mapsto x(t, X)$ difeomorfizem, lahko funkcijo
+obrnemo in izrazimo tudi referenčne koordinate kot funkcijo prostorskih $X = X(t, x)$.
+
+Pogosto za referenčno konfiguracijo vzamemo kar konfiguracijo na začetku
+gibanja, $\chi_R = \chi_{t=t_0}$, ni pa nujno temu tako.
+
+\begin{primer}
+  gibanje, nek konkreten $x$ \dots
+\end{primer}
+
+Vsako količino $\phi$ definirano na telesu $\B$ lahko zapišemo na dva načina, v
+prostorskih ali v referenčnih koordinatah. Za funkcijo
+\begin{align*}
+  \tilde \phi\colon B &\to \phi(\B) \\
+  X&\mapsto \phi(\chi_R^{-1}(X)),
+\end{align*}
+pravimo, da je zapisana v prostorskih koordinatah in pišemo $\tilde\phi =
+\phi(X)$.
+Podobno za funkcijo
+\begin{align*}
+  \hat \phi\colon B_t &\to \phi(\B) \\
+  x&\mapsto \phi(\chi_R^{-1}(x)),
+\end{align*}
+pravimo, da je zapisana v prostorskih koordinatah in pišemo $\hat\phi = \phi(x)$.
+Med obema zapisoma lahko prehajamo s pomočjo izražave $\phi(x) = \phi(x(t, X))$
+ali $\phi(X) = \phi(X(x, t))$.
+
+Podoben zapis bomo uporabljali tudi pri diferencialnih operatorjih. Pri odvodih
+moramo povedati, ali na količino gledamo v prostorskih ali v referenčnih
+koordinatah. Z velikimi črkami bomo pisali operatorje, kjer mislimo da so
+referenčne koordinate konstantne, z malimi pa tiste, kjer mislimo, da so
+konstantne prostorske.
+Tako velja na primer
+\[
+  \DDt{}\phi(t, x) = \DDt{ }\phi(t, x(t, X)) = \dpar{\phi}{t}(t, x) +
+  \dpar{\phi}{x}(t, x)\dpar{x}{t}.
+\]
+
+\begin{primer}
+  Če imamo dano količino \dots
+\end{primer}
+
+Gibanje, kot opisano sedaj, res modelira makroskopsko gibanje kot ga poznamo iz
+resničnega sveta. Pogoji gladkosti zagotavljajo, da se telesa ne morejo kar
+izginiti in se pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih
+sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
+
+\begin{definicija}
+  Količino \[ u(X) = x(t, X) - X \] imenujemo \emph{pomik}.
+  Količino \[ \vv(X) = \dpar{x}{t}(t, X) \] imenujemo \emph{hitrost}.
+  Količino \[ \va(X) = \dpar{^2x}{t^2}(t, X) \] imenujemo \emph{pospešek}.
+\end{definicija}
+\begin{opomba}
+  Z uporabo zgornje definicije lahko odvod po času v referenčnem koordinatnem
+  sistemu zapišemo kot
+  \[
+    \DDt{\phi} = \dpar{\phi}{t} + (\grad \phi)\vv
+  \]
+\end{opomba}
+
+Poleg že naštetih količin pa imajo telesa tudi druge fizikalne lastnosti, kot so
+masa in volumen, ki vplivajo na gibanje. Za modeliranje teh so pomagamo z
+merami.
+
+\begin{definicija}
+  Predpostavimo, da imamo na $\B$ definirani dve Radonovi meri, $m$ in
+  $V$, ki nam predstavljata maso in volumen. Predpostavimo še, da je $m \ll V$,
+  torej, če je volumen nekega podtelesa nič, je tudi njegova masa nič. Od tod po
+  Radon-Nikodymovem izreku sledi, da obstaja merljiva funkcija $\rho =
+  \dd{m}{V}$, da velja
+  \[
+    m(A) = \int_{A} \rho dV
+  \]
+  za vsako merljivo podmnožico $A \subseteq \B$.
+  Funkciji $\rho\colon\B\to[0, \infty)$ pravimo \emph{gostota}.
+\end{definicija}
+\begin{opomba}
+  Ponavadi za $V$ vzamemo kar Lebesgueevo mero na $\R^3$, mero $m$ pa podamo tako, da
+  podamo gostoto telesa $\rho$. Meri $m$ in $V$ s potiskom prek konfiguracij
+  razširimo na referenčni in prostorski položaj.
+\end{opomba}
+
+\subsubsection{Aksiomi gibanja}
+Iz mehanike točke in iz resničnega sveta vemo, da gibanje zadošča nekim
+zakonom, ki jih bomo za nadaljnje izpeljave privzeli kot aksiome.
+
+\begin{aksiom}[Zakon o ohranitvi mase]
+  \label{aks:masa}
+  Za vsako telo $\B$ in vsako njegovo gibanje
+  \begin{equation}
+    \DDt{}m(B_t) = 0.
+    \label{eq:masa}
+  \end{equation}
+  Masa se med gibanjem niti ne izgublja niti ne nastaja in je vseskozi
+  konstantna.
+\end{aksiom}
+
+Druga dva aksioma bosta poleg mase imela opraviti s silami. Predpostavili bomo,
+da lahko sile na telo delujejo na dva načina: kot telesne sile ali pa kot
+površinske sile.
+
+\begin{definicija}
+  \emph{Telesna sila} $\vec f$ je zvezna funkcija $f\colon\B\to\R^3$.
+  \emph{Površinska sila} $\vec t$ je zvezna funkcija $t\colon\partial\B\to\R^3$.
+\end{definicija}
+
+\begin{aksiom}[Zakon o ohranitvi gibalne količine]
+  \label{aks:gib}
+  Za vsako telo $\B$ velja
+  \begin{equation}
+    \DDt{}\int_{\B} \dot x dm = \int_B \vec f dV + \int_{\partial B} \vec t dS.
+    \label{eq:gib}
+  \end{equation}
+  Sprememba gibalne količine je enaka vsoti vseh sil, ki delujejo na telo.
+\end{aksiom}
+
+\begin{aksiom}[Zakon o ohranitvi vrtilne količine]
+  \label{aks:vrt}
+  Za vsako telo $\B$ velja
+  \begin{equation}
+    \DDt{}\int_{B}\dot x \times x dm = \int_B \vec f \times x dV + \int_{\partial B}
+    \vec t\times x dS.
+    \label{eq:vrt}
+  \end{equation}
+  Sprememba vrtilne količine je enaka vsoti vseh zunanjih navorov, ki delujejo
+  na telo.
+\end{aksiom}
+\begin{opomba}
+  Pri aksiomu~\ref{aks:vrt} smo predpostavili, da na kontinuum ne delujejo
+  notranji, ampak da so vsi navori posledica delovanja zunanjih sil. Drugače
+  povedano, predpostavili smo \emph{nepolarnost} kontinuuma.
+\end{opomba}
+
+\subsection{Napetostni tenzor}
+Predstavljajmo si, da na telo deluje neka površinska sila $\vt$. Ta sila deluje
+na zunanjo površino telesa, nato pa se prenaša skozi telo od točke do točke.
+Če skozi telo potegnemo namišljeno ravnino, ki ga razdeli na dva dela.
+Na tej površini en del kontinuuma deluje na drug del, toda ekvivalentno bi bilo,
+če bi enega izmed teh delov odstranili in na površino preostanka delovali z
+enakimi silami, kot je prej deloval drugi del.
+
+Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa.
+V nekem trenutku $t$ v času se postavimo v neko točko $x$ v telesu in skozi izbrano
+točko potegnemo ravnino z normalo $\vn$. Tedaj obstaja vektor $\vt$, ki
+prestavlja silo, s katero kontinuum z ene strani ravnine deluje v tej točki na
+tistega na drugi strani. Poleg tega, če potegnemo katero koli drugi ploskev
+skozi točko $x$ z enako normalo $\vn$, bo vektor $\vt$, še vedno enak, saj bo
+kontinuum deloval z enako silo. Temu razmisleku se reče \emph{Cauchyeva
+hipoteza}.
+
+\begin{aksiom}[Cauchyeva hipoteza]
+  V telesu obstaja vektorsko polje $\vt$ inducirano s površinskimi silami, ki
+  je odvisno samo od položaja, časa in normale na površino (resnično ali
+  namišljeno), kjer ga opazujemo.  S simboli lahko zapišemo
+  \[
+    \vt = \vt(t, x, \vn).
+  \]
+\end{aksiom}
+
+Iz zgornjega razmisleka se zdi, da bi morala biti sila, s katero prvi del
+kontinuuma deluje na drugega nasprotno enaka sili, s katero drugi deluje na
+prvega. Temu se reče tudi tretji Newtonov zakon za mehaniko kontinuuma in
+ga ni treba privzeti kot aksiom, ampak lahko dokažemo iz do sedaj
+privzetih aksiomov. Dokaza tega in naslednjega izreka bosta povzeta po dokazih
+iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
+\begin{trditev}[Cauchyeva recipročna relacija]
+  \label{trd:cauchy-reciprocal}
+  \[ \vt(t, x, -\vn) = -\vt(t, x, \vn) \]
+\end{trditev}
+\proof
+Izberimo trenutek v času $t$ in točko $x$. Krajše pišimo $\vt_{\vn} = \vt(t, x,
+\vn)$. S časom $t$ in točko $x$ je določena tudi točka $X$ v referenčni
+konfiguraciji.
+Oglejmo si podtelo v obliki krožnega valja z višino $h^2$ in radijem $h$, ki ima
+v središču točko $X$ in je $\vn$ normala na eno izmed osnovnic.
+Tako podtelo zaradi odprtosti $\B$ gotovo obstaja za dovolj majhen $h$. Označimo
+osnovnico z normalo $\vn$ z $B^+$, nasprotno z $B^-$ in plašč s $P$. Površina
+vsake osnovnice je $\pi h^2$, površina plašča pa $2 \pi h^3$. Volumen valja je
+$\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
+
+\begin{figure}[h]
+  \centering
+%   \includegraphics{}
+  \caption{asdfasdf}
+  \label{fig:valj}
+\end{figure}
+
+Uporabimo za ta
+valj aksiom o gibalni količini~\eqref{eq:gib}:
+\begin{align*}
+  \DDt{} \int_B \dot x dm = \int_B \vf dV + \int_{\partial B} \vt dS.
+\end{align*}
+Zaradi gladkosti $\dot x$ in ohranitve mase lahko zamenjamo odvod in integral in rob valja
+razpišemo po ploskvah. Vektor $\vm$ naj označuje normalo na plašč valja.
+\[
+  \int_B \DDt{} (\dot x \rho) dV = \int_B \vf dV + \int_{B^+} \vt_{\vn} dS +
+  \int_{B^-}\vt_{-\vn} dS + \int_{P} \vt_{\vm}dS
+\]
+Sedaj na vsakem od integralov uporabimo izrek o povprečni vrednosti
+\[
+  V(B) \DDt{} (\dot x \rho)(X_1) = V(B) \vf(X_2) + S(B^+)\vt_{\vn}(X_3) +
+  S(B^-)\vt_{-\vn}(X_4) + S(P)\vt_{\vm}(X_5),
+\]
+kjer so $X_1, X_2, X_3, X_4, X_5$ neke vmesne točke v ali na površini valja.
+Če vstavimo notri izraze za volumen in površine dobimo
+\[
+  \pi h^4 \DDt{} (\dot x \rho)(X_1) = \pi h^4 \vf(X_2) + \pi h^2 \vt_{\vn}(X_3) +
+  \pi h^2 \vt_{-\vn}(X_4) + 2 \pi h^3 \vt_{\vm}(X_5).
+\]
+Če celoten izraz delimo z $\pi h^2$ in pogledamo limito $h\to 0$ gredo vse točke
+$X_i$ proti $X$ in dobimo
+\[
+  0 = \vt_{\vn}(X) + \vt_{-\vn}(X),
+\]
+kar je po prenosu nazaj v prostorsko konfiguracijo točno to, kar smo želeli
+pokazati.
+\endproof
+
+Izkaže se, da velja še več: vektor $\vt$ je linearno odvisen od normale. S
+pomočjo tega.
+\begin{izrek}[Cauchyev izrek o napetosti]
+  Obstaja tenzor $\ts$, tako da velja \[
+    \vt(t, x, \vn) = \ts(t, x)\vn.
+  \]
+  Tenzor $\ts$ se v prostorski konfiguraciji imenuje Cauchyev napetostni tenzor,
+  v referenčni pa Piola–Kirchhoffov napetostni tensor in se običajno označuej
+  drugače, npr. s $\tau$.
+\end{izrek}
+\proof
+Podobno kot pri Cacuchyevi recipročni relaciji si izberimo majhno telo okoli
+točke $X = X(x, t)$. Tokrat naj bo to tetraeder z tremi stranicami vzporednimi
+koordinatnim osem in normalo $\vn$ na ploskev, ki jo razpenjajo preostale tri
+stranice, kot prikazano na sliki~\ref{fig:tetra}.
+
+\begin{figure}[h]
+  \centering
+%   \includegraphics{}
+  \caption{Tetraeder, uporabljen za dokaz Cauchyevega izreka o napetosti.}
+  \label{fig:tetra}
+\end{figure}
+
+Označimo oglišča tetraedra z $A_1, A_2, A_3, A_4 = X$ in ploskev nasproti izbranega
+oglišča z malimi črkami $S_1, S_2, S_3, S_4$. Ploščine teh ploskev označimo z
+$a_1, a_2, a_3, a_4$.  Naj bodo pravokotne stranice tetraedra
+dolge $\eps_1 h$, $\eps_2 h$ in $\eps_3 h$, kjer razmerje $\eps_1 : \eps_2 : \eps_3$
+določimo tako, da je normala na $S_4$ enaka $\vn$.
+Celotna situacija je prikazana na sliki~\ref{fig:tetra}.
+Sedaj lahko izračunamo ploščine ploskev $a_1 = \frac12 \eps_2\eps_3h^2$,
+$a_2 = \frac12 \eps_1\eps_3h^2$ in $a_3 = \frac12 \eps_1\eps_2h^2$.
+Volumen tetraedra je $V = \frac16 \eps_1\eps_2\eps_3h^3$.
+Vektorje v smeri koordinatnih osi standardno označimo z $\ei$, $\ej$, $\ek$.
+Zunanja normala na ploskev $S_1$ je $-\ei$, na ploskev $S_2$ je $-\ej$ in na
+ploskev $S_3$ je $-\ek$. Normalo na preostalo ploskev, ki bo dolga ravno toliko,
+kot je ploščina te ploskve, dobimo s pomočjo vektorskega produkta
+stranic, ki jo oklepata.
+\begin{align*}
+  a_4\vn &= \frac12 (\eps_1h \ei - \eps_2h \ej) \times (\eps_3h \ek - \eps_2h
+  \ej) = \\ &=
+  -\frac12 \eps_2\eps_3 h^2\ei
+  -\frac12 \eps_1\eps_3 h^2\ej
+  -\frac12 \eps_1\eps_2 h^2\ek = \\
+  &= a_1 \ei + a_2 \ej + a_3 \ek.
+\end{align*}
+Če to pomnožimo z $i$-tim baznim vektorjem, dobimo $a_i = (\vn\cdot\vec{e}_i)
+a_4$.
+Zopet uporabimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine in izrek o
+povprečni vrednosti
+\begin{align*}
+  \DDt{} \int_B \dot x dm &= \int_B \vf dV + \int_{\partial B} \vt dS \\
+  \int_B \DDt{} (\dot x\rho) dV &= \int_B \vf dV +
+  \int_{S_1} \vt_{-\ei} dS +
+  \int_{S_2} \vt_{-\ej} dS +
+  \int_{S_3} \vt_{-\ek} dS +
+  \int_{S_4} \vt_{\vn} dS
+  \\
+  V \DDt{} (\dot x\rho)(X_1) &= V \vf(X_2) +
+  a_1 \vt_{-\ei}(X_3) + a_2 \vt_{-\ej}(X_4) + a_3 \vt_{-\ek}(X_5) + a_4
+  \vt_{\vn}(X_6),
+\end{align*}
+pri čemer so $X_i$ kot v prejšnjem dokazu neke točke v notranjosti ali na
+površini tetraedra. Sedaj enačbo delimo s $a_4$ in pošljemo limito $h \to 0$.
+Vse točke $X_i$ limitirajo proti $X$, člena, ki vsebujeta volumen tetraedra se
+približujeta 0. Z upoštevanjem
+\[
+  \lim_{h\to0} \frac{a_i}{a_4} = \lim_{h\to0}\frac{(\vn\cdot\vec{e}_i) a_4}{a_4}
+  = \vn\cdot\vec{e}_i
+\]
+dobimo
+\[
+  0 = \vt_{\vn} + \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{-\vec{e}_i}.
+\]
+Z upoštevanjem Cauchyeve recipročne relacije~\ref{trd:cauchy-reciprocal} dobimo
+\[
+  \vt_{\vn} = \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i}.
+\]
+Ta zveza nam pove, kako je napetost na poljubno ploskev povezana z napetostmi na
+koordinatnih ploskvah.
+To nam dovoljuje definicijo \emph{Piola-Kirchhoffovega napetostnega tenzorja}
+$\tau$
+\[
+  \tau = \sum_{i=1}^3 \vt_{\vec{e}_i}\otimes \vec{e}_i.
+\]
+Zanj res velja
+\[
+  \tau\vn = \sum_{i=1}^3 (\vt_{\vec{e}_i}\otimes \vec{e}_i)(\vn) =
+  \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i} = \vt_{\vn}.
+\]
+Če ta tenzor prenesemo v prostorske koordinate, dobimo \emph{Cauchyev napetostni
+tenzor}.
+\endproof
+
+Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
+Z njegovo pomočjo bomo dokazali, da je $\ts$ simetričen.
+
+\begin{trditev}
+  Cauchyev napetostni tenzor je simetričen:
+  \[ \ts^\T = \ts. \]
+\end{trditev}
+\proof
+TODO
+\endproof
+
+\subsection{Enačbe gibanja}
+V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja. V teh enačbah
+bo nastopala divergenca tenzorja drugega reda, zato jo definirajmo.
+
+\begin{definicija}
+  Divergenca tenzorja $t$  drugega reda je vektorsko polje, za katerega za vsak
+  vektor $\va$ velja
+  \[ \div(t)\cdot \va = \div(t^\T \va). \]
+\end{definicija}
+
+Zakaj je ravno to prava definicija, nam pove naslednji izrek
+\begin{izrek}[Gauss]
+  \label{izr:gauss}
+  Naj bo $\Omega$ odprta množica z odsekoma gladkim robom, $\vn$ zunanja enotska
+  normala na $\partial \Omega$ in $t$ tenzorsko polje na $\Omega$.  Potem velja
+  \[
+    \int_{\partial \Omega} t\vn dS = \int_{\Omega} \div t dV.
+  \]
+\end{izrek}
+\proof
+Naj bo $\va$ poljuben konstanten vektor. Izračunajmo
+\begin{align*}
+  \va \cdot \left( \int_{\partial \Omega} t\vn dS \right) &=
+  \int_{\partial \Omega}\va \cdot t\vn dS =
+  \int_{\partial \Omega}t^\T \va \cdot \vn dS =
+  \int_{\Omega}\div(t^\T \va) dV = \\ &=
+  \int_{\Omega}\div(t) \cdot \va dV =
+  \left(\int_{\Omega}\div t dV\right) \cdot \va.
+\end{align*}
+Pri računu smo uporabili definicijo $t^\T$, definicijo divergence in Gaussov
+izrek za vektorska polja. Ker enakost velja za vsak vektor $\va$, velja tudi
+enakost vektorskih polj v izreku.
+\endproof
+
+Prevedimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine v lokalno obliko.
+\begin{izrek}[Cauchyeva momentna enačba]
+  Za gibanje kontinuuma velja Cauchyeva momentna enačba
+  \[
+    \DDt{}(\rho \vv) = \vf + \Div \tau
+  \]
+\end{izrek}
+\proof
+Za vsako podtelo $B$ velja
+\begin{align*}
+  \DDt{} \int_B \dot x dm &= \int_B \vf dV + \int_{\partial B} \vt dS \\
+  \DDt{} \int_B \vv\rho dV &= \int_B \vf dV + \int_{\partial B} \tau \vn dS \\
+  \int_B \DDt{} (\vv\rho) dV &= \int_B \vf dV + \int_B \Div \tau dV \\
+  0 &= \int_B\left(\DDt{} (\vv\rho) - \vf - \Div \tau\right) dV. \\
+\end{align*}
+V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda.
+Ker to velja za poljuben $B$, mora biti integrand enak nič in izrek je s tem
+dokazan.
+\endproof
+
+BLAH BLAH zanemarimo en kup stvari.
+
+\begin{equation}
+  \rho \ddot{u} = \vf + \div \ts
+  \label{eq:gib-lin}
+\end{equation}
+
+\subsection{Konstitutivne enačbe}
+Do sedaj izpeljane enačbe veljajo za poljuben kontinuum, naj bo to tekočina,
+plastična ali elastična trdnina. V tem razdelku si bomo ogledali enačbe, ki
+definirajo obnašanje našega kontinuuma kot elastične trdnine preko posplošitve
+Hookovega zakona, ki povezuje napetosti in deformacijo. Naučili smo se že, kako
+izražamo napetost, sedaj pa si poglejmo, kako merimo deformacijo teles.
+Tukaj bomo tudi privzeli, da je referenčna konfiguracija kar prostorska
+konfiguracija na začetku gibanja.
+
+\subsubsection{Mera deformacije}
+\begin{definicija}[Gradient deformacije]
+  Količino $F = \dpar{x}{X}(t, X) = \Grad x$ imenujemo \emph{gradient
+  deformacije}.
+\end{definicija}
+
+Tenzor $F$ je drugega reda in nam v vsaki točki predstavlja lokalno deformacijo
+telesa. Privzeli smo že, da je $x$ difeomorfizem, torej je $F$ neizrojev,
+dodatno pa bomo privzeli še, da gibanje $x$ \emph{ohranja orientacijo}, saj
+so gibanja realnih teles taka. Od tod sledi, da je $\det F > 0$.
+Fizikalno interpretacijo $F$ dobimo z naslednjim Taylorjevim ravojem:
+\[
+  dx := x(t, X+dX) - x(t, X) = F dX + O(dX^2).
+\]
+Tenzor $F$ do prvega reda natančno opiše kako se vektor $dX$ iz referenčne
+konfiguracije deformira v vektor $dx$ v prostorski konfiguraciji.
+
+Vendar, ni vsa deformacija, ki jo opiše tenzor $F$ taka, da bi povzročala
+napetosti. Hookov zakon v eni dimenziji pravi, da je sila sorazmerna raztezku.
+Če imamo opravka s togim premikom $X \mapsto QX + a$, ta premik ne bo povzročil
+nobene napetosti, saj se bo telo samo premaknilo, ne pa raztegnilo.
+
+Oglejmo si najprej primer v eni dimenziji.
+\begin{primer}
+Naj bo dana tanka palica kot na sliki~\ref{fig:palica}, ki jo raztegnemo vzdolž
+njene nosilke.
+\begin{figure}[h]
+  \centering
+%  \includegraphics{}
+  \caption{Razteg tanke palice vzdolž njene osi.}
+  \label{fig:palica}
+\end{figure}
+Premik v točki $X$ je $u(X) = x - X$, v točki $X+dX$ pa $u(X+dX)$.
+Dejanski relativni raztezek delčka palice dolžine $dX$ pa je
+\begin{align*}
+  \frac{dx - dX}{dX} &= \frac{x(X+dX) - x(X) - (X + dX - X)}{dX} = \\ &=
+  \frac{u(X + dX) - u(X)}{dX} = u'(X) + O(dX).
+\end{align*}
+Do prvega reda je relativni raztezek v točki $X$ enak kar $u'(X)$.
+
+Preverimo še, da ta mera raztezka zadošča nekaterih intuitivnim zahtevam. Za
+togi premik $X \mapsto X + c$ je $u(X) = c$ in $u'(X) \equiv 0$, kot
+pričakovano.
+
+Za enakomerni razteg $X \mapsto aX$ je $u(X) = aX - X$ in $u'(X) = a - 1$. Tudi
+to ustreza pričakovanjem, saj za $a = 1$ ni raztezka, za $a< 1$ je to skrčitev
+in je raztezek negativen, za $a>1$ pa dobimo pozitivno število.
+\end{primer}
+
+Analogna mera deformacije med točkama $X$ in $X+dX$ v višji dimenziji bi bila
+\[
+  \eps_1 = \frac{\|dx\| - \|dX\|}{\|dX\|}.
+\]
+Toda veliko lažje je računati s kvadrati norm kot z normami vektorjev, zato je
+bolj primerna mera
+\[
+  \eps_2 = \frac{\|dx\|^2 - \|dX\|^2}{\|dX\|^2}.
+\]
+Ker velja $\eps_2 = (1+\eps_1)^2 - 1 = 2\eps_1 + \eps_1^2$ je za majhne pomike
+$\eps_2 \approx 2\eps_1$ in sta meri ekivalentni.
+
+Izračunajmo infinitezimalno aproksimacijo mere $\eps_2$.
+\begin{align*}
+  \eps_2 &=
+  \frac{\|dx\|^2 - \|dX\|^2}{\|dX\|^2} =
+  \frac{\|F dX + O(dX^2)\|^2}{\|dX\|^2} - 1 = \\ &=
+  \frac{dX^\T F^\T F dX + O(dX^3)}{\|dX\|^2} - 1 =
+  \frac{dX}{\|dX\|}(\underbrace{F^\T F - I}_{2E})\frac{dX}{\|dX\|} + O(dX)
+\end{align*}
+V limiti $dX \to 0$ lahko mero $\eps_2$ predstavimo s tenzorjem $F^\T F- I$,
+mero $\eps_1$ pa s tenzorjem $E$.
+
+\begin{definicija}[deformacijski tenzor]
+  Količina $E = \frac12 (F^\T F - I)$ se imenuje (Cauchy-Greenov)
+  deformacijski tenzor.
+\end{definicija}
+\begin{trditev}
+  Deformacijski tenzor $E$ lahko izrazimo z gradientom pomika kot
+  \[ E = \frac12\left( \Grad u + \Grad u^\T + \Grad u^\T \Grad u \right). \]
+\end{trditev}
+\proof
+Trditev pokaže preprost račun. Spomnimo se, da je pomik definiran kot $u(X) =
+x(X) - X$ in je gradient pomika enak
+\[
+  \Grad u(X) = \dpar{u}{X} = \dpar{x}{X} - I = F - I.
+\]
+Izračunamo:
+\begin{align*}
+  &\frac12\left( \Grad u + \Grad u^\T + \Grad u^\T \Grad u \right) = \\
+  &\qquad=\frac12\left(F - I + F^\T - I  + (F-I)^\T(F-I)\right) = \\
+  &\qquad=\frac12\left(F + F^T - 2I + F^\T F - F - F^T + I\right) = \\
+  &\qquad=\frac12\left(F^\T F - I\right) = \\
+  &\qquad=E.\qedhere
+\end{align*}
+\endproof
+
+Deformacijo $F$ lahko z pomočjo polarnega razcepa zapišemo kot $F = RU$, kjer je
+$R$ ortogonalna in $U$ pozitivno definitna matrika. Tenzor $R$ predstavlja
+rotacijo, $U$ pa razteg in strig. Predstavljamo si lahko, da je deformacijo $F$
+izvedemo tako, da najprej telo raztegnemo in strižno deformiramo, nato pa
+zavrtimo v končno lego.
+
+Rotacija $R$ ne vpliva na rabo materiala, saj je deformacija toga in ne povzroča
+notranjih napetosti. Prava mera deformacije, ki vpliva na napetost v materialu
+torej ne vsebuje nobenih rotacij. Za mero deformacije bi lahko vzeli kar to,
+koliko se $U$ razlikuje od identitete, toda polarni razcep matrike je težko
+izračunati. Poglejmo si kakšno zvezo ima zgoraj definirani deformacijski tenzor
+$E$ z $U$:
+\[
+  E = \frac12(f^\T F - I) = \frac12(U^\T R^\T R U - I) = \frac12 (U^2 - I).
+\]
+Vidimo, da $E$ meri, kako se $U^2$ razlikuje od identitete.
+
+Kot pri enodimenzionalnem primeru si oglejmo, kako se $E$ obnaša pri enostavnih
+deformacijah. Za toge premike imamo želeno obnašanje, kot pokazano v naslednji
+trditvi.
+
+\begin{primer}
+  Kot prej si oglejmo, da je za toge deformacije $E = 0$.
+ Naj bo deformacija toga, torej oblike $X \mapsto QX +
+c$ z ortogonalno konstantno matriko $Q$ in konstantnim $c$. Tedaj je
+\[ E = \frac12 (F^\T F - I) = \frac12(Q^\T Q - I) = \frac12(I - I) = 0. \]
+Oglejmo si še enostavni razteg v smeri osi, dan kot
+$X \mapsto \diag(\lambda_1, \lambda_2, \lambda_3) X$.
+V tem primeru velja $F = \diag(\lambda_1, \lambda_2, \lambda_3$ in
+  \[
+    E = \diag\left(
+      \frac{\lambda_1^2-1}{2},
+      \frac{\lambda_2^2-1}{2},
+      \frac{\lambda_3^2-1}{2}
+    \right).
+  \]
+  Če je $\lambda_i = 1$ je $E$ res 0, sicer pa so v njegovih diagonalnih
+  komponentah zapisani raztezki vzdolž posameznih osi.
+\end{primer}
+
+V teoriji linearne elastičnosti se bomo ukvarjali z majhnimi pomiki in majhnimi
+gradienti pomikov. Zato poenostavimo deformacijski tenzor z geometrijsko
+linearizacijo: zanemarimo člen $\Grad u^\T \Grad u$.
+
+\begin{definicija}[infinitezimalni deformacijski tenzor]
+  Količino
+  \begin{equation}
+    \eps = \frac{1}{2}(\Grad u + \Grad u^\T)
+    \label{eq:eps}
+  \end{equation}
+  imenujemo \emph{infinitezimalni deformacijski tenzor}, ki je geometrijska
+  linearizacija deformacijskega tenzorja.
+\end{definicija}
+
+Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo. Ta bo posplošitev
+običajnega Hookovega zakona.
+
+\begin{aksiom}[Hookov zakon]
+  Napetost je linearno odvisna od deformacije, preko tenzorja četrtega reda $C$:
+  \[ \ts = C\eps. \]
+  Tenzor $C$ se imenuje \emph{??} \ang{compliance tensor} in ima v splošnem $3^4
+  = 81$ prostih parametrov.
+\end{aksiom}
+
+\subsection{Navierova enačba}
+blah blah
+
+\begin{definicija}
+  Laplacev operator je na vektorskem polju $\vv$ definiran kot
+  \[
+    \lap \vv = \div\grad \vv.
+  \]
+\end{definicija}
+
+V izotropičnem materialu velja med napetostjo in deformacijo relacija
+\[
+  \ts = \lambda \tr(\eps)I + 2\mu \eps.
+\]
+
+Sedaj vstavimo definicijo $\eps$~\eqref{eq:eps} v to zvezo, to pa vstavimo v
+poenostavljeno gibalno enačbo~\eqref{eq:gib-lin} in dobimo končen rezultat.
+
+\begin{izrek}[Navierova enačba]
+  Če so pomiki in njihovi gradienti v linearno elastičnem izotropičnem homogenem
+  nepolarnem mediju majhni, potem za njih velja \emph{Navierova enačba}
+  \begin{equation}
+    \rho \ddot{u} = \vf + (\lambda + \mu)\grad\div u + \mu \lap u.
+    \label{eq:navier}
+  \end{equation}
+\end{izrek}
+\proof
+Od enačbe~\eqref{eq:gib-lin}
+\[
+  \rho \ddot{u} = \vf + \div \ts
+\]
+do Navierove enačbe nas loči le še izračun $\div \sigma$. Za primerjavo naredimo
+izračun koordinatno in nekoordinatno.
+\begin{align*}
+  \eps_{ij} &= \frac12 (\grad u)_{ij} + \frac12 (\grad u^\T)_{ij} =
+  \frac12 u_{i,j} + \frac12 u_{j,i} \\
+  \ts_{ij} &= \lambda \eps_{kk} \delta_{ij} + 2 \mu \eps_{ij} =
+  \lambda \frac{1}{2} (u_{k,k} + u_{k,k}) \delta_{ij} + 2 \mu( \frac12 u_{i,j} +
+  \frac12 u_{j,i}) =  \\ &= \lambda u_{k, k}\delta_{ij} + \mu (u_{i,j} +u_{j,i})
+  \\
+  (\div \ts)_i &= \sigma_{ij,j} = \lambda u_{k, kj}\delta_{ij} + \mu (u_{i,jj}
++u_{j,ij}) = \lambda u_{k,ki} + \mu (u_{i,kk} + u_{k,ki}) = \\
+&= (\lambda + \mu)u_{k,ki} + \mu u_{i,kk} = (\lambda+\mu)(\grad(u_{k,k}))_i +
+\mu (\lap u)_i = \\ &=
+((\lambda + \mu)\grad\div u + \mu \lap u)_i
+\end{align*}
+
+Nekoordinatni dokaz pa potrebuje nekaj dodatnih relacij, ki jih je tudi
+najhitreje dokazati koordiantno.
+\begin{lema}
+  \[ \tr\grad \vv = \div \vv \]
+\end{lema}
+\proof
+\[
+  \tr\grad\vv = (\grad\vv)_{ii} = \vv_{i,i} = \div \vv \qedhere
+\]
+\endproof
+\begin{lema}
+  \[
+    \div(\grad\vv^\T) = \grad\div \vv
+  \]
+\end{lema}
+\proof
+\[
+  \div(\grad \vv^\T)_i = (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = \vv_{j,ij}
+  = (\grad(\vv_{j,j}))_i = (\grad\div \vv)_i \qedhere
+\]
+\endproof
+\begin{lema}
+  \[
+    \div(\phi I) = \grad \phi
+  \]
+\end{lema}
+\proof
+\[
+  (\div(\phi I))_i = (\phi I)_{ij,j} = (\phi \delta_{ij})_{,j} = \phi_{,i} =
+  (\grad \phi)_i \qedhere
+\]
+\endproof
+Sedaj lahko izračunamo $\div\ts$.
+\begin{align*}
+  \div\ts &= \lambda \div \tr(\eps) I + 2\mu \div \eps = \\ &=
+  \lambda \frac12(\div((\tr\grad u)I) + \div\tr\grad u^\T) + \mu \div(\grad u + \grad
+  u^\T) = \\
+  &= \frac{\lambda}{2} (\div((\div u) I) + \div( (\div u)I)) + \mu \lap u + \mu
+  \grad \div u = \\
+  &= \lambda \grad \div u + \mu \grad \div u + \lap u
+\end{align*}
+Izračun prinese enak rezultat kot prej in izrek je še enkrat dokazan.
+\endproof
+
+\subsection{Obstoj in enoličnost rešitve}
+
+\subsection{Priprava na numerično reševanje}
+\subsubsection{Poenostavitev na dve dimenziji}
+\subsubsection{Robni pogoji}
+Pri reševanju robnih problemov .
 
 \section{Numerična metoda}
 \label{sec:numericna-metoda}
@@ -446,7 +1171,7 @@ je vektor sestavljen iz vrednosti te funkcije v točkah v soseščini.
 
 Matrično lahko zapišemo sistem enačb, ki po vrsticah
 postavlja našo zahtevo $\hat{u}(x_j) = u_j$, za vsak $j \in I(p)$:
-\[
+\begin{equation}
 \begin{bmatrix}
   b_1(x_{i_1}) & \cdots & b_m(x_{i_1}) \\
   \vdots & \ddots & \vdots   \\
@@ -459,7 +1184,8 @@ postavlja našo zahtevo $\hat{u}(x_j) = u_j$, za vsak $j \in I(p)$:
 \begin{bmatrix}
   u_{i_1} \\ \vdots \\ u_{i_n}
 \end{bmatrix}.
-\]
+  \label{eq:shape-system}
+\end{equation}
 Na krajše sistem zapišemo kot $B\b{\alpha} = \b{\tilde{u}}$. Odvisno od
 $n$, $m$, $b_i$ in uteži $w$ je ta sistem lahko poddoločen, predoločen ali
 običajen. V vsakem primeru lahko minimiziranje utežene napake prevedemo na
@@ -559,11 +1285,217 @@ vzamemo $u(x_i) \approx u_i$.
 
 \subsection{Posebni primeri}
 \label{sec:posebni-primeri}
+Metoda iz razdelka~\ref{sec:splosna-izpeljava} je formulirana precej splošno, in
+v posebnih primerih lahko prepoznamo druge znane metode. Za začetek pokažimo
+enostavno trditev, ki bo metodo v določenih primerih poenostavila.
+\begin{trditev}
+  \label{trd:weight-independence}
+  Če je $m = n$ in je matrika $B$ iz sistema~\eqref{eq:shape-system} obrnljiva,
+  potem je izbira uteži nepomembna.
+\end{trditev}
+\proof
+Spomnimo se, da je \[
+  \b\phi = (\L\b{b})(p)^\T(WB)^{+}W.
+\]
+Matrika $W$ je diagonalna s sami pozitivnimi števili na diagonali in je torej
+obrnljiva. Po predpostavki je obrnljiva tudi matrika $B$, torej je obrnljiv tudi
+produkt $WB$ in velja
+\[
+  (WB)^+ = (WB)^{-1} = B^{-1}W^{-1}.
+\]
+Od tod sledi, da je
+\[
+  \b\phi = (\L\b{b})(p)^\T B^{-1} W^{-1} W = (\L\b{b})(p)^\T B^{-1},
+\]
+kar je neodvisno od $W$.
+\endproof
+\begin{opomba}
+  Čeprav trditev~\ref{trd:weight-independence} velja v eksaktni aritmetiki v
+  praksi ne velja nujno. Če so izbrane uteži zelo majhne ali zelo različnih
+  velikosti lahko to povzroči nepotrebne numerične nestabilnosti.
+
+  V praksi trditev kljub temu enostavno pomeni, da če izberemo toliko baznih
+  funkcij kot imamo sosedov, je izbira uteži nepomembna.
+\end{opomba}
+
+Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceev robni problem na
+intervalu naša metoda ujema z metodo končnih diferenc. Pokažimo to tudi v
+primer dvodimenzionalne Poissonove enačbe.
+
+\begin{trditev}
+  \label{trd:eq-to-fdm}
+  Metoda iz razdelka~\ref{sec:splosna-izpeljava} se za reševanje Poissonove
+  enačbe na enakomerni pravokotni mreži z razmakom $h$ ujema z metodo končnih
+  diferenc, če vzamemo $\b{b} = \{1, x, y, x^2, y^2\}$, $w \equiv 1$ in
+  $n=5$.
+\end{trditev}
+\proof
+Kot ponavadi označimo točke na mreži s koordinatami $(x_i, y_j)$, tako da je
+$x_{i+1} = x_i + h$ in $y_{j+1} = y_j + h$.
+Pokazati moramo, da se funkcija oblike v vsaki točki $x$ ujema z aproksimacijo
+končnih diferenc,
+ki pravi
+\[
+  (\triangle u)(x_i, y_j) = \frac{u_{i+1,j} + u_{i, j+1} + u_{i-1,j} + u_{i, j-1} -
+  4u_{i,j}}{h^2},
+\]
+pri čemer spremenljivka $u_{i, j}$ pripada koordinati $(x_i, y_j)$. Če se
+aproksimaciji Laplaceovega operatorja ujemata, potem se ujemati tudi
+aproksimaciji rešitve, saj sistem pri obeh metodah gradimo na enak način.
+Ker je operator krajevno neodvisen so tudi funkcije oblik odvisne samo od
+medsebojne lege točk in torej lahko brez škode
+za splošnost predpostavimo, da računamo funkcijo oblike za točko
+$p = (0, 0)$. Najbližjih $n$ sosedov je tako $N(p) = \{(0, 0), (0, h), (0, -h),
+(h, 0), (-h, 0)\}$. Matrika $B = [b_j(x_i)]$ iz sistema~\eqref{eq:shape-system},
+ki ima po stolpic evalvirane bazne funkcije v vseh sosedih je
+\[
+  B =
+  \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 \\
+    1 & 0 & -h & 0 & h^2 \\
+    1 & 0 & h & 0 & h^2 \\
+    1 & h & 0 & h^2 & 0 \\
+    1 & -h & 0 & h^2 & 0 \\
+  \end{bmatrix}
+\]
+in njen psevdoinverz je
+\[
+  B^+ = B^{-1} =
+  \begin{bmatrix}
+     1 & 0 & 0 & 0 & 0 \\
+ 0 & 0 & 0 & \frac{1}{2 h} & -\frac{1}{2 h} \\
+ 0 & -\frac{1}{2 h} & \frac{1}{2 h} & 0 & 0 \\
+ -\frac{1}{h^2} & 0 & 0 & \frac{1}{2 h^2} & \frac{1}{2 h^2} \\
+ -\frac{1}{h^2} & \frac{1}{2 h^2} & \frac{1}{2 h^2} & 0 & 0 \\
+  \end{bmatrix}.
+\]
+Pri tem smo že upoštevali $w \equiv 1$.
+Vektor vrednosti operatorja na baznih funkcijah je
+\[
+  (\triangle \b{b})(p) =
+\begin{bmatrix}
+  0 & 0 & 0 & 2 & 2
+\end{bmatrix}^\T.
+\]
+Od tod dobimo po zvezi~\eqref{eq:shape-definition}
+\[
+  \b\phi = (\triangle \b b)(p)^\T B^{+} =
+  \begin{bmatrix}
+    -\frac{4}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} &
+    \frac{1}{h^2}
+  \end{bmatrix},
+\]
+kar je ravno iskana aproksimacija.
+\endproof
+\begin{opomba}
+  Metodo za izračun funkcije oblike je zelo elegantno implementirati v
+  Mathematici, kar olajša simbolno raziskovanje takih aproksimacij. Zgornje matrike so
+  bile izračunane s programa~\ref{prog:shape-mathematica}.
+
+  \begin{listing}[!h]
+    \vspace{-1ex}
+  \begin{minted}[frame=lines,linenos,fontsize=\scriptsize]{wolfram}
+(* podatki *)
+p = {0, 0};
+sosedi = {p, {0, -h}, {0, h}, {h, 0}, {-h, 0}};
+bazne = {(1 &), (#1 &), (#2 &), (#1^2 &), (#2^2 &)};
+operator = Function[f, Function[{x, y}, Derivative[2, 0][f][x, y] + Derivative[0, 2][f][x, y]]];
+(* izračun *)
+B = Table[Table[b @@ s, {b, bazne}], {s, sosedi}];
+Lb = Table[operator[b] @@ p, {b, bazne}];
+phi = Lb.PseudoInverse[B] // Simplify
+  \end{minted}
+  \vspace{-3ex}
+  \caption{Računanje funkcij oblike na pravokotni mreži.}
+  \label{prog:shape-mathematica}
+  \end{listing}
+\end{opomba}
+\begin{opomba}
+  \label{op:fdm-9}
+  Tudi če izberemo $n=9$ in $\b b = \{1, x, x^2, y, xy, xy^2, y^2, y^2 x, y^2
+  x^2 \}$, dobimo enako aproksimacijo kot v trditvi~\ref{trd:eq-to-fdm}, le da
+  uporabimo več sosedov. Če jih uredimo po oddaljenosti od $(0, 0)$ dobimo
+  aproksimacijo
+  \[
+    \b\phi =  \begin{bmatrix}
+    -\frac{4}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} &
+    \frac{1}{h^2} & 0 & 0 & 0 & 0
+  \end{bmatrix}.
+\]
+ Če pa bi izbrali $n=25$ točk in bazne funkcije $\b b = \{x^iy^j, 0 \leq i, j
+ \leq 4 \}$, potem bi dobili aproksimacijo četrtega reda.
+\end{opomba}
+\begin{primer}
+  Naredimo še en primer, kjer za bazne funkcije vzamemo monome. Vzemimo tokrat
+  $n = 9$ in za bazne funkcije vse monome skupne stopnje manj kot 3, torej $\b b = \{1,
+  x, y, x^2, y^2, xy\}$. V tem primeru je matrika $B$ velikosti $9\times 6$ in
+  s pomočjo programa~\ref{prog:shape-mathematica} dobimo
+  \[
+    \b\phi =
+    \begin{bmatrix}
+-\frac{4}{3 h^2} & -\frac{1}{3 h^2} & -\frac{1}{3 h^2} & -\frac{1}{3 h^2} &
+-\frac{1}{3 h^2} & \frac{2}{3 h^2} & \frac{2}{3 h^2} & \frac{2}{3 h^2} &
+\frac{2}{3 h^2}
+    \end{bmatrix}.
+  \]
+  Vidimo, da tokrat v aproksimaciji upoštevamo vseh 9 sosedov, z razliko od
+  aproksimacije v opombi~\ref{op:fdm-9}. Naravno sledi vprašanje, ali je ta
+  aproksimacija kaj slabša, morda drugačnega reda? Izkaže se da ne, saj z
+  razvojem aproksimacij v Taylorjevo vrsto dobimo
+  \scriptsize
+  \begin{align*}
+    &\frac{-4 u(0, 0) + u(0, h) + u(0, -h) + u(h, 0) + u(-h, 0)}{h^2} = \\
+    & \qquad = \triangle u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) +
+  \dpar{^4u}{y^4}(0, 0)\right) + O(h^4) \\
+    &\frac{-4 u(0, 0) - u(0, h) - u(0, -h) - u(h, 0) - u(-h, 0)
+    + 2u(h, h) + 2u(h, -h) + 2u(-h, h) + 2u(-h, -h)}{3h^2} = \\
+    & \qquad =
+    \triangle u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) + \dpar{^4u}{x^2y^2}(0,0) +
+    \dpar{^4u}{y^4}(0, 0)\right) + O(h^4).
+  \end{align*}
+  \normalsize
+  Obe aproksimaciji sta torej drugega reda, razlikujeta se le pri izražavi
+  napake.
+\end{primer}
+
+\begin{primer}
+\label{prom:rbf}
+Poglejmo še, kaj se zgodi, če za bazne funkcije vzamemo radialne bazne funkcije.
+V tem primeru je smiselno vzeti $n = m$, torej postavimo po eno radialno funkcijo
+na vsakega izmed sosedov. Opisana metoda tako postane kolokacijska metoda z
+lokalnimi radialnimi baznimi funkcijami \ang{local radial basis function
+collocation method}.
+
+Če za $n = 9$ sosedov točke $(0, 0)$ izberemo točke \[ N(p) = \{
+  (0, 0), (0, h), (0, -h), (h, 0), (-h, 0), (h, h), (h, -h), (-h, h), (-h, -h)
+\} \] in za $\b b$ vzamemo \[ \b b = \{ x\mapsto \exp((x-c)^2/\sigma^2); c \in N(p)
+\}, \]
+potem zopet s
+pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
+\small
+\[
+  \b\phi =\frac{4}{(e^{\frac{2 h^2}{\sigma^2 }}-1)^2 \sigma^4}
+\begin{bmatrix}
+  (e^{\frac{2 h^2}{\sigma^2 }}-1)^2 -4h^2 e^{\frac{2 h^2}{\sigma^2 }} &
+   h^2e^{\frac{h^2}{\sigma^2 }} & h^2e^{\frac{h^2}{\sigma^2 }} &
+   h^2e^{\frac{h^2}{\sigma^2 }} & h^2e^{\frac{h^2}{\sigma^2 }} & 0 & 0 & 0 & 0
+ \end{bmatrix}.
+\]
+\normalsize
+Tokrat vidimo, da se precej razlikuje od aproksimacije s končnimi diferencami.
+Toda, še vedno je drugega reda, saj za napako velja
+\[
+  \b \phi\cdot \b{\tilde{u}} - \triangle u(0, 0) =
+  h^2\left(\frac{2u(0,0)}{\sigma^2} - \frac{\triangle u(0,0)}{\sigma^2} +
+  \frac{1}{12}\left( \dpar{^4u}{x^4}(0,0) + \dpar{^4u}{y^4}(0, 0) \right)\right)
+  + O(h^4).
+\]
+\end{primer}
 
 \subsection{Algoritem}
 V izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava} je veliko detajlov
 ostalo neizdelanih, kot na primer, kako diskretiziramo domeno ali kako poiščemo
-sosede. Ti detajli so opisani v podrazdelkih, celotno metodo pa podajamo v
+sosede. Ti detajli so opisani v naslednjih podrazdelkih, celotno metodo pa podajamo v
 psevdokodi kot algoritem~\ref{alg:metoda}.
 
 \begin{algorithm}[!ht]
@@ -571,17 +1503,16 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
   razdelka~\ref{sec:splosna-izpeljava}.}
   \textbf{Vhod:} Parcialna diferencialna enačba, kot opisana
   v~\eqref{eq:general-problem}. Parametri metode: \\
-  \newcommand{\listbullet}{\hspace*{10pt}$\bullet$\hspace*{-5pt}}
   \begin{tabular}{llll}
-    \listbullet & $N$     & \ldots & celotno število diskretizacijskih točk    \\
-    \listbullet & $Q$     & \ldots & število diskretizacijskih točk v
+    \algorithmlist & $N$     & \ldots & celotno število diskretizacijskih točk    \\
+    \algorithmlist & $Q$     & \ldots & število diskretizacijskih točk v
     notranjosti $\Omega$ \\
-    \listbullet & $n$     & \ldots & število sosedov, ki jih ima vsaka točka   \\
-    \listbullet & $m$     & \ldots & število baznih funkcij                    \\
-    \listbullet & $b$ & \ldots & seznam baznih funkcij dolžine $m$         \\
-    \listbullet & $w$     & \ldots & utež
+    \algorithmlist & $n$     & \ldots & število sosedov, ki jih ima vsaka točka   \\
+    \algorithmlist & $m$     & \ldots & število baznih funkcij                    \\
+    \algorithmlist & $b$ & \ldots & seznam baznih funkcij dolžine $m$         \\
+    \algorithmlist & $w$     & \ldots & utež
   \end{tabular} \\
-  \textbf{Izhod:} skalarno polje $u$, ki aproksimira rešitev
+  \textbf{Izhod:} Skalarno polje $u$, ki aproksimira rešitev
   enačbe~\eqref{eq:general-problem}.
   \label{alg:metoda}
   \begin{algorithmic}[1]
@@ -589,7 +1520,7 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
     \State $x \gets \textsc{diskretiziraj}(\Omega, N, Q)$
     \Comment{$x$ postane seznam $N$ točk, brez škode za splošnost naj leži prvih
     $Q$ točk v $\Omega$ in preostalih $N-Q$ na $\partial \Omega$.}
-    \State $s \gets $ \textsc{sosedi}$(x, n)$
+    \State $s \gets \textsc{sosedi}(x, n)$ \label{line:kdtree}
     \Comment{$s$ je seznam dolžine $N$, pri čemer je $s[i]$ seznam indeksov
     elementov v $x$, ki so sosedi $x[i]$, vključno z $i$.}
     \State $\phi \gets$ prazen seznam dolžine $N$.
@@ -623,17 +1554,16 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
 
 \begin{algorithm}[!ht]
   \caption{Izračun funkcije oblike.}
-  \textbf{Vhod:} \\
-  \newcommand{\listbullet}{\hspace*{10pt}$\bullet$\hspace*{-5pt}}
+  \textbf{Vhod:} Parametri metode: \\
   \begin{tabular}{llll}
-    \listbullet & $\L$    & \ldots & parcialen diferencialen operator \\
-    \listbullet & $p$     & \ldots & točka, v kateri aproksimiramo operator \\
-    \listbullet & $x$     & \ldots & seznam diskretizacijskih točk \\
-    \listbullet & $I$     & \ldots & množica indeksov točk v soseščini $p$ \\
-    \listbullet & $n$     & \ldots & število sosedov, ki jih ima vsaka točka   \\
-    \listbullet & $m$     & \ldots & število baznih funkcij                    \\
-    \listbullet & $b$     & \ldots & seznam baznih funkcij dolžine $m$         \\
-    \listbullet & $w$     & \ldots & utež
+    \algorithmlist & $\L$    & \ldots & parcialen diferencialen operator \\
+    \algorithmlist & $p$     & \ldots & točka, v kateri aproksimiramo operator \\
+    \algorithmlist & $x$     & \ldots & seznam diskretizacijskih točk \\
+    \algorithmlist & $I$     & \ldots & množica indeksov točk v soseščini $p$ \\
+    \algorithmlist & $n$     & \ldots & število sosedov, ki jih ima vsaka točka   \\
+    \algorithmlist & $m$     & \ldots & število baznih funkcij                    \\
+    \algorithmlist & $b$     & \ldots & seznam baznih funkcij dolžine $m$         \\
+    \algorithmlist & $w$     & \ldots & utež
   \end{tabular} \\
   \textbf{Izhod:} Funkcional, ki aproksimira operator $\L$ v točki $p$.
   \label{alg:shape-function}
@@ -653,9 +1583,11 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
     \For{j}{1}{m}
     \State $\ell[j] \gets (\L (b[j]))(p)$
     \EndFor
-    \State $\phi \gets (\ell \cdot \textsc{pinv}(B)) \cdot W$
-    \Comment{Direktna analogija enačbe~\eqref{eq:shape-definition}.}
+    \State $\phi \gets (\ell \cdot \textsc{pinv}(B)) \odot W$
+    \Comment{Direktna analogija enačbe~\eqref{eq:shape-definition}, $\odot$
+  označuje}
     \State \Return $\phi$
+  \Comment{Hadamardov produkt.}
     \EndFunction
   \end{algorithmic}
 \end{algorithm}
@@ -728,19 +1660,18 @@ sliki~\ref{fig:relax-circle}.
 
 \begin{algorithm}[!ht]
   \caption{Algoritem za izboljšanje kvalitete diskretizacije domene.}
-  \textbf{Vhod:} \\
-  \newcommand{\listbullet}{\hspace*{10pt}$\bullet$\hspace*{-5pt}}
+  \textbf{Vhod:} Parametri metode: \\
   \begin{tabular}{llll}
-    \listbullet & $\Omega$  & \ldots & domena \\
-    \listbullet & $N$       & \ldots & število diskretizacijskih točk \\
-    \listbullet & $Q$       & \ldots & število diskretizacijskih točk v
+    \algorithmlist & $\Omega$  & \ldots & domena \\
+    \algorithmlist & $N$       & \ldots & število diskretizacijskih točk \\
+    \algorithmlist & $Q$       & \ldots & število diskretizacijskih točk v
     notranjosti $\Omega$ \\
-    \listbullet & $X$       & \ldots & seznam diskretizacijskih točk, prvih $Q$
+    \algorithmlist & $X$       & \ldots & seznam diskretizacijskih točk, prvih $Q$
     je v notranjosti. \\
-    \listbullet & $I$       & \ldots & število iteracij \\
-    \listbullet & $s$       & \ldots & število sosedov, ki jih upoštevamo pri delovanju sile \\
-    \listbullet & $F_0$     & \ldots & delež sile, ki vpliva na premik \\
-    \listbullet & $\alpha$  & \ldots & eksponent v sili                \\
+    \algorithmlist & $I$       & \ldots & število iteracij \\
+    \algorithmlist & $s$       & \ldots & število sosedov, ki jih upoštevamo pri delovanju sile \\
+    \algorithmlist & $F_0$     & \ldots & delež sile, ki vpliva na premik \\
+    \algorithmlist & $\alpha$  & \ldots & eksponent v sili                \\
   \end{tabular} \\
   \textbf{Izhod:} Nov seznam diskretizacijskih točk.
   \label{alg:relax}
@@ -752,10 +1683,10 @@ sliki~\ref{fig:relax-circle}.
     \For{i}{1}{I}
     \For{j}{1}{Q}
     \State $\vec{F} \gets \vec{0}$
-    \ForEach{y}{\{najbližjih $s$ sosedov $X[i]$\}}
+    \ForEach{y}{\{najbližjih $s$ sosedov $X[i]$\}} \label{line:closest}
     \State $\vec{r} \gets \frac{X[i] - y}{r_0}$ \Comment{Brezdimenzijski vektor
     razdalje.}
-    \State $\vec{F} \gets \vec{F} + \cdot \frac{\vec{r}}{\|\vec{r}\|^\alpha}$
+    \State $\vec{F} \gets \vec{F} + \frac{\vec{r}}{\|\vec{r}\|^\alpha}$
     \EndFor
     \State $X[i] \gets X[i] + F_0 \vec{F}$.
     \If{$X[i] \notin \Omega$}
@@ -800,12 +1731,155 @@ prej.
 
 \subsubsection{Iskanje najbližjih sosedov}
 
-blah blah pogost problem, veliko algoritmov, nlogn struktura
+Tako v algoritmu~\ref{alg:metoda} v vrstici~\ref{line:kdtree} kot v
+algoritmu~\ref{alg:relax} v vrstici~\ref{line:closest} potrebujemo
+najti nekaj najbližjih sosedov dane točke. Navadno za okolico izberemo kar
+$n$ najbližjih sosedov v evklidski metriki, vendar bi lahko soseščino definirali
+tudi drugače, na primer kot množico vozlišč, ki so oddaljeni manj kot neka
+fiksna razdalja $R$.  Pri tem pristopu bi imeli manjšo kontrolo nad velikostjo
+soseščine, zato izberemo prvega.
+
+Problem iskanja najbližjih sosedov \ang{nearest neighbour search} je znana in
+dobro raziskana tema z razvitimi veliko podatkovnimi strukturami, ki podpirajo
+grajenje, iskanje, vstavljanje in brisanje v logaritemskem času. Večina jih
+temelji na delitvi prostora na različne hierarhično urejene podprostore, ki jih
+potem hranimo v drevesni strukturi, kar nam omogoča logaritemski dostop. Med
+bolj znanimi strukturami so \emph{$k$-d tree}~\cite{moore1991intoductory},
+\emph{ball tree}~\cite{omohundro1989five} in \emph{cover
+tree}~\cite{beygelzimer2006cover}. V članku~\cite{kibriya2007empirical} je
+narejena empirična primerjava med zgornjimi tremi strukturami, ki pokaže, da
+so v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najboljše obnese
+\emph{$k$-d tree}. Poleg tega \emph{$k$-d tree} najboljše deluje tudi, ko imajo
+točke, v katerih bomo iskali sosede podobno porazdelitev kot točke, iz katerih
+smo naredili drevo, kar v našem primeru drži. Če vključimo še dejstvo, da je
+\emph{$k$-d tree} tudi najpopularnejša rešitev za problem najbližjih sosedov
+in ima na voljo veliko prosto dostopnih implementacij, je to dovolj argumentov,
+da jo uporabimo tudi mi. Specifična uporabljena implementacija je predstavljena
+v~\cite{mount1998ann}, ki za shrambo $N$ točk porabi $O(N)$ prostora in
+odgovarja na poizvedbe o $n$ najbližjih sosedih v $O(n\log N)$ časa.
+S pomočjo tega postane implementacija funkcije \textsc{sosedi} iz
+algoritma~\ref{alg:metoda} trivialna, pri algoritmu~\ref{alg:relax} pa si na
+vsaki iteraciji na novo zgradimo drevo in ga uporabimo za iskanje $s$ najbližjih
+sosedov.
+
+\subsubsection{Reševanje razpršenega sistema}
+Za reševanje razpršenih sistemov poznamo veliko različnih metod, ki se v grobem
+delijo na direktne (obsežno opisane v~\cite{davis2006direct}) in iterativne
+(obsežno opisane v~\cite{saad2003iterative}).
+Pri običajnih, polnih matrikah bi za reševanje splošnega sistema linearnih enačb
+uporabili LU razcep in razcepili matriko $A$ kot $A = LU$. Toda, tudi če je
+matrika $A$ razpršena, v splošnem $L$ in $U$ nista nujno in sta lahko celo
+polni, kar povzroči, da nam zmanjka pomnilnika. Direktne metode, kot na primer
+SuperLU~\cite{li2005overview} poskušajo z
+preureditvijo stolpcev v razpršeni matriki $A$ minimizirati število novih
+neničlenih elementov v matrikah $L$ in $U$. Po drugi strani iterativne metode
+aproksimirajo pravilno rešitev sistema $Ax=b$ z zaporedjem približkov $\{x^{(r)}\}$,
+ki naj bi konvergirali k $x$. Te metode običajno ne zahtevajo veliko pomnilnika,
+je pa natančnost približka odvisna od števila porabljenih iteracij, tako da
+moramo za višjo natančnost porabiti večje število računskih operacij.
+
+Za metode iz numerične linearne algebre bomo uporabljali knjižnico
+Eigen~\cite{eigenweb}, ki nudi elegantno in hitro delo z matrikami v C++.
+Vgrajenih ima veliko direktnih in iterativnih metod za reševanje sistemov
+linearnih
+enačb.\footnote{\url{https://eigen.tuxfamily.org/dox/group__TopicSparseSystems.html}
+  \newline
+[obiskano 17.\ 6.\ 2017]}
+Pri sistemih tipa~\eqref{eq:discretized-system} se je
+v praksi najbolje obnesel BiCGSTAB~\cite{van1992bi} z
+ILUT predpogojevanjem~\cite{saad1994ilut}. BiCGSTAB v primeru uporabe pravilne
+shrambe matrike v pomnilniku podpira tudi paralelizacijo, poleg tega pa je
+konvergenca v praksi dovolj hitra. Predpogojevanje z uporabo nepopolnega LU
+razcepa z dvojnim pragom~\ang{dual threshold incomplete LU factorization (ILUT)}
+omogoča natančnejšo kontrolo nad porabljenim spominom in hitrostjo konvergence z
+uporabo dveh parametrov $p$ in $\tau$. Med $LU$ faktorizacijo izpustimo vsak
+element, ki je manjši kot $\tau\cdot e$, kjer je $e$ povprečna absolutna
+vrednosti elementov v trenutni vrstici. Nato obdržimo le največjih $f$ elementov
+v matrikah $L$ in $U$, kjer je $p$ uporabljen kot razmerje med $f$ in začetnim
+številom neničelnih elementov. V grobem nam tako parameter $p$ kontrolira
+kolikokrat več spomina dovolimo za hranjenje predogojenke,
+parameter $\tau$ pa, kako natančna bo LU faktorizacija.
 
 \subsubsection{Časovna zahtevnost}
+V tem razdelku analiziramo časovno zahtevnost metode. Predpostavili bomo, da so
+vse evalvacije funkcij $f$, $g$, $w$ in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v $O(1)$.
+Prav tako bomo predpostavili, da je dimenzija problema majhna in konstantna in
+ne bo nastopala v analizah.
+
+\begin{trditev}
+  Pričakovana časovna zahtevnost algoritma~\ref{alg:metoda} je
+  \[ O(I N s \log^2 N + (N+n)\log N + m^2 N) + T,\] kjer je $T$ čas,
+  porabljen za reševanje razpršenega sistema enačb.
+\end{trditev}
+\proof
+Pri funkciji \textsc{diskretiziraj} predpostavimo, da uporabljamo enostavno
+diskretizacijo, ki deluje v $O(N)$ časa, skupaj z $I$ iteracijami izboljšave
+na $s$ sosedih, ki traja $O(I N s \log^2 N)$ časa, saj na vsaki iteraciji
+konstruiramo drevo in iščemo $s$ sosedov vsake točke.
+
+Izvajanje funkcije \textsc{sosedi} traja $O((N+n) \log N)$ časa za konstrukcijo
+drevesa in iskanje sosedov.
+
+Izvajanje funkcije \textsc{funkcijaOblike} traja po $O(n + nm + m + m^2n + nm +
+n) = O(mn^2)$, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
+razcepa z dvostranskim Jacobi SVD razcepom iz knjižnice
+Eigen.\footnote{\url{https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html}
+[obiskano 16.\ 6.\ 2017]} Funkcija oblike se izračuna za vsako točko v domeni,
+torej da del algoritma traja $O(m^2 n N)$ časa.
+
+Pri sestavljanju razpršene matrike lahko v naprej rezerviramo prostor za $n$
+elementov v vsaki vrstici, tako da nas sestavljanje matrike stane $O(nN)$ časa,
+sestavljanje robnih pogojev pa $O(N)$ časa. Na koncu še rešimo razpršen sistem
+linearnih enačb, kjer pa je čas zelo odvisen od problema, iteracijske metode in
+predpogojenke.
+
+Skupna časovna zahtevnost je tako $O(I N s \log^2 N + (N+n)\log N + m^2 N) + T$,
+kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
+\endproof
+
+\subsubsection{Prostorska zahtevnost}
+V tem razdelku analiziramo časovno zahtevnost metode. Podobno kot pri časovni
+zahtevnosti bomo predpostavili, da so
+vse evalvacije funkcij $f$, $g$, $w$ in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v
+$O(1)$ prostora.
+Prav tako bomo predpostavili, da je dimenzija problema majhna in konstantna in
+ne bo nastopala v analizah.
+
+\begin{trditev}
+  Prostorska zahtevnost algoritma~\ref{alg:metoda} je $O(nN) + P$, kjer je $P$
+  prostor, ki ga potrebujemo, za reševanje sistema linearnih enačb.
+\end{trditev}
+\proof
+Pri funkciji \textsc{diskretiziraj} potrebujemo $O(N)$ spomina za shrambo $N$
+diskretizacijskih točk. Če izvajamo še dodatne izboljšave diskretizacije, nas to
+stane $O(n)$ dodatnega prostora.
+
+Izvajanje funkcije \textsc{sosedi} nas stane $O(N)$ prosta za hranjenje drevesa
+in $O(nN)$ prosta za hranjenje indeksov $n$ sosedov.
+
+Izvajanje funkcije \textsc{funkcijaOblike} nas stane $O(n+nm+m+n) = O(nm)$
+prostora za vsak klic, za hrambo $N$ funkcij oblike pa potrebujemo $O(nN)$
+prostora.
+
+Razpršena matrika prav tako potrebuje $O(nN)$ prostora za neničelne elemente.
+Nato moramo rešiti le še sistem linearnih enačb, kar po predpostavki stane $P$
+prostora. Ker je $m = O(N)$ je prevladujoči faktor $O(nN)$ in skupna prostorska
+zahtevnost je $O(nN) + P$.
+\endproof
+
+\section{Implementacija}
+
+\section{Osnovni numerični zgledi}
+Poisson
+
+\section{Raba materialov}
+% fretting fatuigue
+blah blah
+
+
+\subsection{Zaključek}
 
 \clearpage
-
 \bibliographystyle{unsrt}
 \bibliography{reference}
 
