@@ -7,6 +7,7 @@
 \usepackage[dvipsnames,usenames]{color}
 \usepackage{graphicx}
 \usepackage{minted}
+\usepackage{units}
 % \usemintedstyle{mathematica}
 \usemintedstyle{mathematicanotebook}
 \renewcommand\listingscaption{Program}
@@ -1720,7 +1721,7 @@ prej.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/relax_improvement.png}
+  \includegraphics[width=0.8\textwidth]{images/relax_improvement.pdf}
   \caption{Sprememba $h$ in $S$ po 10 iteracijah algoritma~\ref{alg:relax} s
   parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem
   krogu z začetno Fibonaccijevo mrežo v odvisnosti od $N$ z razmerjem robnih in
@@ -1867,10 +1868,95 @@ prostora. Ker je $m = O(N)$ je prevladujoči faktor $O(nN)$ in skupna prostorska
 zahtevnost je $O(nN) + P$.
 \endproof
 
+\subsection{Pogosti vrednosti parametrov}
+Metoda je bila do sedaj formulirana zelo splošno, v praksi pa se uporablja nekaj
+ustaljenih kombinacij. Kot bomo videli razdalje pogosto merimo v večkratnikih
+$\chi_\Omega$, kot pri
+
+Pogoste vrednosti za število sosedov so $n = 3, 5, 7$ v eni dimenziji, $n = 5,
+9, 13, 25$ v dveh dimenzijah in $n = 7$ ali $27$ v treh dimenzijah. Za regularne
+domene to simetrično izbere vozlišča pri neregularnih pa izbira $n$ ni tako
+pomebna, dokler je dovolj visoka, da dobro popiše operator, ki ga aproksimiramo.
+Višji $n$ ponavadi pomeni večjo stabilnost, morda višji red in počasnejše
+izvajanje. V praksi izberemo najmanjši $n$, ki daje zadovoljive rezultate.
+
+Za utež se pogosto uporablja konstanta $w\equiv1$, če ne želimo uteženih
+najmanjših kvadratov, sicer pa
+
 \section{Implementacija}
 
 \section{Osnovni numerični zgledi}
-Poisson
+V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih,
+da si zgradimo intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo
+metoda, opisana v razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM
+\ang{Meshless Least Squares Method}.
+Če ni drugače navedeno, so vse časovne meritve narejene na
+prenosnem računalniku s procesorjem
+\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz|
+in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so bili prevedeni s
+prevajalnikom \verb|g++| verzije 7.1.7 in stikali
+\verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Linux.
+Pri paralelizaciji je bila uporabljena knjižnica OpenMP~\cite{dagum1998openmp}
+za paralelizacijo z deljenim pomnilnikom.
+
+\subsection{Enodimenzionalni robni problem}
+Oglejmo si najprej preprost primer enodimenzionalne Possonove enačbe,
+ki smo ga uporabili že za motivacijo izpeljave numerične metode.
+Rešujmo problem
+\begin{align*}
+  u''(x) &= \sin(x), \quad x \in (0, 1) \\
+  u(0) &= 0, \\
+  u'(1) &= 0,
+\end{align*}
+ki ima analitično rešitev $u(x) = \cos(1) x - \sin(x)$.
+Na sliki~\ref{fig:mlsm-fdm-err} je prikazana konvergenca metode končnih diferenc
+in MLSM. Metoda MLSM je bila uporabljena s parametri, pri katerih velja
+trditev~\ref{trd:eq-to-fdm}, torej $n=m=3$, $w=1$, $\b b = \{1, x, x^2\}$.
+V obeh primerih smo uporabili direktno metodo SuperLU za reševanje sistema
+enačb.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/lap1d_convergence.pdf}
+  \caption{Napaka FDM in MLSM metode v primerjavi s pravilno rešitvijo.}
+  \label{fig:mlsm-fdm-err}
+\end{figure}
+
+Na grafu vidimo, da metodi tudi v praksi sovpadata do približno $N=1000$, nato
+pa natančnost MLSM postane konstantna, dokler ne pridemo v območje numerične
+nestabilnosti. Metoda končnih diferenc pride v območje, ko ne konvergira več z
+redom 2 ob približno enaken $N$ kot MLSM, nestabilnosti pa se začnejo kasneje,
+med $N = 10^4$ in $N = 10^5$. Hitrejšo nestabilnost MLSM lahko pripišemo
+numeričnim napakam pri računanju aproksimacije drugih odvodov, pri FDM namreč v
+matriko direktno zapišemo koeficient $-\frac{2}{h^2}$, pri MLSM pa se ta
+numerično izračuna.  Iz naklona premice vidimo, da sta obe metodi tudi v praksi
+reda~2.
+
+Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.
+MLSM je približno konstantno 6-krat počasnejši kot FDM, kot prikazano z
+razmerjem, merjenim na desni osi. To je tudi pričakovano, saj MLSM išče
+sosede in računa aproksimacije, medtem je to pri FDM vgrajeno v metodo.
+Če pri MLSM posebej merimo samo čas, ki ga
+porabimo za sestavljanje matrike in reševanje sistema, vidimo, da se skoraj
+ujema z časom, porabljenim pri FDM. Minimalno razliko gre pripisati razliki pri
+načinu grajenja matrike, saj pri FDM natanko vemo pozicije in število neničelnih
+elementov vnaprej, pri MLSM pa v splošnem ne.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/lap1d_times.pdf}
+  \caption{Primerjava časa izvajanja MLSM in FDM metod.}
+  \label{fig:mlsm-fdm-time}
+\end{figure}
+
+\subsection{Poissonova enačba}
+Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
+\begin{align*}
+  \triangle u &= 1, \quad (x, y) \in (0, 1) \times (0, 1) \\
+  u(x, 0) &= u(x, 1) = u(0, y) = u(1, y) = 0.
+\end{align*}
+
+
 
 \section{Raba materialov}
 % fretting fatuigue

@@ -1,0 +1,12 @@
+build/
+_minted*
+lib/
+bin/
+.idea/
+cmake-build*
+*.aux
+*.bbl
+*.log
+*.out
+*.toc
+*.blg
