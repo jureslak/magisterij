@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{minted}
 \usepackage{units}
+\usepackage{array}
 % \usemintedstyle{mathematica}
 \usemintedstyle{mathematicanotebook}
 \renewcommand\listingscaption{Program}
@@ -117,6 +118,7 @@
 \newcommand{\vt}{\vec{t}}
 \newcommand{\vr}{\vec{r}}
 \newcommand{\va}{\vec{a}}
+\newcommand{\vb}{\vec{b}}
 \newcommand{\vn}{\vec{n}}
 \newcommand{\vf}{\vec{f}}
 \newcommand{\vm}{\vec{m}}
@@ -579,6 +581,7 @@ Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
 Z njegovo pomočjo bomo dokazali, da je $\ts$ simetričen.
 
 \begin{trditev}
+  \label{trd:sigma-symmetric}
   Cauchyev napetostni tenzor je simetričen:
   \[ \ts^\T = \ts. \]
 \end{trditev}
@@ -624,7 +627,7 @@ Prevedimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine v lokalno obliko.
 \begin{izrek}[Cauchyeva momentna enačba]
   Za gibanje kontinuuma velja Cauchyeva momentna enačba
   \[
-    \DDt{}(\rho \vv) = \vf + \Div \tau
+    \DDt{}(\rho \vv) = \vf + \Div \tau.
   \]
 \end{izrek}
 \proof
@@ -767,7 +770,8 @@ $E$ z $U$:
 \[
   E = \frac12(f^\T F - I) = \frac12(U^\T R^\T R U - I) = \frac12 (U^2 - I).
 \]
-Vidimo, da $E$ meri, kako se $U^2$ razlikuje od identitete.
+Vidimo, da $E$ meri, kako se $U^2$ razlikuje od identitete, ki predstavlja
+gibanje brez deformacij.
 
 Kot pri enodimenzionalnem primeru si oglejmo, kako se $E$ obnaša pri enostavnih
 deformacijah. Za toge premike imamo želeno obnašanje, kot pokazano v naslednji
@@ -806,15 +810,36 @@ linearizacijo: zanemarimo člen $\Grad u^\T \Grad u$.
   linearizacija deformacijskega tenzorja.
 \end{definicija}
 
+% \begin{trditev}
+%   Če za gibanje velja $\eps = 0$, potem je pomik oblike $u = \va + \vb \times
+%   X$, za konstantna vektorja $\va$ in $\vb$.
+% \end{trditev}
+% \proof
+% Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$. Ker je $\Grad u$
+% antisimetričen, obstaja osni vektor $\vb$, tako da velja $(\Grad u) \vv = \vb
+% \times \vv$ za vsak vektor $\vv$.
+% \endproof
+
+\subsubsection{Hookov zakon}
 Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo. Ta bo posplošitev
 običajnega Hookovega zakona.
 
 \begin{aksiom}[Hookov zakon]
+  \label{aks:hook}
   Napetost je linearno odvisna od deformacije, preko tenzorja četrtega reda $C$:
   \[ \ts = C\eps. \]
   Tenzor $C$ se imenuje \emph{??} \ang{compliance tensor} in ima v splošnem $3^4
   = 81$ prostih parametrov.
 \end{aksiom}
+\begin{opomba}
+  Aksiom~\ref{aks:hook} se po komponentah glasi $\ts_{ij} = C_{ijkl}
+  \eps_{kl}$
+\end{opomba}
+Toda, iz trditve~\ref{trd:sigma-symmetric} o simetričnosti $\ts$ sledi, da lahko
+prosto zamenjamo indeksa $i$ in $j$ in velja $C_{ijkl} = C_{jikl}$.
+Podobno iz simetričnosti $\eps$ sledi, da je $C_{ijkl} = C_{ijlk}$.
+
+Še ena simetrija in potem izotropičnost.
 
 \subsection{Navierova enačba}
 blah blah
@@ -908,11 +933,97 @@ Izračun prinese enak rezultat kot prej in izrek je še enkrat dokazan.
 \endproof
 
 \subsection{Obstoj in enoličnost rešitve}
+Izrek povzet po~\cite[izrek 3.15.1, str.\ 226]{lebedev2009introduction}
+Prevedemo na Riezsov izrek.
 
 \subsection{Priprava na numerično reševanje}
+Za numerično reševanje se postavimo v kartezični koordinatni sistem.
+Komponente tenzorja $\ts$ razpišimo:
+\[
+  \ts =
+  \begin{bmatrix}
+    \ts_{xx} & \ts_{xy} & \ts_{xz} \\
+    \ts_{xy} & \ts_{yy} & \ts_{yz} \\
+    \ts_{xz} & \ts_{yz} & \ts_{zz} \\
+  \end{bmatrix},
+\]
+pri čemer smo že upoštevali simetrijo. Reševati tridimenzionalne enačbe je težje
+kot dvodimenzionalne, zato si oglejmo dve poenostavitvi.
+
 \subsubsection{Poenostavitev na dve dimenziji}
+Tridimenzionalne probleme se zavoljo lažje formulacije, manjše računske
+zahtevnosti in lažje implementacije pogosto s pomočjo neke simetrije prevede na
+nižjedimnenzionalne. Spodaj sta opisani dve najbolj pogosti poenostavitvi.
+
+\begin{description}
+  \item[Ravninska napetost:]
+Pri tej poenostavitvi predpostavimo, da napetost nima neničelnih komponent v
+smeri ene izmed koordinatnih osi, torej, po primerni rotaciji koordinatnega
+sistema, da so komponente $\ts_{xz}, \ts_{yz}$ in $\ts_{zz}$ enake 0. Ta
+poenostavitev je primerna za telesa, ki so ``tanke plošče'', torej, imajo eno
+dimenzijo veliko manjšo od ostalih dveh. Poleg tega morajo biti vse obremenitve
+vzdolž plošče.
+  \item[Ravninska deformacija:]
+Pri tej poenostavitvi predpostavimo, da deformacijski tenzor $\eps$ nima
+komponent v eni izmed koordinatnih smeri, torej, podobno kot pri ravninski
+napetosti lahko predpostavimo, da so $\eps_{xz}, \eps_{yz}$ in $\eps_{zz}$ enaki
+0. Ta poenostavitev je primerna za telesa, ki imajo eno dimenzijo mnogo večjo od
+drugih iz se vzdolž nje ne spreminjajo, torej za (ne nujno krožne) valje.
+\end{description}
+
+Pri obeh poenostavitvah se iz pogojev izpelje, da v Navierovi enačbi ne nastopa
+tretja komponenta $u$. Še več poenostavitvi sta celo ekvivalentni, saj se
+razlikujeta le za konstantni člen pred enem izmed faktorjev. V dveh dimenzijah
+pišemo prvo komponento pomika z $u$ in drugo z $v$, koordinati pa označujemo z
+$x$ in $y$. Če si razpišemo izraze za deformacijski tenzor in napetostni tenzor
+za primer ravninske napetosti dobimo:
+\begin{align*}
+  \eps &=
+  \begin{bmatrix}
+    \dpar{u}{x} & \frac12(\dpar{u}{y} + \dpar{v}{x}) \\
+    \frac12(\dpar{u}{y} + \dpar{v}{x}) & \dpar{v}{y} \\
+  \end{bmatrix}
+  \\
+  \ts &=
+  \begin{bmatrix}
+    \lambda \dpar{v}{y} + (\lambda+2\mu) \dpar{u}{x} &
+    \mu(\dpar{u}{y} + \dpar{v}{x}) \\
+    \mu(\dpar{u}{y} + \dpar{v}{x}) &
+    \lambda \dpar{u}{x} + (\lambda+2\mu) \dpar{v}{y}
+  \end{bmatrix}.
+  \\
+\end{align*}
+
 \subsubsection{Robni pogoji}
-Pri reševanju robnih problemov .
+Pri reševanju robnih problemov bomo imeli tri vrste robnih pogojev. Dirichletove
+robne pogoje $u|_{\partial \Omega} = u_0$ bomo uporabili, ko bomo poznali
+pomike na robu. Najpogosteje bo pogoj oblike $u = 0$, ko nek konec držimo
+fiksen. Pri drugi vrsti robnih pogojev poznamo napetosti na robovih.
+Najpogosteje bomo podali kar napetost na robu $\vt = \vt_0$, kjer je $\vt_0$
+neka znana vrednost, npr. 0, če je ta rob prost. Tretja vrsta pogojev bodo
+simetrijski pogoji, ko bomo problem reducirali preko neke osi simetrije, na osi
+pa bomo zahtevali kompatibilnostne pogoje.
+
+Oglejmo si bolj natančno pogoje, podane z napetostjo. Napetost na robu
+izračunamo preko napetostnega tenzorja, $\vt = \ts\vn$, kjer ne $\vn$ zunanja
+normala na rob. Za primer desnega roba, na katerega enakomerno deluje neka gostota
+sile $p$ v normalni smeri dobimo dva pogoja:
+\[
+   \vt = \ts\vn =
+  \begin{bmatrix}
+    \lambda \dpar{v}{y} + (\lambda+2\mu) \dpar{u}{x} &
+    \mu(\dpar{u}{y} + \dpar{v}{x}) \\
+    \mu(\dpar{u}{y} + \dpar{v}{x}) &
+    \lambda \dpar{u}{x} + (\lambda+2\mu) \dpar{v}{y}
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 \\ 0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    p \\ 0
+  \end{bmatrix}.
+\]
 
 \section{Numerična metoda}
 \label{sec:numericna-metoda}
@@ -1460,7 +1571,7 @@ phi = Lb.PseudoInverse[B] // Simplify
 \end{primer}
 
 \begin{primer}
-\label{prom:rbf}
+\label{prim:rbf}
 Poglejmo še, kaj se zgodi, če za bazne funkcije vzamemo radialne bazne funkcije.
 V tem primeru je smiselno vzeti $n = m$, torej postavimo po eno radialno funkcijo
 na vsakega izmed sosedov. Opisana metoda tako postane kolokacijska metoda z
@@ -1678,14 +1789,14 @@ sliki~\ref{fig:relax-circle}.
   \label{alg:relax}
   \begin{algorithmic}[1]
     \Function{izboljšaj}{$\Omega, N, Q, X, I, s, F_0, \alpha$}
-    \State $r_0 \gets \left( \frac{\textsc{volumen}(\Omega)}{N}
+    \State $r_\chi \gets \left( \frac{\textsc{volumen}(\Omega)}{N}
     \right)^{\frac{1}{\textsc{dimenzija}(\Omega)}}$ \Comment{Približek povprečne
-    razdalje med točkami}.
+    razdalje med točkami}. \label{line:chd}
     \For{i}{1}{I}
     \For{j}{1}{Q}
     \State $\vec{F} \gets \vec{0}$
     \ForEach{y}{\{najbližjih $s$ sosedov $X[i]$\}} \label{line:closest}
-    \State $\vec{r} \gets \frac{X[i] - y}{r_0}$ \Comment{Brezdimenzijski vektor
+    \State $\vec{r} \gets \frac{X[i] - y}{r_\chi}$ \Comment{Brezdimenzijski vektor
     razdalje.}
     \State $\vec{F} \gets \vec{F} + \frac{\vec{r}}{\|\vec{r}\|^\alpha}$
     \EndFor
@@ -1809,7 +1920,7 @@ ne bo nastopala v analizah.
 
 \begin{trditev}
   Pričakovana časovna zahtevnost algoritma~\ref{alg:metoda} je
-  \[ O(I N s \log^2 N + (N+n)\log N + m^2 N) + T,\] kjer je $T$ čas,
+  \[ O(I N s \log^2 N + (N+n)\log N + m^2n N) + T,\] kjer je $T$ čas,
   porabljen za reševanje razpršenega sistema enačb.
 \end{trditev}
 \proof
@@ -1868,22 +1979,102 @@ prostora. Ker je $m = O(N)$ je prevladujoči faktor $O(nN)$ in skupna prostorska
 zahtevnost je $O(nN) + P$.
 \endproof
 
-\subsection{Pogosti vrednosti parametrov}
+\subsection{Pogoste vrednosti parametrov}
 Metoda je bila do sedaj formulirana zelo splošno, v praksi pa se uporablja nekaj
 ustaljenih kombinacij. Kot bomo videli razdalje pogosto merimo v večkratnikih
-$\chi_\Omega$, kot pri
+$r_\chi$, kot na vrstici~\ref{line:chd} v algoritmu~\ref{alg:relax}.
+\begin{definicija}
+  Količino $r_\chi$ pripisano diskretizaciji $X$ domene $\Omega$, izračunano z \[
+    r_\chi(\Omega, X) = \left( \frac{\textsc{volumen}(\Omega)}{|X|}
+    \right)^\frac{1}{\textsc{dimenzija}(\Omega)}
+  \]
+  imenujemo \emph{karakteristična razdalja.}
+\end{definicija}
+Ideja definicije je, da $r_\chi$ predstavlja približno povprečno razdaljo med
+diskretizacijskimi točkami, če bi bile razporejene enakomerno. Celoten volumen
+domene razdelimo na $N = |X|$ delov, tako da vsaki točki pripada enak kos
+volumna $v = \frac{\textsc{volumen}(\Omega)}{N}$. Če bi
+bil ta kos neka hiperkocka v $d$ dimenzijah, potem je $\sqrt[d]{v}$ dolžina
+njene stranice in to je ocena za medsebojno razdaljo med točkami.
+V eni dimenziji $r_\chi$ do faktorja $\frac{N}{N-1}$ natančno ustreza razdalji
+med enakomerno razporejenimi točkami.
+Drugo pogosto merilo za lokalno razdaljo bo kar razdalja do najbližjega
+(različnega) soseda, ki jo imenujmo $r_c$. To je težje izračunati, če nimamo že
+zgrajenega drevesa, zato se ponavadi na enostavnejših primerih poslužujemo kar
+$r_\chi$. Kadar pa to ni dobra aproksimacija razdalje med vozlišči za celo
+domeno, kot na primer ob goščenju mreže, se poslužimo $r_c$.
 
 Pogoste vrednosti za število sosedov so $n = 3, 5, 7$ v eni dimenziji, $n = 5,
 9, 13, 25$ v dveh dimenzijah in $n = 7$ ali $27$ v treh dimenzijah. Za regularne
 domene to simetrično izbere vozlišča pri neregularnih pa izbira $n$ ni tako
-pomebna, dokler je dovolj visoka, da dobro popiše operator, ki ga aproksimiramo.
+pomembna, dokler je dovolj visoka, da dobro popiše operator, ki ga aproksimiramo.
 Višji $n$ ponavadi pomeni večjo stabilnost, morda višji red in počasnejše
 izvajanje. V praksi izberemo najmanjši $n$, ki daje zadovoljive rezultate.
 
 Za utež se pogosto uporablja konstanta $w\equiv1$, če ne želimo uteženih
-najmanjših kvadratov, sicer pa
+najmanjših kvadratov, sicer pa pogosto vzamemo za utež Gaussovo funkcijo
+\[
+  w(x) = \exp\left(-\left(\frac{x}{\sigma_w}\right)^2 \right),
+\]
+kjer $\sigma_w$ imenujemo parameter oblike \ang{shape parameter} uteži.
+Velja opozoriti, da je ta funkcija praktično nič, če smo več kot $3\sigma_w$
+stran od središča ($w(3\sigma_w) \approx 0.0001234$). Če na primer izberemo
+$\sigma_w = r_\chi$ se nam vsi sosedi, ki so dlje kot $r_\chi$ stran v
+aproksimaciji ne upoštevajo, ne glede na to kako velik $n$ smo izbrali.
+Ponavadi se za $\sigma_w$ začne izbirati vrednosti okoli $r_\chi$, je
+pa potrebno optimalno vrednost določiti za vsak posamezen problem posebej.
+
+Pogosta izbira baznih funkcij so prostori $\mathbb{P}_\ell$ monomov skupne
+stopnje manj ali enako $\ell$. Pri tem moramo seveda paziti, da izberemo dovolj
+visok $n$. Druga pogosta izbira je, da vzamemo $m = n$ in za bazne funkcije
+izberemo radialne bazne funkcije s centri v sosedih.
+
+\begin{definicija}
+  Funkcija $\psi_c$ se imenuje radialna bazna funkcija s centrom v točki
+  $c$,
+  če je odvisna samo od razdalje do centra, torej \[
+    \psi_c(x) = \tilde\psi(\|x - c\|),
+  \]
+  za vsak $x$ za neko funkcijo $\psi$. Kasneje kar identificiramo $\psi_c$
+  in $\tilde\psi$ in pišemo $\psi_c = \psi_c(r)$.
+\end{definicija}
+
+V tabeli~\ref{tab:rbf} so naštete najpogostejše uporabljene radialne bazne funkcije, povzete
+po~\cite[str.\ 5]{schaback1995error}.
+
+\newcommand{\tc}[1]{\vspace{-25ex}\parbox{5.2cm}{#1}}
+\begin{table}[!h]
+  \begin{tabular}{|m{5.2cm}|l|} \hline
+    \tc{Multikvadratične (MQ) \\ \ang{multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.58\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
+    \tc{Inverzne multikvadratične \\ (IMQ) \\ \ang{Inverse multiquadrics}
+    \\[3ex] $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.58\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
+    \tc{Linearna razdalja (L) \\ \ang{Linear distance} \\[3ex] $\psi(r) = r$} &
+    \includegraphics[width=0.49\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
+    \tc{Gaussove funkcije (G) \\ \ang{Gaussians} \\[3ex] $\psi(r) =
+    \exp(-(r/\sigma_b)^2)$} & \includegraphics[width=0.58\textwidth]{images/rbf_gau.pdf} \\ \hline
+  \end{tabular}
+  \caption{Najpogosteje uporabljene radialne bazne funkcije s parametrom oblike
+  $\sigma_b$.}
+  \label{tab:rbf}
+\end{table}
+
+Ko si izberemo neko bazno funkcijo $\psi$, potem za bazne funkcije okoli točke
+$p$ vzamemo
+\[
+  \b b = \{\psi_s; s \in N(p) \}.
+\]
+Pri izbiri parametra oblike $\sigma_b$ moramo tudi biti do neke mere pazljivi. Izbrati
+ga moramo dovolj velikega, da se funkcije ``prekrivajo'', torej tako, da nima
+funkcija vrednosti blizu nič pri vseh sosedih razen pri sebi. Hkrati mora biti
+parameter dovolj majhen, da sistem~\eqref{eq:shape-system} ni preveč nestabilen.
+
+Pogosto se k bazi radialnih baznih funkcij doda še monome nizkih stopenj, za
+boljšo aproksimacijo funkcij, ki so blizu konstantam. Več o kvaliteti,
+stabilnosti in redu konvergence aproksimacije z radialnimi baznimi funkcijami
+si lahko bralec prebere v~\cite{buhmann2000radial}.
 
 \section{Implementacija}
+blah blah~\cite{stroustrup1995c++}.
 
 \section{Osnovni numerični zgledi}
 V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih,
@@ -1951,12 +2142,116 @@ elementov vnaprej, pri MLSM pa v splošnem ne.
 
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
-\begin{align*}
-  \triangle u &= 1, \quad (x, y) \in (0, 1) \times (0, 1) \\
-  u(x, 0) &= u(x, 1) = u(0, y) = u(1, y) = 0.
-\end{align*}
+\begin{align}
+  \triangle u &= 1, \quad (x, y) \in (0, 1) \times (0, 1)
+  \label{eq:poisson-problem} \\
+  u(x, 0) &= u(x, 1) = u(0, y) = u(1, y) = 0. \nonumber
+\end{align}
+Analitično rešitev lahko dobimo s pomočjo separacije spremenljivk in se glasi
+\begin{equation}
+  u(x, y) =
+  -8 \sum_{\substack{k=1 \\ k \text{ lih}}}^\infty \frac{ \sin (k \pi  x) \sinh
+  \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi
+y}{2}}{\cosh(\frac{k\pi}{2})k^3 \pi ^3}.
+  \label{eq:poisson-analytical}
+\end{equation}
+Za primerjavo z numeričnimi rešitvami bomo uporabili končno vsoto, zato ocenimo
+ostanek.
+\begin{trditev}
+  Za ostanek vrste~\eqref{eq:poisson-analytical} velja
+  \[
+    \left|-8 \sum_{\substack{k=\ell \\ k \text{ lih}}}^\infty \frac{ \sin (k \pi  x) \sinh
+      \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}}{\cosh(\frac{k\pi}{2})k^3
+      \pi ^3}\right| < -\frac{\psi''(\ell/2)}{4 \pi^3},
+  \]
+  kjer je $\psi$ digama funkcija.
+\end{trditev}
+\proof
+Ocenjujmo vsak člen vrste posebej. Funkcijo $\sin$ ocenimo z 1, funkcija
+$\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}$ ima maksimum na sredini
+intervala in jo lahko ocenimo z njeno vrednostjo v $y = \frac{1}{2}$.
+Tako nam ostane za oceniti številska vrsta
+\[
+    -8 \sum_{\substack{k=\ell \\ k \text{ lih}}}^\infty
+    \frac{\left(\sinh\frac{k \pi}{4}\right)^2}{\cosh(\frac{k\pi}{2})k^3
+    \pi ^3} .
+\]
+Uporabimo še neenakost $\frac{\left(\sinh\frac{k
+\pi}{4}\right)^2}{\cosh(\frac{k\pi}{2})} < \frac{1}{2}$ in dobimo oceno
+\[
+\left|-8 \sum_{\substack{k=\ell \\ k \text{ lih}}}^\infty \frac{ \sin (k \pi  x) \sinh
+      \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}}{\cosh(\frac{k\pi}{2})k^3
+      \pi ^3}\right| < \frac{4}{\pi^3} \sum_{\substack{k=\ell \\ k \text{ lih}}}^\infty
+      \frac{1}{k^3} = -\frac{\psi''(\ell/2)}{4 \pi^3},
+\]
+kjer je $\psi$ digama funkcija (in posledično $\psi''$ poligama funkcija).
+\endproof
+Za primer $\ell = 1$  v prejšnji trditvi dobimo oceno
+\[
+  |u(x, y)| \leq \frac{7 \zeta(3)}{2 \pi^2} \approx 0.1356,
+\]
+kar drži, v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.7367$.
+Kot posledico zgornje trditve lahko izračunamo, da je rep
+vrste~\eqref{eq:poisson-analytical} za $\ell = 59$
+manjši kot $10^{-5}$, za $\ell = 181$ pa manjši kot $10^{-6}$.
+\begin{opomba}
+  Računanje izraza \[
+    \frac{\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi
+    y}{2}}{\cosh(\frac{k\pi}{2})}
+  \] ni numerično stabilno, ko $k$ raste, kajti tako števec kot imenovalec se
+  približujeta neskončno, kvocient pa ima končno limito. Ko za želimo izračunati
+  numerično je bolje uporabiti stabilnejšo obliko
+  \[
+    \frac12\left( 1 - \frac{\exp(-k\pi y) + \exp(-k\pi(1-y)) }{1 +
+    \exp(-k\pi)}\right),
+  \]
+  kjer vedno nastopa negativen eksponent.
+\end{opomba}
 
+Rešimo problem~\eqref{eq:poisson-problem} numerično, z štirimi različnimi nabori baznih funkcij: monomi,
+Gaussovimi funkcijami, multikvadratičnimi in inverznimi multikvadratičnimi.
+Za monome vzemimo $n = m = 5$, $m = 6$ in $n=9$ in $m=n=9$, kar sovpada s
+primeri iz razdelka~\ref{sec:posebni-primeri}. Za radialne bazne funkcije
+vzemimo vedno $n=m$ in sicer vrednosti 5, 9 in 13 za parameter oblike pa
+$\sigma_b = 40 r_\chi$. Za utež vzemimo Gaussovo utež z $\sigma_w = r_\chi$.
+V vseh primerih je bila za reševanje sistema enačb uporabljena direktna metoda
+SuperLU. Iterativni BiCGSTAB algoritem je dal enake rezultate.
+Napaka metod je prikazana na sliki~\ref{fig:poisson-square-convergence}.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/poisson_square_convergence.pdf}
+  \caption{Konvergenca MLSM za različne parametre pri reševanju~\eqref{eq:poisson-problem}.}
+  \label{fig:poisson-square-convergence}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/poisson_square_time.pdf}
+  \caption{Čas izvajanja za različne izbore parametrov pri reševanju
+  problema~\eqref{eq:poisson-problem}.}
+  \label{fig:poisson-square-time}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/sigma_depedance_error_gau.pdf}
+  \caption{Napaka v odvisnosti od $\sigma_b$ in $\sigma_w$ za Gaussove
+  funkcije.}
+  \label{fig:poisson-square-shapes}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[height=5cm]{images/poisson_weird1.png}
+  \hspace{10pt}
+  \includegraphics[height=5cm]{images/poisson_weird2.png}
+  \hspace{10pt}
+  \includegraphics[height=5cm]{images/poisson_weird3.png}
+  \caption{Reševanje Poissonove enačbe $\triangle u = 1$ s homogenimi robnimi pogoji na
+  zanimivejših domenah.}
+  \label{fig:poisson-square-weird}
+\end{figure}
 
 \section{Raba materialov}
 % fretting fatuigue
