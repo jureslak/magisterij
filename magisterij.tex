@@ -9,6 +9,7 @@
 \usepackage{minted}
 \usepackage{units}
 \usepackage{array}
+\usepackage{enumerate}
 % \usemintedstyle{mathematica}
 \usemintedstyle{mathematicanotebook}
 \renewcommand\listingscaption{Program}
@@ -119,6 +120,7 @@
 % vectors
 \newcommand{\vv}{\vec{v}}
 \newcommand{\vt}{\vec{t}}
+\newcommand{\vu}{\vec{u}}
 \newcommand{\vr}{\vec{r}}
 \newcommand{\va}{\vec{a}}
 \newcommand{\vw}{\vec{w}}
@@ -224,6 +226,7 @@ TBD
 Motivacija, pregled naloge, notacija in sumacijska konvencija.
 
 \subsection{Osnovne trditve vektorske in tenzorske analize}
+\label{sec:uvod-tenz}
 
 Prostor tenzorjev drugega reda opremimo s skalarnim produktom\[
 s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
@@ -404,6 +407,7 @@ gibanja, $\chi_R = \chi_{t=t_0}$, ni pa nujno temu tako.
   \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{images/gibanje0.pdf}
+    \hspace{1em}
     \includegraphics[width=0.4\textwidth]{images/gibanje02.pdf}
     \caption{Prerez enotske kocke pri $Z = 0$ v referenčni konfiguraciji in v prostorski
     konfiguraciji ob času $t=0.2$.}
@@ -479,7 +483,7 @@ izginiti in se pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih
 sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
 
 \begin{definicija}
-  Količino \[ u(\vX) = \vx(t, \vX) - \vX \] imenujemo \emph{pomik}.
+  Količino \[ \vu(\vX) = \vx(t, \vX) - \vX \] imenujemo \emph{pomik}.
   Količino \[ \vv(\vX) = \DDt{\vx}(t, \vX) \] imenujemo \emph{hitrost}.
   Količino \[ \va(\vX) = \DDt{\vv}(t, \vX) \] imenujemo \emph{pospešek}.
 \end{definicija}
@@ -579,9 +583,10 @@ odvajanju pod integralom, zato moramo izraz pod integralom najprej prenesti v
 referenčne koordinate, zamenjati odvod in integral, nato pa ga prenesti nazaj.
 Naredimo to najprej za aksiom o ohranitvi mase.
 \begin{trditev} Masa se ohranja $(\DDt{}m(B_t) = 0)$ natanko tedaj, ko je
-  \[
+  \begin{equation}
     \DDt\rho + \rho\div\vv = 0.
-  \]
+    \label{eq:ohr-masa}
+  \end{equation}
 \end{trditev}
 \proof
 Trditev pokaže direkten račun, kjer bomo zamenjali integralsko spremenljivko iz
@@ -631,7 +636,7 @@ Postopamo enako kot v prejšnji trditvi. Izračunamo
     \DDt{} \int_{B}\phi \rho J dV =
     \int_{B} \DDt{(\phi \rho J)} dV  = \\ &=
   \int_{B} \left(\DDt{\phi} \rho J + \phi \left(\underbrace{\DDt{\rho} + \rho
-  \div \vv}_{=0} \right) \right)dV  = \\ &=
+  \div \vv}_{=\;0 \text{ po \eqref{eq:ohr-masa}}} \right) \right)dV  = \\ &=
   \int_{B} \DDt{\phi} \rho JdV =
   \int_{B_t} \DDt{\phi} dm. \qedhere
 \end{align*}
@@ -913,24 +918,24 @@ konfiguracija na začetku gibanja.
 
 \subsubsection{Mera deformacije}
 \begin{definicija}[Gradient deformacije]
-  Količino $F = \dpar{x}{X}(t, X) = \Grad x$ imenujemo \emph{gradient
+  Količino $F = \dpar{\vx}{\vX}(t, \vX) = \Grad \vx$ imenujemo \emph{gradient
   deformacije}.
 \end{definicija}
 
 Tenzor $F$ je drugega reda in nam v vsaki točki predstavlja lokalno deformacijo
-telesa. Privzeli smo že, da je $x$ difeomorfizem, torej je $F$ neizrojev,
-dodatno pa bomo privzeli še, da gibanje $x$ \emph{ohranja orientacijo}, saj
+telesa. Privzeli smo že, da je $\vx$ difeomorfizem, torej je $F$ neizrojev,
+dodatno pa bomo privzeli še, da gibanje $\vx$ \emph{ohranja orientacijo}, saj
 so gibanja realnih teles taka. Od tod sledi, da je $\det F > 0$.
 Fizikalno interpretacijo $F$ dobimo z naslednjim Taylorjevim ravojem:
 \[
-  dx := x(t, X+dX) - x(t, X) = F dX + O(dX^2).
+  d\vx := \vx(t, \vX+d\vX) - \vx(t, \vX) = F d\vX + O(d\vX^2).
 \]
-Tenzor $F$ do prvega reda natančno opiše kako se vektor $dX$ iz referenčne
-konfiguracije deformira v vektor $dx$ v prostorski konfiguraciji.
+Tenzor $F$ do prvega reda natančno opiše kako se vektor $d\vX$ iz referenčne
+konfiguracije deformira v vektor $d\vx$ v prostorski konfiguraciji.
 
 Vendar, ni vsa deformacija, ki jo opiše tenzor $F$ taka, da bi povzročala
 napetosti. Hookov zakon v eni dimenziji pravi, da je sila sorazmerna raztezku.
-Če imamo opravka s togim premikom $X \mapsto QX + a$, ta premik ne bo povzročil
+Če imamo opravka s togim premikom $\vX \mapsto Q\vX + a$, ta premik ne bo povzročil
 nobene napetosti, saj se bo telo samo premaknilo, ne pa raztegnilo.
 
 Oglejmo si najprej primer v eni dimenziji.
@@ -943,31 +948,31 @@ njene nosilke.
   \caption{Razteg tanke palice vzdolž njene osi.}
   \label{fig:palica}
 \end{figure}
-Premik v točki $X$ je $u(X) = x - X$, v točki $X+dX$ pa $u(X+dX)$.
-Dejanski relativni raztezek delčka palice dolžine $dX$ pa je
+Premik v točki $\vX$ je $u(\vX) = \vx - \vX$, v točki $\vX+d\vX$ pa $u(\vX+d\vX)$.
+Dejanski relativni raztezek delčka palice dolžine $d\vX$ pa je
 \begin{align*}
-  \frac{dx - dX}{dX} &= \frac{x(X+dX) - x(X) - (X + dX - X)}{dX} = \\ &=
-  \frac{u(X + dX) - u(X)}{dX} = u'(X) + O(dX).
+  \frac{d\vx - d\vX}{d\vX} &= \frac{\vx(\vX+d\vX) - \vx(\vX) - (\vX + d\vX - \vX)}{d\vX} = \\ &=
+  \frac{\vu(\vX + d\vX) - \vu(\vX)}{d\vX} = \vu'(\vX) + O(d\vX).
 \end{align*}
-Do prvega reda je relativni raztezek v točki $X$ enak kar $u'(X)$.
+Do prvega reda je relativni raztezek v točki $\vX$ enak kar $u'(\vX)$.
 
 Preverimo še, da ta mera raztezka zadošča nekaterih intuitivnim zahtevam. Za
-togi premik $X \mapsto X + c$ je $u(X) = c$ in $u'(X) \equiv 0$, kot
+togi premik $\vX \mapsto \vX + c$ je $\vu(\vX) = c$ in $\vu'(\vX) \equiv 0$, kot
 pričakovano.
 
-Za enakomerni razteg $X \mapsto aX$ je $u(X) = aX - X$ in $u'(X) = a - 1$. Tudi
+Za enakomerni razteg $\vX \mapsto a\vX$ je $\vu(\vX) = a\vX - \vX$ in $\vu'(\vX) = a - 1$. Tudi
 to ustreza pričakovanjem, saj za $a = 1$ ni raztezka, za $a< 1$ je to skrčitev
 in je raztezek negativen, za $a>1$ pa dobimo pozitivno število.
 \end{primer}
 
-Analogna mera deformacije med točkama $X$ in $X+dX$ v višji dimenziji bi bila
+Analogna mera deformacije med točkama $\vX$ in $\vX+d\vX$ v višji dimenziji bi bila
 \[
-  \eps_1 = \frac{\|dx\| - \|dX\|}{\|dX\|}.
+  \eps_1 = \frac{\|d\vx\| - \|d\vX\|}{\|d\vX\|}.
 \]
 Toda veliko lažje je računati s kvadrati norm kot z normami vektorjev, zato je
 bolj primerna mera
 \[
-  \eps_2 = \frac{\|dx\|^2 - \|dX\|^2}{\|dX\|^2}.
+  \eps_2 = \frac{\|d\vx\|^2 - \|d\vX\|^2}{\|d\vX\|^2}.
 \]
 Ker velja $\eps_2 = (1+\eps_1)^2 - 1 = 2\eps_1 + \eps_1^2$ je za majhne pomike
 $\eps_2 \approx 2\eps_1$ in sta meri ekivalentni.
@@ -975,13 +980,13 @@ $\eps_2 \approx 2\eps_1$ in sta meri ekivalentni.
 Izračunajmo infinitezimalno aproksimacijo mere $\eps_2$.
 \begin{align*}
   \eps_2 &=
-  \frac{\|dx\|^2 - \|dX\|^2}{\|dX\|^2} =
-  \frac{\|dx\|^2}{\|dX\|^2}  - 1=
-  \frac{\|F dX + O(dX^2)\|^2}{\|dX\|^2} - 1 = \\ &=
-  \frac{dX^\T F^\T F dX + O(dX^3)}{\|dX\|^2} - 1 =
-  \frac{dX}{\|dX\|}(\underbrace{F^\T F - I}_{2E})\frac{dX}{\|dX\|} + O(dX)
+  \frac{\|d\vx\|^2 - \|d\vX\|^2}{\|d\vX\|^2} =
+  \frac{\|d\vx\|^2}{\|d\vX\|^2}  - 1=
+  \frac{\|F d\vX + O(d\vX^2)\|^2}{\|d\vX\|^2} - 1 = \\ &=
+  \frac{d\vX^\T F^\T F d\vX + O(d\vX^3)}{\|d\vX\|^2} - 1 =
+  \frac{d\vX}{\|d\vX\|}(\underbrace{F^\T F - I}_{2E})\frac{d\vX}{\|d\vX\|} + O(d\vX)
 \end{align*}
-V limiti $dX \to 0$ lahko mero $\eps_2$ predstavimo s tenzorjem $F^\T F- I$,
+V limiti $d\vX \to 0$ lahko mero $\eps_2$ predstavimo s tenzorjem $F^\T F- I$,
 mero $\eps_1$ pa s tenzorjem $E$.
 
 \begin{definicija}[deformacijski tenzor]
@@ -990,17 +995,17 @@ mero $\eps_1$ pa s tenzorjem $E$.
 \end{definicija}
 \begin{trditev}
   Deformacijski tenzor $E$ lahko izrazimo z gradientom pomika kot
-  \[ E = \frac12\left( \Grad u + \Grad u^\T + \Grad u^\T \Grad u \right). \]
+  \[ E = \frac12\left( \Grad \vu + \Grad \vu^\T + \Grad \vu^\T \Grad \vu \right). \]
 \end{trditev}
 \proof
-Trditev pokaže preprost račun. Spomnimo se, da je pomik definiran kot $u(X) =
-x(X) - X$ in je gradient pomika enak
+Trditev pokaže preprost račun. Spomnimo se, da je pomik definiran kot $\vu(\vX) =
+\vx(\vX) - \vX$ in je gradient pomika enak
 \[
-  \Grad u(X) = \dpar{u}{X} = \dpar{x}{X} - I = F - I.
+  \Grad \vu(\vX) = \dpar{\vu}{\vX} = \dpar{\vx}{\vX} - I = F - I.
 \]
 Izračunamo:
 \begin{align*}
-  &\frac12\left( \Grad u + \Grad u^\T + \Grad u^\T \Grad u \right) = \\
+  &\frac12\left( \Grad \vu + \Grad \vu^\T + \Grad \vu^\T \Grad \vu \right) = \\
   &\qquad=\frac12\left(F - I + F^\T - I  + (F-I)^\T(F-I)\right) = \\
   &\qquad=\frac12\left(F + F^T - 2I + F^\T F - F - F^T + I\right) = \\
   &\qquad=\frac12\left(F^\T F - I\right) = \\
@@ -1032,12 +1037,12 @@ trditvi.
 
 \begin{primer}
   Kot prej si oglejmo, da je za toge deformacije $E = 0$.
- Naj bo deformacija toga, torej oblike $X \mapsto QX +
+ Naj bo deformacija toga, torej oblike $\vX \mapsto Q\vX +
 c$ z ortogonalno konstantno matriko $Q$ in konstantnim $c$. Tedaj je
 \[ E = \frac12 (F^\T F - I) = \frac12(Q^\T Q - I) = \frac12(I - I) = 0. \]
 Oglejmo si še enostavni razteg v smeri osi, dan kot
-$X \mapsto \diag(\lambda_1, \lambda_2, \lambda_3) X$.
-V tem primeru velja $F = \diag(\lambda_1, \lambda_2, \lambda_3$ in
+$\vX \mapsto \diag(\lambda_1, \lambda_2, \lambda_3) \vX$.
+V tem primeru velja $F = \diag(\lambda_1, \lambda_2, \lambda_3)$ in
   \[
     E = \diag\left(
       \frac{\lambda_1^2-1}{2},
@@ -1051,12 +1056,12 @@ V tem primeru velja $F = \diag(\lambda_1, \lambda_2, \lambda_3$ in
 
 V teoriji linearne elastičnosti se bomo ukvarjali z majhnimi pomiki in majhnimi
 gradienti pomikov. Zato poenostavimo deformacijski tenzor z geometrijsko
-linearizacijo: zanemarimo člen $\Grad u^\T \Grad u$.
+linearizacijo: zanemarimo člen $\Grad \vu^\T \Grad \vu$.
 
 \begin{definicija}[infinitezimalni deformacijski tenzor]
   Količino
   \begin{equation}
-    \eps = \frac{1}{2}(\Grad u + \Grad u^\T)
+    \eps = \frac{1}{2}(\Grad \vu + \Grad \vu^\T)
     \label{eq:eps}
   \end{equation}
   imenujemo \emph{infinitezimalni deformacijski tenzor}, ki je geometrijska
@@ -1074,56 +1079,150 @@ linearizacijo: zanemarimo člen $\Grad u^\T \Grad u$.
 % \endproof
 
 \subsubsection{Hookov zakon}
-Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo. Ta bo posplošitev
-običajnega Hookovega zakona.
-
+Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.
+V splošnem je relacija oblike $\ts = f(\eps)$, predpostavimo torej, da je
+napetost odvisna samo od deformacije. Ponavadi $f$ dodatno omejimo, da je
+izotropična in da mora biti zveza taka, da je energija
+\[
+  U(\eps) = \int_{0}^{\eps} \ts : d\eps = \int_0^\eps f(\eps) d\eps
+\]
+dobro definirana, torej neodvisna od poti integracije. V tem primeru je
+\[
+  \ts = \dpar{U(\eps)}{\eps}.
+\]
+Če to drži, pravimo, da je material hiperelastičen, kot pravi naslednja
+definicija.
+\begin{definicija}
+  Material je \emph{hiperelastičen}, če je $U(\eps) = \int_0^\eps \ts:d\eps$ neodvisen
+  od poti integracije.
+\end{definicija}
+V teoriji linearne elastičnosti
+predpostavimo, da je zveza $f$ med naptostjo in deformacijo linearna in jo
+imenujemo Hookov zakon, saj je posplošitev običajnega Hookovega zakona za vzmet.
 \begin{aksiom}[Hookov zakon]
   \label{aks:hook}
   Napetost je linearno odvisna od deformacije, preko tenzorja četrtega reda $C$:
-  \[ \ts = C\eps. \]
-  Tenzor $C$ se imenuje \emph{tenzor elastičnosti} \ang{compliance tensor} in ima v splošnem $3^4
-  = 81$ prostih parametrov.
+  \[ \ts = C:\eps. \]
+  Tenzor $C$ se imenuje \emph{tenzor elastičnosti} ali togostni tenzor
+  \ang{stifness tensor} in ima v splošnem $3^4 = 81$ prostih parametrov.
 \end{aksiom}
 \begin{opomba}
   Aksiom~\ref{aks:hook} se po komponentah glasi $\ts_{ij} = C_{ijkl}
-  \eps_{kl}$
+  \eps_{kl}$.
 \end{opomba}
-
 Na srečo v splošnem $C$ nima 81 prostih komponent.
 Iz trditve~\ref{trd:sigma-symmetric} o simetričnosti $\ts$ sledi, da lahko
 prosto zamenjamo indeksa $i$ in $j$ in velja $C_{ijkl} = C_{jikl}$.
 Podobno iz simetričnosti $\eps$ sledi, da je $C_{ijkl} = C_{ijlk}$.
-
-
-Še ena simetrija in potem izotropičnost.
+S tem smo $C$ reducirali na $6^2 = 36$ komponent.
+Če dodatno predpostavimo še hiperelastičnost, vidimo, da je $\dpar{U}{\eps_{ij}}
+= \sigma_{ij} = C_{ijkl}\eps_{kl}$ in
+\[
+  \dpar{U}{\eps_{ij}\eps_{kl}} = C_{ijkl}.
+\]
+Ker vrstni red drugih odvodov ni pomemben, je $C_{ijkl} = C_{klij}$.
+S tem smo $C$ reducirali na $36-5-4-3-2-1 = 21$ komponent.
+Od sedaj naprej bomo predpostavili, da so vsi materiali hiperelastični.
+Energija je v tem primeru dana s kvadratično formo
+\begin{equation}
+  U = \frac12 \eps:C:\eps.
+  \label{eq:energy}
+\end{equation}
+Tenzor $C$ se dodatno poenostavi, če predpostavimo, da je material
+\emph{izotropičen}, torej ``enak v vse smeri''. Splošen izotropičen tenzor
+četrtega reda je oblike
+\[
+  C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + \mu \delta_{ik}\delta_{jl} +
+  \kappa \delta_{il}\delta_{jk},
+\]
+dokazano npr. v ?? in razardi zgordnjih simetrij mora veljati $\kappa =
+\lambda$.
+Nekoordinatno lahko sedaj zvezo $\ts = C:\eps$ za tak tenzor zapišemo kot
+\begin{equation}
+  \ts = \lambda (\tr\eps)I + 2\mu \eps.
+  \label{eq:hooke-isotropic}
+\end{equation}
+Paramatra $\lambda$ in $\mu$ imenujemo Lam\'{e}jevi konstanti.
+Običajno so materiali tudi homogeni, torej snovne konstante niso odvisne od
+lokacije v materialu, temveč so lastnosti materiala samega.
+Veliko resničnih gradbenih materialov kot na primer železo, jeklo, aluminij in
+ostale kovine ter steklo. Primer anizotropnega materiala je recimo les.
+V strojniških priročnikih najdemo snovne lastnosti bolje pogosto opisane s
+parametroma $E$ in $\nu$, ki jima pravimo Youngov (prožnostni) modul in
+Poissonovo razmerje. Zveza med njimi je
+\[
+  E = \frac{\mu(3\lambda+2\mu)}{\lambda+\mu} \qquad \nu =
+  \frac{\lambda}{2(\lambda+\mu)}.
+\]
+Pogosto najdemo tudi druge snovne paramtere kot na primer strižni modul ali
+stisljivost. Tabela pretvorb med različnimi parametri je na voljo v~\cite[tabela
+5.1, str.\ 215]{slaughter2012linearized}. Omejitev za parametre je dana s tem,
+da zahtevamo pozitivno definitnost energije kot kvadratne forme in velja natanko
+tedaj, ko je $\lambda, \mu > 0$ ali pa $E > 0$ in $-1 < \nu < \frac12$.
+V praksi se izkaže, da temu brez težav zadostimo. Vrednosti parametrov za nekaj
+pogostih materialov so podane v tabeli~\ref{tab:Enu} in jih lahko najdemo v
+primernem fizikalen ali strojnišekm priročniku, npr.~??.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|l|l|} \hline
+    material & $E$ [\unit{GPa}] & $\nu$ \\ \hline
+    jeklo    & 210 & 0.30 \\
+    aluminij & 69 & 0.33 \\
+    steklo   & 50 -- 90 & 0.20 -- 0.27 \\ \hline
+  \end{tabular}
+  \caption{Vrednosti elastičnih parametrov za pogoste materiale.}
+  \label{tab:Enu}
+\end{table}
 
 \subsection{Navierova enačba}
-blah blah
+Sedaj imamo vse pripravljeno za opis teorije linearne elastičnosti:
+\begin{enumerate}[\indent 1)]
+  \item mera deformacije: $\eps = \frac12(\Grad \vu + \Grad \vu^\T)$,
+  \item konstitutivna zveza: $\ts = C : \eps$ in
+  \item gibalna enačba: $\rho \DDt{\vv} = \vf + \div \ts$.
+\end{enumerate}
 
+Naredimo še nekaj poenostavitev. Ker so gradienti pomikov majhni,
+za poljubno količino $\phi$ velja
+\begin{align*}
+  \Grad\phi &= \dpar{\phi}{\vX} = \dpar{\phi}{\vx} \dpar{\vx}{\vX} = \grad\phi
+  (I + \Grad u) \approx \grad \phi.
+\end{align*}
+Zaradi majhnih gradientov pomika je vseeno ali uporabljamo odvode glede na
+prostorske ali glede na referenčne koordinate. Enak argument lahko uporabimo
+tudi za divergenco in običajne odvode.
 
-V izotropičnem materialu velja med napetostjo in deformacijo relacija
-\[
-  \ts = \lambda \tr(\eps)I + 2\mu \eps.
-\]
+Cauchyevo gibalno enačbo lahko zapišemo namesto v prostorskih tudi v referenčnih
+koordinatah. Pri tem lahko zaradi majhnih gradientov pomikov namesto $\div$
+pišemo $\Div$ in Cauchyev napetostni tenzor enačimo z napetostnim tenzorjem
+zapisanim v referenčnem sistemu. Opustimo tudi strogo ločevanje referenčnih in
+prostorskih koordinat, saj bomo imeli od sedaj naprej enačbe vedno zapisane v
+referenčnih in odvode po času pišemo s piko, za operatorje pa uporabljamo
+običajne male črke ali pa kar $\nabla$.
 
-Sedaj vstavimo definicijo $\eps$~\eqref{eq:eps} v to zvezo, to pa vstavimo v
-poenostavljeno gibalno enačbo~\eqref{eq:gib-lin} in dobimo končen rezultat.
+S temi poenostavitvami dobimo \emph{linearizirano enačbo gibanja}, ki pravi
+\begin{equation}
+  \rho \ddot{\vu}(t, \vX) = \vf(t, \vX) + \div\sigma(t, \vX).
+  \label{eq:gib-lin}
+\end{equation}
 
+Sedaj imamo vse pripravljeno, da napišemo končno enačbo, ki ji ustreza pomik
+materiala. Z njeno pomočjo lahko glede na dane sile na površini in pomike na
+robu izračunamo pomike v celotnem telesu, preko deformacijskega tenzorja in
+Hookovega zakona pa tudi napetosti.
 \begin{izrek}[Navierova enačba]
-  Če so pomiki in njihovi gradienti v linearno elastičnem izotropičnem homogenem
-  nepolarnem mediju majhni, potem za njih velja \emph{Navierova enačba}
+  Če so gradienti pomikov v linearno elastičnem hiperelastičnem
+  izotropičnem homogenem nepolarnem mediju majhni, potem za njih velja
+  \emph{Navierova enačba}
   \begin{equation}
-    \rho \ddot{u} = \vf + (\lambda + \mu)\grad\div u + \mu \lap u.
+    \rho \ddot{\vu} = \vf + (\lambda + \mu)\grad\div \vu + \mu \lap \vu.
     \label{eq:navier}
   \end{equation}
 \end{izrek}
 \proof
-Od enačbe~\eqref{eq:gib-lin}
-\[
-  \rho \ddot{u} = \vf + \div \ts
-\]
-do Navierove enačbe nas loči le še izračun $\div \sigma$. Za primerjavo naredimo
-izračun koordinatno in nekoordinatno.
+Od linearne enačbe gibanja~\eqref{eq:gib-lin} do Navierove enačbe nas loči le še
+izračun $\div \sigma$. Za primerjavo naredimo izračun koordinatno in
+nekoordinatno.
 \begin{align*}
   \eps_{ij} &= \frac12 (\grad u)_{ij} + \frac12 (\grad u^\T)_{ij} =
   \frac12 u_{i,j} + \frac12 u_{j,i} \\
@@ -1138,9 +1237,9 @@ izračun koordinatno in nekoordinatno.
 ((\lambda + \mu)\grad\div u + \mu \lap u)_i
 \end{align*}
 
-Nekoordinatni dokaz pa potrebuje nekaj dodatnih relacij, ki jih je tudi
-najhitreje dokazati koordiantno.
-Sedaj lahko izračunamo $\div\ts$.
+Nekoordinatni dokaz pa potrebuje nekaj dodatnih relacij iz
+razdelka~\ref{sec:uvod-tenz} glede diferencialnih operatorjev, ki jih bomo
+uporabili v spodnjem izračunu.
 \begin{align*}
   \div\ts &= \lambda \div \tr(\eps) I + 2\mu \div \eps = \\ &=
   \lambda \frac12(\div((\tr\grad u)I) + \div\tr\grad u^\T) + \mu \div(\grad u + \grad
