@@ -43,6 +43,7 @@
 \newtheorem{trditev}[definicija]{Trditev}
 \newtheorem{posledica}[definicija]{Posledica}
 
+\numberwithin{equation}{section}
 
 % za stevilske mnozice uporabi naslednje simbole
 \newcommand{\R}{\mathbb R}
@@ -63,7 +64,7 @@
 \newcommand{\imeavtorja}{Jure Slak} % ime avtorja
 \newcommand{\imementorja}{doc.~dr.~George Mejak} % akademski naziv in ime mentorja
 \newcommand{\imesomentorja}{dr.~Gregor Kosec} % akademski naziv in ime mentorja
-\newcommand{\naslovdela}{TBA}
+\newcommand{\naslovdela}{TBD}
 \newcommand{\letnica}{2017} %letnica diplome
 
 % lists with less vertical space
@@ -86,6 +87,8 @@
 \renewcommand{\b}{\boldsymbol}
 \let\oldphi\phi
 \renewcommand{\phi}{\varphi}
+\let\oldtheta\theta
+\renewcommand{\theta}{\vartheta}
 \newcommand{\eps}{\varepsilon}
 \newcommand{\zomega}{\overline{\Omega}}
 \newcommand{\Lin}{\mathcal{L}in}
@@ -118,6 +121,7 @@
 \newcommand{\vt}{\vec{t}}
 \newcommand{\vr}{\vec{r}}
 \newcommand{\va}{\vec{a}}
+\newcommand{\vw}{\vec{w}}
 \newcommand{\vb}{\vec{b}}
 \newcommand{\vn}{\vec{n}}
 \newcommand{\vf}{\vec{f}}
@@ -125,6 +129,8 @@
 \newcommand{\vi}{\vec{\imath}}
 \newcommand{\vj}{\vec{\jmath}}
 \newcommand{\vk}{\vec{k}}
+\newcommand{\vX}{\vec{X}}
+\newcommand{\vx}{\vec{x}}
 \newcommand{\ei}{\vec{e}_1}
 \newcommand{\ej}{\vec{e}_2}
 \newcommand{\ek}{\vec{e}_3}
@@ -195,13 +201,13 @@ Ljubljana, \letnica}
 {\bf \naslovdela}\\[3mm]
 {\sc Povzetek}
 \end{center}
-TBA
+TBD
 \vfill
 \begin{center}
-{\bf TBA}\\[3mm] % prevod slovenskega naslova dela
+{\bf TBD}\\[3mm] % prevod slovenskega naslova dela
 {\sc Abstract}
 \end{center}
-TBA
+TBD
 
 \vfill\noindent
 {\bf Math. Subj. Class. (2010):}  \\[1mm]
@@ -215,7 +221,120 @@ TBA
 
 \section{Uvod}
 
-Uporabili bomo~\cite{lebedev2009introduction}.
+Motivacija, pregled naloge, notacija in sumacijska konvencija.
+
+\subsection{Osnovne trditve vektorske in tenzorske analize}
+
+Prostor tenzorjev drugega reda opremimo s skalarnim produktom\[
+s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
+\begin{trditev}
+  \label{trd:dot-antisym-tensor}
+  V zgornjem skalarnem produktu razpade prostor tenzorjev na direktno
+  ortogonalno vsoto podprostorov simetričnih in antisimetričnih tenzorjev.
+  \[V\otimes V = Sym(V) \overset{\perp}{\oplus} ssym(V) \]
+\end{trditev}
+\proof
+  Vsak tenzor $s$ lahko zapišemo kot $s = \frac12 (s+s^\T) + \frac12(s-s^\T)$.
+  Če je $s \in Sym(V)\cap ssym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
+  Vsota je res direktna. Ker velja za simetričen $s$ in antisimetričen $t$ tudi
+  \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t,\]
+  od koder sledi $s:t = 0$, je vsota ortogonalna.
+\endproof
+
+\begin{definicija}
+  Divergenca tenzorja $t$ drugega reda je vektorsko polje, za katerega za vsak
+  vektor $\va$ velja
+  \[ \div(t)\cdot \va = \div(t^\T \va). \]
+  V koordinatah je $(\div t)_i = t_{ij,j}$.
+\end{definicija}
+
+Zakaj je ravno to prava definicija, nam pove naslednji izrek
+\begin{izrek}[Gauss]
+  \label{izr:gauss}
+  Naj bo $\Omega$ odprta povezana množica z odsekoma gladkim robom, $\vn$ zunanja enotska
+  normala na $\partial \Omega$ in $t$ tenzorsko polje na $\Omega$.  Potem velja
+  \[
+    \int_{\partial \Omega} t\vn dS = \int_{\Omega} \div t dV.
+  \]
+\end{izrek}
+\proof
+Naj bo $\va$ poljuben konstanten vektor. Izračunajmo
+\begin{align*}
+  \va \cdot \left( \int_{\partial \Omega} t\vn dS \right) &=
+  \int_{\partial \Omega}\va \cdot t\vn dS =
+  \int_{\partial \Omega}t^\T \va \cdot \vn dS =
+  \int_{\Omega}\div(t^\T \va) dV = \\ &=
+  \int_{\Omega}\div(t) \cdot \va dV =
+  \left(\int_{\Omega}\div t dV\right) \cdot \va.
+\end{align*}
+Pri računu smo uporabili definicijo $t^\T$, definicijo divergence in Gaussov
+izrek za vektorska polja. Ker enakost velja za vsak vektor $\va$, velja tudi
+enakost vektorskih polj v izreku.
+\endproof
+
+\begin{definicija}
+  \emph{Gradient} vektorskega polja $\vv$ je tenzor drugega reda, definiran kot
+  \[
+    (\grad\vv)^\T \va = \grad(\vv\cdot\va).
+  \]
+  V koordinatah je $(\grad\vv)_{ij} = \vv_{i,j}$.
+\end{definicija}
+\begin{opomba}
+  Gradient vektorskega polja je diferencial (oz. v neki bazi Jacobijeva matrika)
+  preslikave $\vx \mapsto \vv(\vx)$ in ga označujemo tudi kot $\dpar{\vv}{\vx}$.
+\end{opomba}
+
+\begin{definicija}
+  Laplacev operator je na vektorskem polju $\vv$ definiran kot
+  \[ \lap \vv = \div\grad \vv.  \]
+\end{definicija}
+
+Pokažimo še nekaj osnovnih trditev, ki jih bomo potrebovali pri kasnejših
+izpeljavah.
+\begin{trditev}
+  Za poljubno vektorsko polje $\vv$ velja
+  \[ \tr\grad \vv = \div \vv. \]
+\end{trditev}
+\proof
+\[
+  \tr\grad\vv = (\grad\vv)_{ii} = \vv_{i,i} = \div \vv \qedhere
+\]
+\endproof
+\begin{trditev}
+  Za poljubno vektorsko polje $\vv$ velja
+  \[ \div(\grad\vv^\T) = \grad\div \vv.  \]
+\end{trditev}
+\proof
+\[
+  \div(\grad \vv^\T)_i = (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = \vv_{j,ij}
+  = (\grad(\vv_{j,j}))_i = (\grad\div \vv)_i \qedhere
+\]
+\endproof
+\begin{trditev}
+  Za poljubno skalarno polje $\phi$ velja
+  \[ \div(\phi I) = \grad \phi.  \]
+\end{trditev}
+\proof
+\[
+  (\div(\phi I))_i = (\phi I)_{ij,j} = (\phi \delta_{ij})_{,j} = \phi_{,i} =
+  (\grad \phi)_i \qedhere
+\]
+\endproof
+\begin{trditev}
+  Za poljubno vektorsko polje $\vv$ in tenzor $t$ velja
+  \label{trd:div-tv}
+  \[
+    \div(t^\T \vv) = \vv \cdot \div t + t : \grad\vv.
+    \]
+\end{trditev}
+\proof
+\begin{align*}
+  (\div(t^\T \vv))_i &= (t^\T\vv)_{i,i} = (t^\T_{ij} \vv_j)_{,i} =
+    t^\T_{ij,i} \vv_j + t^\T_{ij} \vv_{j,i} =
+    t_{ji,i} \vv_j + t_{ji} \vv_{j,i} = \\
+    &=  (\div t)_j \vv_j + t:\grad \vv = \div t \cdot \vv + t:\grad \vv\qedhere
+\end{align*}
+\endproof
 
 \newpage
 
@@ -235,8 +354,9 @@ Teorija linearne elastičnosti se ukvarja  \dots
   difeomorfizem.
 
   Preslikavam $\chi \in \b\chi$ pravimo \emph{konfiguracije} telesa. Odlikovani
-  konfiguraciji $\chi_R$ pravimo \emph{referenčna konfiguracija} in telo v tej
-  konfiguraciji označevali z $B$.
+  konfiguraciji $\chi_R$ pravimo \emph{referenčna konfiguracija} in območje, ki
+  ga telo zaseda v tej konfiguraciji bomo označevali z $B$, torej $B =
+  \chi_R(\B)$.
 \end{definicija}
 
 \begin{definicija}
@@ -245,67 +365,112 @@ Teorija linearne elastičnosti se ukvarja  \dots
   \[
     \{\chi_t\colon \B \to\chi_t(\B) \subseteq \R^3, t \in \R\}.
   \]
-  Tem konfiguracijam pravimo \emph{prostorske konfiguracije}. Telo v prostorski
-  konfiguraciji označujemo z $B_t$.
+  Tem konfiguracijam pravimo \emph{prostorske konfiguracije}. Območje, ki ga
+  telo zaseda v prostorski konfiguraciji ob času $t$ označujemo z $B_t$, torej
+  $B_t = \chi_t(\B)$.
 \end{definicija}
 Koordinatam telesa v referenčni konfiguraciji pravimo \emph{referenčne
-koordinate} in jih pišemo z velikimi tiskanimi črkami, npr.\ $X \in \chi_R(\B)$.
+koordinate} in jih pišemo z velikimi tiskanimi črkami, npr.\ $\vX \in \chi_R(\B)$.
 Koordinatam telesa v prostorski konfiguraciji pravimo \emph{prostorske
-koordinate} in jih pišemo z malimi črkami, npr. $x \in \chi_t(\B)$.
+koordinate} in jih pišemo z malimi črkami, npr. $\vx \in \chi_t(\B)$.
 
 Gladkost gibanja glede na $t$ iz definicije~\ref{def:gibanje} pomeni, da je
 preslikava
 \begin{align*}
-  \tilde{x}\colon \R \times \chi_R(\B) \subset \R \times \R^3&\to \R^3 \\
-  (t, X) &\mapsto \chi_t(\chi_R^{-1}(X))
+  \tilde{x}\colon \R \times B \subset \R \times \R^3&\to \R^3 \\
+  (t, \vX) &\mapsto \chi_t(\chi_R^{-1}(\vX))
 \end{align*}
 gladka kot funkcija iz $\R^4$ v $\R^3$.
 Preslikava $\tilde x$ nam podaja zvezo med prostorskimi in referenčnimi
 koordinatami
 \[
-  x = \tilde x(t, X).
+  \vx = \tilde x(t, \vX).
 \]
-Pogosto opustimo strog zapis s preslikavami in pišemo kar $x = x(t, X)$.
-Ker je za vsak $t$ preslikava $X \mapsto x(t, X)$ difeomorfizem, lahko funkcijo
-obrnemo in izrazimo tudi referenčne koordinate kot funkcijo prostorskih $X = X(t, x)$.
+Pogosto opustimo strog zapis s preslikavami in pišemo kar $\vx = \vx(t, \vX)$.
+Ker je za vsak $t$ preslikava $\vX \mapsto \vx(t, \vX)$ difeomorfizem, lahko funkcijo
+obrnemo in izrazimo tudi referenčne koordinate kot funkcijo prostorskih $\vX = \vX(t, \vx)$.
 
 Pogosto za referenčno konfiguracijo vzamemo kar konfiguracijo na začetku
 gibanja, $\chi_R = \chi_{t=t_0}$, ni pa nujno temu tako.
 
 \begin{primer}
-  gibanje, nek konkreten $x$ \dots
+  \label{prim:gib}
+  Pišimo vektorje na daljše kot $\vX = (X,Y,Z)$ in $\vx = (x, y, z)$.
+  Naj bo dano gibanje \[
+  \vx(t, X, Y, Z) = (X + t X^2, Y + t X Y, Z), \]
+  za $0 <
+  X, Y, Z < 1$.  Ob času $t=0$ je telo v referenčni konfiguraciji. Telo v referenčni
+  in prostorski konfiguraciji je prikazano na sliki~\ref{fig:gibanje}.
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/gibanje0.pdf}
+    \includegraphics[width=0.4\textwidth]{images/gibanje02.pdf}
+    \caption{Prerez enotske kocke pri $Z = 0$ v referenčni konfiguraciji in v prostorski
+    konfiguraciji ob času $t=0.2$.}
+    \label{fig:gibanje}
+  \end{figure}
+  Za vsak $t\geq 0$ je $\vx$ difeomorfizem, saj velja
+  \[ \det\left( \dpar{\vx}{(X, Y, Z)} \right) = (1+tX)(1+2tX) > 0. \]
+  Zato lahko izrazimo obratno preslikavo
+  \begin{equation}
+    \vX(t, x, y, z) = \left(\frac{\sqrt{4 t x+1}-1}{2 t},\frac{y
+    \left(\sqrt{4 t x+1}-1\right)}{2 t x}, z\right).
+    \label{eq:gibanje-inv}
+  \end{equation}
 \end{primer}
 
-Vsako količino $\phi$ definirano na telesu $\B$ lahko zapišemo na dva načina, v
+Vsako količino $\phi$ definirano na telesu $\B$, kot na primer temperaturo ali
+hitrost, lahko zapišemo na dva načina, v
 prostorskih ali v referenčnih koordinatah. Za funkcijo
-\begin{align*}
-  \tilde \phi\colon B &\to \phi(\B) \\
-  X&\mapsto \phi(\chi_R^{-1}(X)),
-\end{align*}
-pravimo, da je zapisana v prostorskih koordinatah in pišemo $\tilde\phi =
-\phi(X)$.
+\begin{align}
+  \tilde \phi\colon B &\to \phi(\B) \nonumber \\
+  \vX&\mapsto \phi(\chi_R^{-1}(\vX)), \label{eq:toref}
+\end{align}
+pravimo, da je zapisana v referenčnih koordinatah in pišemo $\tilde\phi =
+\phi(\vX)$.
 Podobno za funkcijo
-\begin{align*}
-  \hat \phi\colon B_t &\to \phi(\B) \\
-  x&\mapsto \phi(\chi_R^{-1}(x)),
-\end{align*}
-pravimo, da je zapisana v prostorskih koordinatah in pišemo $\hat\phi = \phi(x)$.
-Med obema zapisoma lahko prehajamo s pomočjo izražave $\phi(x) = \phi(x(t, X))$
-ali $\phi(X) = \phi(X(x, t))$.
+\begin{align}
+  \hat \phi\colon B_t &\to \phi(\B) \nonumber \\
+  \vx&\mapsto \phi(\chi_t^{-1}(\vx)), \label{eq:topro}
+\end{align}
+pravimo, da je zapisana v prostorskih koordinatah in pišemo $\hat\phi = \phi(\vx)$.
+Med obema zapisoma lahko prehajamo s pomočjo izražave $\phi(\vx) = \phi(\vx(t, \vX))$
+ali $\phi(\vX) = \phi(\vX(\vx, t))$.
 
 Podoben zapis bomo uporabljali tudi pri diferencialnih operatorjih. Pri odvodih
 moramo povedati, ali na količino gledamo v prostorskih ali v referenčnih
-koordinatah. Z velikimi črkami bomo pisali operatorje, kjer mislimo da so
-referenčne koordinate konstantne, z malimi pa tiste, kjer mislimo, da so
-konstantne prostorske.
-Tako velja na primer
-\[
-  \DDt{}\phi(t, x) = \DDt{ }\phi(t, x(t, X)) = \dpar{\phi}{t}(t, x) +
-  \dpar{\phi}{x}(t, x)\dpar{x}{t}.
-\]
+koordinatah. Z velikimi črkami bomo pisali operatorje, kjer odvajamo glede na
+referenčne koordinate, z malimi pa tiste, kjer odvajamo glede na prostorske.
 
 \begin{primer}
-  Če imamo dano količino \dots
+  Damo imamo dano količino $\vartheta(t, X, Y, Z) = tX^2 + 2 ZY$, ki je zapisana v
+  referenčnih koordinatah. Če jo zapišemo v prostorskih s pomočjo izpeljane
+  inverzne relacije~\eqref{eq:gibanje-inv} iz primera~\ref{prim:gib} dobimo
+  \[
+    \vartheta(t, x, y, z) = \frac{2 t x^2+2 y z \left(\sqrt{4 t x+1}-1\right)-x
+    \sqrt{4 t x+1}+x}{2 t x}.
+  \]
+  Da demonstriramo še uporabo diferencialnih operatorjev, izračunajmo
+  \begin{align*}
+    \dpar{\vartheta}{Y} &= 2Z  \\
+    \dpar{\vartheta}{y} &= \frac{z \left(\sqrt{4 t x+1}-1\right)}{t x}.
+  \end{align*}
+  Te odvode bi zopet lahko zapisali kot funkcije referenčnih ali prostorskih
+  koordinat. Podobno se obnašajo časovni odvodi.
+  \begin{align*}
+    \DDt{} \vartheta &= X^2 \\
+    \ddt{} \vartheta &=  -\frac{\left(-2 t x+\sqrt{4 t x+1}-1\right) (x-2 y
+    z)}{2 t^2 x \sqrt{4 t x+1}}.
+  \end{align*}
+  Če vidimo izraz $\DDt \vartheta(t, x, y, z)$, torej časovni odvod pri
+  konstantnih referenčnih koordinatah  izraza izraženega v prostorskih
+  koordinatah, ga izračunamo tako, da izraz prevedemo v referenčne koordinate,
+  odvajamo po času in prenesemo nazaj na prostorske koordinate. S simboli
+  lahko to zapišemo kot
+  \[
+    \left(\DDt{} \vartheta\right)(t, \vx) = \left( \DDt{}\vartheta(\vx(t, \vX))
+    \right)(\vX(t, \vx)).
+  \]
 \end{primer}
 
 Gibanje, kot opisano sedaj, res modelira makroskopsko gibanje kot ga poznamo iz
@@ -314,17 +479,26 @@ izginiti in se pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih
 sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
 
 \begin{definicija}
-  Količino \[ u(X) = x(t, X) - X \] imenujemo \emph{pomik}.
-  Količino \[ \vv(X) = \dpar{x}{t}(t, X) \] imenujemo \emph{hitrost}.
-  Količino \[ \va(X) = \dpar{^2x}{t^2}(t, X) \] imenujemo \emph{pospešek}.
+  Količino \[ u(\vX) = \vx(t, \vX) - \vX \] imenujemo \emph{pomik}.
+  Količino \[ \vv(\vX) = \DDt{\vx}(t, \vX) \] imenujemo \emph{hitrost}.
+  Količino \[ \va(\vX) = \DDt{\vv}(t, \vX) \] imenujemo \emph{pospešek}.
 \end{definicija}
-\begin{opomba}
-  Z uporabo zgornje definicije lahko odvod po času v referenčnem koordinatnem
-  sistemu zapišemo kot
+\begin{trditev}
+  Odvod po času v referenčnem koordinatnem sistemu se lahko direktno izračuna v
+  prostorskem kot
   \[
-    \DDt{\phi} = \dpar{\phi}{t} + (\grad \phi)\vv
+  \DDt{\phi}(t, \vx) = \ddt{\phi}(t, \vx) + ((\grad \phi)(t, \vx)) \vv(t, \vx).
   \]
-\end{opomba}
+\end{trditev}
+\proof
+  Po definiciji najprej prenesemo $\phi$ v referenčni koordinatni sistem z
+  uporabo~\ref{eq:toref}. Nato odvajamo po verižnem pravilu
+  \begin{align*}
+    \DDt \phi(t, \vx) &= \DDt \phi(t, \vx(t, \vX)) =
+    \ddt \phi(t, \vx) + \dpar{\phi}{\vx} \DDt{\vx} (t, \vX) = \\
+    &= \ddt \phi(t, \vx) + ((\grad \phi)(t, \vx)) \vv(t, \vX(\vx, t)).
+  \end{align*}
+\endproof
 
 Poleg že naštetih količin pa imajo telesa tudi druge fizikalne lastnosti, kot so
 masa in volumen, ki vplivajo na gibanje. Za modeliranje teh so pomagamo z
@@ -354,7 +528,7 @@ zakonom, ki jih bomo za nadaljnje izpeljave privzeli kot aksiome.
 
 \begin{aksiom}[Zakon o ohranitvi mase]
   \label{aks:masa}
-  Za vsako telo $\B$ in vsako njegovo gibanje
+  Za vsako telo $\B$ in vsako njegovo gibanje velja
   \begin{equation}
     \DDt{}m(B_t) = 0.
     \label{eq:masa}
@@ -368,15 +542,15 @@ da lahko sile na telo delujejo na dva načina: kot telesne sile ali pa kot
 površinske sile.
 
 \begin{definicija}
-  \emph{Telesna sila} $\vec f$ je zvezna funkcija $f\colon\B\to\R^3$.
-  \emph{Površinska sila} $\vec t$ je zvezna funkcija $t\colon\partial\B\to\R^3$.
+  \emph{Volumenska gostota sile} $\vf$ je zvezna funkcija $\vf\colon B_t\to\R^3$.
+  \emph{Površinska gostota sile} $\vt$ je zvezna funkcija $\vt\colon\partial B_t\to\R^3$.
 \end{definicija}
 
 \begin{aksiom}[Zakon o ohranitvi gibalne količine]
   \label{aks:gib}
   Za vsako telo $\B$ velja
   \begin{equation}
-    \DDt{}\int_{\B} \dot x dm = \int_B \vec f dV + \int_{\partial B} \vec t dS.
+    \DDt{}\int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vec t dS.
     \label{eq:gib}
   \end{equation}
   Sprememba gibalne količine je enaka vsoti vseh sil, ki delujejo na telo.
@@ -386,8 +560,8 @@ površinske sile.
   \label{aks:vrt}
   Za vsako telo $\B$ velja
   \begin{equation}
-    \DDt{}\int_{B}\dot x \times x dm = \int_B \vec f \times x dV + \int_{\partial B}
-    \vec t\times x dS.
+    \DDt{}\int_{B_t}\vx \times \vv dm = \int_{B_t} \vx \times \vf dV +
+    \int_{\partial B_t} \vx\times\vt dS.
     \label{eq:vrt}
   \end{equation}
   Sprememba vrtilne količine je enaka vsoti vseh zunanjih navorov, ki delujejo
@@ -399,8 +573,72 @@ površinske sile.
   povedano, predpostavili smo \emph{nepolarnost} kontinuuma.
 \end{opomba}
 
+V vseh treh aksiomih nastopa odvod po času v referenčnih koordinatah nekega
+integrala, zapisanega v prostorskih koordinatah. Tu ne velja običajen izrek o
+odvajanju pod integralom, zato moramo izraz pod integralom najprej prenesti v
+referenčne koordinate, zamenjati odvod in integral, nato pa ga prenesti nazaj.
+Naredimo to najprej za aksiom o ohranitvi mase.
+\begin{trditev} Masa se ohranja $(\DDt{}m(B_t) = 0)$ natanko tedaj, ko je
+  \[
+    \DDt\rho + \rho\div\vv = 0.
+  \]
+\end{trditev}
+\proof
+Trditev pokaže direkten račun, kjer bomo zamenjali integralsko spremenljivko iz
+$\vx$ na $\vX$ in nato nazaj. Pri uvedbi nove spremenljivke se bo v integralu
+pojavila determinanta $f = \det(F)$ diferenciala prehodne preslikave $F =
+\dpar{\vx}{\vX}$, prav tako pa tudi njen odvod $\DDt{J}$, zato ga izračunajmo vnaprej:
+\begin{align*}
+  \DDt J &= \tr\left(\operatorname{adj}(F) \DDt{F}\right) =
+  \tr\left(\det(F)F^{-1} \dpar{^2\vx}{\vX\partial t}\right) =
+  \det(F)\tr\left(\dpar{\vv}{\vX}F^{-1}\right) = \\ &=
+  \det(F)\tr\left(\dpar{\vv}{\vX}\dpar{\vX}{\vx}\right) =
+  \det(F)\tr\left(\grad \vv\right) =
+  \det(F)\div \vv.
+\end{align*}
+Pri tem smo uporabili Jacobijevo formulo za računanje odvoda
+determinante, ciklično lastnost sledi, formulo za računanje odvoda inverza in verižno pravilo.
+Sedaj imamo vse pripravljeno za glavni izračun.
+\begin{align*}
+  0 &= \DDt{}m(B_t) =
+  \DDt{} \int_{B_t} dm =
+  \DDt{} \int_{B_t} \rho dV =
+  \DDt{} \int_{B} \rho J dV =\\ &=
+  \int_{B} \DDt{}(\rho J) dV =
+  \int_{B}\left( \DDt{\rho} J + \rho \DDt{J} \right)dV = \\ &=
+  \int_{B}\left( \DDt{\rho}  + \rho \div\vv\right) J dV =
+  \int_{B_t}\left( \DDt{\rho}  + \rho \div\vv\right) dV.
+\end{align*}
+Ker je integral nič za vsako telo, mora biti nujno integrand nič, in obratno, če
+je integrand nič, se masa ohranja.
+\endproof
+
+Zgornjo trditev bomo s pridom uporabili pri izračunu odvoda integrala splošne
+količine.
+\begin{trditev}
+  \label{trd:swap-der-int}
+  Naj bo $\phi$ neka količina in privzemimo aksiom o ohranitvi mase. Potem
+  velja
+  \begin{equation}
+    \DDt{} \int_{B_t}\phi dm = \int_{B_t} \DDt{\phi} dm.
+    \label{eq:swap-der-int}
+  \end{equation}
+\end{trditev}
+\proof
+Postopamo enako kot v prejšnji trditvi. Izračunamo
+\begin{align*}
+    \DDt{} \int_{B_t}\phi dm &=
+    \DDt{} \int_{B}\phi \rho J dV =
+    \int_{B} \DDt{(\phi \rho J)} dV  = \\ &=
+  \int_{B} \left(\DDt{\phi} \rho J + \phi \left(\underbrace{\DDt{\rho} + \rho
+  \div \vv}_{=0} \right) \right)dV  = \\ &=
+  \int_{B} \DDt{\phi} \rho JdV =
+  \int_{B_t} \DDt{\phi} dm. \qedhere
+\end{align*}
+\endproof
+
 \subsection{Napetostni tenzor}
-Predstavljajmo si, da na telo deluje neka površinska sila $\vt$. Ta sila deluje
+Predstavljajmo si, da na telo deluje neka površinska sila z gostoto $\vt$. Ta sila deluje
 na zunanjo površino telesa, nato pa se prenaša skozi telo od točke do točke.
 Če skozi telo potegnemo namišljeno ravnino, ki ga razdeli na dva dela.
 Na tej površini en del kontinuuma deluje na drug del, toda ekvivalentno bi bilo,
@@ -408,11 +646,11 @@ Na tej površini en del kontinuuma deluje na drug del, toda ekvivalentno bi bilo
 enakimi silami, kot je prej deloval drugi del.
 
 Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa.
-V nekem trenutku $t$ v času se postavimo v neko točko $x$ v telesu in skozi izbrano
+V nekem trenutku $t$ v času se postavimo v neko točko $\vx$ v telesu in skozi izbrano
 točko potegnemo ravnino z normalo $\vn$. Tedaj obstaja vektor $\vt$, ki
 prestavlja silo, s katero kontinuum z ene strani ravnine deluje v tej točki na
 tistega na drugi strani. Poleg tega, če potegnemo katero koli drugi ploskev
-skozi točko $x$ z enako normalo $\vn$, bo vektor $\vt$, še vedno enak, saj bo
+skozi točko $\vx$ z enako normalo $\vn$, bo vektor $\vt$, še vedno enak, saj bo
 kontinuum deloval z enako silo. Temu razmisleku se reče \emph{Cauchyeva
 hipoteza}.
 
@@ -421,7 +659,7 @@ hipoteza}.
   je odvisno samo od položaja, časa in normale na površino (resnično ali
   namišljeno), kjer ga opazujemo.  S simboli lahko zapišemo
   \[
-    \vt = \vt(t, x, \vn).
+    \vt = \vt(t, \vx, \vn).
   \]
 \end{aksiom}
 
@@ -433,14 +671,15 @@ privzetih aksiomov. Dokaza tega in naslednjega izreka bosta povzeta po dokazih
 iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
 \begin{trditev}[Cauchyeva recipročna relacija]
   \label{trd:cauchy-reciprocal}
-  \[ \vt(t, x, -\vn) = -\vt(t, x, \vn) \]
+  \begin{equation}
+    \vt(t, \vx, -\vn) = -\vt(t, \vx, \vn)
+    \label{eq:cauchy-reciprocal}
+  \end{equation}
 \end{trditev}
 \proof
-Izberimo trenutek v času $t$ in točko $x$. Krajše pišimo $\vt_{\vn} = \vt(t, x,
-\vn)$. S časom $t$ in točko $x$ je določena tudi točka $X$ v referenčni
-konfiguraciji.
-Oglejmo si podtelo v obliki krožnega valja z višino $h^2$ in radijem $h$, ki ima
-v središču točko $X$ in je $\vn$ normala na eno izmed osnovnic.
+Izberimo trenutek v času $t$ in točko $\vx$. Krajše pišimo $\vt_{\vn} = \vt(t, \vx,
+\vn)$. Oglejmo si podtelo v obliki krožnega valja z višino $h^2$ in radijem $h$, ki ima
+v središču točko $\vx$ in je $\vn$ normala na eno izmed osnovnic.
 Tako podtelo zaradi odprtosti $\B$ gotovo obstaja za dovolj majhen $h$. Označimo
 osnovnico z normalo $\vn$ z $B^+$, nasprotno z $B^-$ in plašč s $P$. Površina
 vsake osnovnice je $\pi h^2$, površina plašča pa $2 \pi h^3$. Volumen valja je
@@ -448,66 +687,64 @@ $\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
 
 \begin{figure}[h]
   \centering
-%   \includegraphics{}
-  \caption{asdfasdf}
+  \includegraphics[width=0.4\textwidth]{images/cauchy_disc.pdf}
+  \caption{Valj, uporabljen v dokazu Cauchyjeve recipročne relacije.}
   \label{fig:valj}
 \end{figure}
 
 Uporabimo za ta
 valj aksiom o gibalni količini~\eqref{eq:gib}:
 \begin{align*}
-  \DDt{} \int_B \dot x dm = \int_B \vf dV + \int_{\partial B} \vt dS.
+  \DDt{} \int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vt dS.
 \end{align*}
-Zaradi gladkosti $\dot x$ in ohranitve mase lahko zamenjamo odvod in integral in rob valja
-razpišemo po ploskvah. Vektor $\vm$ naj označuje normalo na plašč valja.
+Zaradi gladkosti $\vv$ in ohranitve mase lahko zamenjamo odvod in integral in rob valja
+razpišemo po ploskvah. Vektor $\vm(\vx)$ naj označuje normalo na plašč valja.
 \[
-  \int_B \DDt{} (\dot x \rho) dV = \int_B \vf dV + \int_{B^+} \vt_{\vn} dS +
-  \int_{B^-}\vt_{-\vn} dS + \int_{P} \vt_{\vm}dS
+  \int_{B_t} \DDt{\vv} \rho dV = \int_{B_t} \vf dV + \int_{B^+} \vt_{\vn} dS +
+  \int_{B^-}\vt_{-\vn} dS + \int_{P} \vt_{\vm(\vx)}dS
 \]
 Sedaj na vsakem od integralov uporabimo izrek o povprečni vrednosti
 \[
-  V(B) \DDt{} (\dot x \rho)(X_1) = V(B) \vf(X_2) + S(B^+)\vt_{\vn}(X_3) +
-  S(B^-)\vt_{-\vn}(X_4) + S(P)\vt_{\vm}(X_5),
+  V(B) (\rho\DDt{\vv})(\vx_1) = V(B) \vf(\vx_2) + S(B^+)\vt_{\vn}(\vx_3) +
+  S(B^-)\vt_{-\vn}(\vx_4) + S(P)\vt_{\vm(\vx)}(\vx_5),
 \]
-kjer so $X_1, X_2, X_3, X_4, X_5$ neke vmesne točke v ali na površini valja.
-Če vstavimo notri izraze za volumen in površine dobimo
+kjer so $\vx_1, \vx_2, \vx_3, \vx_4, \vx_5$ neke vmesne točke v ali na površini valja.
+Če vstavimo notri izraze za volumen in površine ploskev dobimo
 \[
-  \pi h^4 \DDt{} (\dot x \rho)(X_1) = \pi h^4 \vf(X_2) + \pi h^2 \vt_{\vn}(X_3) +
-  \pi h^2 \vt_{-\vn}(X_4) + 2 \pi h^3 \vt_{\vm}(X_5).
+  \pi h^4 (\rho \DDt{\vv})(\vx_1) = \pi h^4 \vf(\vx_2) + \pi h^2 \vt_{\vn}(\vx_3) +
+  \pi h^2 \vt_{-\vn}(\vx_4) + 2 \pi h^3 \vt_{\vm(x)}(\vx_5).
 \]
 Če celoten izraz delimo z $\pi h^2$ in pogledamo limito $h\to 0$ gredo vse točke
-$X_i$ proti $X$ in dobimo
+$\vx_i$ proti $\vx$ in dobimo
 \[
-  0 = \vt_{\vn}(X) + \vt_{-\vn}(X),
+  0 = \vt_{\vn}(\vx) + \vt_{-\vn}(\vx),
 \]
-kar je po prenosu nazaj v prostorsko konfiguracijo točno to, kar smo želeli
-pokazati.
+kar je točno to, kar smo želeli pokazati.
 \endproof
 
 Izkaže se, da velja še več: vektor $\vt$ je linearno odvisen od normale. S
-pomočjo tega.
+pomočjo prejšnje trditve lahko pokažemo naslednji izrek, ki nam da na voljo
+matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
 \begin{izrek}[Cauchyev izrek o napetosti]
   Obstaja tenzor $\ts$, tako da velja \[
-    \vt(t, x, \vn) = \ts(t, x)\vn.
+    \vt(t, \vx, \vn) = \ts(t, \vx)\vn.
   \]
-  Tenzor $\ts$ se v prostorski konfiguraciji imenuje Cauchyev napetostni tenzor,
-  v referenčni pa Piola–Kirchhoffov napetostni tensor in se običajno označuej
-  drugače, npr. s $\tau$.
+  Tenzor $\ts$ se imenuje Cauchyev napetostni tenzor,
 \end{izrek}
 \proof
 Podobno kot pri Cacuchyevi recipročni relaciji si izberimo majhno telo okoli
-točke $X = X(x, t)$. Tokrat naj bo to tetraeder z tremi stranicami vzporednimi
+točke $\vx$. Tokrat naj bo to tetraeder z tremi stranicami vzporednimi
 koordinatnim osem in normalo $\vn$ na ploskev, ki jo razpenjajo preostale tri
 stranice, kot prikazano na sliki~\ref{fig:tetra}.
 
 \begin{figure}[h]
   \centering
-%   \includegraphics{}
+  \includegraphics[width=0.4\textwidth]{images/cauchy_tetrahedron.pdf}
   \caption{Tetraeder, uporabljen za dokaz Cauchyevega izreka o napetosti.}
   \label{fig:tetra}
 \end{figure}
 
-Označimo oglišča tetraedra z $A_1, A_2, A_3, A_4 = X$ in ploskev nasproti izbranega
+Označimo oglišča tetraedra z $A_1, A_2, A_3, A_4 = \vx$ in ploskev nasproti izbranega
 oglišča z malimi črkami $S_1, S_2, S_3, S_4$. Ploščine teh ploskev označimo z
 $a_1, a_2, a_3, a_4$.  Naj bodo pravokotne stranice tetraedra
 dolge $\eps_1 h$, $\eps_2 h$ in $\eps_3 h$, kjer razmerje $\eps_1 : \eps_2 : \eps_3$
@@ -534,21 +771,21 @@ a_4$.
 Zopet uporabimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine in izrek o
 povprečni vrednosti
 \begin{align*}
-  \DDt{} \int_B \dot x dm &= \int_B \vf dV + \int_{\partial B} \vt dS \\
-  \int_B \DDt{} (\dot x\rho) dV &= \int_B \vf dV +
+  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
+\int_{B_t} \rho\DDt{\vv} dV &= \int_{B_t} \vf dV +
   \int_{S_1} \vt_{-\ei} dS +
   \int_{S_2} \vt_{-\ej} dS +
   \int_{S_3} \vt_{-\ek} dS +
   \int_{S_4} \vt_{\vn} dS
   \\
-  V \DDt{} (\dot x\rho)(X_1) &= V \vf(X_2) +
-  a_1 \vt_{-\ei}(X_3) + a_2 \vt_{-\ej}(X_4) + a_3 \vt_{-\ek}(X_5) + a_4
-  \vt_{\vn}(X_6),
+  V (\rho\DDt{\vv})(\vx_1) &= V \vf(\vx_2) +
+  a_1 \vt_{-\ei}(\vx_3) + a_2 \vt_{-\ej}(\vx_4) + a_3 \vt_{-\ek}(\vx_5) + a_4
+  \vt_{\vn}(\vx_6),
 \end{align*}
-pri čemer so $X_i$ kot v prejšnjem dokazu neke točke v notranjosti ali na
+pri čemer so $\vx_i$ kot v prejšnjem dokazu neke točke v notranjosti ali na
 površini tetraedra. Sedaj enačbo delimo s $a_4$ in pošljemo limito $h \to 0$.
-Vse točke $X_i$ limitirajo proti $X$, člena, ki vsebujeta volumen tetraedra se
-približujeta 0. Z upoštevanjem
+Vse točke $\vx_i$ limitirajo proti $\vx$, člena, ki vsebujeta volumen tetraedra,
+pa se približujeta 0. Z upoštevanjem
 \[
   \lim_{h\to0} \frac{a_i}{a_4} = \lim_{h\to0}\frac{(\vn\cdot\vec{e}_i) a_4}{a_4}
   = \vn\cdot\vec{e}_i
@@ -557,98 +794,113 @@ dobimo
 \[
   0 = \vt_{\vn} + \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{-\vec{e}_i}.
 \]
-Z upoštevanjem Cauchyeve recipročne relacije~\ref{trd:cauchy-reciprocal} dobimo
+Uporabimo še Cauchyevo recipročno relacijo~\eqref{eq:cauchy-reciprocal} in dobimo
 \[
   \vt_{\vn} = \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i}.
 \]
-Ta zveza nam pove, kako je napetost na poljubno ploskev povezana z napetostmi na
+Ta zveza nam pove, kako je napetost na poljubni ploskvi povezana z napetostmi na
 koordinatnih ploskvah.
-To nam dovoljuje definicijo \emph{Piola-Kirchhoffovega napetostnega tenzorja}
-$\tau$
+To nam dovoljuje definicijo \emph{Cauchyevega napetostnega tenzorja}
+$\ts$
 \[
-  \tau = \sum_{i=1}^3 \vt_{\vec{e}_i}\otimes \vec{e}_i.
+  \ts = \sum_{i=1}^3 \vt_{\vec{e}_i}\otimes \vec{e}_i.
 \]
-Zanj res velja
+za katerega res velja
 \[
-  \tau\vn = \sum_{i=1}^3 (\vt_{\vec{e}_i}\otimes \vec{e}_i)(\vn) =
-  \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i} = \vt_{\vn}.
+  \ts\vn = \sum_{i=1}^3 (\vt_{\vec{e}_i}\otimes \vec{e}_i)(\vn) =
+  \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i} = \vt_{\vn}. \qedhere
 \]
-Če ta tenzor prenesemo v prostorske koordinate, dobimo \emph{Cauchyev napetostni
-tenzor}.
+\endproof
+
+\subsection{Enačbe gibanja}
+V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja, tako da jih
+bomo iz integralske oblike prevedli v diferencialno.
+Prevedimo najprej aksiom~\ref{aks:gib} o ohranitvi gibalne količine.
+\begin{izrek}[Cauchyeva momentna enačba]
+  Za gibanje kontinuuma velja Cauchyeva momentna enačba
+  \begin{equation}
+    \rho \DDt{\vv} = \vf + \div \sigma.
+    \label{eq:cauchy-moment}
+  \end{equation}
+\end{izrek}
+\proof
+Za vsako telo s prostorsko konfiguracijo $B_t$ velja
+\begin{align*}
+  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
+  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \ts \vn dS \\
+  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{B_t} \div \ts dV \\
+  0 &= \int_{B_t}\left(\DDt{\vv}\rho - \vf - \div \ts\right) dV. \\
+\end{align*}
+V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda in
+izrek~\ref{trd:swap-der-int} o menjavi odvoda in integrala. Ker mora biti končni
+integral nič za vsako telo, mora biti integrand nič, kar dokaže našo enačbo.
 \endproof
 
 Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
-Z njegovo pomočjo bomo dokazali, da je $\ts$ simetričen.
-
+Njegova lokalna oblika se prevede na zelo enostavno trditev o simetriji
+Cauchyevega napetostnega tenzorja.
 \begin{trditev}
   \label{trd:sigma-symmetric}
   Cauchyev napetostni tenzor je simetričen:
   \[ \ts^\T = \ts. \]
 \end{trditev}
 \proof
-TODO
-\endproof
-
-\subsection{Enačbe gibanja}
-V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja. V teh enačbah
-bo nastopala divergenca tenzorja drugega reda, zato jo definirajmo.
-
-\begin{definicija}
-  Divergenca tenzorja $t$  drugega reda je vektorsko polje, za katerega za vsak
-  vektor $\va$ velja
-  \[ \div(t)\cdot \va = \div(t^\T \va). \]
-\end{definicija}
-
-Zakaj je ravno to prava definicija, nam pove naslednji izrek
-\begin{izrek}[Gauss]
-  \label{izr:gauss}
-  Naj bo $\Omega$ odprta množica z odsekoma gladkim robom, $\vn$ zunanja enotska
-  normala na $\partial \Omega$ in $t$ tenzorsko polje na $\Omega$.  Potem velja
-  \[
-    \int_{\partial \Omega} t\vn dS = \int_{\Omega} \div t dV.
-  \]
-\end{izrek}
-\proof
-Naj bo $\va$ poljuben konstanten vektor. Izračunajmo
+Začnimo z zakonom o vrtilni količini~\eqref{eq:vrt} in ga prevedimo v lokalno
+obliko.
 \begin{align*}
-  \va \cdot \left( \int_{\partial \Omega} t\vn dS \right) &=
-  \int_{\partial \Omega}\va \cdot t\vn dS =
-  \int_{\partial \Omega}t^\T \va \cdot \vn dS =
-  \int_{\Omega}\div(t^\T \va) dV = \\ &=
-  \int_{\Omega}\div(t) \cdot \va dV =
-  \left(\int_{\Omega}\div t dV\right) \cdot \va.
+  \DDt{}\int_{B_t}\vx \times \vv dm = \int_{B_t} \vx \times \vf dV +
+  \int_{\partial B_t} \vx\times\vt dS.
 \end{align*}
-Pri računu smo uporabili definicijo $t^\T$, definicijo divergence in Gaussov
-izrek za vektorska polja. Ker enakost velja za vsak vektor $\va$, velja tudi
-enakost vektorskih polj v izreku.
-\endproof
-
-Prevedimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine v lokalno obliko.
-\begin{izrek}[Cauchyeva momentna enačba]
-  Za gibanje kontinuuma velja Cauchyeva momentna enačba
-  \[
-    \DDt{}(\rho \vv) = \vf + \Div \tau.
-  \]
-\end{izrek}
-\proof
-Za vsako podtelo $B$ velja
+Posvetimo se zadnjemu členu in ga pomnožimo s konstantnih vektorjem $\vw$:
 \begin{align*}
-  \DDt{} \int_B \dot x dm &= \int_B \vf dV + \int_{\partial B} \vt dS \\
-  \DDt{} \int_B \vv\rho dV &= \int_B \vf dV + \int_{\partial B} \tau \vn dS \\
-  \int_B \DDt{} (\vv\rho) dV &= \int_B \vf dV + \int_B \Div \tau dV \\
-  0 &= \int_B\left(\DDt{} (\vv\rho) - \vf - \Div \tau\right) dV. \\
+\left(\int_{\partial B_t} \vx \times \vt dS\right)\cdot \vw  &=
+  \int_{\partial B_t} \langle \vx, \vt, \vw \rangle dS =
+  \int_{\partial B_t} \langle \vw, \vx, \vt \rangle dS = \\ &=
+  \int_{\partial B_t} (\vw \times \vx) \cdot \vt dS =
+  \int_{\partial B_t} (\vw \times \vx) \cdot \ts\vn dS = \\ &=
+  \int_{\partial B_t} \ts^\T(\vw \times \vx) \cdot d\vec{S} =
+  \int_{\partial B_t} \ts^\T(\vw \times \vx) \cdot d\vec{S} = \\ &=
+  \int_{B_t} \div (\ts^\T(\vw \times \vx)) dV = \\ &=
+\int_{B_t} [\langle \div \ts, \vw, \vx\rangle +  \ts : \grad (\vw \times \vx)] dV.
 \end{align*}
-V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda.
-Ker to velja za poljuben $B$, mora biti integrand enak nič in izrek je s tem
-dokazan.
+Zgoraj smo uporabili po vrsti: definicijo in cikličnost mešanega produkta, definicijo
+$\ts^\T$, Gaussov izrek in relacijo iz trditve~\ref{trd:div-tv}.
+
+Podobno z $\vw$ pomnožimo tudi zakon o vrtilni količini in vstavimo zgornjo
+relacijo.
+\begin{align*}
+  0 &= \left(\DDt{}\int_{B_t}\vx \times \vv dm - \int_{B_t} \vx \times \vf dV -
+  \int_{\partial B_t} \vx\times\vt dS\right)\cdot \vw = \\ &=
+  \DDt{}\int_{B_t}\langle \vx, \vv, \vw\rangle  dm - \int_{B_t} \langle \vx,
+  \vf, \vw\rangle dV - \int_{B_t} [\langle \div \ts, \vw, \vx\rangle +  \ts :
+  \grad (\vw \times \vx)] dV = \\ &=
+  \int_{B_t}\langle \rho \DDt\vv, \vw, \vx \rangle  dV - \int_{B_t} \langle \vf,
+  \vw, \vx\rangle dV - \int_{B_t} [\langle \div \ts, \vw, \vx\rangle +  \ts :
+  \grad (\vw \times \vx)] dV = \\ &=
+\int_{B_t}\left[ \left\langle\rho \DDt\vv - \vf - \div \ts, \vw, \vx\right\rangle -  \ts : \grad
+  (\vw \times \vx)\right] dV = \\ &=
+- \int_{B_t} \ts : \grad (\vw \times \vx) dV.
+\end{align*}
+Uporabili smo definicijo in cikličnost mešanega produkta, Cauchyevo momentno
+enačbo~\eqref{eq:cauchy-moment} in dejstvo, da je
+\[
+  \DDt{}\langle \vx, \vv, \vw \rangle =
+  \langle \vv, \vv, \vw \rangle +
+  \langle \vx, \DDt\vv, \vw \rangle =
+  \langle \DDt\vv, \vw, \vx \rangle.
+\]
+Ker aksiom o vrtilni količini drži za vsako telo, mora biti
+\[
+  \ts : \grad (\vw \times \vx) = 0,
+\]
+za poljuben vektor $\vw$. Tenzor $\grad (\vw \times \vx)$ je antisimetričen in
+vsak antisimetričen tenzor lahko s pomočjo njegovega osnega vektorja zapišemo v
+tej obliki, zato je zgornja relacija ekvivaletna trditvi, da je, zato je zgornja
+relacija ekvivaletna trditvi, da je
+\[ \ts : w = 0\] za vsak antisimetričen tenzor $w$.
+Torej je $\ts \in Asym(\R^3)^\perp$ in po trditvi~\ref{trd:dot-antisym-tensor}
+mora biti $\ts$ simetričen.
 \endproof
-
-BLAH BLAH zanemarimo en kup stvari.
-
-\begin{equation}
-  \rho \ddot{u} = \vf + \div \ts
-  \label{eq:gib-lin}
-\end{equation}
 
 \subsection{Konstitutivne enačbe}
 Do sedaj izpeljane enačbe veljajo za poljuben kontinuum, naj bo to tekočina,
@@ -687,7 +939,7 @@ Naj bo dana tanka palica kot na sliki~\ref{fig:palica}, ki jo raztegnemo vzdolž
 njene nosilke.
 \begin{figure}[h]
   \centering
-%  \includegraphics{}
+  \includegraphics[width=0.55\textwidth]{images/stretch1d.pdf}
   \caption{Razteg tanke palice vzdolž njene osi.}
   \label{fig:palica}
 \end{figure}
@@ -724,6 +976,7 @@ Izračunajmo infinitezimalno aproksimacijo mere $\eps_2$.
 \begin{align*}
   \eps_2 &=
   \frac{\|dx\|^2 - \|dX\|^2}{\|dX\|^2} =
+  \frac{\|dx\|^2}{\|dX\|^2}  - 1=
   \frac{\|F dX + O(dX^2)\|^2}{\|dX\|^2} - 1 = \\ &=
   \frac{dX^\T F^\T F dX + O(dX^3)}{\|dX\|^2} - 1 =
   \frac{dX}{\|dX\|}(\underbrace{F^\T F - I}_{2E})\frac{dX}{\|dX\|} + O(dX)
@@ -828,28 +1081,25 @@ običajnega Hookovega zakona.
   \label{aks:hook}
   Napetost je linearno odvisna od deformacije, preko tenzorja četrtega reda $C$:
   \[ \ts = C\eps. \]
-  Tenzor $C$ se imenuje \emph{??} \ang{compliance tensor} in ima v splošnem $3^4
+  Tenzor $C$ se imenuje \emph{tenzor elastičnosti} \ang{compliance tensor} in ima v splošnem $3^4
   = 81$ prostih parametrov.
 \end{aksiom}
 \begin{opomba}
   Aksiom~\ref{aks:hook} se po komponentah glasi $\ts_{ij} = C_{ijkl}
   \eps_{kl}$
 \end{opomba}
-Toda, iz trditve~\ref{trd:sigma-symmetric} o simetričnosti $\ts$ sledi, da lahko
+
+Na srečo v splošnem $C$ nima 81 prostih komponent.
+Iz trditve~\ref{trd:sigma-symmetric} o simetričnosti $\ts$ sledi, da lahko
 prosto zamenjamo indeksa $i$ in $j$ in velja $C_{ijkl} = C_{jikl}$.
 Podobno iz simetričnosti $\eps$ sledi, da je $C_{ijkl} = C_{ijlk}$.
+
 
 Še ena simetrija in potem izotropičnost.
 
 \subsection{Navierova enačba}
 blah blah
 
-\begin{definicija}
-  Laplacev operator je na vektorskem polju $\vv$ definiran kot
-  \[
-    \lap \vv = \div\grad \vv.
-  \]
-\end{definicija}
 
 V izotropičnem materialu velja med napetostjo in deformacijo relacija
 \[
@@ -890,36 +1140,6 @@ izračun koordinatno in nekoordinatno.
 
 Nekoordinatni dokaz pa potrebuje nekaj dodatnih relacij, ki jih je tudi
 najhitreje dokazati koordiantno.
-\begin{lema}
-  \[ \tr\grad \vv = \div \vv \]
-\end{lema}
-\proof
-\[
-  \tr\grad\vv = (\grad\vv)_{ii} = \vv_{i,i} = \div \vv \qedhere
-\]
-\endproof
-\begin{lema}
-  \[
-    \div(\grad\vv^\T) = \grad\div \vv
-  \]
-\end{lema}
-\proof
-\[
-  \div(\grad \vv^\T)_i = (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = \vv_{j,ij}
-  = (\grad(\vv_{j,j}))_i = (\grad\div \vv)_i \qedhere
-\]
-\endproof
-\begin{lema}
-  \[
-    \div(\phi I) = \grad \phi
-  \]
-\end{lema}
-\proof
-\[
-  (\div(\phi I))_i = (\phi I)_{ij,j} = (\phi \delta_{ij})_{,j} = \phi_{,i} =
-  (\grad \phi)_i \qedhere
-\]
-\endproof
 Sedaj lahko izračunamo $\div\ts$.
 \begin{align*}
   \div\ts &= \lambda \div \tr(\eps) I + 2\mu \div \eps = \\ &=
@@ -2208,7 +2428,7 @@ manjši kot $10^{-5}$, za $\ell = 181$ pa manjši kot $10^{-6}$.
   kjer vedno nastopa negativen eksponent.
 \end{opomba}
 
-Rešimo problem~\eqref{eq:poisson-problem} numerično, z štirimi različnimi nabori baznih funkcij: monomi,
+Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori baznih funkcij: monomi,
 Gaussovimi funkcijami, multikvadratičnimi in inverznimi multikvadratičnimi.
 Za monome vzemimo $n = m = 5$, $m = 6$ in $n=9$ in $m=n=9$, kar sovpada s
 primeri iz razdelka~\ref{sec:posebni-primeri}. Za radialne bazne funkcije
