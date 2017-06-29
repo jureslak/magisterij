@@ -123,6 +123,7 @@
 \newcommand{\vu}{\vec{u}}
 \newcommand{\vr}{\vec{r}}
 \newcommand{\va}{\vec{a}}
+\newcommand{\vc}{\vec{c}}
 \newcommand{\vw}{\vec{w}}
 \newcommand{\vb}{\vec{b}}
 \newcommand{\vn}{\vec{n}}
@@ -223,9 +224,38 @@ TBD
 
 \section{Uvod}
 
-Motivacija, pregled naloge, notacija in sumacijska konvencija.
+Motivacija, pregled naloge
 
-\subsection{Osnovne trditve vektorske in tenzorske analize}
+\subsection{Notacija}
+Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.\ $a, \alpha
+\in \R$. Vektorje iz $\R^3$ bomo označevali s puščico nad črko, npr.\ $\vv \in
+\R^3$. Tenzorje (drugega reda) v mehaniki bomo označevali z malimi latinskimi ali grškimi
+črkami, npr. $t, \sigma \in \R^3\otimes\R^3$.
+Komponente bomo označevali z indeksom spodaj, npr.\ $\vv_{i}$ ali $t_{ij}$.
+V razdelkh~\ref{sec:uvod-tenz} in~\ref{sec:mehanika} bomo
+uporabljali tudi sumacijsko konvencijo. Tako na primer enačba
+\[
+  t_{ij}\vv_j = 0
+\]
+vsebuje implicitno vsoto po $j$, razume pa se tudi, da velja za vsak smiseln $i$
+(od 1 do dimenzije prostora). Z $\va\cdot\vb$ bomo označevali skalarni produkt
+(enojno kontrakcijo) vektorjev, brez oznake bomo pisali produkt tenzorjev ali
+tenzorja in vektorja. Za skalarni produkt tenzorjev (dvojno kontrakcijo) bomo
+uporabljali oznako $s:t$.  S $t^\T$ bomo označevali transpozicijo tenzorja ali
+matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako $\langle
+\va, \vb, \vc\rangle$ bomo označevali mešani produkt vektorjev $\va$, $\vb$ in
+$\vc$, definiran kot $\langle \va, \vb, \vc\rangle = (\va\times\vb)\cdot \vc$.
+
+Divergenco, gradient in Laplaceev operator bomo označevali z $\div$, $\grad$,
+$\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2 = \triangle$.
+
+V razdelkih~\ref{sec:numericna-metoda} in~\ref{sec:osnovni-zgledi} bomo imeli
+opravka tudi z vektorji in matrikami splošnih dimenzij, ki ne predstavljajo
+mehaničnih količin ampak samo končno zaporedje skalarjev. Take vektorje bomo
+označevali odebeljeno, npr.\ $\b u, \b\phi \in \R^{n}$, matrike pa z velikimi
+tiskanimi črkami $A, B \in \R^{m\times n}$.
+
+\subsection{Osnovne trditve vektorske analize}
 \label{sec:uvod-tenz}
 
 Prostor tenzorjev drugega reda opremimo s skalarnim produktom\[
@@ -234,11 +264,11 @@ s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
   \label{trd:dot-antisym-tensor}
   V zgornjem skalarnem produktu razpade prostor tenzorjev na direktno
   ortogonalno vsoto podprostorov simetričnih in antisimetričnih tenzorjev.
-  \[V\otimes V = Sym(V) \overset{\perp}{\oplus} ssym(V) \]
+  \[V\otimes V = Sym(V) \overset{\perp}{\oplus} Asym(V) \]
 \end{trditev}
 \proof
   Vsak tenzor $s$ lahko zapišemo kot $s = \frac12 (s+s^\T) + \frac12(s-s^\T)$.
-  Če je $s \in Sym(V)\cap ssym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
+  Če je $s \in Sym(V)\cap Asym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
   Vsota je res direktna. Ker velja za simetričen $s$ in antisimetričen $t$ tudi
   \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t,\]
   od koder sledi $s:t = 0$, je vsota ortogonalna.
@@ -339,10 +369,19 @@ izpeljavah.
 \end{align*}
 \endproof
 
-\newpage
-
 \section{Teorija linearne elastičnosti}
-Teorija linearne elastičnosti se ukvarja  \dots
+\label{sec:mehanika}
+Teorija linearne elastičnosti govori o deformaciji in napetostih v trdninah kot
+posledici delovanja zunanjih obremenitev. Trdnine modeliramo kot kontinuum in
+s tem ignoriramo njihovo atomsko strukturo, saj jih obravnavamo kot zvezno maso,
+ki zavzema celoten prostor, ki ga zaseda in ne kot diskreten sistem delcev. Prav
+tako bomo predpostavili zveznost in gladkost količin asociiranih s trdnino. To
+nam da možnost, da kontinuum delimo na poljubno majhne dele in s tem dobimo
+osnovo za uporabo teorije infinitezimalnega računa. S pomočjo tega in privzetih
+fizikalnih zakonov bomo izpeljali diferencialne enačbe, ki bodo opisovale
+deformacije in napetosti v materialu. V skladu z zgoraj opisano \emph{hipotezo
+kontinuuuma} lahko natančno definiramo pojme kot so telo in gibanje, s katerimi
+bomo delali skozi celo nalogo.
 
 \subsection{Osnove gibanja}
 
@@ -2393,9 +2432,11 @@ stabilnosti in redu konvergence aproksimacije z radialnimi baznimi funkcijami
 si lahko bralec prebere v~\cite{buhmann2000radial}.
 
 \section{Implementacija}
+\label{sec:implementacija}
 blah blah~\cite{stroustrup1995c++}.
 
 \section{Osnovni numerični zgledi}
+\label{sec:osnovni-zgledi}
 V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih,
 da si zgradimo intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo
 metoda, opisana v razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM
@@ -2572,12 +2613,10 @@ Napaka metod je prikazana na sliki~\ref{fig:poisson-square-convergence}.
   \label{fig:poisson-square-weird}
 \end{figure}
 
-\section{Raba materialov}
-% fretting fatuigue
-blah blah
+\subsection{Hertzov kontaktni problem}
+\subsection{FWO case}
 
-
-\subsection{Zaključek}
+\section{Zaključek}
 
 \clearpage
 \bibliographystyle{unsrt}
