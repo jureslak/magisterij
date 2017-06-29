@@ -161,6 +161,7 @@
 \usepackage{algorithm}
 
 \floatname{algorithm}{Algoritem}
+\renewcommand{\listalgorithmname}{Algoritmi:}
 \algnewcommand\algorithmicto{\textbf{to}}
 \algnewcommand\algorithmicin{\textbf{in}}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
@@ -194,10 +195,28 @@ Somentor: \imesomentorja}
 
 \noindent{\large
 Ljubljana, \letnica}
+
 \pagebreak
 
+Izjava o avtorstvu?
+
+\pagebreak
+
+Zahvala?
+
+\pagebreak
 
 \tableofcontents
+
+\pagebreak
+
+\listoffigures
+\listofalgorithms
+
+\pagebreak
+
+Program dela?
+
 \pagebreak
 
 \begin{center}
@@ -218,7 +237,6 @@ TBD
 {\bf Keywords:} ??
 \pagebreak
 
-
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
@@ -232,7 +250,7 @@ Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.\ $a, \a
 \R^3$. Tenzorje (drugega reda) v mehaniki bomo označevali z malimi latinskimi ali grškimi
 črkami, npr. $t, \sigma \in \R^3\otimes\R^3$.
 Komponente bomo označevali z indeksom spodaj, npr.\ $\vv_{i}$ ali $t_{ij}$.
-V razdelkh~\ref{sec:uvod-tenz} in~\ref{sec:mehanika} bomo
+V razdelkih~\ref{sec:uvod-tenz} in~\ref{sec:mehanika} bomo
 uporabljali tudi sumacijsko konvencijo. Tako na primer enačba
 \[
   t_{ij}\vv_j = 0
@@ -257,9 +275,12 @@ tiskanimi črkami $A, B \in \R^{m\times n}$.
 
 \subsection{Osnovne trditve vektorske analize}
 \label{sec:uvod-tenz}
+Spomnimo se nekaj osnovnih trditev vektorske analize, ki jih bomo
+potrebovali v kasnejših izpeljavah.
 
-Prostor tenzorjev drugega reda opremimo s skalarnim produktom\[
-s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
+Opremimo prostor tenzorjev drugega reda
+opremimo s skalarnim produktom
+\[ s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
 \begin{trditev}
   \label{trd:dot-antisym-tensor}
   V zgornjem skalarnem produktu razpade prostor tenzorjev na direktno
@@ -318,7 +339,7 @@ enakost vektorskih polj v izreku.
 \end{opomba}
 
 \begin{definicija}
-  Laplacev operator je na vektorskem polju $\vv$ definiran kot
+  Laplaceev operator je na vektorskem polju $\vv$ definiran kot
   \[ \lap \vv = \div\grad \vv.  \]
 \end{definicija}
 
@@ -369,19 +390,71 @@ izpeljavah.
 \end{align*}
 \endproof
 
+\subsection{Osnovni izreki funkcionalne analize}
+
+Ponovimo še nekaj osnovnih definicij in izrekov funkcionalne analize, ki jih
+bomo potrebovali pri obravnavi enoličnosti in obstoje rešitve linearnih
+parcialnih diferencialnih enačb.
+
+\begin{definicija}
+  Prostor \emph{Soboljeva} $W_{k,p}(\Omega)$ za $k \in \N$ in $p \in [1,
+  \infty)$ nad domeno $\Omega$ je definiran kot
+  \[
+    W^{k,p}(\Omega) = \{u\colon\R^d\to\R; D^\alpha u \in L^p \text{ za vsak }
+    |\alpha| \leq k \}.
+  \]
+  Pri tem je $\alpha = (\alpha_1, \dots, \alpha_d)$ multiindeks, $|\alpha| =
+  \sum_i\alpha_i$ in $D^\alpha f = \dpar{^{|\alpha|}}{x_1^{\alpha_1}\cdots
+  x_d^{\alpha_d}}$.
+\end{definicija}
+Prostore Soboljeva opremimo z normo
+\[
+\|u\|_{W^{k,p}(\Omega)} = \Big(\sum_{|\alpha| \leq k} \|D^\alpha
+u\|_{L^p(\Omega)}^p\Big)^\frac1p.
+\]
+Obstajajo tudi druge pogoste definicije norme, vendar vse pogosto uporabljene
+definicije definirajo ekvivalentne norme. V zgoraj definirani normi so prostori
+$W^{k,p}(\Omega)$ Banachovi. Za poseben primer $p = 2$ označimo $H^k(\Omega) =
+W^{k,2}(\Omega)$ in ta prostor je Hilbertov.
+
+blah blah kompaktne vložitve.
+
+
+\begin{izrek}[Riezsov reprezentacijski izrek]
+  \label{izr:riesz-general}
+  Naj bo $H$ realen Hilbertov prostor in $H^\ast$ njegov dualen prostor, torej
+  prostor vseh zveznih linearnih funkcionalov na $H$. Tedaj obstaja izometrični
+  izomorfizem $\Phi\colon H\to H^\ast$.
+\end{izrek}
+Bolj običajno se izrek pove na drugačen način.
+\begin{posledica}
+  \label{izr:riesz-useful}
+  Naj bo $H$ Hilbertov prostor in $f\colon H\to\R$ zvezen linearen funkcional na $H$.
+  Tedaj obstaja natanko en element $x_f \in H$, da je za vsak $y \in H$
+  \[ f(y) = \langle y, x_f \rangle. \]
+  Poleg tega velja še $\|x_f\| = \|f\|$.
+\end{posledica}
+\begin{opomba}
+  Preslikava $\Phi$ iz izreka~\ref{izr:riesz-general} priredi vsakemu $x_f \in
+  H$ njegov $f \in H^\ast$ iz posledice~\ref{izr:riesz-useful}.
+\end{opomba}
+
+
+
 \section{Teorija linearne elastičnosti}
 \label{sec:mehanika}
 Teorija linearne elastičnosti govori o deformaciji in napetostih v trdninah kot
 posledici delovanja zunanjih obremenitev. Trdnine modeliramo kot kontinuum in
 s tem ignoriramo njihovo atomsko strukturo, saj jih obravnavamo kot zvezno maso,
 ki zavzema celoten prostor, ki ga zaseda in ne kot diskreten sistem delcev. Prav
-tako bomo predpostavili zveznost in gladkost količin asociiranih s trdnino. To
+tako bomo predpostavili zveznost in gladkost količin povezanih s trdnino. To
 nam da možnost, da kontinuum delimo na poljubno majhne dele in s tem dobimo
 osnovo za uporabo teorije infinitezimalnega računa. S pomočjo tega in privzetih
 fizikalnih zakonov bomo izpeljali diferencialne enačbe, ki bodo opisovale
-deformacije in napetosti v materialu. V skladu z zgoraj opisano \emph{hipotezo
-kontinuuuma} lahko natančno definiramo pojme kot so telo in gibanje, s katerimi
-bomo delali skozi celo nalogo.
+deformacije in napetosti v materialu.
+
+Začnimo s tem, da natančno definiramo pojme kot so telo in gibanje, s pomočjo
+katerih bomo izpeljali enačbe, ki opisujejo pojave v našem interesu.
 
 \subsection{Osnove gibanja}
 
@@ -939,8 +1012,7 @@ Ker aksiom o vrtilni količini drži za vsako telo, mora biti
 \]
 za poljuben vektor $\vw$. Tenzor $\grad (\vw \times \vx)$ je antisimetričen in
 vsak antisimetričen tenzor lahko s pomočjo njegovega osnega vektorja zapišemo v
-tej obliki, zato je zgornja relacija ekvivaletna trditvi, da je, zato je zgornja
-relacija ekvivaletna trditvi, da je
+tej obliki, zato je zgornja relacija ekvivalentna trditvi, da je
 \[ \ts : w = 0\] za vsak antisimetričen tenzor $w$.
 Torej je $\ts \in Asym(\R^3)^\perp$ in po trditvi~\ref{trd:dot-antisym-tensor}
 mora biti $\ts$ simetričen.
@@ -962,10 +1034,10 @@ konfiguracija na začetku gibanja.
 \end{definicija}
 
 Tenzor $F$ je drugega reda in nam v vsaki točki predstavlja lokalno deformacijo
-telesa. Privzeli smo že, da je $\vx$ difeomorfizem, torej je $F$ neizrojev,
+telesa. Privzeli smo že, da je $\vx$ difeomorfizem, torej je $F$ neizrojen,
 dodatno pa bomo privzeli še, da gibanje $\vx$ \emph{ohranja orientacijo}, saj
 so gibanja realnih teles taka. Od tod sledi, da je $\det F > 0$.
-Fizikalno interpretacijo $F$ dobimo z naslednjim Taylorjevim ravojem:
+Fizikalno interpretacijo $F$ dobimo z naslednjim Taylorjevim razvojem:
 \[
   d\vx := \vx(t, \vX+d\vX) - \vx(t, \vX) = F d\vX + O(d\vX^2).
 \]
@@ -1014,7 +1086,7 @@ bolj primerna mera
   \eps_2 = \frac{\|d\vx\|^2 - \|d\vX\|^2}{\|d\vX\|^2}.
 \]
 Ker velja $\eps_2 = (1+\eps_1)^2 - 1 = 2\eps_1 + \eps_1^2$ je za majhne pomike
-$\eps_2 \approx 2\eps_1$ in sta meri ekivalentni.
+$\eps_2 \approx 2\eps_1$ in sta meri ekvivalentni.
 
 Izračunajmo infinitezimalno aproksimacijo mere $\eps_2$.
 \begin{align*}
@@ -1107,21 +1179,25 @@ linearizacijo: zanemarimo člen $\Grad \vu^\T \Grad \vu$.
   linearizacija deformacijskega tenzorja.
 \end{definicija}
 
-% \begin{trditev}
-%   Če za gibanje velja $\eps = 0$, potem je pomik oblike $u = \va + \vb \times
-%   X$, za konstantna vektorja $\va$ in $\vb$.
-% \end{trditev}
-% \proof
+Pokažimo še naslednjo karaterizacijo, ki pove, da se tudi $\eps$ za toge pomike
+obnaša kot pričakovano.
+\begin{trditev}
+  \label{trd:eps-0}
+  Infinitezimalni deformacijski tenzor $\eps$ je ničeln, natanko tedaj, kot je
+  $u = \va + \vb \times \vX$, za konstantna vektorja $\va$ in $\vb$.
+\end{trditev}
+\proof
+Lep dokaz??
 % Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$. Ker je $\Grad u$
 % antisimetričen, obstaja osni vektor $\vb$, tako da velja $(\Grad u) \vv = \vb
 % \times \vv$ za vsak vektor $\vv$.
-% \endproof
+\endproof
 
 \subsubsection{Hookov zakon}
 Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.
 V splošnem je relacija oblike $\ts = f(\eps)$, predpostavimo torej, da je
 napetost odvisna samo od deformacije. Ponavadi $f$ dodatno omejimo, da je
-izotropična in da mora biti zveza taka, da je energija
+izotropična in da mora biti taka, da je energija
 \[
   U(\eps) = \int_{0}^{\eps} \ts : d\eps = \int_0^\eps f(\eps) d\eps
 \]
@@ -1136,7 +1212,7 @@ definicija.
   od poti integracije.
 \end{definicija}
 V teoriji linearne elastičnosti
-predpostavimo, da je zveza $f$ med naptostjo in deformacijo linearna in jo
+predpostavimo, da je zveza $f$ med napetostjo in deformacijo linearna in jo
 imenujemo Hookov zakon, saj je posplošitev običajnega Hookovega zakona za vzmet.
 \begin{aksiom}[Hookov zakon]
   \label{aks:hook}
@@ -1174,14 +1250,14 @@ Tenzor $C$ se dodatno poenostavi, če predpostavimo, da je material
   C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + \mu \delta_{ik}\delta_{jl} +
   \kappa \delta_{il}\delta_{jk},
 \]
-dokazano npr. v ?? in razardi zgordnjih simetrij mora veljati $\kappa =
+dokazano npr. v ?? in zaradi zgornjih simetrij mora veljati $\kappa =
 \lambda$.
 Nekoordinatno lahko sedaj zvezo $\ts = C:\eps$ za tak tenzor zapišemo kot
 \begin{equation}
   \ts = \lambda (\tr\eps)I + 2\mu \eps.
   \label{eq:hooke-isotropic}
 \end{equation}
-Paramatra $\lambda$ in $\mu$ imenujemo Lam\'{e}jevi konstanti.
+Parametra $\lambda$ in $\mu$ imenujemo Lam\'{e}jevi konstanti.
 Običajno so materiali tudi homogeni, torej snovne konstante niso odvisne od
 lokacije v materialu, temveč so lastnosti materiala samega.
 Veliko resničnih gradbenih materialov kot na primer železo, jeklo, aluminij in
@@ -1193,14 +1269,15 @@ Poissonovo razmerje. Zveza med njimi je
   E = \frac{\mu(3\lambda+2\mu)}{\lambda+\mu} \qquad \nu =
   \frac{\lambda}{2(\lambda+\mu)}.
 \]
-Pogosto najdemo tudi druge snovne paramtere kot na primer strižni modul ali
+Pogosto najdemo tudi druge snovne parametre kot na primer strižni modul ali
 stisljivost. Tabela pretvorb med različnimi parametri je na voljo v~\cite[tabela
-5.1, str.\ 215]{slaughter2012linearized}. Omejitev za parametre je dana s tem,
-da zahtevamo pozitivno definitnost energije kot kvadratne forme in velja natanko
-tedaj, ko je $\lambda, \mu > 0$ ali pa $E > 0$ in $-1 < \nu < \frac12$.
+5.1, str.\ 215]{slaughter2012linearized}. Teoretična omejitev za parametre je
+dana s tem, da zahtevamo pozitivno definitnost energije kot kvadratne forme in
+velja, če je $\lambda, \mu > 0$ ali pa $E > 0$ in $0 < \nu < \frac12$.
+
 V praksi se izkaže, da temu brez težav zadostimo. Vrednosti parametrov za nekaj
 pogostih materialov so podane v tabeli~\ref{tab:Enu} in jih lahko najdemo v
-primernem fizikalen ali strojnišekm priročniku, npr.~??.
+primernem fizikalen ali strojniškem priročniku, npr.~??.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|l|} \hline
@@ -1261,7 +1338,7 @@ Hookovega zakona pa tudi napetosti.
 \proof
 Od linearne enačbe gibanja~\eqref{eq:gib-lin} do Navierove enačbe nas loči le še
 izračun $\div \sigma$. Za primerjavo naredimo izračun koordinatno in
-nekoordinatno.
+nekoordinatno. Začnimo s koordinatnim.
 \begin{align*}
   \eps_{ij} &= \frac12 (\grad u)_{ij} + \frac12 (\grad u^\T)_{ij} =
   \frac12 u_{i,j} + \frac12 u_{j,i} \\
@@ -1289,10 +1366,145 @@ uporabili v spodnjem izračunu.
 \end{align*}
 Izračun prinese enak rezultat kot prej in izrek je še enkrat dokazan.
 \endproof
+\begin{opomba}
+Enačbo
+\begin{equation}
+    (\lambda + \mu)\grad\div \vu + \mu \lap \vu + \vf  = 0
+  \label{eq:navier-stac}
+\end{equation}
+imenujemo \emph{stacionarna Navierova enačba}, saj opisuje kontinuum v
+mirovanju, saj je tedaj $\dot u = 0$.
+\end{opomba}
+\begin{opomba}
+  Bolj splošno obliko Navierove enačbe, ki ne zahteva tako močnih pogojev na
+  $C$, dobimo tako, da preprosto vstavimo definicijo $\ts$ v linearizirano
+  Cauchyevo momentno enačbo. S tem dobimo enačbo
+  \begin{equation}
+    \rho\ddot \vu = \frac12 \div(C:(\grad \vu + \grad\vu^\T)) + \vf.
+    \label{eq:navier-general}
+  \end{equation}
+\end{opomba}
 
 \subsection{Obstoj in enoličnost rešitve}
-Izrek povzet po~\cite[izrek 3.15.1, str.\ 226]{lebedev2009introduction}
-Prevedemo na Riezsov izrek.
+Navierova enačba je linearna parcialna diferencialna enačba drugega reda.
+Z obstojem in enoličnostjo rešitve se bomo ukvarjali pri stacionarni Navierovi
+enačbi~\eqref{eq:navier-stac} z mešanimi robnimi pogoji pri katerih je na nekem
+delu roba predpisan pomik, na drugem delu pa površinska sila.
+
+Ker je enačba linearna, je ideja dokaza obstoja in enoličnosti, da rešitev
+enačbe zapišemo kot linearen funkcional na primernem prostoru in nato uporabimo
+Riezsov reprezentacijski izrek~\ref{izr:riesz-useful}, ki nam bo dal obstoj
+rešitve. Ideja dokza je vzeta iz~\cite[izrek 3.17.1, str.\
+232]{lebedev2009introduction}. Iz izkušenj vemo, da bo rešitev obstajala in bo
+enolična v šibkem smislu, zato prevedimo enačbo v šibko obliko in definirajmo
+šibko rešitev. Začeli bomo bolj splošno in prevedli na šibko obliko
+stacionarno linearizirano enačbo gibanja~\eqref{eq:gib-lin}, nato pa nadaljevali
+do stacionarne Navierove enačbe.
+\begin{trditev}
+  Šibka oblika linearne stacionarne enačbe gibanja $\div \ts + \vf = 0$ je
+  \begin{equation}
+  \int_{\Omega}\ts : \eps(\vv) dV - \int_{\partial \Omega} \vt\cdot \vv dS -
+    \int_{\Omega} \vf\cdot \vv = 0.
+    \label{eq:cauchy-sibka}
+  \end{equation}
+\end{trditev}
+\proof
+Pomnožimo enačbo $\div\ts + \vf = 0$ skalarno z $\vv \in [L^2(\Omega)]^3$ in integrirajmo po
+$\Omega$ ter poskušajmo prenesti odvode iz $\ts$ na $\vv$. Dobimo
+\[
+  \int_{\Omega}(\vv\cdot\div \ts + \vv\cdot\vf)dV = 0.
+\]
+Sedaj obrnemo relacijo iz trditve~\ref{trd:div-tv} ter upoštevamo simetričnost
+$\ts$ in dobimo $\vv\cdot\div\ts = \div(\sigma \vv) - \sigma:\grad \vv$.
+Ker je $\ts$ simetričen in pravokoten na antisimetrične tenzorje, je vseeno če
+pri $\grad\vv$ upoštevamo samo simetrični del, $\eps(\vv) =
+\frac12(\grad\vv+\grad\vv^\T)$. Nadaljujemo z računom in dobimo
+\begin{align*}
+\int_{\Omega}(\div(\sigma \vv) - \ts:\eps(\vv)) dV + \int_{\Omega} \vv\cdot\vf dV &= 0 \\
+\int_{\partial \Omega}\sigma \vv \cdot \vn dS - \int_\Omega\ts:\eps(\vv) dV +
+\int_{\Omega} \vv\cdot\vf dV &= 0 \\
+\int_{\partial \Omega}\vv \cdot \vt dS - \int_\Omega\ts:\eps(\vv) dV +
+\int_{\Omega} \vv\cdot\vf dV &= 0. \qedhere
+\end{align*}
+\endproof
+Pri Navierovi enačbi upoštevamo še relacijo $\ts = C:\eps$ in s pomočjo tega
+bomo definirali šibko rešitev Navierove enačbe. Najprej pa si natančno oglejmo
+problem in prostor, v katerem bomo rešitve iskali.  Problem zastavimo za splošno
+stacionarno obliko Navierove enačbe~\eqref{eq:navier-general}, pri čemer
+predpostavimo le pozitivno definitnost $C$. Najti želimo $\vu$,
+ki zadošča
+\begin{align}
+  \div(C:\eps(\vu)) + \vf = 0 &\qquad \text{ na } \Omega
+  \label{eq:navier-general-problem} \\
+  \vu = 0 &\qquad \text{ na } S \subseteq \partial\Omega \nonumber \\
+  \ts\vn = (C:\eps(\vu))\vn = \vt &\qquad \text{ na } \partial\Omega \setminus
+  S, \nonumber
+\end{align}
+pri čemer je $\Omega$ povezana omejena odprta množica z odsekoma gladkim robom,
+$S$ nek kos $\partial\Omega$ z odsekoma gladkim robom in $\vn$
+enotska zunanja normala za $\partial\Omega$.
+Klasično rešitve iščemo v podprostoru dvakrat zvezno odvedljivih funkcij
+$C^2(\Omega, R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor z $C^2_0$
+in na njem definirajmo bilinearno formo \[
+  \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv).
+\]
+\begin{trditev}
+  Bilinearna forma $
+  \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv)$ na
+  $C^2_0$ določa skalarni produkt.
+\end{trditev}
+\proof
+Simetričnost in bilinearnost sta očitni iz lastnosti integrala. Iz pozitivne
+definitnosti integrala in tenzorja $C$ sledi, da je $\eps(\vu) = 0$. Od tod po
+trditvi~\ref{trd:eps-0} sledi, da je $\vu$ oblike $\vu = \va + \vb \times \vx$.
+Zaradi ničelnosti na kosu roba mora biti $\vu \equiv 0$.
+\endproof
+Prostor $C^2_0$ ni poln, podobno kot prostor zveznih funkcij ni poln v $L^p$.
+Označimo njegovo napolnitev z v normi $\|\cdot\|_E$ z $E$. Sedaj imamo vse
+pripravljeno, za definicijo šibke rešitve
+problema~\ref{eq:navier-general-problem}.
+
+\begin{definicija}
+  \label{def:sibka}
+  Rešitev $\vu \in E$ je šibka rešitev problema~\ref{eq:navier-general-problem},
+  če za vsako funkcijo $\vv \in E$ velja \[
+    \int_{\Omega}\eps(\vu) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
+\int_{\Omega} \vf\cdot \vv = 0. \]
+\end{definicija}
+
+Sedaj imamo vse pripravljeno za izrek o obstoju in enoličnosti.
+\begin{izrek}
+  \label{iz:enol-obst}
+  Naj bo $\vf \in [L^\frac65(\Omega)]^3$ in $\vt \in [L^{\frac45}(\Omega)]^3$.
+  Potem ima problem~\ref{eq:navier-general-problem} natanko eno šibko rešitev v
+  prostoru $E$.
+\end{izrek}
+\proof
+Kornova neenakost, vložitev v Soboljeva, vložitev prostorov Soboljeva v $L^p$,
+zveznost funkcionalov, Riezsov izrek.
+\endproof
+
+Enoličnost lahko dokažemo tudi na bolj elementaren način, ki morda nudi boljši
+vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti.
+\begin{izrek}[Kirchoff]
+  Rešitev problema~\ref{eq:navier-general-problem} je enolična v $C^2_0$ in v
+  $E$, če obstaja.
+\end{izrek}
+\proof
+Enoličnosti v $C_0^2$ sledi iz enoličnosti $E$, saj je prvi podprostor drugega.
+Pa recimo da imamo dve rešitvi $\vu_1$ in $\vu_2$ z enakimi robnimi pogoji.
+Ker sta tako $\vu_1$ kot $\vu_2$ šibki rešitvi, zadoščata
+\begin{align*}
+\int_{\Omega}\eps(\vu_1) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
+\int_{\Omega} \vf\cdot \vv &= 0 \\
+\int_{\Omega}\eps(\vu_2) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
+\int_{\Omega} \vf\cdot \vv &= 0.
+\end{align*}
+Razlika torej zadošča \[ \int_{\Omega}\eps(\vw) : C : \eps(\vv) dV = 0 \] in ker
+je $\vw$ tudi v $E$, saj je na robu enaka 0, lahko vstavimo $\vv = \vw$.
+Zaradi pozitivne definitnosti $C$ sledi $\eps(\vw) = 0$ od koder kot prej zaradi
+robnih pogojev sledi $\vw = 0$ oziroma $\vu_1 = \vu_2$.
+\endproof
 
 \subsection{Priprava na numerično reševanje}
 Za numerično reševanje se postavimo v kartezični koordinatni sistem.
@@ -1360,7 +1572,7 @@ fiksen. Pri drugi vrsti robnih pogojev poznamo napetosti na robovih.
 Najpogosteje bomo podali kar napetost na robu $\vt = \vt_0$, kjer je $\vt_0$
 neka znana vrednost, npr. 0, če je ta rob prost. Tretja vrsta pogojev bodo
 simetrijski pogoji, ko bomo problem reducirali preko neke osi simetrije, na osi
-pa bomo zahtevali kompatibilnostne pogoje.
+pa bomo zahtevali kompatibilnostne ali simetrijske pogoje.
 
 Oglejmo si bolj natančno pogoje, podane z napetostjo. Napetost na robu
 izračunamo preko napetostnega tenzorja, $\vt = \ts\vn$, kjer ne $\vn$ zunanja
@@ -1681,7 +1893,7 @@ linearen funkcional $\b\phi_p \in (\R^n)^\ast$, ki naboru funkcijskih vrednosti 
 soseščini $N(p)$ priredi aproksimacijo za funkcijsko vrednost v točki $p$.
 
 Podobno kot pri deljenih diferencah odvode funkcije $u$ aproksimiramo z odvodi
-aproksimacijskega polinoma skozi točke v soseščini, bomo tudi v našem primeru
+interpolacijskega polinoma skozi točke v soseščini, bomo tudi v našem primeru
 aproksimirali odvode funkcije $u$ z odvodi $\uh$,
 \[
   (\L u)(p) \approx (\L \uh)(p) = (\L\b{b})(p)^\T(WB)^{+}W \b{\tilde{u}}
@@ -1817,7 +2029,7 @@ medsebojne lege točk in torej lahko brez škode
 za splošnost predpostavimo, da računamo funkcijo oblike za točko
 $p = (0, 0)$. Najbližjih $n$ sosedov je tako $N(p) = \{(0, 0), (0, h), (0, -h),
 (h, 0), (-h, 0)\}$. Matrika $B = [b_j(x_i)]$ iz sistema~\eqref{eq:shape-system},
-ki ima po stolpic evalvirane bazne funkcije v vseh sosedih je
+ki ima po stolpcih izračunane bazne funkcije v vseh sosedih je
 \[
   B =
   \begin{bmatrix}
@@ -1859,8 +2071,8 @@ kar je ravno iskana aproksimacija.
 \endproof
 \begin{opomba}
   Metodo za izračun funkcije oblike je zelo elegantno implementirati v
-  Mathematici, kar olajša simbolno raziskovanje takih aproksimacij. Zgornje matrike so
-  bile izračunane s programa~\ref{prog:shape-mathematica}.
+  Wolfram Mathematici, kar olajša simbolno raziskovanje takih aproksimacij.
+  Zgornje matrike so bile izračunane s programa~\ref{prog:shape-mathematica}.
 
   \begin{listing}[!h]
     \vspace{-1ex}
