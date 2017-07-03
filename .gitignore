@@ -10,3 +10,7 @@ cmake-build*
 *.out
 *.toc
 *.blg
+/code/MaTeX-1.7.0.paclet
+.ycm_extra_conf.py
+data/
+/code/e62numcodes/
