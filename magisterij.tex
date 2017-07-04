@@ -2611,8 +2611,11 @@ ne bo nastopala v analizah.
 
 \begin{trditev}
   Pričakovana časovna zahtevnost algoritma~\ref{alg:metoda} je
-  \[ O(I N s \log^2 N + (N+n)\log N + m^2n N) + T,\] kjer je $T$ čas,
-  porabljen za reševanje razpršenega sistema enačb.
+  \begin{equation}
+    O(I N s \log^2 N + (N+n)\log N + m^2n N) + T,
+    \label{eq:casovna-zahtevnost}
+  \end{equation}
+  kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
 \end{trditev}
 \proof
 Pri funkciji \textsc{diskretiziraj} predpostavimo, da uporabljamo enostavno
@@ -2796,8 +2799,12 @@ ki ima analitično rešitev $u(x) = \cos(1) x - \sin(x)$.
 Na sliki~\ref{fig:mlsm-fdm-err} je prikazana konvergenca metode končnih diferenc
 in MLSM. Metoda MLSM je bila uporabljena s parametri, pri katerih velja
 trditev~\ref{trd:eq-to-fdm}, torej $n=m=3$, $w=1$, $\b b = \{1, x, x^2\}$.
-V obeh primerih smo uporabili direktno metodo SuperLU za reševanje sistema
-enačb.
+Pri obeh metodah smo uporabi dvojno in enojno natančnost računanja s plavajočo
+vejico.  Za primerjavo smo rešili problem tudi z višjim redom $n=m=5$, $w=1$,
+$\b b = \{1, x, x^2, x^3, x^4\}$. V obeh primerih smo uporabili direktno metodo
+SuperLU za reševanje sistema enačb. Za vsakega od teh primerov smo izračunali
+diskretno $L_\infty$ napako v diskretizacijskih točkah: \[ L_\infty = \max_{x\in
+X} |\hat{u}(x) - u(x)|.  \]
 
 \begin{figure}[h]
   \centering
@@ -2806,25 +2813,18 @@ enačb.
   \label{fig:mlsm-fdm-err}
 \end{figure}
 
-Na grafu vidimo, da metodi tudi v praksi sovpadata do približno $N=1000$, nato
-pa natančnost MLSM postane konstantna, dokler ne pridemo v območje numerične
-nestabilnosti. Metoda končnih diferenc pride v območje, ko ne konvergira več z
-redom 2 ob približno enaken $N$ kot MLSM, nestabilnosti pa se začnejo kasneje,
-med $N = 10^4$ in $N = 10^5$. Hitrejšo nestabilnost MLSM lahko pripišemo
-numeričnim napakam pri računanju aproksimacije drugih odvodov, pri FDM namreč v
-matriko direktno zapišemo koeficient $-\frac{2}{h^2}$, pri MLSM pa se ta
-numerično izračuna.  Iz naklona premice vidimo, da sta obe metodi tudi v praksi
-reda~2.
-
-Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.
-MLSM je približno konstantno 6-krat počasnejši kot FDM, kot prikazano z
-razmerjem, merjenim na desni osi. To je tudi pričakovano, saj MLSM išče
-sosede in računa aproksimacije, medtem je to pri FDM vgrajeno v metodo.
-Če pri MLSM posebej merimo samo čas, ki ga
-porabimo za sestavljanje matrike in reševanje sistema, vidimo, da se skoraj
-ujema z časom, porabljenim pri FDM. Minimalno razliko gre pripisati razliki pri
-načinu grajenja matrike, saj pri FDM natanko vemo pozicije in število neničelnih
-elementov vnaprej, pri MLSM pa v splošnem ne.
+Na grafu vidimo, da metodi tudi v praksi sovpadata dokler ne preideta v območje
+nestabilnosti. Pri enojni natančnosti se to zgodi precej hitro, pri $N = 30$,
+pri dvojni natančnosti pa obe metodi konvergirata linearno do približno $N = 1000$.
+Nato se obe metodi približujeta vsaka svoji največji natančnosti,
+med $N = 10^4$ in $N = 10^5$ diskretizacijskimi točkami pa se začnejo pojavljati
+numerične nestabilnosti. Manjšo končno natančnosti MLSM lahko pripišemo
+numeričnim napakam pri računanju aproksimacije drugih odvodov. Pri FDM namreč v
+matriko direktno zapišemo koeficiente $\frac{1}{h^2}$ in $-\frac{2}{h^2}$, pri
+MLSM pa se ti izračunajo numerično. Iz naklona premice vidimo, da sta obe metodi
+tudi v praksi reda~2. Če uporabimo za računanje aproksimacije odvoda 5 sosedov
+namesto 3, po pričakovanjih dobimo metodo, ki konvergira z višjim redom, ima pa
+enako končno natančnost kot prej.
 
 \begin{figure}[h]
   \centering
@@ -2832,6 +2832,28 @@ elementov vnaprej, pri MLSM pa v splošnem ne.
   \caption{Primerjava časa izvajanja MLSM in FDM metod.}
   \label{fig:mlsm-fdm-time}
 \end{figure}
+
+Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.
+MLSM je približno konstantno 5.5-krat počasnejši kot FDM za velike $(\geq
+10^4)$ $N$, kot prikazano z razmerjem, merjenim na desni osi. To je tudi
+pričakovano, saj MLSM išče sosede in računa aproksimacije, medtem je to pri FDM
+izračunano na roke.  Če pri MLSM posebej merimo samo čas, ki ga porabimo za
+sestavljanje matrike in reševanje sistema, vidimo, da se skoraj ujema z časom,
+porabljenim pri FDM.  Minimalno razliko gre pripisati razliki pri načinu
+grajenja matrike, saj pri FDM natanko vemo pozicije in število neničelnih
+elementov vnaprej, pri MLSM pa v splošnem ne. MLSM višjega reda je pričakovano
+počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja $N$ glavna parametra v
+časovni zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je
+konsistentno dvakrat počasnejši. Toda, če pogledamo koliko časa potrebujemo, da
+dosežemo natančnost $10^{-6}$ iz grafov~\ref{fig:mlsm-fdm-err}
+in~\ref{fig:mlsm-fdm-time} vidimo, da MLSM višjega reda potrebuje le $N = 22$,
+za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo
+$N = 400$ kar nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega
+reda je dovolj zoprna, da se zanjo malokrat odločimo, saj je treba uporabljati
+enostranske diference pri robu. Pri MLSM pa se izračunajo same, vse kar je
+potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno natančnost
+namesto dvojne se to pozna na času, ki ga porabimo za reševanje, vendar je
+enojna natančnost ponavadi neuporabna zaradi zgodnje nestabilnosti.
 
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
@@ -2883,10 +2905,11 @@ Za primer $\ell = 1$  v prejšnji trditvi dobimo oceno
 \[
   |u(x, y)| \leq \frac{7 \zeta(3)}{2 \pi^2} \approx 0.1356,
 \]
-kar drži, v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.7367$.
-Kot posledico zgornje trditve lahko izračunamo, da je rep
-vrste~\eqref{eq:poisson-analytical} za $\ell = 59$
-manjši kot $10^{-5}$, za $\ell = 181$ pa manjši kot $10^{-6}$.
+kar drži, v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.07367$.
+Iz zgornje trditve lahko izračunamo, da je rep
+vrste~\eqref{eq:poisson-analytical} za $\ell = 59$ manjši kot $10^{-5}$, za
+$\ell = 181$ pa manjši kot $10^{-6}$.  Za izračun analitične rešitve ob
+primerjavi z numerično je bil uporabljen $\ell = 181$.
 \begin{opomba}
   Računanje izraza \[
     \frac{\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi
@@ -2901,15 +2924,15 @@ manjši kot $10^{-5}$, za $\ell = 181$ pa manjši kot $10^{-6}$.
   kjer vedno nastopa negativen eksponent.
 \end{opomba}
 
-Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori baznih funkcij: monomi,
-Gaussovimi funkcijami, multikvadratičnimi in inverznimi multikvadratičnimi.
-Za monome vzemimo $n = m = 5$, $m = 6$ in $n=9$ in $m=n=9$, kar sovpada s
-primeri iz razdelka~\ref{sec:posebni-primeri}. Za radialne bazne funkcije
-vzemimo vedno $n=m$ in sicer vrednosti 5, 9 in 13 za parameter oblike pa
-$\sigma_b = 40 r_\chi$. Za utež vzemimo Gaussovo utež z $\sigma_w = r_\chi$.
+Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori
+baznih funkcij: monomi, Gaussovimi funkcijami, multikvadratičnimi in inverznimi
+multikvadratičnimi.  Za monome vzemimo $n = m = 5$, $m = 6$ in $n=9$ in $m=n=9$,
+kar sovpada s primeri iz razdelka~\ref{sec:posebni-primeri}. Za radialne bazne
+funkcije vzemimo vedno $n=m$ in sicer vrednosti 5, 9 in 13 za parameter oblike
+pa $\sigma_b = 110\, r_\chi$. Za utež vzemimo Gaussovo utež z $\sigma_w = \frac34 r_\chi$.
 V vseh primerih je bila za reševanje sistema enačb uporabljena direktna metoda
-SuperLU. Iterativni BiCGSTAB algoritem je dal enake rezultate.
-Napaka metod je prikazana na sliki~\ref{fig:poisson-square-convergence}.
+SuperLU. Iterativni BiCGSTAB algoritem je dal enake rezultate.  Napaka metod je
+prikazana na sliki~\ref{fig:poisson-square-convergence}.
 
 \begin{figure}[h]
   \centering

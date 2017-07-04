@@ -1,6 +1,6 @@
 close all
 clear
-datafile = '../data/poisson_square.h5';
+datafile = '../data/poisson_square_implicit.h5';
 info = h5info(datafile);
 
 typenum = length(info.Groups);
@@ -28,7 +28,6 @@ for i = 1:simnum
         data(j, i, 3) = time;
 
 
-
     %     timem(i) = timefdm;
     %     times(i) = time;
     %     timespart(i) = timepart;
@@ -38,6 +37,7 @@ for i = 1:simnum
     %     Ns(i) = length(xx);
 
         %if i > 50, break, end
+        % if strcmp(name, '/mon9/calc0408'), break, end
     end
     fprintf('point %d/%d \r', i, simnum);
 end
@@ -71,27 +71,30 @@ colors = {
 
 Ns = data(1, :, 1);
 
+ok = find(Ns < 1e3);
+best = polyfit(log(Ns), log(data(8, :, 2)), 1);
 f1 = setfig('b1');
 for i = 1:typenum
     plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
 end
+text(0.4, 0.43, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-xlim([40, Inf])
+xlim([40, 10^5])
 legend(legendvals)
-figure(f1)
 
-f2 = setfig('b2');
+f2 = setfig('b2', 'Visible', 'off');
+hold off
+hold on
 for i = 1:typenum
     plot(Ns, data(i, :, 3), [markers{i}, '-'], 'Color', colors{i})
 end
 % set(gca, 'XScale', 'log', 'YScale', 'log')
-xlim([40, Inf])
+xlim([40, 10^5])
 legend(legendvals, 'Location', 'SE')
 xlabel('$N$')
 ylabel('\v{c}as [$s$]')
-figure(f2)
 
-%exportfig(f1, '../../../images/poisson_square_convergence', '-pdf')
-%exportfig(f2, '../../../images/poisson_square_time', '-pdf')
+exportfig(f1, '../../../images/poisson_square_convergence', '-pdf')
+exportfig(f2, '../../../images/poisson_square_time', '-pdf')

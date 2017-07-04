@@ -14,13 +14,14 @@ using namespace Eigen;
 
 HDF5IO file("data/convergence_test_neumann.h5", HDF5IO::DESTROY);
 
-void solve_fdm(int n) {
+template <typename scalar_t>
+void solve_fdm(int n, std::string suffix = "") {
     Timer t;
     t.addCheckPoint("start");
-    vector<Triplet<double>> ts;
+    vector<Triplet<scalar_t>> ts;
     ts.reserve(3*n -2);
-    double h = 1.0/(n-1);
-    VectorXd rhs = VectorXd::Zero(n);
+    scalar_t h = 1.0/(n-1);
+    Eigen::Matrix<scalar_t,Dynamic,1> rhs = Eigen::Matrix<scalar_t,Dynamic,1>::Zero(n);
     for (int i = 1; i < n-1; ++i) {
         ts.emplace_back(i, i, -2/h/h);
         ts.emplace_back(i, i-1, 1/h/h);
@@ -34,43 +35,43 @@ void solve_fdm(int n) {
     ts.emplace_back(n-1, n-1, -3./2/h);
     rhs(n-1) = 0;
 
-    SparseMatrix<double> M(n, n);
+    SparseMatrix<scalar_t> M(n, n);
     M.setFromTriplets(ts.begin(), ts.end());
-    SparseLU<SparseMatrix<double>> solver(M);
-    VectorXd sol = solver.solve(rhs);
+    SparseLU<SparseMatrix<scalar_t>> solver(M);
+    Eigen::Matrix<scalar_t,Dynamic,1> sol = solver.solve(rhs);
     t.addCheckPoint("end");
 
-    file.openFolder(format("calc%06d", n));
-    file.setFloatArray("solfdm", sol);
-    file.setDoubleAttribute("timefdm", t.getTime("start", "end"));
+    file.openFolder(format("/calc%06d", n));
+    file.setFloatArray("solfdm"+suffix, sol);
+    file.setDoubleAttribute("timefdm"+suffix, t.getTime("start", "end"));
 }
 
-void solve_neu(int n) {
+template <typename scalar_t>
+void solve_neu(int n, std::string suffix = "", int support_size = 3) {
     Timer t;
     t.addCheckPoint("start");
-    double a = 0, b = 1;
+    scalar_t a = 0, b = 1;
     // Prepare domain
-    RectangleDomain<Vec1d> domain(a, b);
+    RectangleDomain<Vec<scalar_t, 1>> domain(a, b);
     domain.fillUniform(n-1, 2);
     int N = domain.size();
     assert(N == n+1);
-    int support_size = 3;
     domain.findSupport(support_size);
     // Prepare operators and matrix
-    EngineMLS<Vec1d, Monomials, Monomials> mls(3, domain.positions, 1);
-    SparseMatrix<double> M(N, N);
+    EngineMLS<Vec<scalar_t, 1>, Monomials, Monomials> mls(support_size, domain.positions, 1);
+    SparseMatrix<scalar_t> M(N, N);
     M.reserve(Range<int>(N, support_size));
     auto op = make_mlsm<mlsm::d1|mlsm::lap>(domain, mls, domain.types != 0);  // All nodes, including boundary
     t.addCheckPoint("shapes");
-    Eigen::VectorXd rhs = Eigen::VectorXd::Zero(N);
+    Eigen::Matrix<scalar_t,Dynamic,1> rhs = Eigen::Matrix<scalar_t,Dynamic,1>::Zero(N);
     // Set equation on interior
     for (int i : (domain.types == INTERNAL)) {
-        op.lapvec(M, i, 1.0);  // laplace in interior
+        op.lap(M, i, 1.0);  // laplace in interior
         rhs(i) = std::sin(domain.positions[i][0]);
     }
     // Set boundary conditions
     for (int i : (domain.types == BOUNDARY)) {
-        double x = domain.positions[i][0];
+        scalar_t x = domain.positions[i][0];
         if (x == 0) {
             M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
             rhs(i) = 0;
@@ -83,16 +84,16 @@ void solve_neu(int n) {
     }
 
     M.makeCompressed();
-    SparseLU<SparseMatrix<double>> solver;
+    SparseLU<SparseMatrix<scalar_t>> solver;
     solver.compute(M);
-    VecXd sol = solver.solve(rhs);
+    Eigen::Matrix<scalar_t,Dynamic,1> sol = solver.solve(rhs);
     t.addCheckPoint("end");
 
-    file.openFolder(format("calc%06d", N));
+    file.openFolder(format("/calc%06d", N));
     file.setFloat2DArray("pos", domain.positions);
-    file.setFloatArray("sol", sol);
-    file.setDoubleAttribute("time", t.getTime("start", "end"));
-    file.setDoubleAttribute("timepart", t.getTime("start", "shapes"));
+    file.setFloatArray("sol"+suffix, sol);
+    file.setDoubleAttribute("time"+suffix, t.getTime("start", "end"));
+    file.setDoubleAttribute("timepart"+suffix, t.getTime("start", "shapes"));
 }
 
 int main() {
@@ -100,8 +101,13 @@ int main() {
 //      vector<int> testrange = {5};
     for (int n : testrange) {
         prn(n);
-        solve_neu(n);
-        solve_fdm(n+1);
+        solve_neu<double>(n);
+        solve_fdm<double>(n+1);
+        solve_neu<double>(n, "_s5", 5);
+        if (n < 500) {
+            solve_neu<float>(n, "_float");
+            solve_fdm<float>(n+1, "_float");
+        }
     }
 
     return 0;

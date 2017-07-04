@@ -5,7 +5,7 @@ include_directories("${CMAKE_SOURCE_DIR}/../e62numcodes/src")
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
-SET(CMAKE_CXX_FLAGS "-O3 -std=c++14") # -DNDEBUG -DEIGEN_NO_DEBUG")
+SET(CMAKE_CXX_FLAGS "-O3 -std=c++14 -DNDEBUG -DEIGEN_NO_DEBUG")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/../e62numcodes/ build_util)
@@ -14,8 +14,11 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/../e62numcodes/ build_util)
 add_executable(convergence_test_neumann convergence_test_neumann.cpp)
 target_link_libraries(convergence_test_neumann pde_utils)
 
-add_executable(poisson_square poisson_square.cpp)
-target_link_libraries(poisson_square pde_utils)
+add_executable(poisson_square_implicit poisson_square_implicit.cpp)
+target_link_libraries(poisson_square_implicit pde_utils)
+
+add_executable(poisson_square_explicit poisson_square_explicit.cpp)
+target_link_libraries(poisson_square_explicit pde_utils)
 
 add_executable(poisson_weird poisson_weird.cpp)
 target_link_libraries(poisson_weird pde_utils)

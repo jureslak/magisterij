@@ -12,7 +12,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/poisson_square.h5", HDF5IO::DESTROY);
+HDF5IO file("data/poisson_square_implicit.h5", HDF5IO::DESTROY);
 
 template <template<class> class T>
 void solve(int n, T<Vec2d> basis, int support_size, std::string name) {
@@ -26,10 +26,10 @@ void solve(int n, T<Vec2d> basis, int support_size, std::string name) {
     domain.findSupport(support_size);
     t.addCheckPoint("domain");
     // Prepare operators and matrix
-    NNGaussians<Vec2d> weight(1*domain.characteristicDistance());
+    NNGaussians<Vec2d> weight(0.75*domain.characteristicDistance());
     if (name.substr(0, 3) != "mon")
         basis.shape = basis.shape * domain.characteristicDistance();
-    EngineMLS<Vec2d, T, NNGaussians> mls(basis, domain.positions, weight);
+    EngineMLS<Vec2d, T, NNGaussians> mls(basis, weight);
     SparseMatrix<double> M(N, N);
     M.reserve(Range<int>(N, support_size));
     auto op = make_mlsm<mlsm::lap>(domain, mls, domain.types != 0);  // All nodes, including boundary
@@ -76,24 +76,25 @@ void solve(int n, T<Vec2d> basis, int support_size, std::string name) {
 int main() {
     vector<int> testrange = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 31, 32, 34, 36, 37, 39, 41, 43, 46, 48, 50, 53, 56, 58, 61, 65, 68, 71, 75, 79, 83, 87, 91, 96, 101, 106, 112, 117, 123, 130, 136, 143, 151, 158, 166, 175, 184, 193, 203, 213, 224, 236, 248, 261, 274, 288, 303, 318, 334, 352, 370, 388, 408};
 //      vector<int> testrange = {10};
-    NNGaussians<Vec2d> g5(100., 5);
-    MultiQuadric<Vec2d> mq5(100., 5);
-    InverseMultiQuadric<Vec2d> imq5(100., 5);
+    NNGaussians<Vec2d> g5(110., 5);
+    MultiQuadric<Vec2d> mq5(110., 5);
+    InverseMultiQuadric<Vec2d> imq5(110., 5);
     Monomials<Vec2d> mon5({{0, 0}, {1, 0}, {0, 1}, {2, 0}, {0, 2}});
 
-    NNGaussians<Vec2d> g9(130., 9);
-    MultiQuadric<Vec2d> mq9(130., 9);
-    InverseMultiQuadric<Vec2d> imq9(130., 9);
+    NNGaussians<Vec2d> g9(110., 9);
+    MultiQuadric<Vec2d> mq9(110., 9);
+    InverseMultiQuadric<Vec2d> imq9(110., 9);
     Monomials<Vec2d> mon6(3);
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
-    NNGaussians<Vec2d> g13(130., 13);
-    MultiQuadric<Vec2d> mq13(130., 13);
-    InverseMultiQuadric<Vec2d> imq13(130., 13);
+    NNGaussians<Vec2d> g13(110., 13);
+    MultiQuadric<Vec2d> mq13(110., 13);
+    InverseMultiQuadric<Vec2d> imq13(110., 13);
 
 //      testrange = {1000};
 
-    for (int n : testrange) {
+    for (int i = 0; i < testrange.size(); i += 1) {
+        int n = testrange[i];
         prn(n);
         solve(n, mon5, 5, "mon5");
         solve(n, g5, 5, "gau5");
@@ -106,9 +107,9 @@ int main() {
         solve(n, imq9, 9, "imq9");
 
         solve(n, mon9, 9, "mon9");
-        solve(n, g9, 13, "gau13");
-        solve(n, mq9, 13, "mq13");
-        solve(n, imq9, 13, "imq13");
+        solve(n, g13, 13, "gau13");
+        solve(n, mq13, 13, "mq13");
+        solve(n, imq13, 13, "imq13");
     }
 
     return 0;
