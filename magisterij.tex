@@ -1720,7 +1720,7 @@ sile $p$ v normalni smeri, dobimo dva pogoja:
 \label{sec:numericna-metoda}
 
 V 20.~stoletju je skupaj z razvojem računalnikov začel svojo pot razvoj numeričnih
-metod za reševaje parcialnih diferencialnih enačb. Do danes je bilo razvitih
+metod za reševanje parcialnih diferencialnih enačb. Do danes je bilo razvitih
 veliko metod za numerično reševanje parcialnih diferencialnih enačb. Dva
 pomembna razreda metod se ločita glede na obliko, v kateri rešujemo parcialno
 diferencialno enačbo: šibki~\ang{weak form} ali močni~\ang{strong form}.
@@ -1827,7 +1827,8 @@ Interpolacijski polinom skozi točke $(x_i, u_i)$ lahko sedaj zapišemo kot
   \begin{bmatrix}
     \alpha_0 \\ \alpha_1 \\ \alpha_2
   \end{bmatrix} = \\
-  &= u_i +\frac{u_{i+1}-u_{i-1}}{2 h}(x-x_i)+\frac{u_{i-1}-2 u_{i}+u_{i+1}}{2 h^2}(x-x_i)^2
+  &= u_i +\frac{u_{i+1}-u_{i-1}}{2 h}(x-x_i)+\frac{u_{i-1}-2 u_{i}+u_{i+1}}{2
+  h^2}(x-x_i)^2.
 \end{align*}
 Toda, ker $u_j$ nastopajo linearno, lahko napišemo tudi v obliki
 \[
@@ -1867,7 +1868,7 @@ jih v točki $x_i$ in dobimo znane formule
 To lahko uporabimo za reševanje našega problema~\eqref{eq:example-prob}.
 Namesto enakosti
 \[ u''(x_i) = f(x_i) \]
-za vsako točko $x_i$ v notranjosti naredimo zapišemo podobno enakost
+za vsako točko $x_i$ v notranjosti zapišemo podobno enakost
 \[
   \begin{bmatrix}
     \frac{1}{h^2} & -\frac{2}{h^2} & \frac{1}{h^2}
@@ -1886,7 +1887,7 @@ na treh točkah \[
 \]
 ki bi jo izpeljali na enak način.
 
-Vse te enakosti zložimo sistem enačb in ga zapišimo v matrični obliki
+Vse te enakosti zložimo v sistem enačb in ga zapišimo v matrični obliki
 \begin{align*}
   \begin{bmatrix}
     1 &  \\
@@ -1944,7 +1945,7 @@ sliki~\ref{fig:domain-example}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/domain_theoretical.pdf}
-  \caption{Primer domene z diskretizirano notranjostjo in robom skupaj z izbrano
+  \caption{Primer domene z diskretizirano notranjostjo in robom, skupaj z izbrano
   točko in njeno soseščino.}
   \label{fig:domain-example}
 \end{figure}
@@ -1952,7 +1953,7 @@ sliki~\ref{fig:domain-example}.
 V okolici točke $p$ aproksimirajmo $u$ z elementi iz nekega končno
 dimenzionalnega prostora funkcij $\B = \Lin\{b_1, \dots, b_m\}$.
 Funkcijam $b_i\colon \R^d \to \R$ pravimo \emph{bazne funkcije},
-številu $m$ pa moč baze. Aproksimacijo za $\uh$ za $u$ lahko torej zapišemo kot
+številu $m$ pa moč baze. Aproksimacijo $\uh$ za $u$ lahko torej zapišemo kot
 \[
   u \approx \uh = \sum_{i=1}^m \alpha_i b_i = \b{b}^\T \b{\alpha},
 \]
@@ -1994,8 +1995,8 @@ $n$, $m$, $b_i$ in uteži $w$ je ta sistem lahko poddoločen, predoločen ali
 običajen. V vsakem primeru lahko minimiziranje utežene napake prevedemo na
 minimiziranje diskretne 2-norme $\|WB\b{\alpha}-W\b{\tilde{u}}\|_{2,N(p)}$, kjer je $W$
 diagonalna matrika iz korenov uteži za posamezne točke, $W =
-\diag(\sqrt{w(x_{i_1}-p)}, \dots, \sqrt{w(x_{i_n}-p)})$. Tak sistem pa lahko ne
-glede na njegovo določenost v rešimo s pomočjo Moore-Penroseovega
+\diag(\sqrt{w(x_{i_1}-p)}, \dots, \sqrt{w(x_{i_n}-p)})$. Tak sistem pa lahko, ne
+glede na njegovo določenost, rešimo s pomočjo Moore-Penroseovega
 psevdoinverza, ki ga lahko izračunamo s pomočjo singularnega razcepa matrike
 $WB$.
 Tako lahko izrazimo \[ \b{\alpha} = (WB)^{+}W\b{\tilde u}, \]
@@ -2021,7 +2022,7 @@ aproksimirali odvode funkcije $u$ z odvodi $\uh$,
 \]
 od koder kot prej definiramo
 \begin{equation}
-  \b\phi_{\L,p} = (\L\b{b})(p)^\T(WB)^{+}W
+  \b\phi_{\L,p} = (\L\b{b})(p)^\T(WB)^{+}W.
   \label{eq:shape-definition}
 \end{equation}
 Funkcional $\b\phi_{\L,p}$ je aproksimacija operatorja $\L$ v točki $p$.
@@ -2042,21 +2043,21 @@ $p$,
 To lahko sedaj storimo za vsako diskretizacijsko točko $x_i$ v domeni in
 dobimo sistem enačb
 \begin{align*}
-  \b\phi_{\L,x_i} \cdot \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak da je $x_i \in \Omega$ } \\
-  \b\phi_{\Rc,x_i} \cdot \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak da je $x_i \in \partial\Omega$.}
+  \b\phi_{\L,x_i} \cdot \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$ } \\
+  \b\phi_{\Rc,x_i} \cdot \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak, da je $x_i \in \partial\Omega$.}
 \end{align*}
 Te enačbe lahko zapišemo v matrični sistem
 \begin{equation}
   A\b{u} = \b{f},
   \label{eq:discretized-system}
 \end{equation}
-kjer ima matrika $A$ v vrsticah zapisane funkcionale $\b\phi_{\L,x_i}$, tako da so
+kjer ima matrika $A$ v vrsticah zapisane funkcionale $\b\phi_{\L,x_i}$ tako, da so
 neničelni elementi na tistih mestih, ki se pomnožijo z neznankami, ki ustrezajo
 sosedom $x_i$. Natančneje, elementi matrike $A$ so
 \begin{align*}
-  A(k, i_j) &= \b\phi_{\L,p}(j), \text{ za vsak $k$, tak da je $x_k \in \Omega$
+  A(k, i_j) &= \b\phi_{\L,p}(j), \text{ za vsak $k$, tak, da je $x_k \in \Omega$
   in za vsak $i_j \in \I(x_k)$,} \\
-  A(k, i_j) &= \b\phi_{\Rc,p}(j), \text{ za vsak $k$, tak da je $x_k \in
+  A(k, i_j) &= \b\phi_{\Rc,p}(j), \text{ za vsak $k$, tak, da je $x_k \in
   \partial\Omega$ in za vsak $i_j \in \I(x_k)$.}
 \end{align*}
 Razumljivejša je morda kar Matlab-ova notacija
@@ -2088,7 +2089,7 @@ vzamemo $u(x_i) \approx u_i$.
 
 \subsection{Posebni primeri}
 \label{sec:posebni-primeri}
-Metoda iz razdelka~\ref{sec:splosna-izpeljava} je formulirana precej splošno, in
+Metoda iz razdelka~\ref{sec:splosna-izpeljava} je formulirana precej splošno in
 v posebnih primerih lahko prepoznamo druge znane metode. Za začetek pokažimo
 enostavno trditev, ki bo metodo v določenih primerih poenostavila.
 \begin{trditev}
@@ -2100,7 +2101,7 @@ enostavno trditev, ki bo metodo v določenih primerih poenostavila.
 Spomnimo se, da je \[
   \b\phi = (\L\b{b})(p)^\T(WB)^{+}W.
 \]
-Matrika $W$ je diagonalna s sami pozitivnimi števili na diagonali in je torej
+Matrika $W$ je diagonalna s samimi pozitivnimi števili na diagonali in je torej
 obrnljiva. Po predpostavki je obrnljiva tudi matrika $B$, torej je obrnljiv tudi
 produkt $WB$ in velja
 \[
@@ -2113,17 +2114,17 @@ Od tod sledi, da je
 kar je neodvisno od $W$.
 \endproof
 \begin{opomba}
-  Čeprav trditev~\ref{trd:weight-independence} velja v eksaktni aritmetiki v
+  Čeprav trditev~\ref{trd:weight-independence} velja v eksaktni aritmetiki, v
   praksi ne velja nujno. Če so izbrane uteži zelo majhne ali zelo različnih
-  velikosti lahko to povzroči nepotrebne numerične nestabilnosti.
+  velikosti, lahko to povzroči nepotrebne numerične nestabilnosti.
 
   V praksi trditev kljub temu enostavno pomeni, da če izberemo toliko baznih
   funkcij kot imamo sosedov, je izbira uteži nepomembna.
 \end{opomba}
 
 Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceev robni problem na
-intervalu naša metoda ujema z metodo končnih diferenc. Pokažimo to tudi v
-primer dvodimenzionalne Poissonove enačbe.
+intervalu naša metoda ujema z metodo končnih diferenc. Pokažimo to tudi na
+primeru dvodimenzionalne Poissonove enačbe.
 
 \begin{trditev}
   \label{trd:eq-to-fdm}
@@ -2143,9 +2144,9 @@ ki pravi
   4u_{i,j}}{h^2},
 \]
 pri čemer spremenljivka $u_{i, j}$ pripada koordinati $(x_i, y_j)$. Če se
-aproksimaciji Laplaceovega operatorja ujemata, potem se ujemati tudi
+aproksimaciji Laplaceovega operatorja ujemata, potem se ujemata tudi
 aproksimaciji rešitve, saj sistem pri obeh metodah gradimo na enak način.
-Ker je operator krajevno neodvisen so tudi funkcije oblik odvisne samo od
+Ker je operator krajevno neodvisen, so tudi funkcije oblik odvisne samo od
 medsebojne lege točk in torej lahko brez škode
 za splošnost predpostavimo, da računamo funkcijo oblike za točko
 $p = (0, 0)$. Najbližjih $n$ sosedov je tako $N(p) = \{(0, 0), (0, h), (0, -h),
@@ -2193,7 +2194,7 @@ kar je ravno iskana aproksimacija.
 \begin{opomba}
   Metodo za izračun funkcije oblike je zelo elegantno implementirati v
   Wolfram Mathematici, kar olajša simbolno raziskovanje takih aproksimacij.
-  Zgornje matrike so bile izračunane s programa~\ref{prog:shape-mathematica}.
+  Zgornje matrike so bile izračunane s programom~\ref{prog:shape-mathematica}.
 
   \begin{listing}[!h]
     \vspace{-1ex}
@@ -2241,9 +2242,9 @@ phi = Lb.PseudoInverse[B] // Simplify
 \frac{2}{3 h^2}
     \end{bmatrix}.
   \]
-  Vidimo, da tokrat v aproksimaciji upoštevamo vseh 9 sosedov, z razliko od
+  Vidimo, da tokrat v aproksimaciji upoštevamo vseh 9 sosedov, za razliko od
   aproksimacije v opombi~\ref{op:fdm-9}. Naravno sledi vprašanje, ali je ta
-  aproksimacija kaj slabša, morda drugačnega reda? Izkaže se da ne, saj z
+  aproksimacija kaj slabša, morda drugačnega reda? Izkaže se, da ne, saj z
   razvojem aproksimacij v Taylorjevo vrsto dobimo
   \scriptsize
   \begin{align*}
@@ -2399,21 +2400,21 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
 Splošno $d$-dimenzionalno domeno $\Omega$ je težko dobro diskretizirati.
 Želimo si, da bi bile točke v domeni čim bolj enakomerno razporejene, saj to
 pomeni, da smo dobro popisali celotno področje in upamo, da s tem tudi obnašanje
-funkcije $u$, hrakti pa si zaradi numerične stabilnosti ne želimo, da bi bile
+funkcije $u$, hkrati pa si zaradi numerične stabilnosti ne želimo, da bi bile
 točke preveč skupaj. Uvedimo dve količini, ki nam merita ti dve lastnosti.
 Za dano domeno $\Omega$ in množico točk $X$ definirajmo
 \begin{align}
   h_\Omega(X) &= \max_{p \in \Omega} \min_{x \in X} \|p - x\| \\
   \label{eq:def-hs}
-  S(X) &= \min_{\substack{x, y \in \Omega \\ x \neq y}} \|x-y\| \nonumber
+  S(X) &= \min_{\substack{x, y \in \Omega \\ x \neq y}} \|x-y\|. \nonumber
 \end{align}
 Količina $h$ pove, da ne glede na to, kje v domeni smo, imamo na razdalji manj ali enako $h$
 vsaj eno diskretizacijsko točko. Količina $S$ pa pove, kako blizu so si
 diskretizacijske točke med seboj. Dobra diskretizacija želi maksimizirati $S$ in
 minimizirati~$h$.
 
-Algoritmi za diskretizacijo odvisni od načina, kako podamo domeno.
-V našem se izkaže, da je za trenutne potrebe dovolj, da podpiramo
+Algoritmi za diskretizacijo so odvisni od načina, kako podamo domeno.
+V našem primeru se izkaže, da je za trenutne potrebe dovolj, da podpiramo
 kvadre in krogle do vključno treh dimenzij, kot tudi unije in razlike
 osnovnih oblik.
 
@@ -2425,7 +2426,7 @@ v~\cite{hannay2004fibonacci} ali~v~\cite{gonzalez2010measurement}.
 Pri razlikah domen preprosto izbrišemo točke, ki so padle izven domene,
 pri unijah pa naredimo tudi unijo diskretizacij. Pri tem lahko potem naredimo še
 en korak in pobrišemo ven kakšno izmed točk, ki so si preblizu skupaj.
-Primeri domen in njihovih diskretizacij dobljenih na ta način so prikazani na sliki~\ref{fig:domains}.
+Primeri domen in njihovih diskretizacij, dobljenih na ta način, so prikazani na sliki~\ref{fig:domains}.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/domains_generated.png}
@@ -2455,7 +2456,7 @@ stran od drugih točk, v prazen prostor. Točko lahko malo premaknemo v smeri
 sile, ponovno izračunamo medsebojne sile in postopek ponavljamo. Pri tem točkam
 na robu ne dovolimo premikanja in če kakšna točka iz notranjosti zleze iz
 domene, jo postavimo na naključno mesto nazaj v domeno. Zapis zgornjega postopka
-je v psevdokodi je podan kot algoritem~\ref{alg:relax}. Postopku se kdaj reče
+je v psevdokodi podan kot algoritem~\ref{alg:relax}. Postopku se kdaj reče
 tudi \emph{sprostitev} \ang{relaxation} domene, kajti na začetku so med točkami
 napetosti, ki jih s premikanjem poskušajo minimizirati. Rezultati na primeru
 izboljšanja naključne diskretizacije kroga so podani na
@@ -2517,7 +2518,7 @@ Da algoritem izboljša kvaliteto aproksimacije se vidi tudi, če izračunamo
 parametra $h$ in $S$. Pričakujemo, da se bo $S$ povečal, saj se točke, ki so
 bolj skupaj, bolj odbijajo. Na sliki~\ref{fig:relax-hs} vidimo primerjavo med
 kvaliteto diskretizacije s Fibonaccijevo mrežo in njeno 10-kratno izboljšavo.
-Vidimo da se $h$ ni bistveno spremenil, le varianca se mu je malce povečala,
+Vidimo, da se $h$ ni bistveno spremenil, le varianca se mu je malce povečala,
 $S$ pa se je v povprečju precej izboljšal in izkazuje celo lepše obnašanje kot
 prej.
 
@@ -2526,7 +2527,7 @@ prej.
   \includegraphics[width=0.8\textwidth]{images/relax_improvement.pdf}
   \caption{Sprememba $h$ in $S$ po 10 iteracijah algoritma~\ref{alg:relax} s
   parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem
-  krogu z začetno Fibonaccijevo mrežo v odvisnosti od $N$ z razmerjem robnih in
+  krogu z začetno Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in
   notranjih točk $x : \frac{12}{\pi} \sqrt{x}$.}
   \label{fig:relax-hs}
 \end{figure}
@@ -2534,7 +2535,7 @@ prej.
 
 \subsubsection{Iskanje najbližjih sosedov}
 
-Tako v algoritmu~\ref{alg:metoda} v vrstici~\ref{line:kdtree} kot v
+Tako v algoritmu~\ref{alg:metoda} v vrstici~\ref{line:kdtree}, kot v
 algoritmu~\ref{alg:relax} v vrstici~\ref{line:closest} potrebujemo
 najti nekaj najbližjih sosedov dane točke. Navadno za okolico izberemo kar
 $n$ najbližjih sosedov v evklidski metriki, vendar bi lahko soseščino definirali
@@ -2551,9 +2552,9 @@ bolj znanimi strukturami so \emph{$k$-d tree}~\cite{moore1991intoductory},
 \emph{ball tree}~\cite{omohundro1989five} in \emph{cover
 tree}~\cite{beygelzimer2006cover}. V članku~\cite{kibriya2007empirical} je
 narejena empirična primerjava med zgornjimi tremi strukturami, ki pokaže, da
-so v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najboljše obnese
+se v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najbolje obnese
 \emph{$k$-d tree}. Poleg tega \emph{$k$-d tree} najboljše deluje tudi, ko imajo
-točke, v katerih bomo iskali sosede podobno porazdelitev kot točke, iz katerih
+točke, v katerih bomo iskali sosede, podobno porazdelitev kot točke, iz katerih
 smo naredili drevo, kar v našem primeru drži. Če vključimo še dejstvo, da je
 \emph{$k$-d tree} tudi najpopularnejša rešitev za problem najbližjih sosedov
 in ima na voljo veliko prosto dostopnih implementacij, je to dovolj argumentov,
@@ -2573,13 +2574,13 @@ Pri običajnih, polnih matrikah bi za reševanje splošnega sistema linearnih en
 uporabili LU razcep in razcepili matriko $A$ kot $A = LU$. Toda, tudi če je
 matrika $A$ razpršena, v splošnem $L$ in $U$ nista nujno in sta lahko celo
 polni, kar povzroči, da nam zmanjka pomnilnika. Direktne metode, kot na primer
-SuperLU~\cite{li2005overview} poskušajo z
-preureditvijo stolpcev v razpršeni matriki $A$ minimizirati število novih
-neničlenih elementov v matrikah $L$ in $U$. Po drugi strani iterativne metode
-aproksimirajo pravilno rešitev sistema $Ax=b$ z zaporedjem približkov $\{x^{(r)}\}$,
-ki naj bi konvergirali k $x$. Te metode običajno ne zahtevajo veliko pomnilnika,
-je pa natančnost približka odvisna od števila porabljenih iteracij, tako da
-moramo za višjo natančnost porabiti večje število računskih operacij.
+SuperLU~\cite{li2005overview} poskušajo s preureditvijo stolpcev v razpršeni
+matriki $A$ minimizirati število novih neničelnih elementov v matrikah $L$ in
+$U$. Po drugi strani iterativne metode aproksimirajo pravilno rešitev sistema
+$Ax=b$ z zaporedjem približkov $\{x^{(r)}\}$, ki naj bi konvergirali k $x$. Te
+metode običajno ne zahtevajo veliko pomnilnika, je pa natančnost približka
+odvisna od števila porabljenih iteracij, tako da moramo za višjo natančnost
+porabiti večje število računskih operacij.
 
 Za metode iz numerične linearne algebre bomo uporabljali knjižnico
 Eigen~\cite{eigenweb}, ki nudi elegantno in hitro delo z matrikami v C++.
@@ -2597,7 +2598,7 @@ razcepa z dvojnim pragom~\ang{dual threshold incomplete LU factorization (ILUT)}
 omogoča natančnejšo kontrolo nad porabljenim spominom in hitrostjo konvergence z
 uporabo dveh parametrov $p$ in $\tau$. Med $LU$ faktorizacijo izpustimo vsak
 element, ki je manjši kot $\tau\cdot e$, kjer je $e$ povprečna absolutna
-vrednosti elementov v trenutni vrstici. Nato obdržimo le največjih $f$ elementov
+vrednost elementov v trenutni vrstici. Nato obdržimo le največjih $f$ elementov
 v matrikah $L$ in $U$, kjer je $p$ uporabljen kot razmerje med $f$ in začetnim
 številom neničelnih elementov. V grobem nam tako parameter $p$ kontrolira
 kolikokrat več spomina dovolimo za hranjenje predogojenke,
@@ -2631,7 +2632,7 @@ n) = O(mn^2)$, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
 razcepa z dvostranskim Jacobi SVD razcepom iz knjižnice
 Eigen.\footnote{\url{https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html}
 [obiskano 16.\ 6.\ 2017]} Funkcija oblike se izračuna za vsako točko v domeni,
-torej da del algoritma traja $O(m^2 n N)$ časa.
+torej ta del algoritma traja $O(m^2 n N)$ časa.
 
 Pri sestavljanju razpršene matrike lahko v naprej rezerviramo prostor za $n$
 elementov v vsaki vrstici, tako da nas sestavljanje matrike stane $O(nN)$ časa,
@@ -2660,8 +2661,8 @@ Pri funkciji \textsc{diskretiziraj} potrebujemo $O(N)$ spomina za shrambo $N$
 diskretizacijskih točk. Če izvajamo še dodatne izboljšave diskretizacije, nas to
 stane $O(n)$ dodatnega prostora.
 
-Izvajanje funkcije \textsc{sosedi} nas stane $O(N)$ prosta za hranjenje drevesa
-in $O(nN)$ prosta za hranjenje indeksov $n$ sosedov.
+Izvajanje funkcije \textsc{sosedi} nas stane $O(N)$ prostora za hranjenje drevesa
+in $O(nN)$ prostora za hranjenje indeksov $n$ sosedov.
 
 Izvajanje funkcije \textsc{funkcijaOblike} nas stane $O(n+nm+m+n) = O(nm)$
 prostora za vsak klic, za hrambo $N$ funkcij oblike pa potrebujemo $O(nN)$
@@ -2675,12 +2676,12 @@ zahtevnost je $O(nN) + P$.
 
 \subsection{Pogoste vrednosti parametrov}
 Metoda je bila do sedaj formulirana zelo splošno, v praksi pa se uporablja nekaj
-ustaljenih kombinacij. Kot bomo videli razdalje pogosto merimo v večkratnikih
-$r_\chi$, kot na vrstici~\ref{line:chd} v algoritmu~\ref{alg:relax}.
+ustaljenih kombinacij. Kot bomo videli, razdalje pogosto merimo v večkratnikih
+$r_\chi$, kot v vrstici~\ref{line:chd} v algoritmu~\ref{alg:relax}.
 \begin{definicija}
-  Količino $r_\chi$ pripisano diskretizaciji $X$ domene $\Omega$, izračunano z \[
+  Količino $r_\chi$, pripisano diskretizaciji $X$ domene $\Omega$, izračunano z \[
     r_\chi(\Omega, X) = \left( \frac{\textsc{volumen}(\Omega)}{|X|}
-    \right)^\frac{1}{\textsc{dimenzija}(\Omega)}
+    \right)^\frac{1}{\textsc{dimenzija}(\Omega)},
   \]
   imenujemo \emph{karakteristična razdalja.}
 \end{definicija}
@@ -2700,10 +2701,11 @@ domeno, kot na primer ob goščenju mreže, se poslužimo $r_c$.
 
 Pogoste vrednosti za število sosedov so $n = 3, 5, 7$ v eni dimenziji, $n = 5,
 9, 13, 25$ v dveh dimenzijah in $n = 7$ ali $27$ v treh dimenzijah. Za regularne
-domene to simetrično izbere vozlišča pri neregularnih pa izbira $n$ ni tako
-pomembna, dokler je dovolj visoka, da dobro popiše operator, ki ga aproksimiramo.
-Višji $n$ ponavadi pomeni večjo stabilnost, morda višji red in počasnejše
-izvajanje. V praksi izberemo najmanjši $n$, ki daje zadovoljive rezultate.
+domene to pomeni, da so vozlišča izbrana simetrično, pri neregularnih pa izbira
+$n$ ni tako pomembna, dokler je dovolj visoka, da dobro popiše operator, ki ga
+aproksimiramo.  Višji $n$ ponavadi pomeni večjo stabilnost, morda višji red in
+počasnejše izvajanje. V praksi izberemo najmanjši $n$, ki daje zadovoljive
+rezultate.
 
 Za utež se pogosto uporablja konstanta $w\equiv1$, če ne želimo uteženih
 najmanjših kvadratov, sicer pa pogosto vzamemo za utež Gaussovo funkcijo
@@ -2713,7 +2715,7 @@ najmanjših kvadratov, sicer pa pogosto vzamemo za utež Gaussovo funkcijo
 kjer $\sigma_w$ imenujemo parameter oblike \ang{shape parameter} uteži.
 Velja opozoriti, da je ta funkcija praktično nič, če smo več kot $3\sigma_w$
 stran od središča ($w(3\sigma_w) \approx 0.0001234$). Če na primer izberemo
-$\sigma_w = r_\chi$ se nam vsi sosedi, ki so dlje kot $r_\chi$ stran v
+$\sigma_w = r_\chi$ se vsi sosedi, ki so dlje kot $r_\chi$ stran, v
 aproksimaciji ne upoštevajo, ne glede na to kako velik $n$ smo izbrali.
 Ponavadi se za $\sigma_w$ začne izbirati vrednosti okoli $r_\chi$, je
 pa potrebno optimalno vrednost določiti za vsak posamezen problem posebej.
