@@ -264,7 +264,7 @@ matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako $\langle
 \va, \vb, \vc\rangle$ bomo označevali mešani produkt vektorjev $\va$, $\vb$ in
 $\vc$, definiran kot $\langle \va, \vb, \vc\rangle = (\va\times\vb)\cdot \vc$.
 
-Divergenco, gradient in Laplaceev operator bomo označevali z $\div$, $\grad$,
+Divergenco, gradient in Laplaceov operator bomo označevali z $\div$, $\grad$,
 $\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2 = \triangle$.
 
 V razdelkih~\ref{sec:numericna-metoda} in~\ref{sec:osnovni-zgledi} bomo imeli
@@ -339,7 +339,7 @@ enakost vektorskih polj v izreku.
 \end{opomba}
 
 \begin{definicija}
-  Laplaceev operator je na vektorskem polju $\vv$ definiran kot
+  Laplaceov operator je na vektorskem polju $\vv$ definiran kot
   \[ \lap \vv = \div\grad \vv.  \]
 \end{definicija}
 
@@ -817,10 +817,10 @@ točko potegnemo ravnino z normalo $\vn$. Tedaj obstaja vektor $\vt$, ki
 predstavlja silo, s katero kontinuum z ene strani ravnine deluje v tej točki na
 tistega na drugi strani. Poleg tega, če potegnemo katero koli drugo ploskev
 skozi točko $\vx$ z enako normalo $\vn$, bo vektor $\vt$, še vedno enak, saj bo
-kontinuum deloval z enako silo. Temu razmisleku se reče \emph{Cauchyeva
+kontinuum deloval z enako silo. Temu razmisleku se reče \emph{Caucyjeva
 hipoteza}.
 
-\begin{aksiom}[Cauchyeva hipoteza]
+\begin{aksiom}[Caucyjeva hipoteza]
   V telesu obstaja vektorsko polje $\vt$ inducirano s površinskimi silami, ki
   je odvisno samo od položaja, časa in normale na površino (resnično ali
   namišljeno), kjer ga opazujemo.  S simboli lahko zapišemo
@@ -835,7 +835,7 @@ prvega. Temu se reče tudi tretji Newtonov zakon za mehaniko kontinuuma in
 ga ni treba privzeti kot aksiom, ampak lahko dokažemo iz do sedaj
 privzetih aksiomov. Dokaza tega in naslednjega izreka bosta povzeta po dokazih
 iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
-\begin{trditev}[Cauchyeva recipročna relacija]
+\begin{trditev}[Caucyjeva recipročna relacija]
   \label{trd:cauchy-reciprocal}
   \begin{equation}
     \vt(t, \vx, -\vn) = -\vt(t, \vx, \vn).
@@ -854,7 +854,7 @@ $\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.4\textwidth]{images/cauchy_disc.pdf}
-  \caption{Valj, uporabljen v dokazu Cauchyjeve recipročne relacije.}
+  \caption{Valj, uporabljen v dokazu Caucyjjeve recipročne relacije.}
   \label{fig:valj}
 \end{figure}
 
@@ -892,14 +892,14 @@ kar je točno to, kar smo želeli pokazati.
 Izkaže se, da velja še več: vektor $\vt$ je linearno odvisen od normale. S
 pomočjo prejšnje trditve lahko pokažemo naslednji izrek, ki nam da na voljo
 matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
-\begin{izrek}[Cauchyev izrek o napetosti]
+\begin{izrek}[Caucyjev izrek o napetosti]
   Obstaja tenzor $\ts$, tako da velja \[
     \vt(t, \vx, \vn) = \ts(t, \vx)\vn.
   \]
-  Tenzor $\ts$ se imenuje Cauchyev napetostni tenzor.
+  Tenzor $\ts$ se imenuje Caucyjev napetostni tenzor.
 \end{izrek}
 \proof
-Podobno kot pri Cauchyevi recipročni relaciji si izberimo majhno telo okoli
+Podobno kot pri Caucyjevi recipročni relaciji si izberimo majhno telo okoli
 točke $\vx$. Tokrat naj bo to tetraeder z tremi stranicami, vzporednimi
 koordinatnim osem in normalo $\vn$ na ploskev, ki jo razpenjajo preostale tri
 stranice, kot prikazano na sliki~\ref{fig:tetra}.
@@ -907,7 +907,7 @@ stranice, kot prikazano na sliki~\ref{fig:tetra}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.4\textwidth]{images/cauchy_tetrahedron.pdf}
-  \caption{Tetraeder, uporabljen za dokaz Cauchyevega izreka o napetosti.}
+  \caption{Tetraeder, uporabljen za dokaz Caucyjevega izreka o napetosti.}
   \label{fig:tetra}
 \end{figure}
 
@@ -961,13 +961,13 @@ dobimo
 \[
   0 = \vt_{\vn} + \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{-\vec{e}_i}.
 \]
-Uporabimo še Cauchyevo recipročno relacijo~\eqref{eq:cauchy-reciprocal} in dobimo
+Uporabimo še Caucyjevo recipročno relacijo~\eqref{eq:cauchy-reciprocal} in dobimo
 \[
   \vt_{\vn} = \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i}.
 \]
 Ta zveza nam pove, kako je napetost na poljubni ploskvi povezana z napetostmi na
 koordinatnih ploskvah.
-To nam dovoljuje definicijo \emph{Cauchyevega napetostnega tenzorja}
+To nam dovoljuje definicijo \emph{Caucyjevega napetostnega tenzorja}
 $\ts$
 \[
   \ts = \sum_{i=1}^3 \vt_{\vec{e}_i}\otimes \vec{e}_i,
@@ -983,8 +983,8 @@ za katerega res velja
 V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja, tako da jih
 bomo iz integralske oblike prevedli v diferencialno.
 Prevedimo najprej aksiom~\ref{aks:gib} o ohranitvi gibalne količine.
-\begin{izrek}[Cauchyeva momentna enačba]
-  Za gibanje kontinuuma velja Cauchyeva momentna enačba
+\begin{izrek}[Caucyjeva momentna enačba]
+  Za gibanje kontinuuma velja Caucyjeva momentna enačba
   \begin{equation}
     \rho \DDt{\vv} = \vf + \div \sigma.
     \label{eq:cauchy-moment}
@@ -1005,10 +1005,10 @@ integral nič za vsako telo, mora biti integrand nič, kar dokaže našo enačbo
 
 Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
 Njegova lokalna oblika se prevede na zelo enostavno trditev o simetriji
-Cauchyevega napetostnega tenzorja.
+Caucyjevega napetostnega tenzorja.
 \begin{trditev}
   \label{trd:sigma-symmetric}
-  Cauchyev napetostni tenzor je simetričen:
+  Caucyjev napetostni tenzor je simetričen:
   \[ \ts^\T = \ts. \]
 \end{trditev}
 \proof
@@ -1048,7 +1048,7 @@ relacijo.
   (\vw \times \vx)\right] dV = \\ &=
 - \int_{B_t} \ts : \grad (\vw \times \vx) dV.
 \end{align*}
-Uporabili smo definicijo in cikličnost mešanega produkta, Cauchyevo momentno
+Uporabili smo definicijo in cikličnost mešanega produkta, Caucyjevo momentno
 enačbo~\eqref{eq:cauchy-moment} in dejstvo, da je
 \[
   \DDt{}\langle \vx, \vv, \vw \rangle =
@@ -1359,9 +1359,9 @@ Zaradi majhnih gradientov pomika je vseeno, ali uporabljamo odvode glede na
 prostorske ali glede na referenčne koordinate. Enak argument lahko uporabimo
 tudi za divergenco in običajne odvode.
 
-Cauchyevo gibalno enačbo lahko zapišemo namesto v prostorskih tudi v referenčnih
+Caucyjevo gibalno enačbo lahko zapišemo namesto v prostorskih tudi v referenčnih
 koordinatah. Pri tem lahko zaradi majhnih gradientov pomikov namesto $\div$
-pišemo $\Div$ in Cauchyev napetostni tenzor enačimo z napetostnim tenzorjem,
+pišemo $\Div$ in Caucyjev napetostni tenzor enačimo z napetostnim tenzorjem,
 zapisanim v referenčnem sistemu. Opustimo tudi strogo ločevanje referenčnih in
 prostorskih koordinat, saj bomo imeli od sedaj naprej enačbe vedno zapisane v
 referenčnih koordinatah. Odvode po času pišimo zato kar s piko, za operatorje pa
@@ -1429,7 +1429,7 @@ mirovanju, kajti tedaj je $\dot u = 0$.
 \begin{opomba}
   Bolj splošno obliko Navierove enačbe, ki ne zahteva tako močnih pogojev na
   $C$, dobimo tako, da preprosto vstavimo definicijo $\ts$ v linearizirano
-  Cauchyevo momentno enačbo. S tem dobimo enačbo
+  Caucyjevo momentno enačbo. S tem dobimo enačbo
   \begin{equation}
     \rho\ddot \vu = \frac12 \div(C:(\grad \vu + \grad\vu^\T)) + \vf.
     \label{eq:navier-general}
@@ -2116,13 +2116,14 @@ kar je neodvisno od $W$.
 \begin{opomba}
   Čeprav trditev~\ref{trd:weight-independence} velja v eksaktni aritmetiki, v
   praksi ne velja nujno. Če so izbrane uteži zelo majhne ali zelo različnih
-  velikosti, lahko to povzroči nepotrebne numerične nestabilnosti.
-
-  V praksi trditev kljub temu enostavno pomeni, da če izberemo toliko baznih
-  funkcij kot imamo sosedov, je izbira uteži nepomembna.
+  velikosti, lahko to povzroči nepotrebne numerične nestabilnosti. Prav tako
+  lahko zaradi izbire uteži pri izračunu psevdoinverza v vrstici~\ref{line:pinv}
+  v algoritmu~\ref{alg:shape-function} SVD razcep, uporabljen v ozadju
+  funkcije \textsc{pinv}, odreže kakšno majhno singularno vrednost več ali manj,
+  kar lahko da precej drugačne rezultate.
 \end{opomba}
 
-Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceev robni problem na
+Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceov robni problem na
 intervalu naša metoda ujema z metodo končnih diferenc. Pokažimo to tudi na
 primeru dvodimenzionalne Poissonove enačbe.
 
@@ -2220,12 +2221,13 @@ phi = Lb.PseudoInverse[B] // Simplify
   x^2 \}$, dobimo enako aproksimacijo kot v trditvi~\ref{trd:eq-to-fdm}, le da
   uporabimo več sosedov. Če jih uredimo po oddaljenosti od $(0, 0)$ dobimo
   aproksimacijo
-  \[
+  \begin{equation}
     \b\phi =  \begin{bmatrix}
     -\frac{4}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} &
     \frac{1}{h^2} & 0 & 0 & 0 & 0
   \end{bmatrix}.
-\]
+    \label{eq:shape-mon9}
+  \end{equation}
  Če pa bi izbrali $n=25$ točk in bazne funkcije $\b b = \{x^iy^j, 0 \leq i, j
  \leq 4 \}$, potem bi dobili aproksimacijo četrtega reda.
 \end{opomba}
@@ -2277,14 +2279,15 @@ collocation method}.
 potem zopet s
 pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
 \small
-\[
+\begin{equation}
   \b\phi =\frac{4}{(e^{\frac{2 h^2}{\sigma^2 }}-1)^2 \sigma^4}
 \begin{bmatrix}
   (e^{\frac{2 h^2}{\sigma^2 }}-1)^2 -4h^2 e^{\frac{2 h^2}{\sigma^2 }} &
    h^2e^{\frac{h^2}{\sigma^2 }} & h^2e^{\frac{h^2}{\sigma^2 }} &
    h^2e^{\frac{h^2}{\sigma^2 }} & h^2e^{\frac{h^2}{\sigma^2 }} & 0 & 0 & 0 & 0
  \end{bmatrix}.
-\]
+  \label{eq:shape-gau9}
+\end{equation}
 \normalsize
 Tokrat vidimo, da se precej razlikuje od aproksimacije s končnimi diferencami.
 Toda, še vedno je drugega reda, saj za napako velja
@@ -2295,6 +2298,19 @@ Toda, še vedno je drugega reda, saj za napako velja
   + O(h^4).
 \]
 \end{primer}
+
+Vidimo, da je aproksimacija operatorja in napaka odvisna od tega, kakšen
+$\sigma$ si izberemo v baznih funkcijah.
+\begin{trditev}
+  \label{trd:rbf-konv-k-mon}
+  Aproksimacija Laplaceovega operatorja z devetimi Gaussovimi baznimi funkcijami
+  konvergira proti aproksimaciji z monomi, ko gre $\sigma \to \infty$.
+\end{trditev}
+\proof
+  Obe aproksimaciji smo izračunali že v primeru~\ref{prim:rbf} in
+  opombi~\ref{op:fdm-9}. Če pogledamo limito izraza~\eqref{eq:shape-gau9},
+  ko gre $\sigma \to \infty$, dobimo izraz~\eqref{eq:shape-mon9}.
+\endproof
 
 \subsection{Algoritem}
 V izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava} je veliko detajlov
@@ -2390,6 +2406,7 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
     \State $\phi \gets (\ell \cdot \textsc{pinv}(B)) \odot W$
     \Comment{Direktna analogija enačbe~\eqref{eq:shape-definition}, $\odot$
   označuje}
+    \label{line:pinv}
     \State \Return $\phi$
   \Comment{Hadamardov produkt.}
     \EndFunction
@@ -2856,6 +2873,8 @@ enostranske diference pri robu. Pri MLSM pa se izračunajo same, vse kar je
 potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno natančnost
 namesto dvojne se to pozna na času, ki ga porabimo za reševanje, vendar je
 enojna natančnost ponavadi neuporabna zaradi zgodnje nestabilnosti.
+
+[TODO] insert RBF analysis?
 
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:

@@ -12,7 +12,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/convergence_test_neumann.h5", HDF5IO::DESTROY);
+HDF5IO file("data/convergence_test_1D_neumann.h5", HDF5IO::DESTROY);
 
 template <typename scalar_t>
 void solve_fdm(int n, std::string suffix = "") {
@@ -98,7 +98,6 @@ void solve_neu(int n, std::string suffix = "", int support_size = 3) {
 
 int main() {
     vector<int> testrange = {4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 22, 25, 28, 31, 35, 39, 43, 48, 53, 60, 67, 74, 83, 92, 103, 115, 128, 143, 160, 178, 199, 221, 247, 276, 307, 343, 382, 427, 476, 531, 592, 661, 737, 822, 917, 1023, 1141, 1273, 1420, 1583, 1766, 1970, 2198, 2452, 2735, 3051, 3403, 3796, 4234, 4723, 5269, 5877, 6556, 7313, 8158, 9100, 10151, 11323, 12631, 14089, 15716, 17532, 19556, 21815, 24334, 27144, 30279, 33776, 37676, 42028, 46881, 52295, 58335, 65072, 72586, 80969, 90320, 100751, 112386, 125365}; //, 139843, 155993, 174009, 194104, 216521, 241526, 269419, 300533, 335241, 373956, 417143, 465318, 519056, 579000, 645866, 720455, 803658, 896470, 1000000};
-//      vector<int> testrange = {5};
     for (int n : testrange) {
         prn(n);
         solve_neu<double>(n);

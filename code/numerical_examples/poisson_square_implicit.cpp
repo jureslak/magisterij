@@ -81,7 +81,7 @@ int main() {
     InverseMultiQuadric<Vec2d> imq5(110., 5);
     Monomials<Vec2d> mon5({{0, 0}, {1, 0}, {0, 1}, {2, 0}, {0, 2}});
 
-    NNGaussians<Vec2d> g9(110., 9);
+    NNGaussians<Vec2d> g9(350., 9);
     MultiQuadric<Vec2d> mq9(110., 9);
     InverseMultiQuadric<Vec2d> imq9(110., 9);
     Monomials<Vec2d> mon6(3);
@@ -93,23 +93,23 @@ int main() {
 
 //      testrange = {1000};
 
-    for (int i = 0; i < testrange.size(); i += 1) {
+    for (int i = 0; i < testrange.size(); i += 2) {
         int n = testrange[i];
         prn(n);
-        solve(n, mon5, 5, "mon5");
-        solve(n, g5, 5, "gau5");
-        solve(n, mq5, 5, "mq5");
-        solve(n, imq5, 5, "imq5");
+//        solve(n, mon5, 5, "mon5");
+//        solve(n, g5, 5, "gau5");
+//        solve(n, mq5, 5, "mq5");
+//        solve(n, imq5, 5, "imq5");
 
-        solve(n, mon6, 9, "mon6");
+//        solve(n, mon6, 9, "mon6");
         solve(n, g9, 9, "gau9");
-        solve(n, mq9, 9, "mq9");
-        solve(n, imq9, 9, "imq9");
+//        solve(n, mq9, 9, "mq9");
+//        solve(n, imq9, 9, "imq9");
 
-        solve(n, mon9, 9, "mon9");
-        solve(n, g13, 13, "gau13");
-        solve(n, mq13, 13, "mq13");
-        solve(n, imq13, 13, "imq13");
+//        solve(n, mon9, 9, "mon9");
+//        solve(n, g13, 13, "gau13");
+//        solve(n, mq13, 13, "mq13");
+//        solve(n, imq13, 13, "imq13");
     }
 
     return 0;

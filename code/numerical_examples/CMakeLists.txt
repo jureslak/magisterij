@@ -11,11 +11,20 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 add_subdirectory(${CMAKE_SOURCE_DIR}/../e62numcodes/ build_util)
 
 # be lazy and use all utils libs, you can specify one by one
-add_executable(convergence_test_neumann convergence_test_neumann.cpp)
-target_link_libraries(convergence_test_neumann pde_utils)
+add_executable(convergence_test_1D_neumann convergence_test_1D_neumann.cpp)
+target_link_libraries(convergence_test_1D_neumann pde_utils)
+
+add_executable(convergence_test_1D_rbf convergence_test_1D_rbf.cpp)
+target_link_libraries(convergence_test_1D_rbf pde_utils)
 
 add_executable(poisson_square_implicit poisson_square_implicit.cpp)
 target_link_libraries(poisson_square_implicit pde_utils)
+
+add_executable(poisson_square_implicit_basis poisson_square_implicit_basis.cpp)
+target_link_libraries(poisson_square_implicit_basis pde_utils)
+
+add_executable(poisson_square_implicit_sigma_scan poisson_square_implicit_sigma_scan.cpp)
+target_link_libraries(poisson_square_implicit_sigma_scan pde_utils)
 
 add_executable(poisson_square_explicit poisson_square_explicit.cpp)
 target_link_libraries(poisson_square_explicit pde_utils)
