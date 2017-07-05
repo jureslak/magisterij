@@ -12,19 +12,23 @@ data = zeros(typenum, simnum, 3);
 
 for i = 1:simnum
     pos = h5read(datafile, [info.Groups(1).Groups(i).Name '/pos']);
-    anal = correct(pos)';
+    anal = correct(pos);
     
     for j = 1:typenum
         grp = info.Groups(j).Groups(i);
         name = grp.Name;
         
+        pos = h5read(datafile, [name '/pos']);
+        anal = correct(pos);
+        if (isrow(anal)), anal = anal'; end
+
         sol = h5read(datafile, [name '/sol']);
         N = h5readatt(datafile, name, 'N');
         time = h5readatt(datafile, name, 'timetotal');
        
         M = spconvert(h5read(datafile, [name '/M'])');
         rhs = h5read(datafile, [name '/rhs']);
-        sol = M \ rhs;
+        % sol = M \ rhs;
 
         err = max(max(abs(sol - anal)));
         data(j, i, 1) = N;
@@ -84,7 +88,7 @@ end
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-ylim([1e-7, 1e2])
+% ylim([1e-7, 1e2])
 xlim([-inf, 1e5])
 legend(legendvals)
 

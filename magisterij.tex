@@ -2874,7 +2874,7 @@ potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno natančnost
 namesto dvojne se to pozna na času, ki ga porabimo za reševanje, vendar je
 enojna natančnost ponavadi neuporabna zaradi zgodnje nestabilnosti.
 
-[TODO] insert RBF analysis?
+% [TODO] insert RBF analysis?
 
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
@@ -2900,7 +2900,7 @@ ostanek.
       \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}}{\cosh(\frac{k\pi}{2})k^3
       \pi ^3}\right| < -\frac{\psi''(\ell/2)}{4 \pi^3},
   \]
-  kjer je $\psi$ digama funkcija.
+  kjer je $\psi(x) = \ddx{}\log\Gamma(x)$ digama funkcija.
 \end{trditev}
 \proof
 Ocenjujmo vsak člen vrste posebej. Funkcijo $\sin$ ocenimo z 1, funkcija
@@ -2926,7 +2926,7 @@ Za primer $\ell = 1$  v prejšnji trditvi dobimo oceno
 \[
   |u(x, y)| \leq \frac{7 \zeta(3)}{2 \pi^2} \approx 0.1356,
 \]
-kar drži, v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.07367$.
+kar drži; v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.07367$.
 Iz zgornje trditve lahko izračunamo, da je rep
 vrste~\eqref{eq:poisson-analytical} za $\ell = 59$ manjši kot $10^{-5}$, za
 $\ell = 181$ pa manjši kot $10^{-6}$.  Za izračun analitične rešitve ob
@@ -2947,10 +2947,11 @@ primerjavi z numerično je bil uporabljen $\ell = 181$.
 
 Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori
 baznih funkcij: monomi, Gaussovimi funkcijami, multikvadratičnimi in inverznimi
-multikvadratičnimi.  Za monome vzemimo $n = m = 5$, $m = 6$ in $n=9$ in $m=n=9$,
-kar sovpada s primeri iz razdelka~\ref{sec:posebni-primeri}. Za radialne bazne
-funkcije vzemimo vedno $n=m$ in sicer vrednosti 5, 9 in 13 za parameter oblike
-pa $\sigma_b = 110\, r_\chi$. Za utež vzemimo Gaussovo utež z $\sigma_w = \frac34 r_\chi$.
+multikvadratičnimi. Za parametre smo vedno vzeli $n = m = 9$
+kar sovpada s primeri iz razdelka~\ref{sec:posebni-primeri}. Pri monomih smo
+dodali tudi primer $n = 9$ in $m = 6$. Za parameter oblike
+pri radialnih baznih funkcijah smo vzeli $\sigma_b = 100\, r_\chi$.
+Za utež vzemimo Gaussovo utež z $\sigma_w = \frac34 r_\chi$.
 V vseh primerih je bila za reševanje sistema enačb uporabljena direktna metoda
 SuperLU. Iterativni BiCGSTAB algoritem je dal enake rezultate.  Napaka metod je
 prikazana na sliki~\ref{fig:poisson-square-convergence}.
@@ -2962,6 +2963,17 @@ prikazana na sliki~\ref{fig:poisson-square-convergence}.
   \label{fig:poisson-square-convergence}
 \end{figure}
 
+Vidimo, da monomi za $n=5$ in $n=9$ konvergirajo linearno z redom 1, kot vemo iz
+teorije končnih diferenc. Radialne bazne funkcije se na začetku ujemamo z
+monomi, nato pa pokažejo slabše konvergenčne lastnosti in nelinearno obnašanje,
+drugačno pri vsakem razredu funkcij. Funkcije, ki uporabljajo več sosedov,
+začnejo z malenkost nižjo napako, prav tako pa morda presenetljivo tudi
+monomi z $n=6$. Iz slike~\ref{fig:poisson-square-time},
+ki prikazuje čas računanja vidimo, da se uporaba baznih funkcij z $n = 9$
+ne splača, saj minimalna pridobljena natančnost ne odtehta časa izvajanja.
+Vidimo, da se čas izvajanja loči na tri pasove glede na $n$, ki vsi
+rastejo linearno z $N$ s konstantnim razmerjem.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{images/poisson_square_time.pdf}
@@ -2969,6 +2981,12 @@ prikazana na sliki~\ref{fig:poisson-square-convergence}.
   problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time}
 \end{figure}
+
+Po trditvi~\ref{trd:rbf-konv-k-mon} aproksimacija z Gaussovimi funkcijami
+konvergira proti aproksimaciji z monomi. Na sliki~?? vidimo to dejstvoj
+demonstirarno tudi numerično. Konvergenčne krivulje za Gaussove funkcije se
+pri povečevanju parametra oblike čedalje bolj približujejo konvergenčni krivulji
+monomov.
 
 \begin{figure}[h]
   \centering
