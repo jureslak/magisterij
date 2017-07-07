@@ -1,4 +1,4 @@
-\documentclass[a4paper,twoside]{article}
+\documentclass[12pt,a4paper,twoside]{article}
 \usepackage[slovene]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -9,6 +9,8 @@
 \usepackage{units}
 \usepackage{array}
 \usepackage{enumerate}
+\usepackage{emptypage} % emply pages without any headers and footers
+\usepackage[list=true,listformat=simple]{subcaption}  % subfigure
 % \usepackage[all]{xy}  % diagrami
 \usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
   linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
@@ -16,15 +18,14 @@
 ]{hyperref}
 % oblika strani
 \usepackage[
-  top=2.5cm,    % margins
-  inner=2cm,
-  outer=3cm,
-  bottom=2.5cm,
+  textwidth=15cm,
+  textheight=24cm,
+  inner=3.5cm,
   footskip=40pt     % pozicija številke strani
 ]{geometry}
 \setlength{\overfullrule}{50pt} % označi predlogo vrstico
+\pagestyle{plain}
 
-\usepackage[list=true,listformat=simple]{subcaption}
 
 % ukazi za matematična okolja
 \theoremstyle{definition} % tekst napisan pokoncno
@@ -184,10 +185,10 @@
 \pagenumbering{roman}
 
 \thispagestyle{empty}
-\noindent\large
+\noindent{\large
 UNIVERZA V LJUBLJANI\\[1mm]
 FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
-\program\ -- 2.~stopnja
+\program\ -- 2.~stopnja}
 \vfill
 
 \begin{center}
@@ -241,7 +242,8 @@ TBD
 {\bf Math. Subj. Class. (2010):}  \\[1mm]
 {\bf Ključne besede:} ?? \\[1mm]
 {\bf Keywords:} ??
-\pagebreak
+
+\cleardoublepage
 
 \setcounter{page}{1}
 \pagenumbering{arabic}
@@ -293,13 +295,13 @@ opremimo s skalarnim produktom
   ortogonalno vsoto podprostorov simetričnih in antisimetričnih tenzorjev.
   \[V\otimes V = Sym(V) \overset{\perp}{\oplus} Asym(V) \]
 \end{trditev}
-\proof
+\begin{proof}
   Vsak tenzor $s$ lahko zapišemo kot $s = \frac12 (s+s^\T) + \frac12(s-s^\T)$.
   Če je $s \in Sym(V)\cap Asym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
   Vsota je res direktna. Ker velja za simetričen $s$ in antisimetričen $t$ tudi
   \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t,\]
   od koder sledi $s:t = 0$, je vsota ortogonalna.
-\endproof
+\end{proof}
 
 \begin{definicija}
   Divergenca tenzorja $t$ drugega reda je vektorsko polje, za katerega za vsak
@@ -317,7 +319,7 @@ Zakaj je ravno to prava definicija, nam pove naslednji izrek
     \int_{\partial \Omega} t\vn dS = \int_{\Omega} \div t dV.
   \]
 \end{izrek}
-\proof
+\begin{proof}
 Naj bo $\va$ poljuben konstanten vektor. Izračunajmo
 \begin{align*}
   \va \cdot \left( \int_{\partial \Omega} t\vn dS \right) &=
@@ -330,7 +332,7 @@ Naj bo $\va$ poljuben konstanten vektor. Izračunajmo
 Pri računu smo uporabili definicijo $t^\T$, definicijo divergence in Gaussov
 izrek za vektorska polja. Ker enakost velja za vsak vektor $\va$, velja tudi
 enakost vektorskih polj v izreku.
-\endproof
+\end{proof}
 
 \begin{definicija}
   \emph{Gradient} vektorskega polja $\vv$ je tenzor drugega reda, definiran kot
@@ -355,31 +357,31 @@ izpeljavah.
   Za poljubno vektorsko polje $\vv$ velja
   \[ \tr\grad \vv = \div \vv. \]
 \end{trditev}
-\proof
+\begin{proof}
 \[
   \tr\grad\vv = (\grad\vv)_{ii} = \vv_{i,i} = \div \vv. \qedhere
 \]
-\endproof
+\end{proof}
 \begin{trditev}
   Za poljubno vektorsko polje $\vv$ velja
   \[ \div(\grad\vv^\T) = \grad\div \vv.  \]
 \end{trditev}
-\proof
+\begin{proof}
 \[
   \div(\grad \vv^\T)_i = (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = \vv_{j,ij}
   = (\grad(\vv_{j,j}))_i = (\grad\div \vv)_i. \qedhere
 \]
-\endproof
+\end{proof}
 \begin{trditev}
   Za poljubno skalarno polje $\phi$ velja
   \[ \div(\phi I) = \grad \phi.  \]
 \end{trditev}
-\proof
+\begin{proof}
 \[
   (\div(\phi I))_i = (\phi I)_{ij,j} = (\phi \delta_{ij})_{,j} = \phi_{,i} =
   (\grad \phi)_i \qedhere
 \]
-\endproof
+\end{proof}
 \begin{trditev}
   Za poljubno vektorsko polje $\vv$ in tenzor $t$ velja
   \label{trd:div-tv}
@@ -387,14 +389,14 @@ izpeljavah.
     \div(t^\T \vv) = \vv \cdot \div t + t : \grad\vv.
     \]
 \end{trditev}
-\proof
+\begin{proof}
 \begin{align*}
   (\div(t^\T \vv))_i &= (t^\T\vv)_{i,i} = (t^\T_{ij} \vv_j)_{,i} =
     t^\T_{ij,i} \vv_j + t^\T_{ij} \vv_{j,i} =
     t_{ji,i} \vv_j + t_{ji} \vv_{j,i} = \\
     &=  (\div t)_j \vv_j + t:\grad \vv = \div t \cdot \vv + t:\grad \vv\qedhere
 \end{align*}
-\endproof
+\end{proof}
 
 \subsection{Osnovni izreki funkcionalne analize}
 
@@ -429,14 +431,14 @@ podprostor $H^k(\Omega)$, katerega funkcije so na robu $\Omega$ enake 0.
   tedaj, ko obstaja konstanta $C$, da je za vsak $v\in V$ velja \[ \|\iota v\|_W
   \leq C \|v\|_V. \]
 \end{trditev}
-\proof
+\begin{proof}
   Linearni operator je zvezen natanko tedaj, ko je omejen. Ocenimo njegovo
   normo:
   \[
     \|\iota\| = \sup_{\substack{v\in V \\ v \neq 0}} \frac{\|\iota
     v\|_W}{\|v\|_V} \leq C. \qedhere
   \]
-\endproof
+\end{proof}
 
 \begin{trditev}[Kornova neenakost]
   \label{trd:korn}
@@ -661,7 +663,7 @@ sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
   \DDt{\phi}(t, \vx) = \ddt{\phi}(t, \vx) + ((\grad \phi)(t, \vx)) \vv(t, \vx).
   \]
 \end{trditev}
-\proof
+\begin{proof}
   Po definiciji najprej prenesemo $\phi$ v referenčni koordinatni sistem z
   uporabo~\ref{eq:toref}. Nato odvajamo po verižnem pravilu
   \begin{align*}
@@ -669,7 +671,7 @@ sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
     \ddt \phi(t, \vx) + \dpar{\phi}{\vx} \DDt{\vx} (t, \vX) = \\
     &= \ddt \phi(t, \vx) + ((\grad \phi)(t, \vx)) \vv(t, \vX(\vx, t)). \qedhere
   \end{align*}
-\endproof
+\end{proof}
 
 Poleg že naštetih količin pa imajo telesa tudi druge fizikalne lastnosti, kot so
 masa in volumen, ki vplivajo na gibanje. Za modeliranje teh si pomagamo z
@@ -755,7 +757,7 @@ Naredimo to najprej za aksiom o ohranitvi mase.
     \label{eq:ohr-masa}
   \end{equation}
 \end{trditev}
-\proof
+\begin{proof}
 Trditev pokaže direkten račun, kjer bomo zamenjali integralsko spremenljivko iz
 $\vx$ na $\vX$ in nato nazaj. Pri uvedbi nove spremenljivke se bo v integralu
 pojavila determinanta $f = \det(F)$ diferenciala prehodne preslikave $F =
@@ -783,7 +785,7 @@ Sedaj imamo vse pripravljeno za glavni izračun.
 \end{align*}
 Ker je integral nič za vsako telo, mora biti nujno integrand nič, in obratno, če
 je integrand nič, se masa ohranja.
-\endproof
+\end{proof}
 
 Zgornjo trditev bomo s pridom uporabili pri izračunu odvoda integrala splošne
 količine.
@@ -796,7 +798,7 @@ količine.
     \label{eq:swap-der-int}
   \end{equation}
 \end{trditev}
-\proof
+\begin{proof}
 Postopamo enako kot v prejšnji trditvi. Izračunamo
 \begin{align*}
     \DDt{} \int_{B_t}\phi dm &=
@@ -807,7 +809,7 @@ Postopamo enako kot v prejšnji trditvi. Izračunamo
   \int_{B} \DDt{\phi} \rho JdV =
   \int_{B_t} \DDt{\phi} dm. \qedhere
 \end{align*}
-\endproof
+\end{proof}
 
 \subsection{Napetostni tenzor}
 Predstavljajmo si, da na telo deluje neka površinska sila z gostoto $\vt$. Ta sila deluje
@@ -848,7 +850,7 @@ iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
     \label{eq:cauchy-reciprocal}
   \end{equation}
 \end{trditev}
-\proof
+\begin{proof}
 Izberimo trenutek v času $t$ in točko $\vx$. Krajše pišimo $\vt_{\vn} = \vt(t, \vx,
 \vn)$. Oglejmo si podtelo v obliki krožnega valja z višino $h^2$ in radijem $h$, ki ima
 v središču točko $\vx$ in je $\vn$ normala na eno izmed osnovnic.
@@ -893,7 +895,7 @@ $\vx_i$ proti $\vx$ in dobimo
   0 = \vt_{\vn}(\vx) + \vt_{-\vn}(\vx),
 \]
 kar je točno to, kar smo želeli pokazati.
-\endproof
+\end{proof}
 
 Izkaže se, da velja še več: vektor $\vt$ je linearno odvisen od normale. S
 pomočjo prejšnje trditve lahko pokažemo naslednji izrek, ki nam da na voljo
@@ -904,7 +906,7 @@ matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
   \]
   Tenzor $\ts$ se imenuje Caucyjev napetostni tenzor.
 \end{izrek}
-\proof
+\begin{proof}
 Podobno kot pri Caucyjevi recipročni relaciji si izberimo majhno telo okoli
 točke $\vx$. Tokrat naj bo to tetraeder z tremi stranicami, vzporednimi
 koordinatnim osem in normalo $\vn$ na ploskev, ki jo razpenjajo preostale tri
@@ -983,7 +985,7 @@ za katerega res velja
   \ts\vn = \sum_{i=1}^3 (\vt_{\vec{e}_i}\otimes \vec{e}_i)(\vn) =
   \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i} = \vt_{\vn}. \qedhere
 \]
-\endproof
+\end{proof}
 
 \subsection{Enačbe gibanja}
 V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja, tako da jih
@@ -996,7 +998,7 @@ Prevedimo najprej aksiom~\ref{aks:gib} o ohranitvi gibalne količine.
     \label{eq:cauchy-moment}
   \end{equation}
 \end{izrek}
-\proof
+\begin{proof}
 Za vsako telo s prostorsko konfiguracijo $B_t$ velja
 \begin{align*}
   \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
@@ -1007,7 +1009,7 @@ Za vsako telo s prostorsko konfiguracijo $B_t$ velja
 V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda in
 izrek~\ref{trd:swap-der-int} o menjavi odvoda in integrala. Ker mora biti končni
 integral nič za vsako telo, mora biti integrand nič, kar dokaže našo enačbo.
-\endproof
+\end{proof}
 
 Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
 Njegova lokalna oblika se prevede na zelo enostavno trditev o simetriji
@@ -1017,7 +1019,7 @@ Caucyjevega napetostnega tenzorja.
   Caucyjev napetostni tenzor je simetričen:
   \[ \ts^\T = \ts. \]
 \end{trditev}
-\proof
+\begin{proof}
 Začnimo z zakonom o vrtilni količini~\eqref{eq:vrt} in ga prevedimo v lokalno
 obliko.
 \begin{align*}
@@ -1072,7 +1074,7 @@ tej obliki, zato je zgornja relacija ekvivalentna trditvi, da je
 \[ \ts : w = 0\] za vsak antisimetričen tenzor $w$.
 Torej je $\ts \in Asym(\R^3)^\perp$ in po trditvi~\ref{trd:dot-antisym-tensor}
 mora biti $\ts$ simetričen.
-\endproof
+\end{proof}
 
 \subsection{Konstitutivne enačbe}
 Do sedaj izpeljane enačbe veljajo za poljuben kontinuum, naj bo to tekočina,
@@ -1164,7 +1166,7 @@ mero $\eps_1$ pa s tenzorjem $E$.
   Deformacijski tenzor $E$ lahko izrazimo z gradientom pomika kot
   \[ E = \frac12\left( \Grad \vu + \Grad \vu^\T + \Grad \vu^\T \Grad \vu \right). \]
 \end{trditev}
-\proof
+\begin{proof}
 Trditev pokaže preprost račun. Spomnimo se, da je pomik definiran kot $\vu(\vX) =
 \vx(\vX) - \vX$ in je gradient pomika enak
 \[
@@ -1178,7 +1180,7 @@ Izračunamo:
   &\qquad=\frac12\left(F^\T F - I\right) = \\
   &\qquad=E.\qedhere
 \end{align*}
-\endproof
+\end{proof}
 
 Deformacijo $F$ lahko s pomočjo polarnega razcepa zapišemo kot $F = RU$, kjer je
 $R$ ortogonalna in $U$ pozitivno definitna matrika. Tenzor $R$ predstavlja
@@ -1242,12 +1244,12 @@ obnaša kot pričakovano.
   Infinitezimalni deformacijski tenzor $\eps$ je ničeln, natanko tedaj, kot je
   $u = \va + \vb \times \vX$, za konstantna vektorja $\va$ in $\vb$.
 \end{trditev}
-\proof
+\begin{proof}
 Lep dokaz??
 % Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$. Ker je $\Grad u$
 % antisimetričen, obstaja osni vektor $\vb$, tako da velja $(\Grad u) \vv = \vb
 % \times \vv$ za vsak vektor $\vv$.
-\endproof
+\end{proof}
 
 \subsubsection{Hookov zakon}
 Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.
@@ -1392,7 +1394,7 @@ Hookovega zakona pa tudi napetosti.
     \label{eq:navier}
   \end{equation}
 \end{izrek}
-\proof
+\begin{proof}
 Od linearne enačbe gibanja~\eqref{eq:gib-lin} do Navierove enačbe nas loči le še
 izračun $\div \sigma$. Za primerjavo naredimo izračun koordinatno in
 nekoordinatno. Začnimo s koordinatnim:
@@ -1422,7 +1424,7 @@ uporabili v spodnjem izračunu:
   &= \lambda \grad \div u + \mu \grad \div u + \lap u.
 \end{align*}
 Izračun prinese enak rezultat kot prej in izrek je še enkrat dokazan.
-\endproof
+\end{proof}
 \begin{opomba}
 Enačbo
 \begin{equation}
@@ -1465,7 +1467,7 @@ do stacionarne Navierove enačbe.
     \label{eq:cauchy-sibka}
   \end{equation}
 \end{trditev}
-\proof
+\begin{proof}
 Pomnožimo enačbo $\div\ts + \vf = 0$ skalarno z $\vv \in [L^2(\Omega)]^3$ in integrirajmo po
 $\Omega$ ter poskušajmo prenesti odvode iz $\ts$ na $\vv$. Dobimo
 \[
@@ -1483,7 +1485,7 @@ pri $\grad\vv$ upoštevamo samo simetrični del, $\eps(\vv) =
 \int_{\partial \Omega}\vv \cdot \vt dS - \int_\Omega\ts:\eps(\vv) dV +
 \int_{\Omega} \vv\cdot\vf dV &= 0. \qedhere
 \end{align*}
-\endproof
+\end{proof}
 Pri Navierovi enačbi upoštevamo še relacijo $\ts = C:\eps$ in s pomočjo tega
 bomo definirali šibko rešitev Navierove enačbe. Najprej pa si natančno oglejmo
 problem in prostor, v katerem bomo rešitve iskali.  Problem zastavimo za splošno
@@ -1510,12 +1512,12 @@ in na njem definirajmo bilinearno formo \[
   \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV$ na
   $C^2_0$ določa skalarni produkt.
 \end{trditev}
-\proof
+\begin{proof}
 Simetričnost in bilinearnost sta očitni iz lastnosti integrala. Iz pozitivne
 definitnosti integrala in tenzorja $C$ sledi, da je $\eps(\vu) = 0$. Od tod po
 trditvi~\ref{trd:eps-0} sledi, da je $\vu$ oblike $\vu = \va + \vb \times \vx$.
 Zaradi ničelnosti na kosu roba mora biti $\vu \equiv 0$.
-\endproof
+\end{proof}
 Prostor $C^2_0$ ni poln, podobno kot prostor zveznih funkcij ni poln v $L^p$.
 Označimo njegovo napolnitev z v normi $\|\cdot\|_E$ z $E$. Sedaj imamo vse
 pripravljeno, za definicijo šibke rešitve
@@ -1536,7 +1538,7 @@ Sedaj imamo vse pripravljeno za izrek o obstoju in enoličnosti.
   Potem ima problem~\ref{eq:navier-general-problem} natanko eno šibko rešitev v
   prostoru $E$.
 \end{izrek}
-\proof
+\begin{proof}
 Kornova neenakost~\ref{trd:korn} pravi, da je
 \[
   \int_{\Omega} (\|\vu\|_2^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
@@ -1609,7 +1611,7 @@ za vsak $\vv \in E$. Šibka oblika enačbe se torej glasi
 \]
 Ker je $\vu-\vu^\ast$ pravokoten na vse $\vv \in E$, nam ne preostane drugega,
 kot da je $\vu = \vu^\ast$ enolična rešitev v smislu definicije~\ref{def:sibka}.
-\endproof
+\end{proof}
 
 Samo enoličnost lahko dokažemo tudi na bolj elementaren način, ki morda nudi boljši
 vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti.
@@ -1617,7 +1619,7 @@ vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti.
   Rešitev problema~\ref{eq:navier-general-problem} je enolična v $C^2_0$ in v
   $E$, če obstaja.
 \end{izrek}
-\proof
+\begin{proof}
 Enoličnosti v $C_0^2$ sledi iz enoličnosti $E$, saj je prvi podprostor drugega.
 Pa recimo da imamo dve rešitvi $\vu_1$ in $\vu_2$ z enakimi robnimi pogoji.
 Ker sta tako $\vu_1$ kot $\vu_2$ šibki rešitvi, zadoščata
@@ -1631,7 +1633,7 @@ Razlika torej zadošča \[ \int_{\Omega}\eps(\vw) : C : \eps(\vv) dV = 0 \] in k
 je $\vw$ tudi v $E$, saj je na robu enaka 0, lahko vstavimo $\vv = \vw$.
 Zaradi pozitivne definitnosti $C$ sledi $\eps(\vw) = 0$ od koder kot prej zaradi
 robnih pogojev sledi $\vw = 0$ oziroma $\vu_1 = \vu_2$.
-\endproof
+\end{proof}
 
 \subsection{Priprava na numerično reševanje}
 Za numerično reševanje se postavimo v kartezični koordinatni sistem.
@@ -2103,7 +2105,7 @@ enostavno trditev, ki bo metodo v določenih primerih poenostavila.
   Če je $m = n$ in je matrika $B$ iz sistema~\eqref{eq:shape-system} obrnljiva,
   potem je izbira uteži nepomembna.
 \end{trditev}
-\proof
+\begin{proof}
 Spomnimo se, da je \[
   \b\phi = (\L\b{b})(p)^\T(WB)^{+}W.
 \]
@@ -2118,7 +2120,7 @@ Od tod sledi, da je
   \b\phi = (\L\b{b})(p)^\T B^{-1} W^{-1} W = (\L\b{b})(p)^\T B^{-1},
 \]
 kar je neodvisno od $W$.
-\endproof
+\end{proof}
 \begin{opomba}
   Čeprav trditev~\ref{trd:weight-independence} velja v eksaktni aritmetiki, v
   praksi ne velja nujno. Če so izbrane uteži zelo majhne ali zelo različnih
@@ -2140,7 +2142,7 @@ primeru dvodimenzionalne Poissonove enačbe.
   diferenc, če vzamemo $\b{b} = \{1, x, y, x^2, y^2\}$, $w \equiv 1$ in
   $n=5$.
 \end{trditev}
-\proof
+\begin{proof}
 Kot ponavadi označimo točke na mreži s koordinatami $(x_i, y_j)$, tako da je
 $x_{i+1} = x_i + h$ in $y_{j+1} = y_j + h$.
 Pokazati moramo, da se funkcija oblike v vsaki točki $x$ ujema z aproksimacijo
@@ -2197,7 +2199,7 @@ Od tod dobimo po zvezi~\eqref{eq:shape-definition}
   \end{bmatrix},
 \]
 kar je ravno iskana aproksimacija.
-\endproof
+\end{proof}
 \begin{opomba}
   Metodo za izračun funkcije oblike je zelo elegantno implementirati v
   Wolfram Mathematici, kar olajša simbolno raziskovanje takih aproksimacij.
@@ -2312,11 +2314,11 @@ $\sigma$ si izberemo v baznih funkcijah.
   Aproksimacija Laplaceovega operatorja z devetimi Gaussovimi baznimi funkcijami
   konvergira proti aproksimaciji z monomi, ko gre $\sigma \to \infty$.
 \end{trditev}
-\proof
+\begin{proof}
   Obe aproksimaciji smo izračunali že v primeru~\ref{prim:rbf} in
   opombi~\ref{op:fdm-9}. Če pogledamo limito izraza~\eqref{eq:shape-gau9},
   ko gre $\sigma \to \infty$, dobimo izraz~\eqref{eq:shape-mon9}.
-\endproof
+\end{proof}
 
 \subsection{Algoritem}
 V izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava} je veliko detajlov
@@ -2641,7 +2643,7 @@ ne bo nastopala v analizah.
   \end{equation}
   kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
 \end{trditev}
-\proof
+\begin{proof}
 Pri funkciji \textsc{diskretiziraj} predpostavimo, da uporabljamo enostavno
 diskretizacijo, ki deluje v $O(N)$ časa, skupaj z $I$ iteracijami izboljšave
 na $s$ sosedih, ki traja $O(I N s \log^2 N)$ časa, saj na vsaki iteraciji
@@ -2665,7 +2667,7 @@ predpogojenke.
 
 Skupna časovna zahtevnost je tako $O(I N s \log^2 N + (N+n)\log N + m^2 N) + T$,
 kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
-\endproof
+\end{proof}
 
 \subsubsection{Prostorska zahtevnost}
 V tem razdelku analiziramo časovno zahtevnost metode. Podobno kot pri časovni
@@ -2679,7 +2681,7 @@ ne bo nastopala v analizah.
   Prostorska zahtevnost algoritma~\ref{alg:metoda} je $O(nN) + P$, kjer je $P$
   prostor, ki ga potrebujemo, za reševanje sistema linearnih enačb.
 \end{trditev}
-\proof
+\begin{proof}
 Pri funkciji \textsc{diskretiziraj} potrebujemo $O(N)$ spomina za shrambo $N$
 diskretizacijskih točk. Če izvajamo še dodatne izboljšave diskretizacije, nas to
 stane $O(n)$ dodatnega prostora.
@@ -2695,7 +2697,7 @@ Razpršena matrika prav tako potrebuje $O(nN)$ prostora za neničelne elemente.
 Nato moramo rešiti le še sistem linearnih enačb, kar po predpostavki stane $P$
 prostora. Ker je $m = O(N)$ je prevladujoči faktor $O(nN)$ in skupna prostorska
 zahtevnost je $O(nN) + P$.
-\endproof
+\end{proof}
 
 \subsection{Pogoste vrednosti parametrov}
 Metoda je bila do sedaj formulirana zelo splošno, v praksi pa se uporablja nekaj
@@ -2848,7 +2850,7 @@ Dovoljenje za to nam da naslednja trditev.
   Preslikava iz vektorskega prostora linearnih parcialnih diferencialnih operatorjev, ki operatorju
   $\L$ priredi funkcijo oblike $\phi_{\L,p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem.
 \end{trditev}
-\proof
+\begin{proof}
 Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
   \begin{align*}
     \phi_{\alpha \L_1 + \beta \L_2,p} &=
@@ -2858,7 +2860,7 @@ Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
   &= \alpha (\L_1\b b)(p)(WB)^+W + \beta (\L_2\b b)(p)(WB)^+W = \\
   &= \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}. \qedhere
   \end{align*}
-\endproof
+\end{proof}
 Zgornja trditev pove, da je za popis vseh linearnih operatorjev do reda $r$ dovolj
 izračunati le funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $|\omega| \leq r$.
 Vsak drug operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti
@@ -2976,7 +2978,7 @@ ostanek.
   \]
   kjer je $\psi(x) = \ddx{}\log\Gamma(x)$ digama funkcija.
 \end{trditev}
-\proof
+\begin{proof}
 Ocenjujmo vsak člen vrste posebej. Funkcijo $\sin$ ocenimo z 1, funkcija
 $\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}$ ima maksimum na sredini
 intervala in jo lahko ocenimo z njeno vrednostjo v $y = \frac{1}{2}$.
@@ -2995,7 +2997,7 @@ Uporabimo še neenakost $\frac{\left(\sinh\frac{k
       \frac{1}{k^3} = -\frac{\psi''(\ell/2)}{4 \pi^3},
 \]
 kjer je $\psi$ digama funkcija (in posledično $\psi''$ poligama funkcija).
-\endproof
+\end{proof}
 Za primer $\ell = 1$  v prejšnji trditvi dobimo oceno
 \[
   |u(x, y)| \leq \frac{7 \zeta(3)}{2 \pi^2} \approx 0.1356,
