@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[a4paper,twoside]{article}
 \usepackage[slovene]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -6,30 +6,25 @@
 \usepackage{url}
 \usepackage[dvipsnames,usenames]{color}
 \usepackage{graphicx}
-\usepackage{minted}
 \usepackage{units}
 \usepackage{array}
 \usepackage{enumerate}
-% \usemintedstyle{mathematica}
-\usemintedstyle{mathematicanotebook}
-\renewcommand\listingscaption{Program}
-
 % \usepackage[all]{xy}  % diagrami
-% \usepackage{stmaryrd} % Bold math in sections
 \usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
   linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
   menucolor=black, runcolor=black, urlcolor=black, pdfencoding=unicode
 ]{hyperref}
+% oblika strani
+\usepackage[
+  top=2.5cm,    % margins
+  inner=2cm,
+  outer=3cm,
+  bottom=2.5cm,
+  footskip=40pt     % pozicija številke strani
+]{geometry}
+\setlength{\overfullrule}{50pt} % označi predlogo vrstico
 
-% ne spreminjaj podatkov, ki vplivajo na obliko strani
-\textwidth 15cm
-\textheight 24cm
-\oddsidemargin.5cm
-\evensidemargin.5cm
-\topmargin-5mm
-\addtolength{\footskip}{10pt}
-\pagestyle{plain}
-\overfullrule=50pt % označi predlogo vrstico
+\usepackage[list=true,listformat=simple]{subcaption}
 
 % ukazi za matematična okolja
 \theoremstyle{definition} % tekst napisan pokoncno
@@ -73,10 +68,10 @@
 \newenvironment{enumerate*}{\vspace{-1.5\parskip}\begin{enumerate}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{enumerate}\vspace{-1\parskip}}
 \newenvironment{description*}{\vspace{-6pt}\begin{description}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{description}\vspace{-1\parskip}}
 
+
 % vstavi svoje definicije ...
-\hypersetup{pdftitle={\naslovdela}}
-\hypersetup{pdfauthor={\imeavtorja}}
-\hypersetup{pdfsubject={magistrska naloga}}
+\hypersetup{pdftitle={\naslovdela}}  % da se pokaže v naslovu pdf okna
+\hypersetup{pdfauthor={\imeavtorja}} % da se pokaže v pdf metapodatkih
 
 % matematika
 \newcommand{\lap}{\operatorname{lap}}
@@ -146,27 +141,39 @@
 \DeclareMathOperator{\nnz}{nnz}
 \DeclareMathOperator{\tr}{tr}
 
-% slovnica
+% slovnica & oblika
 \newcommand{\ang}[1]{(\textit{angl.}\ #1)}
 \newcommand{\algorithmlist}{\hspace*{5pt}}
+\newlength{\iw}
+\setlength{\iw}{0.75\textwidth}  % image width
 
 % bold math in sections
+% \usepackage{stmaryrd} % Bold math in sections
 % \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
-\makeatletter
+\makeatletter % bold matematika znotraj \textbf{ }
 \g@addto@macro\bfseries{\boldmath}
 \makeatother
 
 % algorithms
-\usepackage{algpseudocode}
-\usepackage{algorithm}
-
+\usepackage{algpseudocode}  % za psevdokodo
+\usepackage{algorithm}			% za
 \floatname{algorithm}{Algoritem}
-\renewcommand{\listalgorithmname}{Algoritmi:}
+\renewcommand{\listalgorithmname}{Kazalo algoritmov}
 \algnewcommand\algorithmicto{\textbf{to}}
 \algnewcommand\algorithmicin{\textbf{in}}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algrenewtext{For}[3]{$\algorithmicfor\ #1 \gets #2\ \algorithmicto\ #3\ \algorithmicdo$}
 \algdef{S}[FOR]{ForEach}[2]{\algorithmicforeach\ #1\ \algorithmicin\ #2\ \algorithmicdo}
+
+\usepackage{minted}  % za barvanje source kode
+% \usemintedstyle{mathematica}
+\usemintedstyle{mathematicanotebook}
+\renewcommand\listingscaption{Program}
+
+\addto\captionsslovene{
+  \renewcommand{\listfigurename}{Kazalo slik}%
+  \renewcommand{\contentsname}{Kazalo vsebine}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%           DOCUMENT           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -176,31 +183,30 @@
 
 \pagenumbering{roman}
 
-% od tod do povzetka ne spreminjaj nicesar
 \thispagestyle{empty}
-\noindent{\large
+\noindent\large
 UNIVERZA V LJUBLJANI\\[1mm]
 FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
-\program\ -- 2.~stopnja}
+\program\ -- 2.~stopnja
 \vfill
 
-\begin{center}{\large
-\imeavtorja\\[2mm]
-{\bf \naslovdela}\\[10mm]
-Magistrsko delo \\[1cm]
-Mentor: \imementorja \\[2mm]
-Somentor: \imesomentorja}
+\begin{center}
+  \large
+  \imeavtorja\\[2mm]
+  \textbf{\naslovdela}\\[10mm]
+  Magistrsko delo \\[1cm]
+  Mentor: \imementorja \\[2mm]
+  Somentor: \imesomentorja
 \end{center}
 \vfill
 
-\noindent{\large
-Ljubljana, \letnica}
+\noindent{\large Ljubljana, \letnica}
 
 \pagebreak
 
 Izjava o avtorstvu?
 
-\pagebreak
+\newpage
 
 Zahvala?
 
@@ -208,16 +214,16 @@ Zahvala?
 
 \tableofcontents
 
-\pagebreak
+\newpage
 
 \listoffigures
 \listofalgorithms
 
-\pagebreak
+\newpage
 
 Program dela?
 
-\pagebreak
+\newpage
 
 \begin{center}
 {\bf \naslovdela}\\[3mm]
@@ -1759,7 +1765,7 @@ Rešujemo problem z mešanimi robnimi pogoji
   u(a) &= A \nonumber \\
   u'(b) &= B, \nonumber
 \end{align}
-čigar rešitev poznamo v kvadraturah
+katerega rešitev poznamo v kvadraturah
 \[
   u(x) = \int_a^x\left(\int_b^\eta f(\xi) d\xi \right) d\eta + B(x-a) + A.
 \]
@@ -1770,7 +1776,7 @@ $N$ enakih delov dolžine $h = \frac{b-a}{N}$ z delilnimi točkami $x_i = a + i 
 neznano funkcijsko vrednost v točki $x_i$. S pomočjo vrednosti $u_{i-1}, u_i$
 in $u_{i+1}$ želimo sedaj aproksimirati $u''(x_i)$. To nam bo dalo zvezo med
 spremenljivkami in ko jo uporabimo za vse notranje točke ter upoštevamo še
-robne pogoje, bomo dobili sistem linearnih enačb, čigar rešitev nam bo dala
+robne pogoje, bomo dobili sistem linearnih enačb, katerega rešitev nam bo dala
 dobro aproksimacijo funkcije $u$.
 
 Funkcijo $u$ v okolici $x_i$ aproksimiramo z interpolacijskim polinomom, njene
@@ -2541,7 +2547,7 @@ prej.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/relax_improvement.pdf}
+  \includegraphics[width=\iw]{images/relax_improvement.pdf}
   \caption{Sprememba $h$ in $S$ po 10 iteracijah algoritma~\ref{alg:relax} s
   parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem
   krogu z začetno Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in
@@ -2678,7 +2684,7 @@ Pri funkciji \textsc{diskretiziraj} potrebujemo $O(N)$ spomina za shrambo $N$
 diskretizacijskih točk. Če izvajamo še dodatne izboljšave diskretizacije, nas to
 stane $O(n)$ dodatnega prostora.
 
-Izvajanje funkcije \textsc{sosedi} nas stane $O(N)$ prostora za hranjenje drevesa
+Za izvajanje funkcije \textsc{sosedi} porabimo $O(N)$ prostora za hranjenje drevesa
 in $O(nN)$ prostora za hranjenje indeksov $n$ sosedov.
 
 Izvajanje funkcije \textsc{funkcijaOblike} nas stane $O(n+nm+m+n) = O(nm)$
@@ -2757,14 +2763,15 @@ po~\cite[str.\ 5]{schaback1995error}.
 
 \newcommand{\tc}[1]{\vspace{-25ex}\parbox{5.2cm}{#1}}
 \begin{table}[!h]
+  \centering
   \begin{tabular}{|m{5.2cm}|l|} \hline
-    \tc{Multikvadratične (MQ) \\ \ang{multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.58\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
-    \tc{Inverzne multikvadratične \\ (IMQ) \\ \ang{Inverse multiquadrics}
-    \\[3ex] $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.58\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
+    \tc{Multikvadratične (MQ) \\ \ang{multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
+    \tc{Inverzne multikvadratične (IMQ) \\ \ang{Inverse multiquadrics}
+    \\[3ex] $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
     \tc{Linearna razdalja (L) \\ \ang{Linear distance} \\[3ex] $\psi(r) = r$} &
-    \includegraphics[width=0.49\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
+    \includegraphics[width=0.278\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
     \tc{Gaussove funkcije (G) \\ \ang{Gaussians} \\[3ex] $\psi(r) =
-    \exp(-(r/\sigma_b)^2)$} & \includegraphics[width=0.58\textwidth]{images/rbf_gau.pdf} \\ \hline
+    \exp(-(r/\sigma_b)^2)$} & \includegraphics[width=0.33\textwidth]{images/rbf_gau.pdf} \\ \hline
   \end{tabular}
   \caption{Najpogosteje uporabljene radialne bazne funkcije s parametrom oblike
   $\sigma_b$.}
@@ -2780,34 +2787,101 @@ Pri izbiri parametra oblike $\sigma_b$ moramo tudi biti do neke mere pazljivi. I
 ga moramo dovolj velikega, da se funkcije ``prekrivajo'', torej tako, da nima
 funkcija vrednosti blizu nič pri vseh sosedih razen pri sebi. Hkrati mora biti
 parameter dovolj majhen, da sistem~\eqref{eq:shape-system} ni preveč nestabilen.
+Bolj natančna analiza izbire parametra oblike za radialne bazne funkcije in
+za utež je narejena na sliki~\ref{fig:poisson-square-sigma-dep} med numeričnimi
+zgledi na strani~\pageref{fig:poisson-square-sigma-dep}.
 
 Pogosto se k bazi radialnih baznih funkcij doda še monome nizkih stopenj, za
 boljšo aproksimacijo funkcij, ki so blizu konstantam. Več o kvaliteti,
 stabilnosti in redu konvergence aproksimacije z radialnimi baznimi funkcijami
 si lahko bralec prebere v~\cite{buhmann2000radial}.
 
+\subsection{Višjedimenzionalni problemi}
+Numerično zelo pogosto rešujemo probleme, kjer je neznana količina vektorsko polje in
+ne le skalarno polje, kot smo predpostavili v izpeljavi v
+razdelku~\ref{sec:splosna-izpeljava}.  Navier-Stokesove enačbe in Navierova
+enačba sta najbolj osnovna zgleda vektorskih enačb. Pri teh problemih moramo poprijeti
+po drugačnih metodah, najenostavnejše preprosto obravnavamo enačbo za vektorsko polje
+kot tri sklopljene enačbe za tri skalarna polja. Oglejmo si postopek na primeru Navierove
+enačbe. Vektorsko polje razpišemo po komponentah, za primer treh dimenzij zapišemo
+$\vu = (u, v, w)$. Vektorska oblika stacionarne Navierove enačbe
+\[
+  (\lambda+\mu)\nabla(\nabla\cdot \vu) + \mu\nabla^2 \vu + \vf = 0
+\]
+se razpiše v sistem treh enačb
+\begin{align*}
+(\lambda +\mu ) \left(\dpar{^2u}{x^2}+\dpar{^2v}{xy}+\dpar{^2w}{xz}\right)+\mu  \left(\dpar{^2u}{x^2}+\dpar{^2u}{y^2}+\dpar{^2u}{z^2}\right)+f_1&=0 \\
+(\lambda +\mu ) \left(\dpar{^2u}{xy}+\dpar{^2v}{y^2}+\dpar{^2w}{yz}\right)+\mu  \left(\dpar{^2v}{x^2}+\dpar{^2v}{y^2}+\dpar{^2v}{z^2}\right)+f_2&=0 \\
+(\lambda +\mu ) \left(\dpar{^2u}{xz}+\dpar{^2v}{yz}+\dpar{^2w}{z^2}\right)+\mu  \left(\dpar{^2w}{x^2}+\dpar{^2w}{y^2}+\dpar{^2w}{z^2}\right)+f_3&=0.
+\end{align*}
+Enačbe so sklopljene preko operatorja $\grad\div$. Če domeno diskretiziramo z $N$ točkami, bomo
+namesto sistema $N\times N$ za neznano skalarno polje, sedaj reševali sistem $3N\times 3N$ za
+tri skalarna polja hkrati. Neznanke, ki ustrezajo vektorju $\vu$ predstavimo numerično kot vektor
+$\b{u}$ dolžine $3N$, katerega prvih $N$ komponent predstavlja $u$, naslednjih $N$ predstavlja $v$,
+zadnjih $N$ pa $w$. Enako storimo z $\vf$ in robnimi pogoji. Enačbo $A\b u = \b f$ lahko sedaj
+zapišemo po blokih
+\[
+  \begin{bmatrix}
+    U1 & V1 & W1 \\
+    U2 & V2 & W2 \\
+    U3 & V3 & W3
+  \end{bmatrix}
+  \begin{bmatrix}
+    u \\ v \\ w
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    f_1 \\ f_2 \\ f_3
+  \end{bmatrix}.
+\]
+Vsako izmed treh komponent Navierove enačbe bomo napisali v eno izmed (bločnih) vrstic. Funkcijo
+oblike za člen $\dpar{^2v}{xy}$ bi napisali v blok $V1$, saj nastopa v prvi enačbi in se nanaša na
+polje $v$, podobno bi aproksimacijo za $\dpar{^2w}{z^2}$ iz tretje enačbe zapisali v blok $W3$.
+Če bi katere elemente napisali na mesta, kjer so že kakšni neničelni elementi, jih med seboj
+seštejemo.
+
+Pri zgornjem postopku smo operatorja $\lap$ in $\grad \div$ razbili na vsoto več elementarnih
+operatorjev in kar sešteli njihove aproksimacije, da smo dobili aproksimacijo celotnega operatorja.
+Dovoljenje za to nam da naslednja trditev.
+
+\begin{trditev}
+  Preslikava iz vektorskega prostora linearnih parcialnih diferencialnih operatorjev, ki operatorju
+  $\L$ priredi funkcijo oblike $\phi_{\L,p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem.
+\end{trditev}
+\proof
+Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
+  \begin{align*}
+    \phi_{\alpha \L_1 + \beta \L_2,p} &=
+    ((\alpha \L_1 + \beta \L_2)\b b)(p)(WB)^+W = \\
+    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W = \\
+    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W =\\
+  &= \alpha (\L_1\b b)(p)(WB)^+W + \beta (\L_2\b b)(p)(WB)^+W = \\
+  &= \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}. \qedhere
+  \end{align*}
+\endproof
+Zgornja trditev pove, da je za popis vseh linearnih operatorjev do reda $r$ dovolj
+izračunati le funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $|\omega| \leq r$.
+Vsak drug operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti
+v vsaki točki aproksimiramo z elementarnimi aproksimacijami.
+
 \section{Implementacija}
 \label{sec:implementacija}
 blah blah~\cite{stroustrup1995c++}.
 
-\section{Numerični zgledi}
+\section{Osnovni numerični zgledi}
 \label{sec:osnovni-zgledi}
-V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih,
-da si zgradimo intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo
-metoda, opisana v razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM
-\ang{Meshless Least Squares Method}.
-Če ni drugače navedeno, so vse časovne meritve narejene na
-prenosnem računalniku s procesorjem
-\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz|
-in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so bili prevedeni s
-prevajalnikom \verb|g++| verzije 7.1.7 in stikali
-\verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Linux.
-Pri paralelizaciji je bila uporabljena knjižnica OpenMP~\cite{dagum1998openmp}
-za paralelizacijo z deljenim pomnilnikom.
+V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih, da si zgradimo
+intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v
+razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Least Squares Method}.  Če
+ni drugače navedeno, so vse časovne meritve narejene na prenosnem računalniku s procesorjem
+\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so
+bili prevedeni s prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na
+operacijskem sistemu Linux.  Pri paralelizaciji je bila uporabljena knjižnica
+OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom.
 
 \subsection{Enodimenzionalni robni problem}
-Oglejmo si najprej preprost primer enodimenzionalne Possonove enačbe,
-ki smo ga uporabili že za motivacijo izpeljave numerične metode.
+Oglejmo si najprej preprost primer enodimenzionalne Poissonove enačbe, ki smo ga uporabili že za
+motivacijo izpeljave numerične metode.
 Rešujmo problem
 \begin{align*}
   u''(x) &= \sin(x), \quad x \in (0, 1) \\
@@ -2827,7 +2901,7 @@ X} |\hat{u}(x) - u(x)|.  \]
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/lap1d_convergence.pdf}
+  \includegraphics[width=\iw]{images/lap1d_convergence.pdf}
   \caption{Napaka FDM in MLSM metode v primerjavi s pravilno rešitvijo.}
   \label{fig:mlsm-fdm-err}
 \end{figure}
@@ -2847,7 +2921,7 @@ enako končno natančnost kot prej.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/lap1d_times.pdf}
+  \includegraphics[width=\iw]{images/lap1d_times.pdf}
   \caption{Primerjava časa izvajanja MLSM in FDM metod.}
   \label{fig:mlsm-fdm-time}
 \end{figure}
@@ -2864,8 +2938,8 @@ elementov vnaprej, pri MLSM pa v splošnem ne. MLSM višjega reda je pričakovan
 počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja $N$ glavna parametra v
 časovni zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je
 konsistentno dvakrat počasnejši. Toda, če pogledamo koliko časa potrebujemo, da
-dosežemo natančnost $10^{-6}$ iz grafov~\ref{fig:mlsm-fdm-err}
-in~\ref{fig:mlsm-fdm-time} vidimo, da MLSM višjega reda potrebuje le $N = 22$,
+dosežemo natančnost $10^{-6}$, z grafov~\ref{fig:mlsm-fdm-err}
+in~\ref{fig:mlsm-fdm-time} odčitamo, da MLSM višjega reda potrebuje le $N = 22$,
 za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo
 $N = 400$ kar nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega
 reda je dovolj zoprna, da se zanjo malokrat odločimo, saj je treba uporabljati
@@ -2926,7 +3000,7 @@ Za primer $\ell = 1$  v prejšnji trditvi dobimo oceno
 \[
   |u(x, y)| \leq \frac{7 \zeta(3)}{2 \pi^2} \approx 0.1356,
 \]
-kar drži; v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.07367$.
+kar drži; v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.0736$.
 Iz zgornje trditve lahko izračunamo, da je rep
 vrste~\eqref{eq:poisson-analytical} za $\ell = 59$ manjši kot $10^{-5}$, za
 $\ell = 181$ pa manjši kot $10^{-6}$.  Za izračun analitične rešitve ob
@@ -2958,8 +3032,8 @@ prikazana na sliki~\ref{fig:poisson-square-convergence}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/poisson_square_convergence.pdf}
-  \caption{Konvergenca MLSM za različne parametre pri reševanju~\eqref{eq:poisson-problem}.}
+  \includegraphics[width=\iw]{images/poisson_square_convergence.pdf}
+  \caption{Konvergenca MLSM za različne parametre pri reševanju problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-convergence}
 \end{figure}
 
@@ -2968,7 +3042,7 @@ teorije končnih diferenc. Radialne bazne funkcije se na začetku ujemamo z
 monomi, nato pa pokažejo slabše konvergenčne lastnosti in nelinearno obnašanje,
 drugačno pri vsakem razredu funkcij. Funkcije, ki uporabljajo več sosedov,
 začnejo z malenkost nižjo napako, prav tako pa morda presenetljivo tudi
-monomi z $n=6$. Iz slike~\ref{fig:poisson-square-time},
+monomi z $n=6$. S slike~\ref{fig:poisson-square-time},
 ki prikazuje čas računanja vidimo, da se uporaba baznih funkcij z $n = 9$
 ne splača, saj minimalna pridobljena natančnost ne odtehta časa izvajanja.
 Vidimo, da se čas izvajanja loči na tri pasove glede na $n$, ki vsi
@@ -2976,25 +3050,98 @@ rastejo linearno z $N$ s konstantnim razmerjem.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/poisson_square_time.pdf}
+  \includegraphics[width=\iw]{images/poisson_square_time.pdf}
   \caption{Čas izvajanja za različne izbore parametrov pri reševanju
   problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time}
 \end{figure}
 
 Po trditvi~\ref{trd:rbf-konv-k-mon} aproksimacija z Gaussovimi funkcijami
-konvergira proti aproksimaciji z monomi. Na sliki~?? vidimo to dejstvoj
-demonstirarno tudi numerično. Konvergenčne krivulje za Gaussove funkcije se
-pri povečevanju parametra oblike čedalje bolj približujejo konvergenčni krivulji
-monomov.
+konvergira proti aproksimaciji z monomi. Na sliki~\ref{fig:rbf-konv-k-mon}
+vidimo to dejstvo demonstrirano tudi numerično. Konvergenčne krivulje za
+Gaussove funkcije se pri povečevanju parametra oblike čedalje bolj približujejo
+konvergenčni krivulji monomov. Tako obnašanje zasledimo tudi pri bolj
+kompliciranih enačbah in drugih radialnih baznih funkcijah. Če imamo pri radialnih
+baznih funkcijah težavo s konvergenco, lahko poiskusimo povečati parameter
+oblike. Seveda to ne gre prek vseh meja, saj sistem~\eqref{eq:shape-system}
+za izračun funkcije oblike postane čedalje bolj občutljiv.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/sigma_depedance_error_gau.pdf}
-  \caption{Napaka v odvisnosti od $\sigma_b$ in $\sigma_w$ za Gaussove
-  funkcije.}
-  \label{fig:poisson-square-shapes}
+  \includegraphics[width=\iw]{images/poisson_square_rbf_konv_k_mon.pdf}
+  \caption{Konvergenčne krivulje za Gaussove funkcije pri čedalje večjem
+  $\sigma$ in za monome ($\sigma = \infty$). Uporabili smo $n = m = 5$ in
+Gaussovo utež s parametrom $\sigma_w = \frac34 r_\chi$.}
+  \label{fig:rbf-konv-k-mon}
 \end{figure}
+
+Da si izboljšamo intuicijo o pomenu parametrov oblike pri uporabi radialnih
+baznih funkcij in uteži naredimo še eno analizo, ki nam bo pomagala pri izbiri
+parametrov pri bolj zapletenih problemih. Problem~\eqref{eq:poisson-problem}
+rešimo za različne izbire parametrov oblike baznih funkcij ($\sigma_b$) in
+Gaussove funkcije uteži ($\sigma_w$) ter primerjajmo natančnost rešitve.
+Graf napake je prikazan na sliki~\ref{fig:poisson-square-sigma-dep-error}.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_error.png}
+    \caption{Napaka v odvisnosti od $\sigma_b$ in $\sigma_w$.}
+    \label{fig:poisson-square-sigma-dep-error}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_cutoff.png}
+    \caption{Število odrezanim singularnih vrednosti v odvisnosti of $\sigma_b$
+    in $\sigma_w$.}
+    \label{fig:poisson-square-sigma-dep-cutoff}
+  \end{subfigure}
+  \caption{Reševanje problema~\eqref{eq:poisson-problem} z Gaussovimi funkcijami
+  in Gaussovo utežjo pri $n = m = 9$ in $N = 2601$.}
+  \label{fig:poisson-square-sigma-dep}
+\end{figure}
+
+Trditev~\ref{trd:weight-independence} pravi, da mora v primeru $n=m$ ni
+obrnljive matrike $B$ aproksimacija operatorja (in posledično tudi napaka) neodvisna od
+izbire uteži. Opomba po trditvi pravi, da numerično to velja, če le utež ni
+premajhna, da bi bila sama razlog za numerične nestabilnosti.
+Slika~\ref{fig:poisson-square-sigma-dep-error} to potrdi; trditev velja v
+območju, kjer je matrika tudi numerično obrnljiva. Če je utež zelo
+majhna, manjša od $0.3\,r_\chi$, potem se nekatere enačbe v
+sistemu~\eqref{eq:shape-system} pomnožijo s približno $\exp(-2/0.3^2) \approx
+2.23\cdot10^{-10}$, kar privede do velike nestabilnosti. Do numerične
+neobrnljivosti matrike pa lahko pripelje tudi izbira prevelikega parametra
+$\sigma_b$, kajti za $\sigma_b = 70\,r_\chi$ so vsi elementi matrike $B$
+med $1.00041$ in $1$. Boljši vpogled v obrnljivost matrike $B$ nam da graf na
+sliki~\ref{fig:poisson-square-sigma-dep-cutoff}, ki predstavlja število
+odrezanim singularnih vrednosti pri SVD razcepu, s pomočjo katerega smo
+izračunali psevdoinverz matrike $WB$. Aproksimacija je res neodvisna od
+na predelu, kjer nismo odrezali nobene singularne vrednosti, torej približno
+na območju $[0, 70] \times [0.3, \infty)$, drugje pa lahko utež vpliva na
+izračun psevdoinverza in število odrezanih singularnih vrednosti.
+
+Kvaliteta aproksimacije je za $\sigma_b$ blizu 0 zelo slaba, saj imajo bazne
+funkcije neničelno vrednost samo v svojem centru. Nato napaka pada z večanjem
+$\sigma_b$, dokler ne pridemo v območje numerične neobrnljivosti matrike $B$.
+Tam pride v igro regularizacija v SVD razcepu, ki nam lahko pomaga, kot vidimo
+v pasu nizke napake okoli $\sigma_w = 1$. Na
+sliki~\ref{fig:poisson-square-sigma-dep-cutoff} vidimo, da se z večanjem
+$\sigma_b$ reže čedalje več singularnih vrednosti in s časoma bi aproksimacija
+zopet postala nestabilna. Podobno sliko dobimo pri različnih $N$, $n$ in
+ostalih izbirah baznih funkcij. Običajno zato izberemo sorazmerno velik
+parameter $\sigma_b$ okoli $150\,r_\chi$, za obliko uteži pa vzamemo približno
+$r_\chi$.
+
+V dosedanjih analizah smo videli, da se MLSM metoda obnaša enako ali slabše kot
+metoda končnih diferenc na šolskih primerih. Njena prednost leži v splošnosti,
+saj se jo z lahkoto prilagodi na drugačne domene, v višje dimenzije in na druge
+operatorje. Na sliki~\ref{fig:poisson-square-weird} so prikazane rešitve
+Poissonove enačbe $\triangle u = 1$ s homogenimi robnimi pogoji na bolj
+zanimivih domenah in v višjih dimenzijah. V dveh dimenzijah so bili za bazne
+funkcije uporabljeni monomi $\{1, x, y, x^2, y^2\}$ in $n=5$ v treh pa 9
+Gaussovih baznih funkcij z $\sigma_b = 50\,r_\chi$ in Gaussovo utežjo s
+$\sigma_w = r_\chi$ na devetih točkah. V vseh primerih je bilo potrebno
+poleg parametrov spremeniti le definicijo domene, vsa druga koda je ostala
+enaka.
 
 \begin{figure}[h]
   \centering
@@ -3008,8 +3155,12 @@ monomov.
   \label{fig:poisson-square-weird}
 \end{figure}
 
-\subsection{Hertzov kontaktni problem}
-\subsection{FWO case}
+\subsection{Hertzev kontaktni problem}
+Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
+elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz.
+ \dots
+
+\section{FWO case}
 
 \section{Zaključek}
 

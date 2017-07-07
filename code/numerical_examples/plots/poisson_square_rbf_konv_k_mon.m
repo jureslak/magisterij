@@ -1,11 +1,12 @@
 clear
-datafile = '../data/poisson_square_implicit_basis.h5';
+datafile = '../data/poisson_square_implicit_rbf_konv_k_mon.h5';
 info = h5info(datafile);
 
 typenum = length(info.Groups);
 simnum = length(info.Groups(1).Groups);
 
 data = zeros(typenum, simnum, 3);
+sigmas = zeros(typenum, 1);
 
 for i = 1:simnum
     pos = h5read(datafile, [info.Groups(1).Groups(i).Name '/pos']);
@@ -17,27 +18,19 @@ for i = 1:simnum
         grp = info.Groups(j).Groups(i);
         name = grp.Name;
         
-        sol1 = double(h5read(datafile, [name '/sol']));
+        sol = double(h5read(datafile, [name '/sol']));
         N = h5readatt(datafile, name, 'N');
         time = h5readatt(datafile, name, 'timetotal');
 
-        M = spconvert(h5read(datafile, [name '/M'])');
-        rhs = h5read(datafile, [name '/rhs']);
-        sol = M \ rhs;
-        
-        fprintf('Diff at %s = %g\n', name, norm(sol1 - sol));
-        
         err = max(max(abs(sol - anal)));
         cutoff = h5read(datafile, [name, '/cutoff']);
         cutoff = mean(reshape(cutoff, [2, length(cutoff)/2]));
-
-        
-        assert(norm(M*sol - rhs) < 1e-6,...
-            'Error is %f at %s.', norm(M*sol - rhs), name);
         
         data(j, i, 1) = N;
         data(j, i, 2) = err;
         data(j, i, 3) = mean(cutoff);
+        
+        sigmas(j) = str2double(name(9:11));
     end
     fprintf('point %d/%d \r', i, simnum);
 end
@@ -47,10 +40,12 @@ end
 close all
 legendvals = cell(typenum, 1);
 for i = 1:typenum
-    legendvals{i} = info.Groups(i).Name;
+    legendvals{i} = sprintf('$%.0f\\,r_\\chi$', sigmas(i));
 end
+legendvals{end} = '$\infty$';
 
 markers = {'+','o','*','x','s','d','^','v','<','>','p','h'};
+styles = {'-', '-.'};
 colors = {
     [1,56,147]/256,
     [1,123,206]/256,
@@ -65,42 +60,28 @@ colors = {
     [57,172,55]/256,
     [19,131,49]/256
 };
+setfig('a1', 'Visible', 'off');
+cmap = colormap('parula');
+cmap = cmap(1:5:length(cmap), :);
+colors = mat2cell(cmap, ones(length(cmap), 1), 3);
 
 Ns = data(1, :, 1);
 
 f1 = setfig('b1');
 for i = 1:typenum
-    plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
+    last = plot(Ns, data(i, :, 2), ...
+        [markers{mod(i, length(markers))+1},...
+         styles{mod(i, length(styles))+1}], 'Color', colors{i});
 end
+set(last, 'Color', [0.3 0.3 0.3], 'LineStyle', '-.', 'Marker', 'x');
+% uistack(last, 'bottom')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
 xlim([40, 10^5])
-legend(legendvals)
+ylim([10e-8, 1e-2])
+hleg = legend(legendvals, 'Location', 'SW');
+title(hleg, '$\sigma_B$');
 
-f2 = setfig('b2', 'Visible', 'on');
-hold off
-hold on
-for i = 1:typenum
-    plot(Ns, data(i, :, 3), [markers{i}, '-'], 'Color', colors{i})
-end
-set(gca, 'XScale', 'log')%, 'YScale', 'log')
-xlim([40, 10^5])
-legend(legendvals, 'Location', 'SE')
-xlabel('$N$')
-ylabel('\v{c}as [$s$]')
-
-f3 = setfig('b3');
-name = '/gau_s00300.00/calc0061';
-cutoff = h5read(datafile, [name, '/cutoff']);
-cutoff = mean(reshape(cutoff, [2, length(cutoff)/2]));
-
-pos = h5read(datafile, [name '/pos']);
-sol = h5read(datafile, [name '/sol']);
-x = pos(1, :);
-y = pos(2, :);
-scatter(x, y, 25, sol, 'filled');
-colorbar
-
-% exportfig(f1, '../../../images/poisson_square_convergence_basis', '-pdf')
+exportfig(f1, '../../../images/poisson_square_rbf_konv_k_mon', '-pdf')
 % exportfig(f2, '../../../images/poisson_square_time', '-pdf')

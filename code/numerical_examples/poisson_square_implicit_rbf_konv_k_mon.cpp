@@ -11,7 +11,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/poisson_square_implicit_basis.h5", HDF5IO::DESTROY);
+HDF5IO file("data/poisson_square_implicit_rbf_konv_k_mon.h5", HDF5IO::DESTROY);
 
 
 template <typename T>
@@ -75,8 +75,8 @@ void solve(int n, T<Vec2d> basis, int support_size, double w, std::string name) 
     file.setDoubleAttribute("timeshapes", t.getTime("domain", "shapes"));
     file.setDoubleAttribute("timesolve", t.getTime("shapes", "end"));
     file.setFloatArray("cutoff", op.cutoffs);
-    file.setSparseMatrix("M", M);
-    file.setDoubleArray("rhs", rhs);
+//    file.setSparseMatrix("M", M);
+//    file.setDoubleArray("rhs", rhs);
 //      file.setDoubleAttribute("iter", solver.iterations());
 //      file.setDoubleAttribute("errest", solver.error());
 }
@@ -84,14 +84,20 @@ void solve(int n, T<Vec2d> basis, int support_size, double w, std::string name) 
 int main() {
     vector<int> testrange = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 31, 32, 34, 36, 37, 39, 41, 43, 46, 48, 50, 53, 56, 58, 61, 65, 68, 71, 75, 79, 83, 87, 91, 96, 101, 106, 112, 117, 123, 130, 136, 143, 151, 158, 166, 175, 184, 193, 203, 213, 224, 236, 248, 261, 274, 288, 303, 318, 334, 352, 370, 388, 408};
 //      vector<int> testrange = {10};
-    vector<double> sbs = {30, 90, 120, 150, 300};
+    vector<double> sbs = {3, 5, 10, 20, 40, 60, 90, 120, 150, 200, 300, 400 };
+
+    Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
+    Monomials<Vec2d> mon5({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {2, 0}});
+    Monomials<Vec2d> mon6(3);
+
     for (int i = 0; i < testrange.size(); i += 2) {
         int n = testrange[i];
         prn(n);
         for (double s : sbs) {
-            solve(n, NNGaussians<Vec2d>(s, 9), 9, 0.75, format("w0.75/gau_s%08.2f", s));
-            solve(n, NNGaussians<Vec2d>(s, 9), 9, 5, format("w5.00/gau_s%08.2f", s));
+            solve(n, NNGaussians<Vec2d>(s, 5), 5, 0.75, format("gau_s%08.2f", s));
+//            solve(n, NNGaussians<Vec2d>(s, 9), 9, 5, format("w5.00/gau_s%08.2f", s));
         }
+        solve(n, mon5, 5, 0.75, "gau_s00inf.00");
     }
 
     return 0;

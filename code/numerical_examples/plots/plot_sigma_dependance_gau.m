@@ -40,7 +40,7 @@ for i = 1:length(sbs)
 end   
 ylables = cell(length(sws), 1);
 for i = 1:length(sws)
-    if mod(i, 1) == 0
+    if mod(i, 2) == 1 || sws(i) > 1
         ylabels{i} = sprintf('%.2f', sws(i));
     else
         ylabels{i} = '';
@@ -51,23 +51,25 @@ f1 = setfig('b1', 'Visible', 'on');
 hold off
 % set(gca,'Position', [.1 .15 .85 .80])
 [W,B] = meshgrid(sws, sbs);
-% err(err > 10) = 10;
+err(err > 1e-1) = 1e-1;
 contour(B, W, log10(err), 'Fill', 'on')
 title('$\log_{10}(L_\infty$ napaka)')
 c = colorbar;
-xlabel(c, '$n = m = 9, N = 10201$, Gaussove bazne funkcije', 'interpreter', 'latex', 'fontsize', 12)
+xlabel(c, sprintf('$n = m = 9, N = %d$, Gaussove bazne funkcije', N), 'interpreter', 'latex', 'fontsize', 12)
 xlabel('$\sigma_b / r_\chi$')
 set(gca,'XTick', sbs,'XTickLabel', xlabels, 'XTickLabelRotation', 90)
 ylabel('$\sigma_w / r_\chi$')
 set(gca,'YTick', sws,'YTickLabel', ylabels)
 fmid = gcf;
+% set(gca, 'XScale', 'log', 'YScale', 'log')
+
 
 f2 = setfig('b2', 'Visible', 'on');
 hold off
 contour(B, W, cutoff, 'Fill', 'on')
 title('\v{S}tevilo odrezanih singularnih vrednosti')
 c = colorbar;
-xlabel(c, '$n = m = 9, N = 10201$, Gaussove bazne funkcije', 'interpreter', 'latex', 'fontsize', 12)
+xlabel(c, sprintf('$n = m = 9, N = %d$, Gaussove bazne funkcije', N), 'interpreter', 'latex', 'fontsize', 12)
 xlabel('$\sigma_b / r_\chi$')
 set(gca,'XTick', sbs,'XTickLabel', xlabels, 'XTickLabelRotation', 90)
 ylabel('$\sigma_w / r_\chi$')
@@ -76,5 +78,5 @@ fcut = gcf;
 
 figure(f1)
 
-% exportfig(fmid, '../../../images/sigma_depedance_error_gau', '-pdf');
-% exportfig(fcut, 'images/sigma_depedance_cuttof_gau', '-pdf');
+exportfig(f1, '../../../images/poisson_square_sigma_depedence_error', '-png');
+exportfig(f2, '../../../images/poisson_square_sigma_depedence_cutoff', '-png');
