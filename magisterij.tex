@@ -75,7 +75,7 @@
 \hypersetup{pdfauthor={\imeavtorja}} % da se pokaže v pdf metapodatkih
 
 % matematika
-\newcommand{\lap}{\operatorname{lap}}
+\newcommand{\lap}{\triangle}
 \renewcommand{\div}{\operatorname{div}}
 \newcommand{\grad}{\operatorname{grad}}
 \newcommand{\Lap}{\operatorname{Lap}}
@@ -128,8 +128,8 @@
 \newcommand{\vi}{\vec{\imath}}
 \newcommand{\vj}{\vec{\jmath}}
 \newcommand{\vk}{\vec{k}}
-\newcommand{\vX}{\vec{X}}
-\newcommand{\vx}{\vec{x}}
+\newcommand{\vX}{X}
+\newcommand{\vx}{x}
 \newcommand{\ei}{\vec{e}_1}
 \newcommand{\ej}{\vec{e}_2}
 \newcommand{\ek}{\vec{e}_3}
@@ -257,23 +257,22 @@ Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.\ $a, \a
 \in \R$. Vektorje iz $\R^3$ bomo označevali s puščico nad črko, npr.\ $\vv \in
 \R^3$. Tenzorje (drugega reda) v mehaniki bomo označevali z malimi latinskimi ali grškimi
 črkami, npr. $t, \sigma \in \R^3\otimes\R^3$.
-Komponente bomo označevali z indeksom spodaj, npr.\ $\vv_{i}$ ali $t_{ij}$.
+Komponente bomo označevali z indeksom spodaj, npr.\ $v_i$ ali $t_{ij}$.
 V razdelkih~\ref{sec:uvod-tenz} in~\ref{sec:mehanika} bomo
-uporabljali tudi sumacijsko konvencijo. Tako na primer enačba
+uporabljali tudi sumacijsko konvencijo na ponovljenem indeksu. Tako na primer enačba
 \[
-  t_{ij}\vv_j = 0
+  t_{ij}v_j = 0
 \]
-vsebuje implicitno vsoto po $j$, razume pa se tudi, da velja za vsak smiseln $i$
-(od 1 do dimenzije prostora). Z $\va\cdot\vb$ bomo označevali skalarni produkt
-(enojno kontrakcijo) vektorjev, brez oznake bomo pisali produkt tenzorjev ali
-tenzorja in vektorja. Za skalarni produkt tenzorjev (dvojno kontrakcijo) bomo
-uporabljali oznako $s:t$.  S $t^\T$ bomo označevali transpozicijo tenzorja ali
-matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako $\langle
-\va, \vb, \vc\rangle$ bomo označevali mešani produkt vektorjev $\va$, $\vb$ in
-$\vc$, definiran kot $\langle \va, \vb, \vc\rangle = (\va\times\vb)\cdot \vc$.
+vsebuje implicitno vsoto po $j$, razume pa se tudi, da velja za vsak $i$.
+Z $\va\cdot\vb$ bomo označevali skalarni produkt (enojno kontrakcijo) vektorjev, brez oznake bomo
+pisali produkt tenzorjev ali tenzorja in vektorja. Za skalarni produkt tenzorjev (dvojno
+kontrakcijo) bomo uporabljali oznako $s:t$.  S $t^\T$ bomo označevali transpozicijo tenzorja ali
+matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako $\langle \va, \vb, \vc\rangle$
+bomo označevali mešani produkt vektorjev $\va$, $\vb$ in $\vc$, definiran kot $\langle \va, \vb,
+\vc\rangle = (\va\times\vb)\cdot \vc$.
 
 Divergenco, gradient in Laplaceov operator bomo označevali z $\div$, $\grad$,
-$\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2 = \triangle$.
+$\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2$.
 
 V razdelkih~\ref{sec:numericna-metoda} in~\ref{sec:osnovni-zgledi} bomo imeli
 opravka tudi z vektorji in matrikami splošnih dimenzij, ki ne predstavljajo
@@ -284,11 +283,11 @@ tiskanimi črkami $A, B \in \R^{m\times n}$.
 \subsection{Osnovne trditve vektorske analize}
 \label{sec:uvod-tenz}
 Spomnimo se nekaj osnovnih trditev vektorske analize, ki jih bomo
-potrebovali v kasnejših izpeljavah.
+potrebovali v kasnejših izpeljavah. Če ni drugače navedeno, bomo predpostavili obstoj
+in gladkost toliko odvodov, kot potrebujemo, ponavadi do drugega reda.
 
-Opremimo prostor tenzorjev drugega reda
-opremimo s skalarnim produktom
-\[ s:t = \tr(s^\T t) = s_{ij}t_{ij}.\]
+Prostor tenzorjev drugega reda opremimo s skalarnim produktom
+\[ s:t = s_{ij}t_{ij} = \tr(s^\T t).\]
 \begin{trditev}
   \label{trd:dot-antisym-tensor}
   V zgornjem skalarnem produktu razpade prostor tenzorjev na direktno
@@ -305,7 +304,7 @@ opremimo s skalarnim produktom
 
 \begin{definicija}
   Divergenca tenzorja $t$ drugega reda je vektorsko polje, za katerega za vsak
-  vektor $\va$ velja
+  konstanten vektor $\va$ velja
   \[ \div(t)\cdot \va = \div(t^\T \va). \]
   V koordinatah je $(\div t)_i = t_{ij,j}$.
 \end{definicija}
@@ -313,7 +312,7 @@ opremimo s skalarnim produktom
 Zakaj je ravno to prava definicija, nam pove naslednji izrek
 \begin{izrek}[Gauss]
   \label{izr:gauss}
-  Naj bo $\Omega$ odprta povezana množica z odsekoma gladkim robom, $\vn$ zunanja enotska
+  Naj bo $\Omega$ odprta povezana omejena množica z odsekoma gladkim robom, $\vn$ zunanja enotska
   normala na $\partial \Omega$ in $t$ tenzorsko polje na $\Omega$.  Potem velja
   \[
     \int_{\partial \Omega} t\vn dS = \int_{\Omega} \div t dV.
@@ -339,7 +338,7 @@ enakost vektorskih polj v izreku.
   \[
     (\grad\vv)^\T \va = \grad(\vv\cdot\va).
   \]
-  V koordinatah je $(\grad\vv)_{ij} = \vv_{i,j}$.
+  V koordinatah je $(\grad\vv)_{ij} = v_{i,j}$.
 \end{definicija}
 \begin{opomba}
   Gradient vektorskega polja je diferencial (oz. v neki bazi Jacobijeva matrika)
@@ -359,7 +358,7 @@ izpeljavah.
 \end{trditev}
 \begin{proof}
 \[
-  \tr\grad\vv = (\grad\vv)_{ii} = \vv_{i,i} = \div \vv. \qedhere
+  \tr\grad\vv = (\grad\vv)_{ii} = v_{i,i} = \div \vv. \qedhere
 \]
 \end{proof}
 \begin{trditev}
@@ -367,10 +366,11 @@ izpeljavah.
   \[ \div(\grad\vv^\T) = \grad\div \vv.  \]
 \end{trditev}
 \begin{proof}
-\[
-  \div(\grad \vv^\T)_i = (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = \vv_{j,ij}
-  = (\grad(\vv_{j,j}))_i = (\grad\div \vv)_i. \qedhere
-\]
+  \begin{align*}
+  \div(\grad \vv^\T)_i &= (\grad\vv^\T)_{ij,j} = (\grad \vv)_{ji,j} = v_{j,ij} = \\
+  &= v_{j,ji} = (\grad(v_{j,j}))_i = (\grad\div \vv)_i.
+  \end{align*}
+  Pri tem smo uporabili $C^2$ gladkost polja pri menjavi vrstnega reda parcialnih odvodov.
 \end{proof}
 \begin{trditev}
   Za poljubno skalarno polje $\phi$ velja
@@ -391,18 +391,23 @@ izpeljavah.
 \end{trditev}
 \begin{proof}
 \begin{align*}
-  (\div(t^\T \vv))_i &= (t^\T\vv)_{i,i} = (t^\T_{ij} \vv_j)_{,i} =
-    t^\T_{ij,i} \vv_j + t^\T_{ij} \vv_{j,i} =
-    t_{ji,i} \vv_j + t_{ji} \vv_{j,i} = \\
-    &=  (\div t)_j \vv_j + t:\grad \vv = \div t \cdot \vv + t:\grad \vv\qedhere
+  (\div(t^\T \vv))_i &= (t^\T\vv)_{i,i} = (t^\T_{ij} v_j)_{,i} =
+    t^\T_{ij,i} v_j + t^\T_{ij} v_{j,i} =
+    t_{ji,i} v_j + t_{ji} v_{j,i} = \\
+    &=  (\div t)_j v_j + t:\grad \vv = \div t \cdot \vv + t:\grad \vv\qedhere
 \end{align*}
 \end{proof}
 
 \subsection{Osnovni izreki funkcionalne analize}
 
-Ponovimo še nekaj osnovnih definicij in izrekov funkcionalne analize, ki jih
-bomo potrebovali pri obravnavi enoličnosti in obstoje rešitve linearnih
-parcialnih diferencialnih enačb.
+Ponovimo še nekaj osnovnih definicij in izrekov funkcionalne analize, ki jih bomo potrebovali pri
+obravnavi enoličnosti in obstoje rešitve linearnih parcialnih diferencialnih enačb. Enačbe bodo
+veljale na neki množici $\Omega$, za katero bomo predpostavili da je odprta, povezana z odsekoma
+gladkim robom.  Taki množici bomo rekli \emph{domena}. Gaussov izrek~\ref{izr:gauss} tako velja za
+omejene domene. Za matematično natančno obravnavo parcialnih diferencialnih enačb in njihovih
+odvodov bomo potrebovali ustrezne funkcijske prostore, ti.\ prostore Soboljeva.  Na temo prostorov
+Soboljeva je na voljo ogromno literature. Izreki in definicije iz tega razdelka so bili povzeti
+po~\cite{adams2003sobolev}.
 
 \begin{definicija}
   Prostor \emph{Soboljeva} $W_{k,p}(\Omega)$ za $k \in \N$ in $p \in [1,
@@ -413,8 +418,16 @@ parcialnih diferencialnih enačb.
   \]
   Pri tem je $\alpha = (\alpha_1, \dots, \alpha_d)$ multiindeks, $|\alpha| =
   \sum_i\alpha_i$ in $D^\alpha f = \dpar{^{|\alpha|}}{x_1^{\alpha_1}\cdots
-  x_d^{\alpha_d}}$.
+  x_d^{\alpha_d}}$ šibki odvod funkcije $f$.
 \end{definicija}
+\begin{opomba}
+  Pravimo, da je $v$ šibki odvod funkcije $u$, če je
+  \[
+    \int_\Omega D^\alpha\phi = (-1)^{|\alpha|}\int_\Omega v \phi,
+  \]
+  za vsako testno funkcijo $\phi \in C^\infty_c(\Omega)$.
+\end{opomba}
+
 Prostore Soboljeva opremimo z normo
 \[
 \|u\|_{W^{k,p}(\Omega)} = \Big(\sum_{|\alpha| \leq k} \|D^\alpha
@@ -423,58 +436,77 @@ u\|_{L^p(\Omega)}^p\Big)^\frac1p.
 Obstajajo tudi druge pogoste definicije norme, vendar vse pogosto uporabljene
 definicije definirajo ekvivalentne norme. V zgoraj definirani normi so prostori
 $W^{k,p}(\Omega)$ Banachovi. Za poseben primer $p = 2$ označimo $H^k(\Omega) =
-W^{k,2}(\Omega)$ in ta prostor je Hilbertov. Z $H^k_0(\Omega)$ označimo
-podprostor $H^k(\Omega)$, katerega funkcije so na robu $\Omega$ enake 0.
+W^{k,2}(\Omega)$ in ta prostor je Hilbertov.
+Vse zgornje definicije so obravnavale samo skalarne funkcije.
+Vektorske funkcije bomo obravnavali po komponentah in pisali
+$\vv \in [H^1(\Omega)]^3$, kar pomeni, da je $v_i \in H^1(\Omega)$ za vsak $i$.
 
-\begin{trditev}
-  Vložitev $\iota\colon V\to W$ med Banachovima prostoroma je zvezna natanko
-  tedaj, ko obstaja konstanta $C$, da je za vsak $v\in V$ velja \[ \|\iota v\|_W
-  \leq C \|v\|_V. \]
-\end{trditev}
-\begin{proof}
-  Linearni operator je zvezen natanko tedaj, ko je omejen. Ocenimo njegovo
-  normo:
-  \[
-    \|\iota\| = \sup_{\substack{v\in V \\ v \neq 0}} \frac{\|\iota
-    v\|_W}{\|v\|_V} \leq C. \qedhere
-  \]
-\end{proof}
+% Z $H^k_0(\Omega)$ označimo
+% napolnitev prostora
+% podprostor $H^k(\Omega)$, katerega funkcije so na robu $\Omega$ enake 0.
+
+% \begin{trditev}
+%   Vložitev $\iota\colon V\to W$ med Banachovima prostoroma je zvezna natanko
+%   tedaj, ko obstaja konstanta $C$, da je za vsak $v\in V$ velja \[ \|\iota v\|_W
+%   \leq C \|v\|_V. \]
+% \end{trditev}
+% \begin{proof}
+%   Linearni operator je zvezen natanko tedaj, ko je omejen. Ocenimo njegovo
+%   normo:
+%   \[
+%     \|\iota\| = \sup_{\substack{v\in V \\ v \neq 0}} \frac{\|\iota
+%     v\|_W}{\|v\|_V} \leq C. \qedhere
+%   \]
+% \end{proof}
 
 \begin{trditev}[Kornova neenakost]
   \label{trd:korn}
-  Za vsako funkcijo $\vu \in [H^1_0(\Omega)]^3$ in pozitivno definiten tenzor $C$ velja.
-  \[ \int_{\Omega} (\|\vu\|_2^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
+  Za vsako funkcijo $\vu \in [H^1(\Omega)]^3$ in pozitivno definiten tenzor četrtega reda $C$ velja.
+  \[ \int_{\Omega} (|\vu|^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
   \frac14 (\grad \vu + \grad \vu^\T) :C: (\grad \vu + \grad \vu^\T)dV, \]
   za neko konstanto $c_1$ neodvisno od $\vu$.
 \end{trditev}
+Kornova neenakost je močen rezultat, ki povezuje normo prostorov Soboljeva z
+energijskimi normami, kot bomo videli v razdelku~\ref{sec:obstoj-enol}. Dokaz neenakosti je
+enostaven, če je $\vu$ gladka funkcija in enaka 0 na $\partial\Omega$. Velja pa neenakost tudi pri
+šibkejših predpostavkah na $\Omega$ in za $\vu$ z neničelnimi vrednostmi na robu.
+Dokaz neenakosti v posebnem primeru najdemo v~\cite[str.\ 229]{lebedev2009introduction} splošnejši
+dokaz pa v~\cite{ciarlet2010korn}.
 
-\begin{izrek}[Rellich–Kondrachov]
+Že Soboljev sam je raziskoval vložitve prostorov Soboljeva v Lebesgueove $L^p$ prostore,
+kasneje pa še mnogi drugi. V~\cite{adams2003sobolev} je problemu vložitve posvečeno celo četrto poglavje,
+kjer je tudi dokaz spodnjega izreka~\cite[str.\ 85, izrek 4.12]{adams2003sobolev}.
+\begin{izrek}[Rellich--Kondrachov]
   \label{izr:vlozitev-sobolj}
-  Naj bo $\Omega$ domena v $\R^d$ z odsekoma gladkim robom in $1 \leq p < d$.
-  Naj bo $p^\ast = \frac{dp}{d-p}.$ Potem lahko prostor Soboljeva
-  $W^{k,p}(\Omega)$ zvezno vložimo v prostor $L^{p^\ast}(\Omega)$ in kompaktno
+  Naj bo $\Omega$ domena v $\R^d$ in $1 \leq kp < d$.  Naj bo $p^\ast = \frac{dp}{d-kp}.$ Potem lahko
+  prostor Soboljeva $W^{k,p}(\Omega)$ zvezno vložimo v prostor $L^{p^\ast}(\Omega)$ in kompaktno
   vložimo v $L^q(\Omega)$ za $1 \leq q < p^\ast$.
-
-  Za mnogoterost $\Omega$ dimenzije $d$ z odsekoma gladkim robom za $k >
-  \ell$ in $k - \frac{d}{p} > \ell - \frac{d}{q}$ je vložitev
-  \[
-    W^{k,p}(\Omega) \hookrightarrow W^{\ell, q}(\Omega)
-  \]
-  kompaktna.
 \end{izrek}
 \begin{opomba}
-  Za poseben primer $d=3$ in $p=2$ dobimo $p^\ast = 6$ in s tem zvezno vložitev
+  Za poseben primer $d=3$, $k=1$ in $p=2$ dobimo $p^\ast = 6$ in s tem zvezno vložitev
   \[
     H^1(\Omega) \hookrightarrow L^6(\Omega).
   \]
-  Za primer ploskve ($d = 2$) pri $k = 1$ in $\ell = 0$ dobimo, da je vložitev
+\end{opomba}
+Poleg zgornjega izreka, ki bo prek zveznosti in posledično omejenosti vložitve poskrbel za oceno
+norme, potrebujemo tudi izrek, ki bo enako naredil za rob domene. O tem govori izrek o
+sledi~\cite[str.\ 164, izrek 5.36]{adams2003sobolev}.
+\begin{izrek}[Izrek o sledi]
+  \label{izr:soboljev-sled}
+  Naj bo $\Omega$ domena v $\R^d$ in $1 \leq kp < d$. Naj bo $p^\ast = \frac{dp}{d-kp}.$  Potem
+  je operator zožitve, ki slika $W^{m,p}(\Omega) \to L^q(\partial \Omega)$ zvezen.
+\end{izrek}
+\begin{opomba}
+  Pogosto se tudi tej preslikave reče vložitev, saj zožitve funkcij na rob domene vlagamo v druge
+  prostore. Za primer $d=3$, $k=1$ in $p=2$ dobimo $p^\ast = 4$ in s tem zvezno vložitev
   \[
-    H^1(\Omega) \hookrightarrow L^q(\Omega)
+    H^1(\Omega) \hookrightarrow L^4(\partial\Omega).
   \]
-  zvezna za $1 \leq q < 4$? To mi ni jasno kako, druga točka izreka 2.16.4
-  v~\cite{lebedev2009introduction}.
 \end{opomba}
 
+Pri dokazu obstoja in enoličnosti rešitev linearnih parcialnih diferencialnih enačb, si bomo
+pomagali tudi s klasičnim izrekom funkcionalne analize, dokazanim v vsakem učbeniku na to temo,
+npr.~\cite[str.\ 188, izrek 3.8-1]{kreyszig1989introductory}.
 \begin{izrek}[Riezsov reprezentacijski izrek]
   \label{izr:riesz-general}
   Naj bo $H$ realen Hilbertov prostor in $H^\ast$ njegov dualen prostor, torej
@@ -496,22 +528,21 @@ Bolj običajno se izrek pove na drugačen način.
 
 \section{Teorija linearne elastičnosti}
 \label{sec:mehanika}
-Teorija linearne elastičnosti govori o deformaciji in napetostih v trdninah kot
-posledici delovanja zunanjih obremenitev. Trdnine modeliramo kot kontinuum in
-s tem ignoriramo njihovo atomsko strukturo, saj jih obravnavamo kot zvezno maso,
-ki zavzema celoten prostor, ki ga zaseda in ne kot diskreten sistem delcev. Prav
-tako bomo predpostavili zveznost in gladkost količin, povezanih s trdnino. To
-nam da možnost, da kontinuum delimo na poljubno majhne dele in s tem dobimo
-osnovo za uporabo teorije infinitezimalnega računa. S pomočjo tega in privzetih
-fizikalnih zakonov bomo izpeljali diferencialne enačbe, ki bodo opisovale
-deformacije in napetosti v materialu. Izkaže se, da ta teorija zelo dobro
-opisuje materiale, ki se uporabljajo v gradbeništvu kot so železo, jeklo in
-steklo in je zaradi tega zelo pogosto uporabljena, paketi za numerično analizo
-strukture zgradb pa so doživeli velik razvoj in komercialni uspeh.
+Teorija linearne elastičnosti govori o deformaciji in napetostih v trdninah kot posledici delovanja
+zunanjih obremenitev. Trdnine modeliramo kot kontinuum in s tem zaobidemo težave, ki bi nastale z
+obravnavo njihove diskretne atomske strukture, saj jih obravnavamo kot zvezno maso, ki zavzema
+celoten prostor, ki ga zaseda in ne kot diskreten sistem delcev. Prav tako bomo predpostavili
+zveznost in gladkost količin, povezanih s trdnino. To nam da možnost, da kontinuum delimo na
+poljubno majhne dele in s tem dobimo osnovo za uporabo teorije infinitezimalnega računa. S pomočjo
+tega in privzetih fizikalnih zakonov bomo izpeljali diferencialne enačbe, ki bodo opisovale
+deformacije in napetosti v materialu. Izkaže se, da ta teorija zelo dobro opisuje materiale, ki se
+uporabljajo v gradbeništvu in strojništvu kot so kovine, beton in steklo in je zaradi tega zelo pogosto
+uporabljena, paketi za numerično analizo strukture zgradb pa so doživeli velik razvoj in komercialni
+uspeh.
 
-Začnimo s tem, da natančno definiramo pojme kot so telo in gibanje, s pomočjo
-katerih bomo izpeljali enačbe, ki opisujejo pojave v našem interesu. Osnovna
-predstavitev teorije bo povzeta po~\cite{slaughter2012linearized}.
+Začnimo s tem, da natančno definiramo pojme kot so telo in gibanje, s pomočjo katerih bomo izpeljali
+enačbe, ki opisujejo pojave v našem interesu. Osnovna predstavitev teorije bo povzeta
+po~\cite{slaughter2012linearized}.
 
 \subsection{Osnove gibanja}
 
@@ -564,6 +595,10 @@ obrnemo in izrazimo tudi referenčne koordinate kot funkcijo prostorskih $\vX = 
 
 Pogosto za referenčno konfiguracijo vzamemo kar konfiguracijo na začetku
 gibanja, $\chi_R = \chi_{t=t_0}$, ni pa nujno temu tako.
+
+Gibanje, kot opisano sedaj, res modelira makroskopsko gibanje, kot ga poznamo iz
+resničnega sveta. Pogoji gladkosti zagotavljajo, da telesa ne morejo kar izginiti in se
+pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih sebe.
 
 \begin{primer}
   \label{prim:gib}
@@ -635,8 +670,8 @@ referenčne koordinate, z malimi pa tiste, kjer odvajamo glede na prostorske.
     \ddt{} \vartheta &=  -\frac{\left(-2 t x+\sqrt{4 t x+1}-1\right) (x-2 y
     z)}{2 t^2 x \sqrt{4 t x+1}}.
   \end{align*}
-  Če vidimo izraz $\DDt \vartheta(t, x, y, z)$, torej časovni odvod pri
-  konstantnih referenčnih koordinatah izraza, zapisanega v prostorskih
+  Če vidimo zapis $\DDt \vartheta(t, x, y, z)$, torej časovni odvod $\vartheta$, pri
+  konstantnih referenčnih koordinatah, zapisanega v prostorskih
   koordinatah, ga izračunamo tako, da izraz prevedemo v referenčne koordinate,
   odvajamo po času in prenesemo nazaj na prostorske koordinate. S simboli
   lahko to zapišemo kot
@@ -646,11 +681,7 @@ referenčne koordinate, z malimi pa tiste, kjer odvajamo glede na prostorske.
   \]
 \end{primer}
 
-Gibanje, kot opisano sedaj, res modelira makroskopsko gibanje, kot ga poznamo iz
-resničnega sveta. Pogoji gladkosti zagotavljajo, da telesa ne morejo kar
-izginiti in se pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih
-sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
-
+Definirajmo še osnovne pojme pomika, hitrosti in pospeška.
 \begin{definicija}
   Količino \[ \vu(\vX) = \vx(t, \vX) - \vX \] imenujemo \emph{pomik}.
   Količino \[ \vv(\vX) = \DDt{\vx}(t, \vX) \] imenujemo \emph{hitrost}.
@@ -662,6 +693,7 @@ sebe. Sedaj definirajmo še pojma pomika, hitrosti in pospeška.
   \[
   \DDt{\phi}(t, \vx) = \ddt{\phi}(t, \vx) + ((\grad \phi)(t, \vx)) \vv(t, \vx).
   \]
+  Pri tem je $\phi$ skalarna, vektorska ali tenzorska količina.
 \end{trditev}
 \begin{proof}
   Po definiciji najprej prenesemo $\phi$ v referenčni koordinatni sistem z
@@ -678,7 +710,7 @@ masa in volumen, ki vplivajo na gibanje. Za modeliranje teh si pomagamo z
 merami.
 
 \begin{definicija}
-  Predpostavimo, da imamo na $\B$ definirani dve Radonovi meri, $m$ in
+  Predpostavimo, da imamo na $\B$ definirani dve $\sigma$-končni meri, $m$ in
   $V$, ki nam predstavljata maso in volumen. Predpostavimo še, da je $m \ll V$,
   torej, če je volumen nekega podtelesa nič, je tudi njegova masa nič. Od tod po
   Radon-Nikodymovem izreku sledi, da obstaja merljiva funkcija $\rho =
@@ -690,7 +722,7 @@ merami.
   Funkciji $\rho\colon\B\to[0, \infty)$ pravimo \emph{gostota}.
 \end{definicija}
 \begin{opomba}
-  Ponavadi za $V$ vzamemo kar Lebesgueevo mero na $\R^3$, mero $m$ pa podamo tako, da
+  Ponavadi za $V$ vzamemo kar Lebesgueovo mero na $\R^3$, mero $m$ pa podamo tako, da
   podamo gostoto telesa $\rho$. Meri $m$ in $V$ s potiskom prek konfiguracij
   razširimo na referenčni in prostorski položaj.
 \end{opomba}
@@ -699,31 +731,45 @@ merami.
 Iz mehanike točke in iz resničnega sveta vemo, da gibanje zadošča nekim
 zakonom, ki jih bomo za nadaljnje izpeljave privzeli kot aksiome.
 
+\begin{definicija}
+  Množica $\B_0 \subseteq B$ je \emph{podtelo} telesa $\B$, če je sama telo za isto družino
+  konfiguracij.
+\end{definicija}
+
 \begin{aksiom}[Zakon o ohranitvi mase]
   \label{aks:masa}
-  Za vsako telo $\B$ in vsako njegovo gibanje velja
+  Za vsako podtelo $\B' \subseteq  \B$ in vsako njegovo gibanje velja
   \begin{equation}
-    \DDt{}m(B_t) = 0.
+  \DDt{}m(B_t') = 0.
     \label{eq:masa}
   \end{equation}
   Masa se med gibanjem niti ne izgublja niti ne nastaja in je vseskozi
   konstantna.
 \end{aksiom}
 
-Druga dva aksioma bosta poleg mase imela opraviti s silami. Predpostavili bomo,
-da lahko sile na telo delujejo na dva načina: kot telesne sile ali pa kot
-površinske sile.
+Druga dva aksioma bosta poleg mase imela opraviti s silami. Kako lahko sile delujejo na telo?
+En način so sile na daljavo, kot na primer gravitacija, ki delujejo na vsak košček telesa posebej.
+Drug način so kontaktne sile, ki nastanejo zaradi stika s telesa z nekim zunanjim objektov in se
+prenašajo preko površine. Te sile v skladu s hipotezo kontinuuma opišemo z njihovimi
+\emph{gostotami} in vedno delujejo na telo v njegovi prostorski konfiguraciji, saj je to
+konfiguracija, ki jo telo dejansko zavzame med gibanjem. Če bi bila sila konstantna, potem gostota
+sile predstavlja silo na enoto volumna ali površine. Slednjemu se (sploh v mehaniki tekočin) reče
+tudi \emph{pritisk} ali \emph{tlak}.
 
 \begin{definicija}
   \emph{Volumenska gostota sile} $\vf$ je zvezna funkcija $\vf\colon B_t\to\R^3$.
   \emph{Površinska gostota sile} $\vt$ je zvezna funkcija $\vt\colon\partial B_t\to\R^3$.
 \end{definicija}
+\begin{primer}
+  Gostota gravitacijske sile je enaka $\vf = \rho \vec{g}$, kjer je $\vec{g}$ gravitacijski
+  pospešek.
+\end{primer}
 
 \begin{aksiom}[Zakon o ohranitvi gibalne količine]
   \label{aks:gib}
-  Za vsako telo $\B$ velja
+  Za vsako podtelo $\B' \subseteq \B$ velja
   \begin{equation}
-    \DDt{}\int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vec t dS.
+    \DDt{}\int_{B_t'} \vv dm = \int_{B_t'} \vf dV + \int_{\partial B_t'} \vec t dS.
     \label{eq:gib}
   \end{equation}
   Sprememba gibalne količine je enaka vsoti vseh sil, ki delujejo na telo.
@@ -731,10 +777,10 @@ površinske sile.
 
 \begin{aksiom}[Zakon o ohranitvi vrtilne količine]
   \label{aks:vrt}
-  Za vsako telo $\B$ velja
+  Za vsako podtelo $\B' \subseteq \B$ velja
   \begin{equation}
-    \DDt{}\int_{B_t}\vx \times \vv dm = \int_{B_t} \vx \times \vf dV +
-    \int_{\partial B_t} \vx\times\vt dS.
+    \DDt{}\int_{B_t'}\vx \times \vv dm = \int_{B_t'} \vx \times \vf dV +
+    \int_{\partial B_t'} \vx\times\vt dS.
     \label{eq:vrt}
   \end{equation}
   Sprememba vrtilne količine je enaka vsoti vseh zunanjih navorov, ki delujejo
@@ -814,19 +860,19 @@ Postopamo enako kot v prejšnji trditvi. Izračunamo
 \subsection{Napetostni tenzor}
 Predstavljajmo si, da na telo deluje neka površinska sila z gostoto $\vt$. Ta sila deluje
 na zunanjo površino telesa, nato pa se prenaša skozi telo od točke do točke.
-Skozi telo potegnimo namišljeno ravnino, ki ga razdeli na dva dela.
-Na tej površini en del kontinuuma deluje na drug del, toda ekvivalentno bi bilo,
-če bi enega izmed teh delov odstranili in na površino preostanka delovali z
-enakimi silami, kot je prej deloval drugi del.
+Iz telesa izrežimo neko podtelo. Na površini tega podtelesa zunanji del
+kontinuuma deluje na podtelo, toda ekvivalentno bi bilo, če bi zunanji del odstranili in na površino
+preostanka delovali z enakim poljem sil, kot je prej deloval drugi del.
 
-Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa.
-V nekem trenutku $t$ v času se postavimo v neko točko $\vx$ v telesu in skozi izbrano
-točko potegnemo ravnino z normalo $\vn$. Tedaj obstaja vektor $\vt$, ki
-predstavlja silo, s katero kontinuum z ene strani ravnine deluje v tej točki na
-tistega na drugi strani. Poleg tega, če potegnemo katero koli drugo ploskev
-skozi točko $\vx$ z enako normalo $\vn$, bo vektor $\vt$, še vedno enak, saj bo
-kontinuum deloval z enako silo. Temu razmisleku se reče \emph{Caucyjeva
-hipoteza}.
+Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa.  V nekem trenutku $t$ v
+času se postavimo v neko točko $\vx$ v telesu in si zamislimo neko podtelo, tako da je izbrana točka
+na njegovi površini. Tedaj obstaja vektor $\vt$, ki predstavlja silo, s katero preostali kontinuum
+deluje v tej točki na izbrano podtelo. Če bi si izbrali drugo podtelo, bi bila sila v splošnem
+drugačna. Toda, če sta imeli dve podtelesi v tisti točki enako normalo $\vn$ in posledično enako
+tangentno ravnino v tisti točki, bo vektor $\vt$ še vedno enak, saj bosta lokalno telesi izgledali
+enaki. Vektor $\vt$ je torej odvisen od izbrane točke, trenutka v času, ko ga opazujemo in normale
+na izbrano površino podtelesa, ter ničesar drugega, neodvisen je na primer od ukrivljenosti ploskve
+v tisti točki. Temu razmisleku se reče \emph{Caucyjeva hipoteza}.
 
 \begin{aksiom}[Caucyjeva hipoteza]
   V telesu obstaja vektorsko polje $\vt$ inducirano s površinskimi silami, ki
@@ -861,7 +907,7 @@ $\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.4\textwidth]{images/cauchy_disc.pdf}
+  \includegraphics[width=0.3\textwidth]{images/cauchy_disc.pdf}
   \caption{Valj, uporabljen v dokazu Caucyjjeve recipročne relacije.}
   \label{fig:valj}
 \end{figure}
@@ -871,7 +917,7 @@ valj aksiom o gibalni količini~\eqref{eq:gib}:
 \begin{align*}
   \DDt{} \int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vt dS.
 \end{align*}
-Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral,  rob valja
+Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob valja
 razpišimo po ploskvah:
 \[
   \int_{B_t} \DDt{\vv} \rho dV = \int_{B_t} \vf dV + \int_{B^+} \vt_{\vn} dS +
@@ -907,14 +953,13 @@ matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
   Tenzor $\ts$ se imenuje Caucyjev napetostni tenzor.
 \end{izrek}
 \begin{proof}
-Podobno kot pri Caucyjevi recipročni relaciji si izberimo majhno telo okoli
-točke $\vx$. Tokrat naj bo to tetraeder z tremi stranicami, vzporednimi
-koordinatnim osem in normalo $\vn$ na ploskev, ki jo razpenjajo preostale tri
-stranice, kot prikazano na sliki~\ref{fig:tetra}.
+Podobno kot pri Caucyjevi recipročni relaciji si tokrat izberimo majhno telo z ogliščem v točki
+$\vx$. Naj bo to tetraeder z tremi stranicami, vzporednimi koordinatnim osem in normalo $\vn$ na
+ploskev, ki jo razpenjajo preostale tri stranice, kot prikazano na sliki~\ref{fig:tetra}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.4\textwidth]{images/cauchy_tetrahedron.pdf}
+  \includegraphics[width=0.3\textwidth]{images/cauchy_tetrahedron.pdf}
   \caption{Tetraeder, uporabljen za dokaz Caucyjevega izreka o napetosti.}
   \label{fig:tetra}
 \end{figure}
@@ -1007,7 +1052,7 @@ Za vsako telo s prostorsko konfiguracijo $B_t$ velja
   0 &= \int_{B_t}\left(\DDt{\vv}\rho - \vf - \div \ts\right) dV. \\
 \end{align*}
 V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda in
-izrek~\ref{trd:swap-der-int} o menjavi odvoda in integrala. Ker mora biti končni
+izrek~\ref{trd:swap-der-int} o menjavi odvoda in integrala. Ker mora biti zadnji
 integral nič za vsako telo, mora biti integrand nič, kar dokaže našo enačbo.
 \end{proof}
 
@@ -1034,7 +1079,6 @@ Posvetimo se zadnjemu členu in ga pomnožimo s konstantnim vektorjem $\vw$:
   \int_{\partial B_t} (\vw \times \vx) \cdot \vt dS =
   \int_{\partial B_t} (\vw \times \vx) \cdot \ts\vn dS = \\ &=
   \int_{\partial B_t} \ts^\T(\vw \times \vx) \cdot d\vec{S} =
-  \int_{\partial B_t} \ts^\T(\vw \times \vx) \cdot d\vec{S} = \\ &=
   \int_{B_t} \div (\ts^\T(\vw \times \vx)) dV = \\ &=
 \int_{B_t} [\langle \div \ts, \vw, \vx\rangle +  \ts : \grad (\vw \times \vx)] dV.
 \end{align*}
@@ -1123,7 +1167,7 @@ Dejanski relativni raztezek delčka palice dolžine $d\vX$ pa je
   \frac{d\vx - d\vX}{d\vX} &= \frac{\vx(\vX+d\vX) - \vx(\vX) - (\vX + d\vX - \vX)}{d\vX} = \\ &=
   \frac{\vu(\vX + d\vX) - \vu(\vX)}{d\vX} = \vu'(\vX) + O(d\vX).
 \end{align*}
-Do prvega reda je relativni raztezek v točki $\vX$ enak kar $u'(\vX)$.
+Do prvega reda je relativni raztezek v točki $\vX$ enak kar $\vu'(\vX)$.
 
 Preverimo še, da ta mera raztezka zadošča nekaterim intuitivnim zahtevam. Za
 togi premik $\vX \mapsto \vX + c$ je $\vu(\vX) = c$ in $\vu'(\vX) \equiv 0$, kot
@@ -1134,12 +1178,12 @@ to ustreza pričakovanjem, saj za $a = 1$ ni raztezka, za $a< 1$ je to skrčitev
 in je raztezek negativen, za $a>1$ pa dobimo pozitivno število.
 \end{primer}
 
-Analogna mera deformacije med točkama $\vX$ in $\vX+d\vX$ v višji dimenziji bi bila
+Posplošitev mere deformacije med točkama $\vX$ in $\vX+d\vX$ v višje dimenzije bi bila
 \[
   \eps_1 = \frac{\|d\vx\| - \|d\vX\|}{\|d\vX\|}.
 \]
 Toda veliko lažje je računati s kvadrati norm kot z normami vektorjev, zato je
-bolj primerna mera
+bolj primerna Cauchyjeva mera
 \[
   \eps_2 = \frac{\|d\vx\|^2 - \|d\vX\|^2}{\|d\vX\|^2}.
 \]
@@ -1185,15 +1229,14 @@ Izračunamo:
 Deformacijo $F$ lahko s pomočjo polarnega razcepa zapišemo kot $F = RU$, kjer je
 $R$ ortogonalna in $U$ pozitivno definitna matrika. Tenzor $R$ predstavlja
 rotacijo, $U$ pa razteg in strig. Predstavljamo si lahko, da deformacijo $F$
-izvedemo tako, da najprej telo raztegnemo in strižno deformiramo, nato pa
-zavrtimo v končno lego.
+izvedemo tako, da najprej telo v koordinatne sistemu, v katerem je $U$ diagonalna,
+raztegnemo, nato pa zavrtimo v končno lego.
 
-Rotacija $R$ ne vpliva na rabo materiala, saj je deformacija toga in ne povzroča
-notranjih napetosti. Prava mera deformacije, ki vpliva na napetost v materialu,
-torej ne vsebuje nobenih rotacij. Za mero deformacije bi lahko vzeli kar to,
-koliko se $U$ razlikuje od identitete, toda polarni razcep matrike je težko
-izračunati. Poglejmo si kakšno zvezo ima zgoraj definirani deformacijski tenzor
-$E$ z $U$:
+Rotacija $R$ ne vpliva na obrabo in deformacijo materiala, saj je pomik tog in ne povzroča notranjih
+napetosti. Prava mera deformacije, ki vpliva na napetost v materialu, torej ne vsebuje nobenih
+rotacij. Za mero deformacije bi lahko vzeli kar to, koliko se $U$ razlikuje od identitete, toda
+polarni razcep matrike je težko izračunati. Poglejmo si kakšno zvezo ima zgoraj definirani
+deformacijski tenzor $E$ z $U$:
 \[
   E = \frac12(f^\T F - I) = \frac12(U^\T R^\T R U - I) = \frac12 (U^2 - I).
 \]
@@ -1238,24 +1281,22 @@ linearizacijo: zanemarimo člen $\Grad \vu^\T \Grad \vu$.
 \end{definicija}
 
 Pokažimo še naslednjo karaterizacijo, ki pove, da se tudi $\eps$ za toge pomike
-obnaša kot pričakovano.
+obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduction}.
 \begin{trditev}
   \label{trd:eps-0}
-  Infinitezimalni deformacijski tenzor $\eps$ je ničeln, natanko tedaj, kot je
-  $u = \va + \vb \times \vX$, za konstantna vektorja $\va$ in $\vb$.
+  Infinitezimalni deformacijski tenzor $\eps$ je ničeln natanko tedaj, ko je
+  $\vu = \va + \vb \times \vX$, za konstantna vektorja $\va$ in $\vb$.
 \end{trditev}
 \begin{proof}
-Lep dokaz??
-% Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$. Ker je $\Grad u$
-% antisimetričen, obstaja osni vektor $\vb$, tako da velja $(\Grad u) \vv = \vb
-% \times \vv$ za vsak vektor $\vv$.
+  Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$, torej je $\Grad u$ antisimetričen.
+  TODO
 \end{proof}
 
 \subsubsection{Hookov zakon}
 Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.
 V splošnem je relacija oblike $\ts = f(\eps)$, predpostavimo torej, da je
 napetost odvisna samo od deformacije. Ponavadi $f$ dodatno omejimo, da je
-izotropična in da mora biti taka, da je energija
+da mora biti taka, da je energija
 \[
   U(\eps) = \int_{0}^{\eps} \ts : d\eps = \int_0^\eps f(\eps) d\eps
 \]
@@ -1308,7 +1349,7 @@ Tenzor $C$ se dodatno poenostavi, če predpostavimo, da je material
   C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + \mu \delta_{ik}\delta_{jl} +
   \kappa \delta_{il}\delta_{jk},
 \]
-dokazano npr. v [vstavi referenco / vprašaj Mejaka] in zaradi zgornjih simetrij
+dokazano npr.~v\cite[str.\ 206, primer 4.2.2]{liu2013continuum} in zaradi zgornjih simetrij
 mora veljati $\kappa = \lambda$.
 Nekoordinatno lahko sedaj zvezo $\ts = C:\eps$ za tak tenzor zapišemo kot
 \begin{equation}
@@ -1331,12 +1372,17 @@ Pogosto najdemo tudi druge snovne parametre kot na primer strižni modul ali
 stisljivost. Tabela pretvorb med različnimi parametri je na voljo v~\cite[tabela
 5.1, str.\ 215]{slaughter2012linearized}. Teoretična omejitev za parametre je
 dana s tem, da zahtevamo pozitivno definitnost energije kot kvadratne forme in
-velja, če je $\lambda, \mu > 0$ ali pa $E > 0$ in $0 < \nu < \frac12$.
+velja, če je $\lambda, \mu > 0$ ali pa $E > 0$ in $-1 < \nu < \frac12$.
+Poissonovo razmerje predstavlja razmerje med tem, koliko se telo ob pri raztegu v eni dimenziji
+skrči v drugi. Materiali, ki imajo Poissonovo razmerje negativno se ob raztegu v eni dimenziji
+raztegnejo tudi v drugi, se imenujejo \emph{auksetični} materiali \ang{auxetic materials}.
+Eden prvih auksetičnih materialov je bil sintetiziran leta 1987~\cite{lakes1987foam}, raziskave na
+tem področju pa so aktivne še danes.
 
 V praksi se izkaže, da temu brez težav zadostimo. Vrednosti parametrov za nekaj
 pogostih materialov so podane v tabeli~\ref{tab:Enu} in jih lahko najdemo v
 primernem fizikalnem ali strojniškem priročniku, npr.\ v~[vstavi referenco / vprašaj
-Mejaka].
+Mejaka] TODO.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|l|} \hline
@@ -1426,17 +1472,17 @@ uporabili v spodnjem izračunu:
 Izračun prinese enak rezultat kot prej in izrek je še enkrat dokazan.
 \end{proof}
 \begin{opomba}
-Enačbo
+  Če je kontinuum v mirovanju, torej $\dot{\vu} = 0$, potem se Navierova enačba glasi
 \begin{equation}
     (\lambda + \mu)\grad\div \vu + \mu \lap \vu + \vf  = 0
   \label{eq:navier-stac}
 \end{equation}
-imenujemo \emph{stacionarna Navierova enačba}, saj opisuje kontinuum v
-mirovanju, kajti tedaj je $\dot u = 0$.
+in jo imenujemo \emph{stacionarna Navierova enačba}.
 \end{opomba}
 \begin{opomba}
-  Bolj splošno obliko Navierove enačbe, ki ne zahteva tako močnih pogojev na
-  $C$, dobimo tako, da preprosto vstavimo definicijo $\ts$ v linearizirano
+  Bolj splošno obliko Navierove enačbe, ki dopušča tudi bolj splošen $C$ ali
+  prostorsko odvisnost parametrov $\lambda$ in $\mu$
+  dobimo tako, da preprosto vstavimo definicijo $\ts$ v linearizirano
   Caucyjevo momentno enačbo. S tem dobimo enačbo
   \begin{equation}
     \rho\ddot \vu = \frac12 \div(C:(\grad \vu + \grad\vu^\T)) + \vf.
@@ -1445,6 +1491,7 @@ mirovanju, kajti tedaj je $\dot u = 0$.
 \end{opomba}
 
 \subsection{Obstoj in enoličnost rešitve}
+\label{sec:obstoj-enol}
 Navierova enačba je linearna parcialna diferencialna enačba drugega reda.
 Z obstojem in enoličnostjo rešitve se bomo ukvarjali pri stacionarni Navierovi
 enačbi~\eqref{eq:navier-stac} z mešanimi robnimi pogoji pri katerih je na nekem
@@ -1458,7 +1505,10 @@ rešitve. Ideja poti do dokaza je vzeta iz~\cite[izrek 3.17.1, str.\
 enolična v šibkem smislu, zato prevedimo enačbo v šibko obliko in definirajmo
 šibko rešitev. Začeli bomo bolj splošno in prevedli na šibko obliko
 stacionarno linearizirano enačbo gibanja~\eqref{eq:gib-lin}, nato pa nadaljevali
-do stacionarne Navierove enačbe.
+do stacionarne Navierove enačbe. Šibko obliko enačbe dobimo tako, da jo pomnožimo z splošno
+funkcijo $\vv$, integriramo in preko integracije \emph{per partes} ali drugih
+izrekov znižamo red odvoda na funkciji, ki jo iščemo.
+
 \begin{trditev}
   Šibka oblika linearne stacionarne enačbe gibanja $\div \ts + \vf = 0$ je
   \begin{equation}
@@ -1503,14 +1553,14 @@ pri čemer je $\Omega$ povezana omejena odprta množica z odsekoma gladkim robom
 $S$ nek kos $\partial\Omega$ z odsekoma gladkim robom in $\vn$
 enotska zunanja normala za $\partial\Omega$.
 Klasično rešitve iščemo v podprostoru dvakrat zvezno odvedljivih funkcij
-$C^2(\Omega, R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor z $C^2_0$
+$C^2(\Omega, R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor z $C^2_S$
 in na njem definirajmo bilinearno formo \[
   \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV.
 \]
 \begin{trditev}
   Bilinearna forma $
   \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV$ na
-  $C^2_0$ določa skalarni produkt.
+  $C^2_S$ določa skalarni produkt.
 \end{trditev}
 \begin{proof}
 Simetričnost in bilinearnost sta očitni iz lastnosti integrala. Iz pozitivne
@@ -1518,8 +1568,8 @@ definitnosti integrala in tenzorja $C$ sledi, da je $\eps(\vu) = 0$. Od tod po
 trditvi~\ref{trd:eps-0} sledi, da je $\vu$ oblike $\vu = \va + \vb \times \vx$.
 Zaradi ničelnosti na kosu roba mora biti $\vu \equiv 0$.
 \end{proof}
-Prostor $C^2_0$ ni poln, podobno kot prostor zveznih funkcij ni poln v $L^p$.
-Označimo njegovo napolnitev z v normi $\|\cdot\|_E$ z $E$. Sedaj imamo vse
+Prostor $C^2_S$ ni poln, podobno kot prostor zveznih funkcij ni poln v $L^p$.
+Označimo njegovo napolnitev v normi $\|\cdot\|_E$ z $E$. Sedaj imamo vse
 pripravljeno, za definicijo šibke rešitve
 problema~\ref{eq:navier-general-problem}.
 
@@ -1541,25 +1591,25 @@ Sedaj imamo vse pripravljeno za izrek o obstoju in enoličnosti.
 \begin{proof}
 Kornova neenakost~\ref{trd:korn} pravi, da je
 \[
-  \int_{\Omega} (\|\vu\|_2^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
+  \int_{\Omega} (|\vu|^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
   \eps(\vu):C:\eps(\vu)dV.
 \]
 Drugače prebrano pove, da je $\|u\|_{[H^1(\Omega)]^3}^2 \leq c_1 \|u\|_E^2$.
 Dano imamo torej zvezno vložitev $E$ v $[H^1(\Omega)]^3$.
 Na vsaki komponenti $\vu$ lahko sedaj uporabimo izrek o vložitvi prostorov
-Soboljeva~\ref{izr:vlozitev-sobolj} in dobimo, da je vsaka komponenta $\vu$ in
-$\|\vu\|_2$ ležijo v $L^6$. Po istem izreku dobimo, da za vsako odsekoma gladko
+Soboljeva~\ref{izr:vlozitev-sobolj} in izrek o sledi~\ref{izr:soboljev-sled} in dobimo, da je vsaka
+komponenta $\vu$ in $|\vu|$ ležijo v $L^6$. Po istem izreku dobimo, da za vsako odsekoma gladko
 ploskev $\Sigma \subseteq \Omega$ komponente in norma $\vu$ ležijo v
 $L^4(\Sigma)$. Dobimo verigi zveznih vložitev
 \begin{align*}
   E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^6(\Omega)]^3 \\
-  E|_\Sigma &\hookrightarrow [H^1(\Omega)|_\Sigma]^3 \hookrightarrow [L^4(\Sigma)]^3,
+  E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^4(\Sigma)]^3,
 \end{align*}
 ki prek norm na prvem in zadnjem prostoru implicirata neenakosti
 \begin{align*}
-  \|\|\vu\|_2\|_{L^6} &= \left( \int_{\Omega} \|\vu\|_2^6 dV \right)^\frac16 \leq
+  \||\vu|\|_{L^6} &= \left( \int_{\Omega} |\vu|^6 dV \right)^\frac16 \leq
   c_2 \|\vu\|_E \\
-  \|\|\vu\|_2\|_{L^4} &= \left( \int_{\partial\Omega\setminus S} \|\vu\|_2^4 dV \right)^\frac14 \leq
+  \||\vu|\|_{L^4} &= \left( \int_{\partial\Omega\setminus S} |\vu|^4 dV \right)^\frac14 \leq
   c_3 \|\vu\|_E.
 \end{align*}
 
@@ -1581,20 +1631,20 @@ neenakosti dobimo
 \begin{align*}
   \left| \int_\Omega \vf \cdot \vv dV \right| &\leq
   \int_\Omega \left|\vf \cdot \vv \right| dV \leq
-  \int_\Omega \|\vf\| \|\vv\| dV \leq \\
-  &\leq \underbrace{\left(\int_\Omega \|\vf\|_2^\frac65 dV \right)^\frac65}_{<\;\infty
+  \int_\Omega |\vf| |\vv| dV \leq \\
+  &\leq \underbrace{\left(\int_\Omega |\vf|^\frac65 dV \right)^\frac56}_{<\;\infty
     \text{ ker }\vf \in L^\frac65(\Omega)} \underbrace{\left( \int_\Omega
-    \|\vv\|_2^6dV\right)^\frac16}_{\leq \; c_2 \|\vv\|_E} \leq \\
+    |\vv|^6dV\right)^\frac16}_{\leq \; c_2 \|\vv\|_E} \leq \\
     &\leq c_1 c_2 \|\vv\|_E
 \end{align*}
 in
 \begin{align*}
   \left| \int_{\partial \Omega \setminus S} \vt \cdot \vv dS \right| &\leq
   \int_{\partial \Omega \setminus S} \left|\vt \cdot \vv \right| dS \leq
-  \int_{\partial \Omega \setminus S} \|\vt\| \|\vv\| dS \leq \\
-  &\leq \underbrace{\left(\int_{\partial \Omega \setminus S} \|\vt\|_2^\frac43 dS \right)^\frac43}_{<\;\infty
+  \int_{\partial \Omega \setminus S} |\vt| |\vv| dS \leq \\
+  &\leq \underbrace{\left(\int_{\partial \Omega \setminus S} |\vt|^\frac43 dS \right)^\frac34}_{<\;\infty
     \text{ ker }\vt \in L^\frac43({\partial \Omega \setminus S})} \underbrace{\left( \int_{\partial \Omega \setminus S}
-    \|\vv\|_2^4dS\right)^\frac14}_{\leq \; c_4 \|\vv\|_E} \leq \\
+    |\vv|^4dS\right)^\frac14}_{\leq \; c_4 \|\vv\|_E} \leq \\
     &\leq c_3 c_4 \|\vv\|_E.
 \end{align*}
 Funkcional $F$ je po trikotniški neenakost torej omejen in zato zvezen. Po
@@ -1616,11 +1666,10 @@ kot da je $\vu = \vu^\ast$ enolična rešitev v smislu definicije~\ref{def:sibka
 Samo enoličnost lahko dokažemo tudi na bolj elementaren način, ki morda nudi boljši
 vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti.
 \begin{izrek}[Kirchoff]
-  Rešitev problema~\ref{eq:navier-general-problem} je enolična v $C^2_0$ in v
+  Rešitev problema~\ref{eq:navier-general-problem} je enolična v
   $E$, če obstaja.
 \end{izrek}
 \begin{proof}
-Enoličnosti v $C_0^2$ sledi iz enoličnosti $E$, saj je prvi podprostor drugega.
 Pa recimo da imamo dve rešitvi $\vu_1$ in $\vu_2$ z enakimi robnimi pogoji.
 Ker sta tako $\vu_1$ kot $\vu_2$ šibki rešitvi, zadoščata
 \begin{align*}
@@ -1629,11 +1678,15 @@ Ker sta tako $\vu_1$ kot $\vu_2$ šibki rešitvi, zadoščata
 \int_{\Omega}\eps(\vu_2) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
 \int_{\Omega} \vf\cdot \vv &= 0.
 \end{align*}
-Razlika torej zadošča \[ \int_{\Omega}\eps(\vw) : C : \eps(\vv) dV = 0 \] in ker
+Razlika $\vw = \vu_1 - \vu_2$ torej zadošča \[ \int_{\Omega}\eps(\vw) : C : \eps(\vv) dV = 0 \] in ker
 je $\vw$ tudi v $E$, saj je na robu enaka 0, lahko vstavimo $\vv = \vw$.
 Zaradi pozitivne definitnosti $C$ sledi $\eps(\vw) = 0$ od koder kot prej zaradi
 robnih pogojev sledi $\vw = 0$ oziroma $\vu_1 = \vu_2$.
 \end{proof}
+\begin{opomba}
+  Iz enoličnost v $E$ sledi tudi enoličnost v klasičnem smislu, saj je prostor klasičnih rešitev
+  podprostor v $E$.
+\end{opomba}
 
 \subsection{Priprava na numerično reševanje}
 Za numerično reševanje se postavimo v kartezični koordinatni sistem.
@@ -1656,23 +1709,23 @@ nižjedimenzionalne. Spodaj sta opisani dve najbolj pogosti poenostavitvi.
 
 \begin{description}
   \item[Ravninska napetost:]
-Pri tej poenostavitvi predpostavimo, da napetost nima neničelnih komponent v
-smeri ene izmed koordinatnih osi, torej po primerni rotaciji koordinatnega
-sistema, da so komponente $\ts_{xz}, \ts_{yz}$ in $\ts_{zz}$ enake 0. Ta
-poenostavitev je primerna za telesa, ki so ``tanke plošče'', torej imajo eno
-dimenzijo veliko manjšo od ostalih dveh. Poleg tega morajo biti vse obremenitve
-vzdolž plošče.
+Pri tej poenostavitvi predpostavimo, da napetost nima neničelnih komponent v smeri ene izmed
+koordinatnih osi, torej po primerni rotaciji koordinatnega sistema, da so komponente $\ts_{xz},
+\ts_{yz}$ in $\ts_{zz}$ enake 0. Ta poenostavitev je primerna za telesa, ki so ``tanke plošče'',
+torej imajo eno dimenzijo veliko manjšo od ostalih dveh. Poleg tega morajo biti vse obremenitve
+vzdolž plošče. Ta poenostavitev da enako enačbo kot v treh dimenzijah, le z eno komponento manj.
   \item[Ravninska deformacija:]
-Pri tej poenostavitvi predpostavimo, da deformacijski tenzor $\eps$ nima
-komponent v eni izmed koordinatnih smeri, torej, podobno kot pri ravninski
-napetosti lahko predpostavimo, da so $\eps_{xz}, \eps_{yz}$ in $\eps_{zz}$ enaki
-0. Ta poenostavitev je primerna za telesa, ki imajo eno dimenzijo mnogo večjo od
-drugih in se vzdolž nje ne spreminjajo, torej za (ne nujno krožne) valje.
+Pri tej poenostavitvi predpostavimo, da deformacijski tenzor $\eps$ nima komponent v eni izmed
+koordinatnih smeri, torej, podobno kot pri ravninski napetosti lahko predpostavimo, da so
+$\eps_{xz}, \eps_{yz}$ in $\eps_{zz}$ enaki 0. Ta poenostavitev je primerna za telesa, ki imajo eno
+dimenzijo mnogo večjo od drugih in se vzdolž nje ne spreminjajo, torej za (ne nujno krožne) valje.
+Ta poenostavitev da enačbo, ki je ekvivalentna tisti, dobljeni z zgornjo poenostavitvijo,
+le da je potrebno uporabiti druge materialne konstante $\hat{E} = \frac{E}{1 - \nu}$, $\hat\nu =
+\frac{\nu}{1-\nu}$, pri čemer sta $E$ in $\nu$ parametra iz tridimenzionalnega problema.
 \end{description}
 
 Pri obeh poenostavitvah se iz pogojev izpelje, da v Navierovi enačbi ne nastopa
-tretja komponenta $u$. Še več, poenostavitvi sta celo ekvivalentni, saj se
-razlikujeta le za konstantni člen pred enim izmed faktorjev. V dveh dimenzijah
+tretja komponenta $u$. V dveh dimenzijah
 pišemo prvo komponento pomika z $u$ in drugo z $v$, koordinati pa označujemo z
 $x$ in $y$. Če si razpišemo izraze za deformacijski tenzor in napetostni tenzor
 za primer ravninske napetosti dobimo:
@@ -2149,7 +2202,7 @@ Pokazati moramo, da se funkcija oblike v vsaki točki $x$ ujema z aproksimacijo
 končnih diferenc,
 ki pravi
 \[
-  (\triangle u)(x_i, y_j) = \frac{u_{i+1,j} + u_{i, j+1} + u_{i-1,j} + u_{i, j-1} -
+  (\lap u)(x_i, y_j) = \frac{u_{i+1,j} + u_{i, j+1} + u_{i-1,j} + u_{i, j-1} -
   4u_{i,j}}{h^2},
 \]
 pri čemer spremenljivka $u_{i, j}$ pripada koordinati $(x_i, y_j)$. Če se
@@ -2185,14 +2238,14 @@ in njen psevdoinverz je
 Pri tem smo že upoštevali $w \equiv 1$.
 Vektor vrednosti operatorja na baznih funkcijah je
 \[
-  (\triangle \b{b})(p) =
+  (\lap \b{b})(p) =
 \begin{bmatrix}
   0 & 0 & 0 & 2 & 2
 \end{bmatrix}^\T.
 \]
 Od tod dobimo po zvezi~\eqref{eq:shape-definition}
 \[
-  \b\phi = (\triangle \b b)(p)^\T B^{+} =
+  \b\phi = (\lap \b b)(p)^\T B^{+} =
   \begin{bmatrix}
     -\frac{4}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} &
     \frac{1}{h^2}
@@ -2259,12 +2312,12 @@ phi = Lb.PseudoInverse[B] // Simplify
   \scriptsize
   \begin{align*}
     &\frac{-4 u(0, 0) + u(0, h) + u(0, -h) + u(h, 0) + u(-h, 0)}{h^2} = \\
-    & \qquad = \triangle u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) +
+    & \qquad = \lap u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) +
   \dpar{^4u}{y^4}(0, 0)\right) + O(h^4) \\
     &\frac{-4 u(0, 0) - u(0, h) - u(0, -h) - u(h, 0) - u(-h, 0)
     + 2u(h, h) + 2u(h, -h) + 2u(-h, h) + 2u(-h, -h)}{3h^2} = \\
     & \qquad =
-    \triangle u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) + \dpar{^4u}{x^2y^2}(0,0) +
+    \lap u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) + \dpar{^4u}{x^2y^2}(0,0) +
     \dpar{^4u}{y^4}(0, 0)\right) + O(h^4).
   \end{align*}
   \normalsize
@@ -2300,8 +2353,8 @@ pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
 Tokrat vidimo, da se precej razlikuje od aproksimacije s končnimi diferencami.
 Toda, še vedno je drugega reda, saj za napako velja
 \[
-  \b \phi\cdot \b{\tilde{u}} - \triangle u(0, 0) =
-  h^2\left(\frac{2u(0,0)}{\sigma^2} - \frac{\triangle u(0,0)}{\sigma^2} +
+  \b \phi\cdot \b{\tilde{u}} - \lap u(0, 0) =
+  h^2\left(\frac{2u(0,0)}{\sigma^2} - \frac{\lap u(0,0)}{\sigma^2} +
   \frac{1}{12}\left( \dpar{^4u}{x^4}(0,0) + \dpar{^4u}{y^4}(0, 0) \right)\right)
   + O(h^4).
 \]
@@ -2955,7 +3008,7 @@ enojna natančnost ponavadi neuporabna zaradi zgodnje nestabilnosti.
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
 \begin{align}
-  \triangle u &= 1, \quad (x, y) \in (0, 1) \times (0, 1)
+  \lap u &= 1, \quad (x, y) \in (0, 1) \times (0, 1)
   \label{eq:poisson-problem} \\
   u(x, 0) &= u(x, 1) = u(0, y) = u(1, y) = 0. \nonumber
 \end{align}
@@ -3137,7 +3190,7 @@ V dosedanjih analizah smo videli, da se MLSM metoda obnaša enako ali slabše ko
 metoda končnih diferenc na šolskih primerih. Njena prednost leži v splošnosti,
 saj se jo z lahkoto prilagodi na drugačne domene, v višje dimenzije in na druge
 operatorje. Na sliki~\ref{fig:poisson-square-weird} so prikazane rešitve
-Poissonove enačbe $\triangle u = 1$ s homogenimi robnimi pogoji na bolj
+Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na bolj
 zanimivih domenah in v višjih dimenzijah. V dveh dimenzijah so bili za bazne
 funkcije uporabljeni monomi $\{1, x, y, x^2, y^2\}$ in $n=5$ v treh pa 9
 Gaussovih baznih funkcij z $\sigma_b = 50\,r_\chi$ in Gaussovo utežjo s
@@ -3152,7 +3205,7 @@ enaka.
   \includegraphics[height=5cm]{images/poisson_weird2.png}
   \hspace{10pt}
   \includegraphics[height=5cm]{images/poisson_weird3.png}
-  \caption{Reševanje Poissonove enačbe $\triangle u = 1$ s homogenimi robnimi pogoji na
+  \caption{Reševanje Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na
   zanimivejših domenah.}
   \label{fig:poisson-square-weird}
 \end{figure}
@@ -3166,7 +3219,8 @@ elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hert
 
 \section{Zaključek}
 
-\clearpage
+\cleardoublepage
+\addcontentsline{toc}{section}{Literatura}
 \bibliographystyle{unsrt}
 \bibliography{reference}
 
