@@ -129,6 +129,7 @@
 \newcommand{\vj}{\vec{\jmath}}
 \newcommand{\vk}{\vec{k}}
 \newcommand{\vX}{X}
+\newcommand{\vY}{Y}
 \newcommand{\vx}{x}
 \newcommand{\ei}{\vec{e}_1}
 \newcommand{\ej}{\vec{e}_2}
@@ -155,6 +156,11 @@
 \g@addto@macro\bfseries{\boldmath}
 \makeatother
 
+\usepackage{minted}  % za barvanje source kode
+% \usemintedstyle{mathematica}
+\usemintedstyle{mathematicanotebook}
+\renewcommand\listingscaption{Program}
+
 % algorithms
 \usepackage{algpseudocode}  % za psevdokodo
 \usepackage{algorithm}			% za
@@ -165,11 +171,6 @@
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algrenewtext{For}[3]{$\algorithmicfor\ #1 \gets #2\ \algorithmicto\ #3\ \algorithmicdo$}
 \algdef{S}[FOR]{ForEach}[2]{\algorithmicforeach\ #1\ \algorithmicin\ #2\ \algorithmicdo}
-
-\usepackage{minted}  % za barvanje source kode
-% \usemintedstyle{mathematica}
-\usemintedstyle{mathematicanotebook}
-\renewcommand\listingscaption{Program}
 
 \addto\captionsslovene{
   \renewcommand{\listfigurename}{Kazalo slik}%
@@ -263,13 +264,13 @@ uporabljali tudi sumacijsko konvencijo na ponovljenem indeksu. Tako na primer en
 \[
   t_{ij}v_j = 0
 \]
-vsebuje implicitno vsoto po $j$, razume pa se tudi, da velja za vsak $i$.
-Z $\va\cdot\vb$ bomo označevali skalarni produkt (enojno kontrakcijo) vektorjev, brez oznake bomo
-pisali produkt tenzorjev ali tenzorja in vektorja. Za skalarni produkt tenzorjev (dvojno
-kontrakcijo) bomo uporabljali oznako $s:t$.  S $t^\T$ bomo označevali transpozicijo tenzorja ali
-matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako $\langle \va, \vb, \vc\rangle$
-bomo označevali mešani produkt vektorjev $\va$, $\vb$ in $\vc$, definiran kot $\langle \va, \vb,
-\vc\rangle = (\va\times\vb)\cdot \vc$.
+vsebuje implicitno vsoto po $j$, razume pa se tudi, da velja za vsak $i$.  Z $\va\cdot\vb$ bomo
+označevali skalarni produkt (enojno kontrakcijo) vektorjev. Za skalarni produkt tenzorjev (dvojno
+kontrakcijo) bomo uporabljali oznako $s:t$, skalarni produkt v funkcionalno analitičnem smislu na
+nekem prostoru $X$ pa bomo označevali z $\langle u, v\rangle_X$.  S $t^\T$ bomo označevali
+transpozicijo tenzorja ali matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako
+$\langle \va, \vb, \vc\rangle$ bomo označevali mešani produkt vektorjev $\va$, $\vb$ in $\vc$,
+definiran kot $\langle \va, \vb, \vc\rangle = (\va\times\vb)\cdot \vc$.
 
 Divergenco, gradient in Laplaceov operator bomo označevali z $\div$, $\grad$,
 $\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2$.
@@ -728,7 +729,7 @@ merami.
 \end{opomba}
 
 \subsubsection{Aksiomi gibanja}
-Iz mehanike točke in iz resničnega sveta vemo, da gibanje zadošča nekim
+Iz mehanike točke in iz klasične mehanike vemo, da gibanje zadošča nekim
 zakonom, ki jih bomo za nadaljnje izpeljave privzeli kot aksiome.
 
 \begin{definicija}
@@ -872,9 +873,9 @@ drugačna. Toda, če sta imeli dve podtelesi v tisti točki enako normalo $\vn$ 
 tangentno ravnino v tisti točki, bo vektor $\vt$ še vedno enak, saj bosta lokalno telesi izgledali
 enaki. Vektor $\vt$ je torej odvisen od izbrane točke, trenutka v času, ko ga opazujemo in normale
 na izbrano površino podtelesa, ter ničesar drugega, neodvisen je na primer od ukrivljenosti ploskve
-v tisti točki. Temu razmisleku se reče \emph{Caucyjeva hipoteza}.
+v tisti točki. Temu razmisleku se reče \emph{Cauchyjeva hipoteza}.
 
-\begin{aksiom}[Caucyjeva hipoteza]
+\begin{aksiom}[Cauchyjeva hipoteza]
   V telesu obstaja vektorsko polje $\vt$ inducirano s površinskimi silami, ki
   je odvisno samo od položaja, časa in normale na površino (resnično ali
   namišljeno), kjer ga opazujemo.  S simboli lahko zapišemo
@@ -889,7 +890,7 @@ prvega. Temu se reče tudi tretji Newtonov zakon za mehaniko kontinuuma in
 ga ni treba privzeti kot aksiom, ampak lahko dokažemo iz do sedaj
 privzetih aksiomov. Dokaza tega in naslednjega izreka bosta povzeta po dokazih
 iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
-\begin{trditev}[Caucyjeva recipročna relacija]
+\begin{trditev}[Cauchyjeva recipročna relacija]
   \label{trd:cauchy-reciprocal}
   \begin{equation}
     \vt(t, \vx, -\vn) = -\vt(t, \vx, \vn).
@@ -908,7 +909,7 @@ $\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.3\textwidth]{images/cauchy_disc.pdf}
-  \caption{Valj, uporabljen v dokazu Caucyjjeve recipročne relacije.}
+  \caption{Valj, uporabljen v dokazu Cauchyjjeve recipročne relacije.}
   \label{fig:valj}
 \end{figure}
 
@@ -917,28 +918,33 @@ valj aksiom o gibalni količini~\eqref{eq:gib}:
 \begin{align*}
   \DDt{} \int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vt dS.
 \end{align*}
-Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob valja
-razpišimo po ploskvah:
+Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob vclja
+razpišimo po ploskvch:
 \[
   \int_{B_t} \DDt{\vv} \rho dV = \int_{B_t} \vf dV + \int_{B^+} \vt_{\vn} dS +
   \int_{B^-}\vt_{-\vn} dS + \int_{P} \vt_{\vm(\vx)}dS.
 \]
-Vektor $\vm(\vx)$ pri tem označuje normalo na plašč valja.
-Sedaj na vsakem od integralov uporabimo izrek o povprečni vrednosti
-\[
-  V(B) (\rho\DDt{\vv})(\vx_1) = V(B) \vf(\vx_2) + S(B^+)\vt_{\vn}(\vx_3) +
-  S(B^-)\vt_{-\vn}(\vx_4) + S(P)\vt_{\vm(\vx)}(\vx_5),
-\]
-kjer so $\vx_1, \vx_2, \vx_3, \vx_4, \vx_5$ neke vmesne točke v ali na površini valja.
+Vektor $\vm(\vx)$ pri tem označuje normalo na plašč vclja. Celotno enačbo pomnožimo s konstantnim
+vektorjem $\vc$ in na vsakem od integralov, ki so zdaj integrali skalarnih funkcij, uporabimo izrek
+o povprečni vrednosti
+\begin{align*}
+  V(B) (\rho\DDt{\vv})(\vx_1)\cdot\vc = V(B) \vf(\vx_2)\cdot\vc &+ S(B^+)\vt_{\vn}(\vx_3)\cdot\vc\;+ \\&+
+  S(B^-)\vt_{-\vn}(\vx_4)\cdot\vc + S(P)\vt_{\vm(\vx)}(\vx_5)\cdot\vc,
+\end{align*}
+kjer so $\vx_1, \vx_2, \vx_3, \vx_4, \vx_5$ neke vmesne točke v ali na površini vclja.
 Če vstavimo notri izraze za volumen in površine ploskev dobimo
 \[
-  \pi h^4 (\rho \DDt{\vv})(\vx_1) = \pi h^4 \vf(\vx_2) + \pi h^2 \vt_{\vn}(\vx_3) +
-  \pi h^2 \vt_{-\vn}(\vx_4) + 2 \pi h^3 \vt_{\vm(x)}(\vx_5).
+  \pi h^4 (\rho \DDt{\vv})(\vx_1)\cdot\vc = \left[\pi h^4 \vf(\vx_2) + \pi h^2 \vt_{\vn}(\vx_3) +
+  \pi h^2 \vt_{-\vn}(\vx_4) + 2 \pi h^3 \vt_{\vm(x)}(\vx_5)\right]\cdot\vc.
 \]
 Celoten izraz delimo z $\pi h^2$ in pogledamo limito $h\to 0$, gredo vse točke
 $\vx_i$ proti $\vx$ in dobimo
 \[
-  0 = \vt_{\vn}(\vx) + \vt_{-\vn}(\vx),
+  0 = (\vt_{\vn}(\vx) + \vt_{-\vn}(\vx))\cdot\vc.
+\]
+Ker zgornja enakost velja za poljuben vektor $\vc$, velja tudi
+\[
+  0 = (\vt_{\vn}(\vx) + \vt_{-\vn}(\vx)),
 \]
 kar je točno to, kar smo želeli pokazati.
 \end{proof}
@@ -946,21 +952,21 @@ kar je točno to, kar smo želeli pokazati.
 Izkaže se, da velja še več: vektor $\vt$ je linearno odvisen od normale. S
 pomočjo prejšnje trditve lahko pokažemo naslednji izrek, ki nam da na voljo
 matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
-\begin{izrek}[Caucyjev izrek o napetosti]
+\begin{izrek}[Cauchyjev izrek o napetosti]
   Obstaja tenzor $\ts$, tako da velja \[
     \vt(t, \vx, \vn) = \ts(t, \vx)\vn.
   \]
-  Tenzor $\ts$ se imenuje Caucyjev napetostni tenzor.
+  Tenzor $\ts$ se imenuje Cauchyjev napetostni tenzor.
 \end{izrek}
 \begin{proof}
-Podobno kot pri Caucyjevi recipročni relaciji si tokrat izberimo majhno telo z ogliščem v točki
+Podobno kot pri Cauchyjevi recipročni relaciji si tokrat izberimo majhno telo z ogliščem v točki
 $\vx$. Naj bo to tetraeder z tremi stranicami, vzporednimi koordinatnim osem in normalo $\vn$ na
 ploskev, ki jo razpenjajo preostale tri stranice, kot prikazano na sliki~\ref{fig:tetra}.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.3\textwidth]{images/cauchy_tetrahedron.pdf}
-  \caption{Tetraeder, uporabljen za dokaz Caucyjevega izreka o napetosti.}
+  \caption{Tetraeder, uporabljen za dokaz Cauchyjevega izreka o napetosti.}
   \label{fig:tetra}
 \end{figure}
 
@@ -988,8 +994,9 @@ stranic, ki jo oklepata.
 \end{align*}
 Če to pomnožimo z $i$-tim baznim vektorjem, dobimo $a_i = (\vn\cdot\vec{e}_i)
 a_4$.
-Zopet uporabimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine in izrek o
-povprečni vrednosti
+Zopet uporabimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine, razpišemo integral po površini
+tetraedra po posameznih ploskvah, pomnožimo izraz s konstantnim vektorjem $\vc$ in nato uporabimo
+izrek o povprečni vrednosti
 \begin{align*}
   \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
 \int_{B_t} \rho\DDt{\vv} dV &= \int_{B_t} \vf dV +
@@ -998,9 +1005,9 @@ povprečni vrednosti
   \int_{S_3} \vt_{-\ek} dS +
   \int_{S_4} \vt_{\vn} dS
   \\
-  V (\rho\DDt{\vv})(\vx_1) &= V \vf(\vx_2) +
+  V (\rho\DDt{\vv})(\vx_1)\cdot\vc &= \left[V \vf(\vx_2) +
   a_1 \vt_{-\ei}(\vx_3) + a_2 \vt_{-\ej}(\vx_4) + a_3 \vt_{-\ek}(\vx_5) + a_4
-  \vt_{\vn}(\vx_6),
+\vt_{\vn}(\vx_6)\right]\cdot \vc,
 \end{align*}
 pri čemer so $\vx_i$, kot v prejšnjem dokazu, neke točke v notranjosti ali na
 površini tetraedra. Sedaj enačbo delimo z $a_4$ in pošljemo limito $h \to 0$.
@@ -1012,15 +1019,16 @@ pa se približujeta 0. Z upoštevanjem
 \]
 dobimo
 \[
-  0 = \vt_{\vn} + \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{-\vec{e}_i}.
+  0 = \left[\vt_{\vn} + \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{-\vec{e}_i}\right]\vc.
 \]
-Uporabimo še Caucyjevo recipročno relacijo~\eqref{eq:cauchy-reciprocal} in dobimo
+Zgornja enakost velja za vsak vektor $\vc$ in ko uporabimo še Cauchyjevo recipročno
+relacijo~\eqref{eq:cauchy-reciprocal}, dobimo
 \[
   \vt_{\vn} = \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i}.
 \]
 Ta zveza nam pove, kako je napetost na poljubni ploskvi povezana z napetostmi na
 koordinatnih ploskvah.
-To nam dovoljuje definicijo \emph{Caucyjevega napetostnega tenzorja}
+To nam dovoljuje definicijo \emph{Cauchyjevega napetostnega tenzorja}
 $\ts$
 \[
   \ts = \sum_{i=1}^3 \vt_{\vec{e}_i}\otimes \vec{e}_i,
@@ -1036,8 +1044,8 @@ za katerega res velja
 V tem razdelku bomo iz aksiomov izpeljali lokalne enačbe gibanja, tako da jih
 bomo iz integralske oblike prevedli v diferencialno.
 Prevedimo najprej aksiom~\ref{aks:gib} o ohranitvi gibalne količine.
-\begin{izrek}[Caucyjeva momentna enačba]
-  Za gibanje kontinuuma velja Caucyjeva momentna enačba
+\begin{izrek}[Cauchyjeva momentna enačba]
+  Za gibanje kontinuuma velja Cauchyjeva momentna enačba
   \begin{equation}
     \rho \DDt{\vv} = \vf + \div \sigma.
     \label{eq:cauchy-moment}
@@ -1058,10 +1066,10 @@ integral nič za vsako telo, mora biti integrand nič, kar dokaže našo enačbo
 
 Do sedaj še nismo uporabili aksioma~\ref{aks:vrt} o vrtilni količini.
 Njegova lokalna oblika se prevede na zelo enostavno trditev o simetriji
-Caucyjevega napetostnega tenzorja.
+Cauchyjevega napetostnega tenzorja.
 \begin{trditev}
   \label{trd:sigma-symmetric}
-  Caucyjev napetostni tenzor je simetričen:
+  Cauchyjev napetostni tenzor je simetričen:
   \[ \ts^\T = \ts. \]
 \end{trditev}
 \begin{proof}
@@ -1100,7 +1108,7 @@ relacijo.
   (\vw \times \vx)\right] dV = \\ &=
 - \int_{B_t} \ts : \grad (\vw \times \vx) dV.
 \end{align*}
-Uporabili smo definicijo in cikličnost mešanega produkta, Caucyjevo momentno
+Uporabili smo definicijo in cikličnost mešanega produkta, Cauchyjevo momentno
 enačbo~\eqref{eq:cauchy-moment} in dejstvo, da je
 \[
   \DDt{}\langle \vx, \vv, \vw \rangle =
@@ -1265,6 +1273,11 @@ V tem primeru velja $F = \diag(\lambda_1, \lambda_2, \lambda_3)$ in
   Če je $\lambda_i = 1$ je $E$ res 0, sicer pa so v njegovih diagonalnih
   komponentah zapisani raztezki vzdolž posameznih osi.
 \end{primer}
+\begin{opomba}
+  Velja tudi obrat trditve in posledično ekvivalenca, da je $E = 0$ natanko tedaj, kot je
+  transformacija toga. Ta ekvivalenca je dokazana za primer infinitezimalnega deformacijskega
+  tenzorja v trditvi~\ref{trd:eps-0}.
+\end{opomba}
 
 V teoriji linearne elastičnosti se bomo ukvarjali z majhnimi pomiki in majhnimi
 gradienti pomikov. Zato poenostavimo deformacijski tenzor z geometrijsko
@@ -1289,14 +1302,41 @@ obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduct
 \end{trditev}
 \begin{proof}
   Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$, torej je $\Grad u$ antisimetričen.
-  TODO
+  Naj bo $\Omega$ odprta konveksna množica pod $\B$.  Izbrerimo poljubni točki $\vX, \vY \in \Omega$
+  in daljico med njima enakomerno parametrizirajmo, tako da je $\gamma(1) = \vX, \gamma(0) = \vY,
+  \dot\gamma(t) = \vX-\vY$. Integrirajmo $\Grad \vu$ po $\gamma$:
+  \[
+    \vu(\vX) - \vu(\vY) = \int_0^1 (\Grad\vu(\gamma(t)))\dot\gamma(t)dt =
+    \int_0^1\Grad\vu(\gamma(t))(\vX-\vY) dt.
+  \]
+  Če zgornjo enakost pomnožimo skalarno z $\vX-\vY$, dobimo zaradi antisimetričnosti $\Grad \vu$
+  \[
+    (\vX - \vY)\cdot (\vu(\vX) - \vu(\vY)) =
+    \int_0^1\underbrace{(\vX - \vY)\cdot \Grad\vu(\gamma(t))(\vX-\vY)}_{=\,0} dt = 0.
+  \]
+  Videli smo torej, da za vsaka $\vX$ in $\vY$ velja $(\vX - \vY)\cdot (\vu(\vX) - \vu(\vY)) = 0$.
+  Če to odvajamo po $\vX$, dobimo
+  \[
+    \vu(\vX) - \vu(\vY) + \Grad\vu(\vX)^\T(\vX - \vY) = 0
+  \]
+  in če odvajamo še po $Y$, dobimo
+  \[
+    - \Grad \vu(\vY) - \Grad\vu(\vX)^\T = 0.
+  \]
+  Če upoštevamo še antisimetričnost $\Grad\vu$ dobimo, da je
+  \[
+    \Grad \vu(\vY) = \Grad\vu(\vX).
+  \]
+  Ker lahko telo $\B$ pokrijemo z odpritmi konveksnimi množicami (na primer kroglami),
+  je $\Grad\vu$ konstanten. Pomik $\vu$ je torej oblike $\vu = \va + (\Grad\vu) \vX$.
+  Ker je $\Grad \vu$ antisimetričen, ga lahko zapišemo kot vektorski produkt z
+  njegovim osnim vektorjem in dobimo $\vu = \va + \vb \times \vX$.
 \end{proof}
 
 \subsubsection{Hookov zakon}
-Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.
-V splošnem je relacija oblike $\ts = f(\eps)$, predpostavimo torej, da je
-napetost odvisna samo od deformacije. Ponavadi $f$ dodatno omejimo, da je
-da mora biti taka, da je energija
+Sedaj potrebujemo relacijo, ki povezuje premike z napetostjo.  V splošnem je relacija oblike $\ts =
+f(\eps)$, predpostavimo torej, da je napetost odvisna samo od deformacije. Funkcijo $f$ dodatno
+omejimo, da mora biti taka, da je energija
 \[
   U(\eps) = \int_{0}^{\eps} \ts : d\eps = \int_0^\eps f(\eps) d\eps
 \]
@@ -1335,7 +1375,7 @@ S tem smo $C$ reducirali na $6^2 = 36$ komponent.
   \dpar{U}{\eps_{ij}\eps_{kl}} = C_{ijkl}.
 \]
 Ker vrstni red drugih odvodov ni pomemben, je $C_{ijkl} = C_{klij}$.
-S tem smo $C$ reducirali na $36-5-4-3-2-1 = 21$ komponent.
+S tem smo $C$ reducirali na $21$ komponent.
 Od sedaj naprej bomo predpostavili, da so vsi materiali hiperelastični.
 Energija je v tem primeru dana s kvadratično formo
 \begin{equation}
@@ -1343,14 +1383,21 @@ Energija je v tem primeru dana s kvadratično formo
   \label{eq:energy}
 \end{equation}
 Tenzor $C$ se dodatno poenostavi, če predpostavimo, da je material
-\emph{izotropičen}, torej ``enak v vse smeri''. Splošen izotropičen tenzor
-četrtega reda je oblike
+\emph{izotropičen}, torej ``enak v vse smeri''.
+Izotropični tenzorji so pomembni objekti v mehaniki kontinuuma in
+so dobro raziskani. V dveh dimenzijah je edini (linearno neodvisen)
+izotropičen tenzor identiteta $\delta_ij$, v treh dimenzijah je to permutacijski tenzor
+$\eps_{ijk}$, splošen izotropičen tenzor četrtega reda pa je oblike
 \[
   C_{ijkl} = \lambda \delta_{ij}\delta_{kl} + \mu \delta_{ik}\delta_{jl} +
   \kappa \delta_{il}\delta_{jk},
 \]
-dokazano npr.~v\cite[str.\ 206, primer 4.2.2]{liu2013continuum} in zaradi zgornjih simetrij
-mora veljati $\kappa = \lambda$.
+kjer so $\lambda, \mu$ in $\kappa$ splošni skalarji. V~\cite{kearsley1975linearly} so
+karakterizirani vsi izotropični tenzorji do reda 8, število izotropičnih tenzorjev
+dimenzije $n$ pa je navedeno kot \href{http://oeis.org/A005043}{A005043} v spletni enciklopediji
+celoštevilskih zaporedij~\cite{oeis}.
+
+Zaradi simetrij $C$ mora za izotropičen $C$ veljati $\kappa = \lambda$.
 Nekoordinatno lahko sedaj zvezo $\ts = C:\eps$ za tak tenzor zapišemo kot
 \begin{equation}
   \ts = \lambda (\tr\eps)I + 2\mu \eps.
@@ -1413,9 +1460,9 @@ Zaradi majhnih gradientov pomika je vseeno, ali uporabljamo odvode glede na
 prostorske ali glede na referenčne koordinate. Enak argument lahko uporabimo
 tudi za divergenco in običajne odvode.
 
-Caucyjevo gibalno enačbo lahko zapišemo namesto v prostorskih tudi v referenčnih
+Cauchyjevo gibalno enačbo lahko zapišemo namesto v prostorskih tudi v referenčnih
 koordinatah. Pri tem lahko zaradi majhnih gradientov pomikov namesto $\div$
-pišemo $\Div$ in Caucyjev napetostni tenzor enačimo z napetostnim tenzorjem,
+pišemo $\Div$ in Cauchyjev napetostni tenzor enačimo z napetostnim tenzorjem,
 zapisanim v referenčnem sistemu. Opustimo tudi strogo ločevanje referenčnih in
 prostorskih koordinat, saj bomo imeli od sedaj naprej enačbe vedno zapisane v
 referenčnih koordinatah. Odvode po času pišimo zato kar s piko, za operatorje pa
@@ -1483,7 +1530,7 @@ in jo imenujemo \emph{stacionarna Navierova enačba}.
   Bolj splošno obliko Navierove enačbe, ki dopušča tudi bolj splošen $C$ ali
   prostorsko odvisnost parametrov $\lambda$ in $\mu$
   dobimo tako, da preprosto vstavimo definicijo $\ts$ v linearizirano
-  Caucyjevo momentno enačbo. S tem dobimo enačbo
+  Cauchyjevo momentno enačbo. S tem dobimo enačbo
   \begin{equation}
     \rho\ddot \vu = \frac12 \div(C:(\grad \vu + \grad\vu^\T)) + \vf.
     \label{eq:navier-general}
@@ -1901,13 +1948,14 @@ Toda, ker $u_j$ nastopajo linearno, lahko napišemo tudi v obliki
     u_{i-1} \\ u_{i} \\ u_{i+1}
   \end{bmatrix}= \b\phi(x)^\T\b u.
 \]
-S tem smo ločili podatke, ki se nanašajo na vrednost funkcije, od podatkov, ki
-se nanašajo na pozicije točk. Če na primer vemo, da bomo večkrat potrebovali
-vrednost interpolacijskega polinoma v neki točki $x^\ast$ za različne nabore
-funkcijskih vrednosti (vendar še vedno izmerjene v istih točkah) $\b u$, potem
-se nam splača poračunati $\b\phi(x^\ast)$ vnaprej in vrednosti
-interpolacijskega polinoma dobimo vsakič znova le s skalarnim produktom $\hat
-u(x^\ast) = \b\phi(x^\ast) ^\T \b u$.
+S tem smo ločili podatke, ki se nanašajo na vrednost funkcije, od podatkov, ki se nanašajo na
+pozicije točk. Če na primer vemo, da bomo večkrat potrebovali vrednost interpolacijskega polinoma v
+neki točki $x^\ast$ za različne nabore funkcijskih vrednosti (vendar še vedno izmerjene v istih
+točkah) $\b u$, potem se nam splača poračunati $\b\phi(x^\ast)$ vnaprej in vrednosti
+interpolacijskega polinoma dobimo vsakič znova le s skalarnim produktom $\hat u(x^\ast) =
+\b\phi(x^\ast) ^\T \b u$. Tukaj ni potrebno, da je $x^\ast$ ena izmed točk $x_i$, ampak je lahko
+poljubna točka v domeni, čeprav je potrebno da je v bližini $x_i$, če želimo dobiti dobro
+aproksimacijo.
 
 Za aproksimacijo $u'$ in $u''$ bomo vzeli kar odvode $\hat{u}$. Izračunajmo
 jih v točki $x_i$ in dobimo znane formule
@@ -1950,13 +1998,14 @@ ki bi jo izpeljali na enak način.
 
 Vse te enakosti zložimo v sistem enačb in ga zapišimo v matrični obliki
 \begin{align*}
+  \frac{1}{h^2}
   \begin{bmatrix}
     1 &  \\
     -1 & 2 & 1 \\
     & -1 & 2 & 1 \\
     & & \!\ddots & \!\ddots & \! \ddots \\
     &&& -1 & 2 & 1 \\
-    &&& 1/2h & -2/h & 3/2h \\
+    &&& h/2 & -2h & 3h/2 \\
   \end{bmatrix}
 \begin{bmatrix}
   u_0 \\ u_1 \\ u_2 \\ \vdots \\ u_{N-1} \\ u_N
@@ -1989,14 +2038,13 @@ $\L\colon C^r(\R^d) \to C(\R)$ linearen
 parcialni diferencialni operator reda $r$ in $\Rc u$ robni pogoji,
 pri katerih je problem enolično rešljiv.
 
-Domeno in njen rob sedaj diskretiziramo, tako da izberemo $N$ točk v zaprtju
-domene, $x_1, \dots, x_N \in \zomega$. Podobno kot pri končnih
-diferencah bomo v teh točkah aproksimirali vrednost funkcije $u$.
-Izberimo fiksno točko $p \in \zomega$ in $n$ izmed točk $\{x_1, \dots, x_N\}$,
-ki bodo sestavljali \emph{soseščino}~\ang{support} točke $p$. Število $n$ imenujemo
-velikost soseščine. Označimo z $\Nc(p)$ soseščino točke $p$ in
-z $\I(p) = \{i_1, \dots, i_n\}$ množico indeksov, za katere so izbrani
-$x_{i_j}$ v soseščini $p$. Velja torej \[
+Poiščimo sedaj primerno diskretno obliko zgornjega zveznega problema.
+Izberimo $N$ točk v zaprtju domene, $x_1, \dots, x_N \in \zomega$, od teh naj jih leži nekaj na robu
+in nekaj v notranjosti $\Omega$. Podobno kot pri končnih diferencah bomo v teh točkah aproksimirali
+vrednost funkcije $u$.  Izberimo fiksno točko $p \in \zomega$ in $n$ izmed točk $\{x_1, \dots,
+x_N\}$, ki bodo sestavljali \emph{soseščino}~\ang{support} točke $p$. Število $n$ imenujemo velikost
+soseščine.  Označimo z $\Nc(p)$ soseščino točke $p$ in z $\I(p) = \{i_1, \dots, i_n\}$ množico
+indeksov, za katere so izbrani $x_{i_j}$ v soseščini $p$. Velja torej \[
   \Nc(p) = \bigcup_{i \in \I(p)} x_i.
 \]
 Običajno bo $n \ll N$, npr. $n = 9$ in $N = 10^6$.
@@ -2006,7 +2054,7 @@ sliki~\ref{fig:domain-example}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/domain_theoretical.pdf}
-  \caption{Primer domene z diskretizirano notranjostjo in robom, skupaj z izbrano
+  \caption{Primer domene z diskretnim opisom notranjosti in roba, skupaj z izbrano
   točko in njeno soseščino.}
   \label{fig:domain-example}
 \end{figure}
@@ -2014,28 +2062,21 @@ sliki~\ref{fig:domain-example}.
 V okolici točke $p$ aproksimirajmo $u$ z elementi iz nekega končno
 dimenzionalnega prostora funkcij $\B = \Lin\{b_1, \dots, b_m\}$.
 Funkcijam $b_i\colon \R^d \to \R$ pravimo \emph{bazne funkcije},
-številu $m$ pa moč baze. Aproksimacijo $\uh$ za $u$ lahko torej zapišemo kot
+številu $m$ pa moč baze. Ni nujno, da so funkcije $b_i$ definirane
+globalno in so lahko odvisne od izbrane točke $p$ in njene soseščine.
+Aproksimacijo $\uh$ za $u$ lahko torej zapišemo kot
 \[
   u \approx \uh = \sum_{i=1}^m \alpha_i b_i = \b{b}^\T \b{\alpha},
 \]
 pri čemer smo z $\b{\alpha} = (\alpha_i)_{i=1}^m$ označili vektor neznanih
-koeficientov in $\b{b} = (b_i)_{i=1}^m$ vektor baznih funkcij.
+koeficientov in z $\b{b} = (b_i)_{i=1}^m$ funkcijo $\b{b}\colon\R^d\to\R^m$, katere
+komponente so bazne funkcije $b_i$.
 
-Če bi poznali vrednosti $u(x_i)$ za $i \in I(p)$, potem bi lahko aproksimiranko
-$\uh$ izračunali po metodi najmanjših kvadratov. Ker pa teh vrednosti ne
-poznamo, uvedimo spremenljivke $u_i$ za vsako točko v domeni, ki nam bodo
-predstavljale neznane prave vrednosti in nadaljujmo
-s simbolnim računanjem. Za funkcijo $\uh$ zahtevamo, da aproksimira $u$ v smislu
-utežene diskretne 2-norme, torej da minimizira
-\begin{align*}
-  \|u-\uh\|_{2,N(p),\b{w}} &= \sum_{i\in I(p)} w(p-x_i) (u_i - \uh(x_i))^2
-\end{align*}
-kar je utežena vsota kvadratov odstopanj od pravih vrednosti. Pri tem je
-$w\colon\R^d\to\R$ nenegativna funkcija, ki jo imenujemo \emph{utež}, $\b{w}$ pa
-je vektor sestavljen iz vrednosti te funkcije v točkah v soseščini.
-
-Matrično lahko zapišemo sistem enačb, ki po vrsticah
-postavlja našo zahtevo $\hat{u}(x_j) = u_j$, za vsak $j \in I(p)$:
+Če bi poznali vrednosti $u(x_i)$ za $i \in \I(p)$, potem bi za aproksimiranko
+$\uh$ v najboljšem primeru zahtevali  $\hat{u}(x_i) = u(x_i)$, za vsak $i \in \I(p)$.
+Ker funkcijskih vrednosti $u(x_i)$ ne poznamo, uvedimo spremenljivke $u_i$ za vsako točko v domeni,
+ki nam bodo predstavljale neznane prave vrednosti in nadaljujmo s simbolnim računanjem.
+Če zahteve za interpolacijo po vrsticah zapišemo v sistem linearnih enačb, dobimo
 \begin{equation}
 \begin{bmatrix}
   b_1(x_{i_1}) & \cdots & b_m(x_{i_1}) \\
@@ -2051,15 +2092,25 @@ postavlja našo zahtevo $\hat{u}(x_j) = u_j$, za vsak $j \in I(p)$:
 \end{bmatrix}.
   \label{eq:shape-system}
 \end{equation}
-Na krajše sistem zapišemo kot $B\b{\alpha} = \b{\tilde{u}}$. Odvisno od
-$n$, $m$, $b_i$ in uteži $w$ je ta sistem lahko poddoločen, predoločen ali
-običajen. V vsakem primeru lahko minimiziranje utežene napake prevedemo na
-minimiziranje diskretne 2-norme $\|WB\b{\alpha}-W\b{\tilde{u}}\|_{2,N(p)}$, kjer je $W$
-diagonalna matrika iz korenov uteži za posamezne točke, $W =
-\diag(\sqrt{w(x_{i_1}-p)}, \dots, \sqrt{w(x_{i_n}-p)})$. Tak sistem pa lahko, ne
-glede na njegovo določenost, rešimo s pomočjo Moore-Penroseovega
-psevdoinverza, ki ga lahko izračunamo s pomočjo singularnega razcepa matrike
-$WB$.
+Na krajše sistem zapišemo kot $B\b{\alpha} = \b{\tilde{u}}$. Odvisno od $n$, $m$, $b_i$ in uteži $w$
+je ta sistem lahko poddoločen, predoločen ali običajen. Vprašanje obrnljivosti matrike $B$ je
+primeru $n=m$ težko in je odvisno od izbire funkcij in lege točk. Tudi če so funkcije $b_i$ linearno
+neodvisne, obstajajo primeri že v dveh dimenzijah, ko zastavljen interpolacijski problem ni
+korekten~\cite[str.\ 79, izrek 2.2]{kozak2008numericna} in zagotavljanje korektnosti v splošnem je
+težek problem.
+
+V vsakem primeru lahko definiramo neke vrste rešitev sistema~\eqref{eq:shape-system},
+za katero zahtevamo, da minimizira napako v smislu utežene diskretne 2-norme, torej da minimizira
+\begin{align*}
+  \|u-\uh\|_{2,\Nc(p),\b{w}} &= \sum_{i\in \I(p)} w(p-x_i) (u_i - \uh(x_i))^2,
+\end{align*}
+pri čemer je $w\colon\R^d\to\R$ nenegativna funkcija, ki jo imenujemo \emph{utež}, $\b{w}$ pa je
+vektor sestavljen iz vrednosti te funkcije v točkah v soseščini.  Če je takih rešitev $\alpha$ več,
+izberimo tisto, za katero je $\|\alpha\|$ najmanjša.  Zgornjo minimizacijo lahko prevedemo na
+minimiziranje diskretne 2-norme $\|WB\b{\alpha}-W\b{\tilde{u}}\|_{2,\Nc(p)}$, kjer je $W$ diagonalna
+matrika iz korenov uteži za posamezne točke, $W = \diag(\sqrt{w(x_{i_1}-p)}, \dots,
+\sqrt{w(x_{i_n}-p)})$. Tak sistem pa lahko, ne glede na njegovo določenost, rešimo s pomočjo
+Moore-Penroseovega psevdoinverza, ki ga izračunamo s pomočjo singularnega razcepa matrike $WB$.
 Tako lahko izrazimo \[ \b{\alpha} = (WB)^{+}W\b{\tilde u}, \]
 kjer $+$ označuje Moore-Penroseov psevdoinverz.
 
@@ -2073,7 +2124,7 @@ Sedaj lahko za izbrano točko $p$ izračunamo
 \]
 Izračunljivi kos $\b\phi_p$ je v praksi vrstica velikosti $n$, matematično pa je
 linearen funkcional $\b\phi_p \in (\R^n)^\ast$, ki naboru funkcijskih vrednosti v
-soseščini $N(p)$ priredi aproksimacijo za funkcijsko vrednost v točki $p$.
+soseščini $\Nc(p)$ priredi aproksimacijo za funkcijsko vrednost v točki $p$.
 
 Podobno kot pri deljenih diferencah odvode funkcije $u$ aproksimiramo z odvodi
 interpolacijskega polinoma skozi točke v soseščini, bomo tudi v našem primeru
@@ -2096,13 +2147,15 @@ za zapis linearne enačbe
 \[
   \b\phi_{\L,p} \cdot \b{\tilde{u}} = f(p),
 \]
-ki je direktna aproksimacija diferencialne enačbe~\eqref{eq:general-problem} v točki
-$p$,
+ki je direktna aproksimacija diferencialne enačbe~\eqref{eq:general-problem} v točki $p$,
 \[
   (\L u)(p) = f(p).
 \]
-To lahko sedaj storimo za vsako diskretizacijsko točko $x_i$ v domeni in
-dobimo sistem enačb
+Tu ni potrebno, da je $p \in \Nc(p)$, temveč je lahko katerakoli točka v domeni, čeprav bo
+najpogosteje tudi sama ena izmed diskretizacijskih točk.
+
+Operatorja $\L$ in $\Rc$ sedaj aproksimiramo po celi domeni, tako za vsako diskretizacijsko točko
+$x_i$ v izračunamo $\b\phi_{\L,x_i}$ in dobimo sistem enačb
 \begin{align*}
   \b\phi_{\L,x_i} \cdot \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$ } \\
   \b\phi_{\Rc,x_i} \cdot \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak, da je $x_i \in \partial\Omega$.}
@@ -2123,7 +2176,7 @@ sosedom $x_i$. Natančneje, elementi matrike $A$ so
 \end{align*}
 Razumljivejša je morda kar Matlab-ova notacija
 \[
-A(k, I(x_k)) = \begin{cases}
+A(k, \I(x_k)) = \begin{cases}
     \b\phi_{\L, p} & x_k \in \Omega \\
     \b\phi_{\Rc, p} & x_k \in \partial\Omega \\
   \end{cases}, \text{ za $k = 1, \ldots, N$}.
@@ -2211,7 +2264,7 @@ aproksimaciji rešitve, saj sistem pri obeh metodah gradimo na enak način.
 Ker je operator krajevno neodvisen, so tudi funkcije oblik odvisne samo od
 medsebojne lege točk in torej lahko brez škode
 za splošnost predpostavimo, da računamo funkcijo oblike za točko
-$p = (0, 0)$. Najbližjih $n$ sosedov je tako $N(p) = \{(0, 0), (0, h), (0, -h),
+$p = (0, 0)$. Najbližjih $n$ sosedov je tako $\Nc(p) = \{(0, 0), (0, h), (0, -h),
 (h, 0), (-h, 0)\}$. Matrika $B = [b_j(x_i)]$ iz sistema~\eqref{eq:shape-system},
 ki ima po stolpcih izračunane bazne funkcije v vseh sosedih je
 \[
@@ -2278,7 +2331,7 @@ phi = Lb.PseudoInverse[B] // Simplify
 \end{opomba}
 \begin{opomba}
   \label{op:fdm-9}
-  Tudi če izberemo $n=9$ in $\b b = \{1, x, x^2, y, xy, xy^2, y^2, y^2 x, y^2
+  Tudi če izberemo $n=9$ in $\b b = \{1, x, x^2, y, xy, x^2y, y^2, y^2x, y^2
   x^2 \}$, dobimo enako aproksimacijo kot v trditvi~\ref{trd:eq-to-fdm}, le da
   uporabimo več sosedov. Če jih uredimo po oddaljenosti od $(0, 0)$ dobimo
   aproksimacijo
@@ -2333,9 +2386,9 @@ na vsakega izmed sosedov. Opisana metoda tako postane kolokacijska metoda z
 lokalnimi radialnimi baznimi funkcijami \ang{local radial basis function
 collocation method}.
 
-Če za $n = 9$ sosedov točke $(0, 0)$ izberemo točke \[ N(p) = \{
+Če za $n = 9$ sosedov točke $(0, 0)$ izberemo točke \[ \Nc(p) = \{
   (0, 0), (0, h), (0, -h), (h, 0), (-h, 0), (h, h), (h, -h), (-h, h), (-h, -h)
-\} \] in za $\b b$ vzamemo \[ \b b = \{ x\mapsto \exp((x-c)^2/\sigma^2); c \in N(p)
+\} \] in za $\b b$ vzamemo \[ \b b = \{ x\mapsto \exp((x-c)^2/\sigma^2); c \in \Nc(p)
 \}, \]
 potem zopet s
 pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
@@ -2484,14 +2537,14 @@ Za dano domeno $\Omega$ in množico točk $X$ definirajmo
 \begin{align}
   h_\Omega(X) &= \max_{p \in \Omega} \min_{x \in X} \|p - x\| \\
   \label{eq:def-hs}
-  S(X) &= \min_{\substack{x, y \in \Omega \\ x \neq y}} \|x-y\|. \nonumber
+  S(X) &= \min_{\substack{x, y \in X \\ x \neq y}} \|x-y\|. \nonumber
 \end{align}
 Količina $h$ pove, da ne glede na to, kje v domeni smo, imamo na razdalji manj ali enako $h$
 vsaj eno diskretizacijsko točko. Količina $S$ pa pove, kako blizu so si
 diskretizacijske točke med seboj. Dobra diskretizacija želi maksimizirati $S$ in
 minimizirati~$h$.
 
-Algoritmi za diskretizacijo so odvisni od načina, kako podamo domeno.
+Algoritmi za diskretizacijo so odvisni od predstavitve domene v računalniku.
 V našem primeru se izkaže, da je za trenutne potrebe dovolj, da podpiramo
 kvadre in krogle do vključno treh dimenzij, kot tudi unije in razlike
 osnovnih oblik.
@@ -2836,7 +2889,7 @@ po~\cite[str.\ 5]{schaback1995error}.
 Ko si izberemo neko bazno funkcijo $\psi$, potem za bazne funkcije okoli točke
 $p$ vzamemo
 \[
-  \b b = \{\psi_s; s \in N(p) \}.
+  \b b = \{\psi_s; s \in \Nc(p) \}.
 \]
 Pri izbiri parametra oblike $\sigma_b$ moramo tudi biti do neke mere pazljivi. Izbrati
 ga moramo dovolj velikega, da se funkcije ``prekrivajo'', torej tako, da nima
@@ -2844,7 +2897,9 @@ funkcija vrednosti blizu nič pri vseh sosedih razen pri sebi. Hkrati mora biti
 parameter dovolj majhen, da sistem~\eqref{eq:shape-system} ni preveč nestabilen.
 Bolj natančna analiza izbire parametra oblike za radialne bazne funkcije in
 za utež je narejena na sliki~\ref{fig:poisson-square-sigma-dep} med numeričnimi
-zgledi na strani~\pageref{fig:poisson-square-sigma-dep}.
+zgledi na strani~\pageref{fig:poisson-square-sigma-dep}. V~\cite{schaback1997efficiency} je tudi
+pokazano, da izbire velikih parametrov oblike nudijo visoko natančnost za ceno numerične stabilnosti
+in obratno.
 
 Pogosto se k bazi radialnih baznih funkcij doda še monome nizkih stopenj, za
 boljšo aproksimacijo funkcij, ki so blizu konstantam. Več o kvaliteti,
@@ -2928,11 +2983,12 @@ blah blah~\cite{stroustrup1995c++}.
 V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih, da si zgradimo
 intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v
 razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Least Squares Method}.  Če
-ni drugače navedeno, so vse časovne meritve narejene na prenosnem računalniku s procesorjem
-\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so
-bili prevedeni s prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na
-operacijskem sistemu Linux.  Pri paralelizaciji je bila uporabljena knjižnica
-OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom.
+ni drugače navedeno, so vse časovne meritve narejene na prenosnem računalniku z štirijedrnim
+procesorjem \verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz|, pri čemer vsako jedro podpira dve niti
+izvajanja, in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so bili prevedeni s prevajalnikom
+\verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Linux.
+Pri paralelizaciji je bila uporabljena knjižnica OpenMP~\cite{dagum1998openmp} za paralelizacijo z
+deljenim pomnilnikom.
 
 \subsection{Enodimenzionalni robni problem}
 Oglejmo si najprej preprost primer enodimenzionalne Poissonove enačbe, ki smo ga uporabili že za
