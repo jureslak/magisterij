@@ -78,5 +78,5 @@ fcut = gcf;
 
 figure(f1)
 
-exportfig(f1, '../../../images/poisson_square_sigma_depedence_error', '-png');
-exportfig(f2, '../../../images/poisson_square_sigma_depedence_cutoff', '-png');
+exportfig(f1, '../../../images/poisson_square_sigma_depedence_error', '-r300', '-png', '-opengl');
+exportfig(f2, '../../../images/poisson_square_sigma_depedence_cutoff', '-r300', '-png', '-opengl');

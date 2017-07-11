@@ -142,6 +142,7 @@
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\nnz}{nnz}
 \DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\sgn}{sgn}
 
 % slovnica & oblika
 \newcommand{\ang}[1]{(\textit{angl.}\ #1)}
@@ -2544,7 +2545,7 @@ vsaj eno diskretizacijsko točko. Količina $S$ pa pove, kako blizu so si
 diskretizacijske točke med seboj. Dobra diskretizacija želi maksimizirati $S$ in
 minimizirati~$h$.
 
-Algoritmi za diskretizacijo so odvisni od predstavitve domene v računalniku.
+Algoritmi za diskretizacijo so odvisni od načina, kako podamo domeno.
 V našem primeru se izkaže, da je za trenutne potrebe dovolj, da podpiramo
 kvadre in krogle do vključno treh dimenzij, kot tudi unije in razlike
 osnovnih oblik.
@@ -2698,6 +2699,7 @@ vsaki iteraciji na novo zgradimo drevo in ga uporabimo za iskanje $s$ najbližji
 sosedov.
 
 \subsubsection{Reševanje razpršenega sistema}
+\label{sec:solve-sparse}
 Za reševanje razpršenih sistemov poznamo veliko različnih metod, ki se v grobem
 delijo na direktne (obsežno opisane v~\cite{davis2006direct}) in iterativne
 (obsežno opisane v~\cite{saad2003iterative}).
@@ -3268,8 +3270,166 @@ enaka.
 
 \subsection{Hertzev kontaktni problem}
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
-elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz.
- \dots
+elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz. Ko dve ukrivljeni
+telesi z različnima radijema ukrivljenosti staknemo, se na začetku dotikata le v točki ali na
+premici. Čim ti telesi pritisnemo skupaj z neko silo, se elastično deformirata in
+med njima se ustvari stična površina, prek katere poteka vsa interakcija. Glavni objekti
+zanimanja v elastični kontaktni mehaniki so normalne in tangencialne napetosti med telesi, ki nastanejo kot
+posledice medsebojnega pritiska in trenja. Klasična Hertzeva teorija predpostavlja, da je kontakt
+med telesoma nelepljiv \ang{non-adhesive}. To pomeni, da je pritisk na kontaktni ploskvi lahko samo
+pozitiven in da se telesi ne moreta sprijeti med seboj ter da za njuno ločitev ne potrebujemo nobene
+sile. Kasnejše teorije so veljavne tudi za lepljive kontakte in upoštevajo več parametrov površine,
+npr.\ tudi njeno hrapavost. Kljub temu je klasična teorija še vedno aktualna in se uporablja v
+drugih vejah mehanike, npr.\ v tribologiji, vedi o trenju, obrabi in mazanju materialov.
+
+Za prvi primer uporabe izpeljane numerične metode na problemu iz elastomehanike obravnavajmo
+elastičen Hertzev stik valja in polravnine, kot opisan v~\cite[str.\ 122, poglavje 3.2]{williams2001contact}.
+Hertzeva teorija ima poleg nelepljivega stika naslednje predpostavke:
+\begin{enumerate*}
+  \item kontaktni ploskvi sta gladki, ne sovpadata in sta brez trenja,
+  \item kontaktna površina je majhna v primerjavi z velikostjo teles v kontaktu,
+  \item vsako od teles lahko v bližini kontakta obravnavamo kot elastičen polprostor,
+  \item vrzel med telesoma v okolici kontakta je možno aproksimirati z izrazom oblike $Ax^2 + By^2$,
+    kjer sta $x$ in $y$ koordinati v ravnini, tangentni na območje stika.
+    \label{enum:kvadraticna-vrzel}
+\end{enumerate*}
+Točka~\ref{enum:kvadraticna-vrzel} omeji klasično Hertzevo teorijo na krogle, valje in elipsoide ter
+njihove limite, ko pošljemo ukrivljenosti proti 0.
+
+Hertzeva teorija za dvodimenzionalni pritisk valja na elastično polravnino se izpelje iz stika med
+dvema vzporednima valjema dolžine $L$ z radijema $R_1$ in $R_1$, Youngovima moduloma $E_1$ in $E_2$
+in Poissonovima razmerjema $\nu_1$ in $\nu_2$. Situacija je prikazana na
+sliki~\ref{fig:hetzian-two-cylinders}.
+Napovedano območje stika med valjema je širine $2b$, kjer je \[
+  b = 2\sqrt{\frac{F R}{\pi E^\ast}},
+\]
+pri čemer je $F$ sila na enoto dolžine, $R$ kombiniran krivinski radij dan z $\frac1R = \frac1{R_2}
++ \frac1{R_2}$ in $E^\ast$ kombiniran elastični modul dan z $\frac{1}{E^\ast} = \frac{1-\nu_1^2}{E_1}
++ \frac{1-\nu_2^2}{E_2}$. Pritisk na kontaktno površino je dan z
+\[
+  p(x) = \begin{cases}
+    p_0 \sqrt{1-\frac{x^2}{b^2}}; & |x| < b \\
+    0; & \text{sicer}
+  \end{cases}, \qquad p_0 = \sqrt{\frac{FE^\ast}{\pi R}}.
+\]
+Pri enem valju pošljemo krivinski radij proti
+neskončno in problem prevedemo na ravninskega preko predpostavke o ravninski napetosti.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.40\textwidth}
+    \includegraphics[width=0.7\textwidth]{images/hertzian_two_cylinders.pdf}
+    \caption{Stik dveh vzporednih valjev.}
+    \label{fig:hetzian-two-cylinders}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.50\textwidth}
+    \includegraphics[width=\textwidth]{images/hertzian_analytical_setup.pdf}
+    \caption{Robni pogoji za numerično rešitev Hertzevega kontaktnega problema med valjem in
+    polravnino.}
+    \label{fig:hertz-analytical-setup}
+  \end{subfigure}
+  \caption{Obravnavan Hertzev kontaktni problem.}
+  \label{fig:hertz-skica}
+\end{figure}
+
+Numerično želimo izračunati pomike in napetosti v materialu, zato rešimo stacionarno Navierovo
+enačbo~\eqref{eq:navier-stac}. Rešujemo problem
+\begin{align}
+  (\lambda + \mu) \nabla(\nabla\cdot \vu) + \mu \nabla^2 \vu &= 0 \quad \text{ na } \Omega =
+  (-\infty, \infty) \times (-\infty, 0)   \label{eq:hertzian-problem} \\
+  \vt(x, 0) &= p(x)\vj, \nonumber \\
+  \lim_{x, y\to\infty} \vu(x, y) &= 0. \nonumber
+\end{align}
+Analitične rešitve kontaktnih problemov se ponavadi izpelje iz Flamantove rešitve, ki reši problem
+točkovnega pritiska na polravnino za robni pogoj $\vt(x, 0) = p_0\delta(x)\vj$. Druge rešitve lahko
+dobimo z konvolucijo s Flamantovo rešitvijo ali pa z metodo kompleksnih potencialov, kot je to
+narejeno v~\cite{mcewen1949stresses} še za malce splošnejši problem, kot opisano zgoraj.
+Od tam dobimo tudi analitično rešitev v zaprti obliki za napetost, ki se izraža v splošni točki $(x,
+y)$ s funkcijama $m$ in $n$,
+\begin{align*}
+  m^2 &= \frac{1}{2} \left(\sqrt{\left(b^2-x^2+y^2\right)^2+4 x^2 y^2}+b^2-x^2+y^2\right), \\
+  n^2 &= \frac{1}{2} \left(\sqrt{\left(b^2-x^2+y^2\right)^2+4 x^2 y^2}-(b^2-x^2+y^2)\right),
+\end{align*}
+kjer je $m=\sqrt{m^2}$ in $n=\sgn(x)\sqrt{n^2}$.
+\begin{align*}
+  \sigma_{xx} &= -\frac{p_0}{b}\left[m\left(1 + \frac{y^2 + n^2}{m^2 + n^2}\right)+2y\right] \\
+  \sigma_{yy} &= -\frac{p_0}{b}m\left(1 - \frac{y^2 + n^2}{m^2 + n^2}\right) \\
+  \sigma_{xy} &= \sigma_{yx} = \frac{p_0}{b}n\left(\frac{m^2 - y^2}{m^2 + n^2}\right).
+\end{align*}
+
+S pomočjo zgornje rešitve bomo analizirali napako numerične rešitve. Poleg tega bomo uporabljali
+tudi von Misesov stress
+\[
+  \sigma_v = \sqrt{\sigma_{xx}^2-\sigma_{xx}\sigma_{yy}+\sigma_{yy}^2+3\sigma_{xy}^2},
+\]
+ki se uporablja v von Misesovem kriteriju plastičnosti. Ta namreč pravi, da material ni več
+elastičen, ko $\sigma_v$ preseže neko materialno konstanto $\sigma_0$. Analitična rešitev v okolici
+kontakta je prikazana na sliki~\ref{fig:hertz-analytical}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{images/hertzian_analytical.png}
+  \caption{Napetosti pod območjem kontakta med valjem in polravnino.}
+  \label{fig:hertz-analytical}
+\end{figure}
+
+Za numerično reševanje neskončno domeno omejimo na $[-H, H] \times [-H, 0]$ za dovolj velik $H$
+in na robu postavimo premik na 0, kot prikazano na sliki~\ref{fig:hertz-analytical-setup}. Na
+zgornjem robu domene kot prej zahtevamo predpisano napetost.  Za parametre problema smo vzeli $F =
+\unit[543]{N/m}$, $E_1 = E_2 = \unit[72.1]{GPa}$, $\nu_1 = \nu_2 = 0.33$, $R_1 = R = \unit[1]{m}$.
+Od tod dobimo širino kontakta $b = \unit[0.13]{mm}$ in maksimalni tlak $p_0 = \unit[2.6]{MPa}$.
+Za $H$ izberimo \unit[10]{mm}, torej približno 75-krat večjo domeno, kot je pojav, ki ga opazujemo.
+
+Numerično smo problem rešili na dva načina, z uporabo 9 monomov in 9 Gaussovih funkcij z $\sigma_b =
+350\,r_\chi$. Obakrat smo uporabili Gaussovo utež z $\sigma = r_\chi$. Za reševanje linearnega
+sistema enačb smo uporabili iterativni BiCGSTAB algoritem z ILUT predpogojevanjem, kot opisano v
+razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$. BiCGSTAB
+algoritem smo iterirali največ 300-krat ali dokler ni bila ocena napake pod $10^{-13}$. Algoritem je
+v vseh primerih konvergiral. Omeniti je treba še, kako iz rešitve $\b{u}$ dobimo aproksimacijo za
+$\sigma$. Komponente $\sigma$ so linearne kombinacije odvodov $\vu$, tako da v vsaki
+diskretizacijski točki izračunamo funkciji oblike, ki aproksimirata $\dpar{}{x}$ in $\dpar{}{y}$
+in z njuno pomočjo izračunamo $\frac12 (\grad\vu + \grad\vu^\T)$ ter nato preko Hookovega zakona
+dobimo $\sigma$.
+
+Za normo napake si zoper izberemo diskretno $L_\infty$ normo, le da tokrat
+primerjamo napetosti $\sigma_{xx}, \sigma_{yy}$ in $\sigma_{xy}$. Pošteno je primerjati
+brezdimenzijske količine $\sigma_{xx}/p_0$, saj so neodvisne od izbire $b$ in $p_0$.
+Za napako tako vzamemo
+\[
+  e_\infty = \max_{x\in X} \{\max\{\sigma_{xx}(x), \sigma_{yy}(x), \sigma_{xy}(x) \}\} / p_0.
+\]
+Na sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_convergence.pdf}
+  \caption{Konvergenca metode pri reševanju problema~\eqref{eq:hertzian-problem}.}
+  \label{fig:hertz-convergence}
+\end{figure}
+
+Na sliki~\ref{fig:hertz-time} je prikazana razdelitev časa porabljenega za reševanje priblema. Časi za monome in
+Gaussove funkcije so po pričakovanju zelo primerljivi.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_time.pdf}
+  \caption{Časi posameznih kosov pri pri reševanju problema~\eqref{eq:hertzian-problem}.}
+  \label{fig:hertz-time}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_refined_convergence.pdf}
+  \caption{Konvergenca metode pri zgoščeni mreži.}
+  \label{fig:hertz-refined-convergence}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_refined_time.pdf}
+  \caption{Časi posameznih kosov pri zgoščeni mreži.}
+  \label{fig:hertz-refined-time}
+\end{figure}
 
 \section{FWO case}
 

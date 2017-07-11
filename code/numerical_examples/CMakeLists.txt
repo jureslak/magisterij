@@ -34,3 +34,9 @@ target_link_libraries(poisson_weird pde_utils)
 
 add_executable(poisson_neumann poisson_neumann.cpp)
 target_link_libraries(poisson_neumann pde_utils)
+
+add_executable(hertzian_convergence hertzian_convergence.cpp overseer.hpp)
+target_link_libraries(hertzian_convergence pde_utils)
+
+add_executable(hertzian_refined_convergence hertzian_refined_convergence.cpp overseer.hpp)
+target_link_libraries(hertzian_refined_convergence pde_utils)
