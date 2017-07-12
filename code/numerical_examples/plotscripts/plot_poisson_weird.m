@@ -1,7 +1,5 @@
-close all
-datafile = '../data/poisson_weird3d.h5';
-pos = h5read(datafile, '/calc/pos');
-sol = h5read(datafile, '/calc/sol');
+prepare
+load([plotdatapath 'poisson_weird.mat'])
 
 x = pos(1, :);
 y = pos(2, :);
@@ -24,4 +22,4 @@ el = 22.8000;
 view(az, el)
 set(gcf,'Position', [0, 0, 1000 800])
 
-exportfig(f1, '../../../images/poisson_weird3', '-png')
+exportfig(f1, [imagepath 'poisson_weird3'], '-png')

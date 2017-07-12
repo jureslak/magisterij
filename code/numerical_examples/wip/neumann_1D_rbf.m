@@ -1,7 +1,9 @@
-close all
+format compact
 clear
-datafile = '../data/poisson_square_implicit.h5';
+datafile = '../data/convergence_test_1D_rbf1.h5';
 info = h5info(datafile);
+
+correct = @(x) cos(1)*x - sin(x);
 
 typenum = length(info.Groups);
 simnum = length(info.Groups(1).Groups);
@@ -10,23 +12,28 @@ data = zeros(typenum, simnum, 3);
 
 for i = 1:simnum
     pos = h5read(datafile, [info.Groups(1).Groups(i).Name '/pos']);
-    x = pos(1, :);
-    y = pos(2, :);
-    anal = poisson_square_analytical(x, y);
+    anal = correct(pos);
     
     for j = 1:typenum
         grp = info.Groups(j).Groups(i);
         name = grp.Name;
         
-        sol = h5read(datafile, [name '/sol'])';
+        pos = h5read(datafile, [name '/pos']);
+        anal = correct(pos);
+        if (isrow(anal)), anal = anal'; end
+
+        sol = h5read(datafile, [name '/sol']);
         N = h5readatt(datafile, name, 'N');
         time = h5readatt(datafile, name, 'timetotal');
+       
+        M = spconvert(h5read(datafile, [name '/M'])');
+        rhs = h5read(datafile, [name '/rhs']);
+        % sol = M \ rhs;
 
         err = max(max(abs(sol - anal)));
         data(j, i, 1) = N;
         data(j, i, 2) = err;
-        data(j, i, 3) = time;
-
+        data(j, i, 3) = h5readatt(datafile, name, 'cutoff');
 
     %     timem(i) = timefdm;
     %     times(i) = time;
@@ -38,49 +45,51 @@ for i = 1:simnum
 
         %if i > 50, break, end
         % if strcmp(name, '/mon9/calc0408'), break, end
+        if N == 1024,
+            fprintf('\n%s:\n', name);
+            shape = M(5, :)
+        end
     end
-    fprintf('point %d/%d \r', i, simnum);
+%     fprintf('point %d/%d \r', i, simnum);
 end
 
 %%
 
 close all
-keys = {'/gau13','/gau5','/gau9','/imq13','/imq5','/imq9','/mon5','/mon9','/mq13','/mq5','/mq9', '/mon6'};
-vals = {'G13','G5','G9','IMQ13','IMQ5','IMQ9', 'MON5', 'MON9', 'MQ13','MQ5','MQ9', 'MON6'};
-namemap = containers.Map(keys, vals);
+% keys = {'/gau3','/gau5','/imq3','/imq5','/mon3','/mon5','/mq3','/mq5'};
+% vals = {'G3','G5','IMQ3','IMQ5', 'MON3', 'MON5', 'MQ3','MQ5'};
+% namemap = containers.Map(keys, vals);
 legendvals = cell(typenum, 1);
 for i = 1:typenum
-    legendvals{i} = namemap(info.Groups(i).Name);
+    legendvals{i} = strrep(info.Groups(i).Name, '_', '\_');
 end
 
 markers = {'+','o','*','x','s','d','^','v','<','>','p','h'};
 colors = {
     [1,123,206]/256,
     [1,56,147]/256,
-%     [0,98,199]/256,
     [253,94,91]/256,
     [137,1,1]/256,
-%     [238,16,31]/256,
     [255,207,0]/256,
     [255,169,0]/256,
-    [223,129,9]/256,
     [57,172,55]/256,
     [15,85,48]/256,
-%     [19,131,49]/256
 };
 
 Ns = data(1, :, 1);
 
-best = polyfit(log(Ns), log(data(5, :, 2)), 1);
+%ok = find(Ns < 1e3);
+%best = polyfit(log(Ns), log(data(8, :, 2)), 1);
 f1 = setfig('b1');
 for i = 1:typenum
     plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
 end
-text(0.4, 0.43, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
+%text(0.4, 0.43, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-xlim([40, 10^5])
+% ylim([1e-7, 1e2])
+xlim([-inf, 1e5])
 legend(legendvals)
 
 f2 = setfig('b2', 'Visible', 'on');
@@ -89,11 +98,8 @@ hold on
 for i = 1:typenum
     plot(Ns, data(i, :, 3), [markers{i}, '-'], 'Color', colors{i})
 end
-set(gca, 'XScale', 'log', 'YScale', 'log')
+set(gca, 'XScale', 'log')%, 'YScale', 'log')
 xlim([40, 10^5])
-legend(legendvals, 'Location', 'NW')
+legend(legendvals, 'Location', 'SE')
 xlabel('$N$')
-ylabel('\v{c}as [$s$]')
-
-exportfig(f1, '../../../images/poisson_square_convergence', '-pdf')
-exportfig(f2, '../../../images/poisson_square_time', '-pdf')
+ylabel('avg. cutoff')

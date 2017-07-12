@@ -5,7 +5,7 @@ include_directories("${CMAKE_SOURCE_DIR}/../e62numcodes/src")
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
-SET(CMAKE_CXX_FLAGS "-O3 -std=c++14 -DNDEBUG -DEIGEN_NO_DEBUG")
+SET(CMAKE_CXX_FLAGS "-O3 -std=c++14")# -DNDEBUG -DEIGEN_NO_DEBUG")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/../e62numcodes/ build_util)
@@ -40,3 +40,9 @@ target_link_libraries(hertzian_convergence pde_utils)
 
 add_executable(hertzian_refined_convergence hertzian_refined_convergence.cpp overseer.hpp)
 target_link_libraries(hertzian_refined_convergence pde_utils)
+
+add_executable(hertzian_matrix_example hertzian_matrix_example.cpp overseer.hpp)
+target_link_libraries(hertzian_matrix_example pde_utils)
+
+add_executable(hertzian_domain_too_small hertzian_domain_too_small.cpp overseer.hpp)
+target_link_libraries(hertzian_domain_too_small pde_utils)

@@ -1,0 +1,92 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      2693,         84]
+NotebookOptionsPosition[      2263,         66]
+NotebookOutlinePosition[      2600,         81]
+CellTagsIndexPosition[      2557,         78]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"M", " ", "=", " ", 
+   RowBox[{"First", "@", 
+    RowBox[{
+    "Import", "[", "\"\<../plotdata/hertzian_matrix_example.mat\>\"", 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"texStyle", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"FontFamily", "\[Rule]", "\"\<CMU serif\>\""}], ",", 
+     RowBox[{"FontSize", "\[Rule]", "12"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"plot", " ", "=", " ", 
+   RowBox[{"MatrixPlot", "[", 
+    RowBox[{"M", ",", "\[IndentingNewLine]", 
+     RowBox[{"BaseStyle", "\[Rule]", "texStyle"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"FrameStyle", "\[Rule]", "Black"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"PlotLegends", "\[Rule]", 
+      RowBox[{"BarLegend", "[", 
+       RowBox[{"Automatic", ",", " ", 
+        RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"texStyle", ",", "Black"}], "}"}]}]}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{
+  "\"\<../../../images/hertzian_matrix_example.pdf\>\"", ",", "plot"}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.708877943341275*^9, 3.7088780339093723`*^9}, {
+  3.7088780910100327`*^9, 
+  3.708878204166483*^9}},ExpressionUUID->"1406a837-8993-453d-b505-\
+465ba5c3fd00"],
+
+Cell[BoxData["\<\"../../../images/hertzian_matrix_example.pdf\"\>"], "Output",
+ CellChangeTimes->{
+  3.7088779411458673`*^9, {3.708877988767754*^9, 3.708878034562393*^9}, {
+   3.708878132466051*^9, 3.708878139782915*^9}, {3.708878171372944*^9, 
+   3.708878212660081*^9}},ExpressionUUID->"51f2d41a-14ba-4b4a-9dbd-\
+5847d3b6cbb9"]
+}, Open  ]]
+},
+WindowSize->{808, 889},
+WindowMargins->{{Automatic, 573}, {-79, Automatic}},
+FrontEndVersion->"11.1 for Linux x86 (64-bit) (March 13, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 1336, 34, 195, "Input", "ExpressionUUID" -> \
+"1406a837-8993-453d-b505-465ba5c3fd00"],
+Cell[1919, 58, 328, 5, 32, "Output", "ExpressionUUID" -> \
+"51f2d41a-14ba-4b4a-9dbd-5847d3b6cbb9"]
+}, Open  ]]
+}
+]
+*)
+

@@ -1,4 +1,6 @@
-clear
+prepare
+% no input data
+
 b = 1.3073e-04;
 p0 = 2.6443e+06;
 x = linspace(-3*b, 3*b, 100);
@@ -52,4 +54,4 @@ ax = gca;
 ax.Position(3) = 0.35;
 ax.Position(1) = 0.56;
 
-exportfig(f1, '../../../images/hertzian_analytical', '-opengl', '-png', '-r300')
+exportfig(f1, [imagepath 'hertzian_analytical'], '-opengl', '-png', '-r300')
