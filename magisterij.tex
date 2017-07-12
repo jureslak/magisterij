@@ -9,6 +9,7 @@
 \usepackage{units}
 \usepackage{array}
 \usepackage{enumerate}
+\usepackage{nicefrac}
 \usepackage{emptypage} % emply pages without any headers and footers
 \usepackage[list=true,listformat=simple]{subcaption}  % subfigure
 % \usepackage[all]{xy}  % diagrami
@@ -19,7 +20,8 @@
 % oblika strani
 \usepackage[
   textwidth=15cm,
-  textheight=24cm,
+  top=2.5cm,
+  bottom=2.5cm,
   inner=3.5cm,
   footskip=40pt     % pozicija številke strani
 ]{geometry}
@@ -161,6 +163,7 @@
 % \usemintedstyle{mathematica}
 \usemintedstyle{mathematicanotebook}
 \renewcommand\listingscaption{Program}
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
 
 % algorithms
 \usepackage{algpseudocode}  % za psevdokodo
@@ -2716,7 +2719,7 @@ odvisna od števila porabljenih iteracij, tako da moramo za višjo natančnost
 porabiti večje število računskih operacij.
 
 Za metode iz numerične linearne algebre bomo uporabljali knjižnico
-Eigen~\cite{eigenweb}, ki nudi elegantno in hitro delo z matrikami v C++.
+Eigen~\cite{eigenweb}, ki nudi elegantno in hitro delo z matrikami v \CC.
 Vgrajenih ima veliko direktnih in iterativnih metod za reševanje sistemov
 linearnih
 enačb.\footnote{\url{https://eigen.tuxfamily.org/dox/group__TopicSparseSystems.html}
@@ -2827,7 +2830,12 @@ njene stranice in to je ocena za medsebojno razdaljo med točkami.
 V eni dimenziji $r_\chi$ do faktorja $\frac{N}{N-1}$ natančno ustreza razdalji
 med enakomerno razporejenimi točkami.
 Drugo pogosto merilo za lokalno razdaljo bo kar razdalja do najbližjega
-(različnega) soseda, ki jo imenujmo $r_c$. To je težje izračunati, če nimamo že
+(različnega) soseda, ki jo imenujmo $r_c$,
+\begin{equation}
+  r_c(p) = \min_{\substack{x \in \Nc(p) \\ x \neq p}} \|x-p\|.
+  \label{eq:min-dist}
+\end{equation}
+To je težje izračunati, če nimamo že
 zgrajenega drevesa, zato se ponavadi na enostavnejših primerih poslužujemo kar
 $r_\chi$. Kadar pa to ni dobra aproksimacija razdalje med vozlišči za celo
 domeno, kot na primer ob goščenju mreže, se poslužimo $r_c$.
@@ -2976,21 +2984,69 @@ izračunati le funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $
 Vsak drug operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti
 v vsaki točki aproksimiramo z elementarnimi aproksimacijami.
 
+\subsection{Goščenje točk v domeni}
+Pri reševanju problemov z divje spreminjajočimi rešitvami, singularnostmi ali zelo majhnimi
+lokalnimi fenomeni si pogosto pomagamo s finejšo diskretizacijo v okolici dela rešitve, ki nas
+najbolj zanima. Pri metodah, ki temeljijo na triangulaciji domene, lahko trikotnike v območju
+interesa delimo in tako dobimo finejšo triangulacijo. Pri brezmrežnih metodah metodah želimo doseči
+enak učinek, zato potrebujemo način, da gostimo točke na nekem območju.
+
+Izberimo točko $p$ okoli katere bomo gostili diskretizacijo. Postopek bomo imenovali \emph{goščenje}
+\ang{refinement}. Pri tem si pomagajmo z ilustracijo postopka na sliki~\ref{fig:refine-algorithm}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/domain_refine.pdf}
+  \caption{Algoritem za goščenje točk v domeni.}
+  \label{fig:refine-algorithm}
+\end{figure}
+Najdimo najbližjih $\ell$ sosedov točke $p$, pri čemer ne štejemo $p$ in jih
+označimo z $L = \{x_1, \dots, x_\ell\}$.
+Za vsakega izmed sosedov dodamo novo točko, na polovici daljice med $x_i$ in $p$, označeno s sivim
+kvadratkom. Kandidati za nove diskretizacijske točke so torej
+\[
+  X' = \left\{ \frac{p+x}{2}; x \in L \right\}.
+\]
+Pri tem pazimo, da če sta tako $x$ kot $p$ točki na robu, je tudi njuno središče robna točka in jo
+projiciramo na rob domene, kot prikazano na primeru na sliki~\ref{fig:refine-algorithm} z dvema
+potemnjenima kvadratkoma. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali
+pa preblizu starim točkam, kar bo povzročilo nestabilnosti pri reševanju. Zato v parih točk, ki so
+bolj skupaj kot dovoljena razdalja $r_{\text{min}}$ zavržemo eno izmed točk, kjer zavržemo najprej
+novo, če je ta preblizu neki stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo $r_\text{min} =
+f r_c$, kjer je $r_c$ definiran z~\eqref{eq:min-dist} razdalja do najbližjega soseda in $f$ nek
+pozitiven faktor, ponavadi manjši od $\nicefrac{1}{2}$.
+
+Zgornji postopek je lokalne narave in njegovo izvajanje je le logaritemsko odvisno od števila
+točk v domeni (zaradi iskanja sosedov). Če želimo na nekem območju še gostejšo diskretizacijo,
+ga preprosto ponovimo večkrat zapored. Primer večkrat zgoščene domene je prikazan na
+sliki~\ref{fig:hertz-refined-domain}.
+
 \section{Implementacija}
 \label{sec:implementacija}
-blah blah~\cite{stroustrup1995c++}.
+Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
+implementirana na oddelku E6\footnote{\url{http://e6.ijs.si/}} Instituta ``Jožef Stefan''\footnote{\url{http://ijs.si/}}
+v Laboratoriju za vzporedno in porazdeljeno
+računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}}
+[TODO kaj o avtorstvu?] Implementirana je bila v programskem jeziku
+\CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih konstruktov,
+kot so recimo predloge \ang{templates}, ki omogočajo elegantno implementacijo.
+Podoben koncept uporablja knjižnica Eigen\footnote{\url{http://eigen.tuxfamily.org/}},
+uporabljena za numerično linearno algebro. Celotna implementacija je prosto dostopna
+na repozitoriju programske skupine\footnote{\url{http://gitlab.com/e62Lab/e62numcodes}}
+z dokumentacijo, prav tako na voljo na
+spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
+
+[TODO moram dat svojo kodo skupaj s e6numcodes v prilogo?]
 
 \section{Osnovni numerični zgledi}
 \label{sec:osnovni-zgledi}
 V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih, da si zgradimo
 intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v
 razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Least Squares Method}.  Če
-ni drugače navedeno, so vse časovne meritve narejene na prenosnem računalniku z štirijedrnim
-procesorjem \verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz|, pri čemer vsako jedro podpira dve niti
-izvajanja, in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so bili prevedeni s prevajalnikom
-\verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Linux.
-Pri paralelizaciji je bila uporabljena knjižnica OpenMP~\cite{dagum1998openmp} za paralelizacijo z
-deljenim pomnilnikom.
+ni drugače navedeno, so vse meritve narejene na računalniku z osemjedrnim procesorjem
+\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so
+bili prevedeni s prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na
+operacijskem sistemu Linux.  Pri paralelizaciji je bila uporabljena knjižnica
+OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom.
 
 \subsection{Enodimenzionalni robni problem}
 Oglejmo si najprej preprost primer enodimenzionalne Poissonove enačbe, ki smo ga uporabili že za
@@ -3019,18 +3075,16 @@ X} |\hat{u}(x) - u(x)|.  \]
   \label{fig:mlsm-fdm-err}
 \end{figure}
 
-Na grafu vidimo, da metodi tudi v praksi sovpadata dokler ne preideta v območje
-nestabilnosti. Pri enojni natančnosti se to zgodi precej hitro, pri $N = 30$,
-pri dvojni natančnosti pa obe metodi konvergirata linearno do približno $N = 1000$.
-Nato se obe metodi približujeta vsaka svoji največji natančnosti,
-med $N = 10^4$ in $N = 10^5$ diskretizacijskimi točkami pa se začnejo pojavljati
-numerične nestabilnosti. Manjšo končno natančnosti MLSM lahko pripišemo
-numeričnim napakam pri računanju aproksimacije drugih odvodov. Pri FDM namreč v
-matriko direktno zapišemo koeficiente $\frac{1}{h^2}$ in $-\frac{2}{h^2}$, pri
-MLSM pa se ti izračunajo numerično. Iz naklona premice vidimo, da sta obe metodi
-tudi v praksi reda~2. Če uporabimo za računanje aproksimacije odvoda 5 sosedov
-namesto 3, po pričakovanjih dobimo metodo, ki konvergira z višjim redom, ima pa
-enako končno natančnost kot prej.
+Na grafu vidimo, da metodi tudi v praksi sovpadata dokler ne preideta v območje nestabilnosti. Pri
+enojni natančnosti se to zgodi precej hitro, pri $N = 30$, pri dvojni natančnosti pa obe metodi
+konvergirata linearno do približno $N = 1000$.  Nato se obe metodi približujeta vsaka svoji največji
+natančnosti, med $N = 10^4$ in $N = 10^5$ diskretizacijskimi točkami pa se začnejo pojavljati
+numerične nestabilnosti. Manjšo končno natančnosti MLSM lahko pripišemo numeričnim napakam pri
+računanju aproksimacije drugih odvodov. Pri FDM namreč v matriko direktno zapišemo koeficiente
+$\frac{1}{h^2}$ in $-\frac{2}{h^2}$, pri MLSM pa se ti izračunajo numerično. Iz naklona premice
+vidimo, da sta obe metodi tudi v praksi reda~2. Če uporabimo za računanje aproksimacije odvoda 5
+sosedov namesto 3, po pričakovanjih dobimo metodo, ki konvergira z višjim redom, ima pa enako končno
+natančnost kot prej.
 
 \begin{figure}[h]
   \centering
@@ -3039,29 +3093,23 @@ enako končno natančnost kot prej.
   \label{fig:mlsm-fdm-time}
 \end{figure}
 
-Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.
-MLSM je približno konstantno 5.5-krat počasnejši kot FDM za velike $(\geq
-10^4)$ $N$, kot prikazano z razmerjem, merjenim na desni osi. To je tudi
-pričakovano, saj MLSM išče sosede in računa aproksimacije, medtem je to pri FDM
-izračunano na roke.  Če pri MLSM posebej merimo samo čas, ki ga porabimo za
-sestavljanje matrike in reševanje sistema, vidimo, da se skoraj ujema z časom,
-porabljenim pri FDM.  Minimalno razliko gre pripisati razliki pri načinu
-grajenja matrike, saj pri FDM natanko vemo pozicije in število neničelnih
-elementov vnaprej, pri MLSM pa v splošnem ne. MLSM višjega reda je pričakovano
-počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja $N$ glavna parametra v
-časovni zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je
-konsistentno dvakrat počasnejši. Toda, če pogledamo koliko časa potrebujemo, da
-dosežemo natančnost $10^{-6}$, z grafov~\ref{fig:mlsm-fdm-err}
-in~\ref{fig:mlsm-fdm-time} odčitamo, da MLSM višjega reda potrebuje le $N = 22$,
-za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo
-$N = 400$ kar nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega
-reda je dovolj zoprna, da se zanjo malokrat odločimo, saj je treba uporabljati
-enostranske diference pri robu. Pri MLSM pa se izračunajo same, vse kar je
-potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno natančnost
-namesto dvojne se to pozna na času, ki ga porabimo za reševanje, vendar je
-enojna natančnost ponavadi neuporabna zaradi zgodnje nestabilnosti.
-
-% [TODO] insert RBF analysis?
+Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.  MLSM je približno
+konstantno 5.5-krat počasnejši kot FDM za velike $(\geq 10^4)$ $N$, kot prikazano z razmerjem,
+merjenim na desni osi. To je tudi pričakovano, saj MLSM išče sosede in računa aproksimacije, medtem
+je to pri FDM izračunano na roke.  Če pri MLSM posebej merimo samo čas, ki ga porabimo za
+sestavljanje matrike in reševanje sistema, vidimo, da se skoraj ujema z časom, porabljenim pri FDM.
+Minimalno razliko gre pripisati razliki pri načinu grajenja matrike, saj pri FDM natanko vemo
+pozicije in število neničelnih elementov vnaprej, pri MLSM pa v splošnem ne. MLSM višjega reda je
+pričakovano počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja $N$ glavna parametra v časovni
+zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je konsistentno dvakrat
+počasnejši. Toda, če pogledamo koliko časa potrebujemo, da dosežemo natančnost $10^{-6}$, z
+grafov~\ref{fig:mlsm-fdm-err} in~\ref{fig:mlsm-fdm-time} odčitamo, da MLSM višjega reda potrebuje le
+$N = 22$, za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo $N = 400$ kar
+nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega reda je dovolj zoprna, da se zanjo
+malokrat odločimo, saj je treba uporabljati enostranske diference pri robu. Pri MLSM pa se
+izračunajo same, vse kar je potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno
+natančnost namesto dvojne, se to zgolj malenkostno pozna na času, ki ga porabimo za reševanje, in
+se zaradi zgodnje nestabilnosti enojne natančnosti ne splača uporabljati.
 
 \subsection{Poissonova enačba}
 Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
@@ -3398,6 +3446,16 @@ Za napako tako vzamemo
 \[
   e_\infty = \max_{x\in X} \{\max\{\sigma_{xx}(x), \sigma_{yy}(x), \sigma_{xy}(x) \}\} / p_0.
 \]
+
+\begin{figure}[h]
+  \centering
+  \includegraphics{images/hertzian_matrix_example.pdf}
+  \caption{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri reševanju
+  problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno diskretizacijo s $11 \times 6$
+točkami.}
+  \label{fig:hertz-matrix}
+\end{figure}
+
 Na sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
 
 \begin{figure}[h]
@@ -3407,8 +3465,8 @@ Na sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
   \label{fig:hertz-convergence}
 \end{figure}
 
-Na sliki~\ref{fig:hertz-time} je prikazana razdelitev časa porabljenega za reševanje priblema. Časi za monome in
-Gaussove funkcije so po pričakovanju zelo primerljivi.
+Na sliki~\ref{fig:hertz-time} je prikazana razdelitev časa porabljenega za reševanje problema. Časi
+za monome in Gaussove funkcije so po pričakovanju zelo primerljivi.
 
 \begin{figure}[h]
   \centering
@@ -3430,6 +3488,16 @@ Gaussove funkcije so po pričakovanju zelo primerljivi.
   \caption{Časi posameznih kosov pri zgoščeni mreži.}
   \label{fig:hertz-refined-time}
 \end{figure}
+
+\begin{figure}[h]
+  \centering
+%   \includegraphics{images/her}
+  \caption{Primer ??-krat zgoščene domene okoli izhodišča s pomočjo katere lahko natančneje rešimo
+  problem~\eqref{eq:hertzian-problem}. Prikazana je von Misesova napetost in pomik. Zaradi boljše
+vidljivosti je bil pomik pomnožen s faktorjem ??.}
+  \label{fig:hertz-refined-domain}
+\end{figure}
+
 
 \section{FWO case}
 
