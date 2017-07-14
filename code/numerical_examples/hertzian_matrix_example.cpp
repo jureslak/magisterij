@@ -6,7 +6,7 @@
 #include <Eigen/Sparse>
 #include <unsupported/Eigen/SparseExtra>
 #include "draw.hpp"
-#include "overseer.hpp"
+#include "overseer_hertzian.hpp"
 
 using namespace mm;
 using namespace std;

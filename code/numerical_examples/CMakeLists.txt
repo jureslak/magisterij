@@ -5,7 +5,7 @@ include_directories("${CMAKE_SOURCE_DIR}/../e62numcodes/src")
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
-SET(CMAKE_CXX_FLAGS "-O3 -std=c++14")# -DNDEBUG -DEIGEN_NO_DEBUG")
+SET(CMAKE_CXX_FLAGS "-O3 -std=c++11")# -DNDEBUG -DEIGEN_NO_DEBUG")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/../e62numcodes/ build_util)
@@ -35,14 +35,20 @@ target_link_libraries(poisson_weird pde_utils)
 add_executable(poisson_neumann poisson_neumann.cpp)
 target_link_libraries(poisson_neumann pde_utils)
 
-add_executable(hertzian_convergence hertzian_convergence.cpp overseer.hpp)
+add_executable(hertzian_convergence hertzian_convergence.cpp overseer_hertzian.hpp)
 target_link_libraries(hertzian_convergence pde_utils)
 
-add_executable(hertzian_refined_convergence hertzian_refined_convergence.cpp overseer.hpp)
+add_executable(hertzian_refined_convergence hertzian_refined_convergence.cpp overseer_hertzian.hpp)
 target_link_libraries(hertzian_refined_convergence pde_utils)
 
-add_executable(hertzian_matrix_example hertzian_matrix_example.cpp overseer.hpp)
+add_executable(hertzian_matrix_example hertzian_matrix_example.cpp overseer_hertzian.hpp)
 target_link_libraries(hertzian_matrix_example pde_utils)
 
-add_executable(hertzian_domain_too_small hertzian_domain_too_small.cpp overseer.hpp)
+add_executable(hertzian_domain_too_small hertzian_domain_too_small.cpp overseer_hertzian.hpp)
 target_link_libraries(hertzian_domain_too_small pde_utils)
+
+add_executable(cantilever_beam cantilever_beam.cpp overseer_cantilever.hpp)
+target_link_libraries(cantilever_beam pde_utils)
+
+add_executable(realistic_beam realistic_beam.cpp overseer_cantilever.hpp)
+target_link_libraries(realistic_beam pde_utils)

@@ -1,5 +1,5 @@
-clear
-datafile = '../data/hertzian_refined_convergence.h5';
+prepare
+datafile = [datapath 'hertzian_refined_convergence2.h5'];
 info = h5info(datafile);
 
 b = h5readatt(datafile, '/', 'b');
@@ -16,6 +16,7 @@ time = zeros(simnum, 6);
 % f3 = setfig('b3');
 % colors = colormap;
 for i = 1:simnum
+    if i > 14, break, end
     name = info.Groups(1).Groups(i).Name;
 
     N = h5readatt(datafile, name, 'N');
@@ -100,17 +101,17 @@ colors = {
 
 f1 = setfig('b1');
 Ns = data(1, :, 1);
-best = polyfit(log(Ns), log(data(1, :, 2)), 1);
+% best = polyfit(log(Ns), log(data(1, :, 2)), 1);
 for i = 1:typenum
     plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
 end
-plot(Ns, exp(best(2))*Ns.^best(1), '--k');
-text(0.55, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
+% plot(Ns, exp(best(2))*Ns.^best(1), '--k');
+% text(0.55, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
 % xlim([1e2, 2e6])
-ylim([1e-2, 0.2])
+ylim([-inf, 100])
 % set(gca, 'YTick', [0.05, 0.1, 0.2, 0.5])
 legend(legendvals)
 
@@ -128,5 +129,5 @@ xlabel('$N$')
 ylabel('\v{c}as [min]')
 xlim([-inf, inf])
 
-exportfig(f1, '../../../images/hertzian_refined_convergence', '-pdf')
-exportfig(f2, '../../../images/hertzian_refined_time', '-pdf')
+% exportfig(f1, '../../../images/hertzian_refined_convergence', '-pdf')
+% exportfig(f2, '../../../images/hertzian_refined_time', '-pdf')

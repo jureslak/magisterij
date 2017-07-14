@@ -1,7 +1,7 @@
-clear
-datafile = '../data/hertzian_refined_convergence_test.h5';
+prepare
+datafile = [datapath 'hertzian_refined_convergence_test.h5'];
 
-name = '/gau9/calc0250';
+name = '/gau9/calc0100';
 
 pos = h5read(datafile, [name '/pos']);
 stress = h5read(datafile, [name '/stress']);
@@ -18,7 +18,7 @@ sv = von_mises(sxx, syy, sxy);
 displ  = h5read(datafile, [name '/disp']);
 u = displ(1, :);
 v = displ(2, :);
-
+    
 max(max(displ))
 
 b = h5readatt(datafile, '/', 'b');
@@ -35,8 +35,8 @@ asv = von_mises(asxx, asyy, asxy);
 %%
 close all
 
-%testidx = find(x.^2 + y.^2 < (10*b)^2); % & y.^2 > b^2);
-testidx = find(x.^2 + y.^2 < (10*b)^2 & y.^2 > (0.1*b)^2);
+testidx = find(x.^2 + y.^2 < (10*b)^2); % & y.^2 > b^2);
+% testidx = find(x.^2 + y.^2 < (10*b)^2 & y.^2 > (0.1*b)^2);
 %testidx = find(x.^2 + y.^2 < (1000*b)^2);
 
 f1 = setfig('b1');

@@ -1,6 +1,5 @@
-format compact
-clear
-datafile = '../data/convergence_test_1D_rbf1.h5';
+prepare
+datafile = [datapath 'convergence_test_1D_rbf1.h5'];
 info = h5info(datafile);
 
 correct = @(x) cos(1)*x - sin(x);

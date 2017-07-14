@@ -1,6 +1,5 @@
-close all
-clear
-datafile = '../data/poisson_neumann.h5';
+prepare
+datafile = [datapath 'poisson_neumann.h5'];
 info = h5info(datafile);
 simnum = length(info.Groups);
 

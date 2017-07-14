@@ -1,10 +1,13 @@
-clear
-datafile = '../data/hertzian_convergence.h5';
+prepare
+datafile = [datapath 'cantilever_convergence2.h5'];
 info = h5info(datafile);
 
-b = h5readatt(datafile, '/', 'b');
-p0 = h5readatt(datafile, '/', 'p0');
-R = h5readatt(datafile, '/', 'radius');
+P = h5readatt(datafile, '/', 'P');
+D = h5readatt(datafile, '/', 'D');
+L = h5readatt(datafile, '/', 'L');
+I = h5readatt(datafile, '/', 'I');
+E = h5readatt(datafile, '/', 'E');
+nu = h5readatt(datafile, '/', 'v');
 
 typenum = length(info.Groups);
 simnum = length(info.Groups(1).Groups);
@@ -23,8 +26,7 @@ for i = 1:simnum
     x = pos(1, :);
     y = pos(2, :);
     
-    testidx = find(x.^2 + y.^2 < (1000*b)^2);
-    [asxx, asyy, asxy] = hertzian_analytical(x, y, b, p0);
+    [asxx, asyy, asxy, au, av] = cantilever_beam_analytical(x, y, P, L, D, E, nu);
     
     for j = 1:typenum
         grp = info.Groups(j).Groups(i);
@@ -34,13 +36,22 @@ for i = 1:simnum
         sxx = stress(1, :);
         syy = stress(2, :);
         sxy = stress(3, :);
+        
+        displ  = h5read(datafile, [name '/disp']);
+        u = displ(1, :);
+        v = displ(2, :);
+        
+        erru = max([max(abs(u - au)), max(abs(v - av))]);
+        Mu = max([max(abs(au)), max(abs(av))]);
 
-        errxx = max(max(abs(sxx(testidx) - asxx(testidx))));
-        erryy = max(max(abs(syy(testidx) - asyy(testidx))));
-        errxy = max(max(abs(sxy(testidx) - asxy(testidx))));
+        errxx = max(max(abs(sxx - asxx)));
+        erryy = max(max(abs(syy - asyy)));
+        errxy = max(max(abs(sxy - asxy)));
+        Ms = max([max(abs(sxx)) max(abs(syy)) max(abs(sxy))]);
 
         data(j, i, 1) = N;
-        data(j, i, 2) = max([errxx, erryy, errxy])/p0;
+        data(j, i, 2) = erru / Mu;
+        data(j, i, 4) = max([errxx, erryy, errxy]) / Ms;
         data(j, i, 3) = h5readatt(datafile, name, 'time_total');
         
         time(i, :) = [h5readatt(datafile, name, 'time_domain');
@@ -61,14 +72,15 @@ for i = 1:simnum
 %     plot(sxx(mid)/p0, y(mid)/b, 'o', 'Color', colors(i, :));
 
 
-    fprintf('point %d/%d \r', i, simnum);
+    fprintf('point %d/%d %s\r', i, simnum, name);
 end
 
 %%
 
 close all
 markers = {'+','o','*','x','s','d','^','v','<','>','p','h'};
-legendvals = {'G9', 'MON9'};
+legendvals = {'G9 -- displacement', 'G9 -- stress', 'MON9 -- displacement',...
+    'MON9 -- stress'};
 colors = {
     [1,123,206]/256,
     [255,169,0]/256,
@@ -104,15 +116,16 @@ Ns = data(1, :, 1);
 best = polyfit(log(Ns), log(data(2, :, 2)), 1);
 for i = 1:typenum
     plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
+    plot(Ns, data(i, :, 4), [markers{i}, '--'], 'Color', colors{i})
 end
-plot(Ns, exp(best(2))*Ns.^best(1), '--k');
-text(0.55, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
+% plot(Ns, exp(best(2))*Ns.^best(1), '--k');
+text(0.50, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-xlim([1e2, 2e6])
-ylim([0.05, 0.5])
-set(gca, 'YTick', [0.05, 0.1, 0.2, 0.5])
+% xlim([1e2, 2e6])
+% ylim([0.05, 0.5])
+% set(gca, 'YTick', [0.05, 0.1, 0.2, 0.5])
 legend(legendvals)
 
 f2 = setfig('b2');
