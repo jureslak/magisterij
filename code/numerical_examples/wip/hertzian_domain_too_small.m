@@ -6,6 +6,7 @@ info = h5info(datafile);
 b = h5readatt(datafile, '/', 'b');
 p0 = h5readatt(datafile, '/', 'p0');
 R = h5readatt(datafile, '/', 'radius');
+max_height = h5readatt(datafile, '/', 'max_height');
 
 typenum = length(info.Groups);
 simnum = length(info.Groups(1).Groups);
@@ -21,14 +22,15 @@ for i = 1:simnum
 
     for j = 1:typenum
         grp = info.Groups(j).Groups(i);
-        name = grp.Name;
+        name = grp.Name
         
         N = h5readatt(datafile, name, 'N');
+        height = h5readatt(datafile, name, 'height');
         pos = h5read(datafile, [name '/pos']);
         x = pos(1, :);
         y = pos(2, :);
 
-        testidx = find(x.^2 + y.^2 < (1000*b)^2);
+        testidx = find(x.^2 + y.^2 < (10000*b)^2);
         [asxx, asyy, asxy] = hertzian_analytical(x, y, b, p0);
         asv = von_mises(asxx, asyy, asxy);
     
@@ -42,7 +44,7 @@ for i = 1:simnum
         erryy = max(max(abs(syy(testidx) - asyy(testidx))));
         errxy = max(max(abs(sxy(testidx) - asxy(testidx))));
 
-        data(j, i, 1) = h5readatt(datafile, name, 'nglob');
+        data(j, i, 1) = N * (max_height*b / height)^2;
         data(j, i, 2) = max([errxx, erryy, errxy])/p0;
         data(j, i, 3) = h5readatt(datafile, name, 'time_total');
         
@@ -100,12 +102,11 @@ end
 % ylim([-3, 0])
 
 f1 = setfig('b1');
-Ns = data(1, :, 1);
 for i = 1:typenum
-    plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
+    plot(data(i, :, 1), data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
 end
 set(gca, 'XScale', 'log', 'YScale', 'log')
-xlabel('$N$')
+xlabel('$N \cdot A/A_{max}$')
 ylabel('$L_\infty$ napaka')
 % xlim([1e2, 2e6])
 % ylim([0.05, 0.5])

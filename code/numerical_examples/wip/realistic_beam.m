@@ -55,25 +55,26 @@ max(max(abs(displ)))
 %%
 close all
 
-f1 = setfig('b1');
-c = zeros(size(x));
-c(left) = 1;
-c(right) = -1;
-c(middle) = 3;
-c(top) = 2;
-c(bottom) = -2;
+% f1 = setfig('b1');
+% c = zeros(size(x));
+% c(left) = 1;
+% c(right) = -1;
+% c(middle) = 3;
+% c(top) = 2;
+% c(bottom) = -2;
 
-scatter(x, y, 5, c, 'filled')
-colormap 'jet'
-colorbar
-daspect([1, 1, 1])
-title('sxx')
+% scatter(x, y, 5, c, 'filled')
+% colormap 'jet'
+% colorbar
+% daspect([1, 1, 1])
+% title('sxx')
 
 
 f2 = setfig('b2');
 scatter(x, y, 5, syy, 'filled')
 colorbar
 daspect([1, 1, 1])
+colormap 'jet'
 title('syy')
 
 
@@ -81,13 +82,14 @@ f3 = setfig('b3');
 scatter(x, y, 5, sxy, 'filled')
 colorbar
 daspect([1, 1, 1])
+colormap 'jet'
 title('sxy')
-
 
 
 f4 = setfig('b4');
 scatter(x, y, 5, sxx, 'filled')
 colorbar
 daspect([1, 1, 1])
+colormap 'jet'
 title('sxx')
 

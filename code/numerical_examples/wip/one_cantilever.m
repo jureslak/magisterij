@@ -1,5 +1,5 @@
 prepare
-datafile = [datapath 'cantilever_convergence2.h5'];
+datafile = [datapath 'cantilever_convergence_jarjar.h5'];
 
 name = '/mon9/calc0096';
 
@@ -27,8 +27,7 @@ sv = von_mises(sxx, syy, sxy);
 displ  = h5read(datafile, [name '/disp']);
 u = displ(1, :);
 v = displ(2, :);
-    
-max(max(abs(displ)))
+max(sqrt(u.^2+v.^2))
 
 % M = spconvert(h5read(datafile, [name '/matrix'])');
 % rhs = h5read(datafile, [name '/rhs']);
@@ -53,47 +52,53 @@ asv = von_mises(asxx, asyy, asxy);
 close all
 
 sf1 = setfig('b1');
-% scatter(x, y, 5, sxx, 'filled')
 f = 1e5;
-scontour(x+f*u, y+f*v, sxx, 100, 100, 20);
-colorbar
+plot([0 L L 0 0], [-D/2 -D/2 D/2 D/2 -D/2], '--k')
+scatter(x+f*u, y+f*v, 5, sxx/1000, 'filled')
+% scontour(x+f*u, y+f*v, sxx/1000, 100, 100, 20);
+c = colorbar;
+title(c, 'kPa', 'interpreter', 'latex');
+title('$\sigma_{xx}$')
 daspect([1, 1, 1])
-title('sxx')
+ylim([-4.5 2.75])
+xlim([-0.5 30.25])
 
-sf2 = setfig('b2');
-% scatter(x, y, 5, syy, 'filled')
-scontour(x, y, syy, 100, 100, 20);
-colorbar
-daspect([1, 1, 1])
-title('syy')
+% sf2 = setfig('b2');
+% % scatter(x, y, 5, syy, 'filled')
+% scontour(x, y, syy, 100, 100, 20);
+% colorbar
+% daspect([1, 1, 1])
+% title('syy')
 
-sf3 = setfig('b3');
-% scatter(x, y, 5, sxy, 'filled')
-scontour(x, y, sxy, 100, 100, 20);
-colorbar
-title('sxy')
-daspect([1, 1, 1])
+% sf3 = setfig('b3');
+% % scatter(x, y, 5, sxy, 'filled')
+% scontour(x, y, sxy, 100, 100, 20);
+% colorbar
+% title('sxy')
+% daspect([1, 1, 1])
 
 errxx = max(max(abs(sxx - asxx)));
 erryy = max(max(abs(syy - asyy)));
 errxy = max(max(abs(sxy - asxy)));
-errstress =  max([errxx, erryy, errxy])
+Ms = max([max(abs(sxx)) max(abs(syy)) max(abs(sxy))]);
+
+errstress =  max([errxx, erryy, errxy]) / Ms
 
 Mu = max(sqrt(au.^2 + av.^2));
 erru = max(max(abs(u - au)))/Mu;
 errv = max(max(abs(v - av)))/Mu;
 erruv = max([erru, errv])
 
-f2 = setfig('bo11');
-top = find(y == max(y));
-[~, I] = sort(x(top));
-top = top(I);
+% f2 = setfig('bo11');
+% top = find(y == max(y));
+% [~, I] = sort(x(top));
+% top = top(I);
 
-plot(x(top), u(top), 'o');
-plot(x(top), au(top), '-');
-
-plot(x(top), v(top), 'o');
-plot(x(top), av(top), '-');
+% plot(x(top), u(top), 'o');
+% plot(x(top), au(top), '-');
+% 
+% plot(x(top), v(top), 'o');
+% plot(x(top), av(top), '-');
 
 % plot(x(top), syy(top), 'o');
 % plot(x(top), asyy(top), '-');
@@ -107,54 +112,54 @@ plot(x(top), av(top), '-');
 
 % legend('sxx', 'asxx', 'syy', 'asyy', 'sxy', 'asxy', 'von mises',...
 %        'von mises analytical', 'Location', 'SE')
-legend('u', 'au', 'v', 'av', 'syy', 'asyy', 'sxy', 'asxy', 'Location', 'SE')
+% legend('u', 'au', 'v', 'av', 'syy', 'asyy', 'sxy', 'asxy', 'Location', 'SE')
 % xlim([-3, 3])
 
 
-f3 = setfig('bo15');
-[mid, xmid] = closest(pos, 1, L);
-plot(u(mid), y(mid), 'o');
-plot(au(mid), y(mid), '-');
-
-plot(v(mid), y(mid), 'o');
-plot(av(mid), y(mid), '-');
-
-% plot(sxy(mid), y(mid), 'o');
-% plot(asxy(mid), y(mid), '-');
-
-% plot(syy(mid), y(mid), 'o');
-% plot(syy(mid), y(mid), '-');
-
-legend('u', 'au', 'v', 'av', 'sxy', 'asxy', 'syy', 'asyy', 'Location', 'SE')
-
-f4 = setfig('bo16');
-top = find(y == min(y));
-[~, I] = sort(x(top));
-top = top(I);
-
-plot(x(top), u(top), 'o');
-plot(x(top), au(top), '-');
-
-plot(x(top), v(top), 'o');
-plot(x(top), av(top), '-');
-
-% plot(x(top), syy(top), 'o');
-% plot(x(top), asyy(top), '-');
-
-% plot(x(top), sxy(top), 'o');
-% plot(x(top), asxy(top), '-');
-
-% legend('u', 'au', 'v', 'av', 'Location', 'SE')
+% f3 = setfig('bo15');
+% [mid, xmid] = closest(pos, 1, L);
+% plot(u(mid), y(mid), 'o');
+% plot(au(mid), y(mid), '-');
 % 
-f5 = setfig('bo12');
-[mid, xmid] = closest(pos, 1, 0);
-plot(u(mid), y(mid), 'o');
-plot(au(mid), y(mid), '-');
-
-plot(v(mid), y(mid), 'o');
-plot(av(mid), y(mid), '-');
-
-legend('u', 'au', 'v', 'av', 'Location', 'SE')
+% plot(v(mid), y(mid), 'o');
+% plot(av(mid), y(mid), '-');
+% 
+% % plot(sxy(mid), y(mid), 'o');
+% % plot(asxy(mid), y(mid), '-');
+% 
+% % plot(syy(mid), y(mid), 'o');
+% % plot(syy(mid), y(mid), '-');
+% 
+% legend('u', 'au', 'v', 'av', 'sxy', 'asxy', 'syy', 'asyy', 'Location', 'SE')
+% 
+% f4 = setfig('bo16');
+% top = find(y == min(y));
+% [~, I] = sort(x(top));
+% top = top(I);
+% 
+% plot(x(top), u(top), 'o');
+% plot(x(top), au(top), '-');
+% 
+% plot(x(top), v(top), 'o');
+% plot(x(top), av(top), '-');
+% 
+% % plot(x(top), syy(top), 'o');
+% % plot(x(top), asyy(top), '-');
+% 
+% % plot(x(top), sxy(top), 'o');
+% % plot(x(top), asxy(top), '-');
+% 
+% % legend('u', 'au', 'v', 'av', 'Location', 'SE')
+% % 
+% f5 = setfig('bo12');
+% [mid, xmid] = closest(pos, 1, 0);
+% plot(u(mid), y(mid), 'o');
+% plot(au(mid), y(mid), '-');
+% 
+% plot(v(mid), y(mid), 'o');
+% plot(av(mid), y(mid), '-');
+% 
+% legend('u', 'au', 'v', 'av', 'Location', 'SE')
 
 % plot(x(top), sv(top), 'o');
 % plot(x(top), asv(top), '-');

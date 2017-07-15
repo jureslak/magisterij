@@ -1756,23 +1756,24 @@ kot dvodimenzionalne, zato si oglejmo dve poenostavitvi.
 \subsubsection{Poenostavitev na dve dimenziji}
 Tridimenzionalne probleme se zavoljo lažje formulacije, manjše računske
 zahtevnosti in lažje implementacije, pogosto s pomočjo neke simetrije, prevede na
-nižjedimenzionalne. Spodaj sta opisani dve najbolj pogosti poenostavitvi.
+nižjedimenzionalne. Spodaj sta na kratko opisani dve najbolj pogosti poenostavitvi. Bolj podroben opis je v~\cite[str.\ 260--278]{slaughter2012linearized}.
 
 \begin{description}
+  \item[Ravninska deformacija:]
+Pri tej poenostavitvi predpostavimo, da nimamo pomikov v eni izmed
+koordinatnih smeri, torej brez škode za splošnost $u_3 = 0$ in preostali dve komponenti sta
+neodvisni od tretje koordinate. Posledično so $\eps_{xz}, \eps_{yz}$ in $\eps_{zz}$ enaki 0.
+Ta poenostavitev je primerna za telesa, ki imajo eno dimenzijo mnogo večjo od drugih in
+se vzdolž nje ne spreminjajo, torej za (ne nujno krožne) valje.
+Ta poenostavitev da enačbo, ki je enaka tisti v treh dimenzijah, le da ima eno komponento manj.
   \item[Ravninska napetost:]
 Pri tej poenostavitvi predpostavimo, da napetost nima neničelnih komponent v smeri ene izmed
 koordinatnih osi, torej po primerni rotaciji koordinatnega sistema, da so komponente $\ts_{xz},
 \ts_{yz}$ in $\ts_{zz}$ enake 0. Ta poenostavitev je primerna za telesa, ki so ``tanke plošče'',
 torej imajo eno dimenzijo veliko manjšo od ostalih dveh. Poleg tega morajo biti vse obremenitve
-vzdolž plošče. Ta poenostavitev da enako enačbo kot v treh dimenzijah, le z eno komponento manj.
-  \item[Ravninska deformacija:]
-Pri tej poenostavitvi predpostavimo, da deformacijski tenzor $\eps$ nima komponent v eni izmed
-koordinatnih smeri, torej, podobno kot pri ravninski napetosti lahko predpostavimo, da so
-$\eps_{xz}, \eps_{yz}$ in $\eps_{zz}$ enaki 0. Ta poenostavitev je primerna za telesa, ki imajo eno
-dimenzijo mnogo večjo od drugih in se vzdolž nje ne spreminjajo, torej za (ne nujno krožne) valje.
-Ta poenostavitev da enačbo, ki je ekvivalentna tisti, dobljeni z zgornjo poenostavitvijo,
-le da je potrebno uporabiti druge materialne konstante $\hat{E} = \frac{E}{1 - \nu}$, $\hat\nu =
-\frac{\nu}{1-\nu}$, pri čemer sta $E$ in $\nu$ parametra iz tridimenzionalnega problema.
+vzdolž plošče. Ta poenostavitev da enako enačbo kot v treh dimenzijah, le
+le da je potrebno uporabiti druge materialne konstante, namesto $\lambda$ v zvezi $\sigma = \lambda
+\tr\eps I + 2 \mu \eps$ moramo uporabiti $\hat\lambda = \frac{2 \mu \lambda}{\lambda + 2 \mu}$. Pretvorba drugih parametrov je dana v~\cite[str.\ 276, tabela 7.1]{slaughter2012linearized}.
 \end{description}
 
 Pri obeh poenostavitvah se iz pogojev izpelje, da v Navierovi enačbi ne nastopa
@@ -3316,6 +3317,83 @@ enaka.
   \label{fig:poisson-square-weird}
 \end{figure}
 
+\subsection{Vpet nosilec}
+Problem vpetega nosilca \ang{cantilever beam} je standarden problem v elastomehaniki in eden
+osnovnih testnih primerov za raziskovanje obnašanja numeričnih metod.
+Imejmo tanek nosilec dolžine $L$ in višine $D$ vpet na desnem koncu, ki ga na levem koncu potiska
+navzdol sila $P$ na enoto debeline. Idealizirana Timoshenkova teorija nosilcev nudi rešitev za ta problem v primeru
+predpostavke o ravninski napetosti. Napetosti v nosilcu, ki smo ga postavili na območje
+$[0, L] \times [-D/2, D/2]$ so izpeljane v~\cite[str.\ 284--289, enačba 7.4.55]{slaughter2012linearized}
+in se izražajo kot
+\begin{align}
+  \ts_{xx} &= \frac{Pxy}{I}, \quad \ts_{yy} = 0, \quad \ts_{xy} = \frac{P}{2I} \left( \frac{D^2}{4}
+  - y^2 \right),
+  \label{eq:cantilever-beam-analytical-stress}
+\end{align}
+pomiki pa kot
+\begin{align}
+  u &= \frac{P y \left(3 D^2 (\nu +1)-4 \left(3 L^2+(\nu +2) y^2-3 x^2\right)\right)}{24 E I}
+  \label{eq:cantilever-beam-analytical} \\
+  v &= -\frac{P \left(3 D^2 (\nu +1) (L-x)+4 (L-x)^2 (2 L+x)+12 \nu  x y^2\right)}{24 E I},
+  \nonumber
+\end{align}
+pri čemer je $I = \frac{1}{12} D^3$ vztrajnostni moment preseka nosilca za vrtenje okoli središča,
+$E$ Youngov modul in $\nu$ Poissonovo razmerje. Idealiziran primer rešimo tudi numerično. Rešimo
+Navierovo enačbo na $\Omega = [0, L] \times [-D/2, D/2]$ s predpisanim pomikom pri $x = L$ danim z
+analitično rešitvijo~\eqref{eq:cantilever-beam-analytical}. Zgornji in spodnji rob naj bosta prosta
+brez površinskih sil ($\vt = 0$) na levem robu pa vzemimo navpično parabolično razporejeno silo $\vt
+= \ts_{xy}\vj$, dano z analitično rešitvijo~\eqref{eq:cantilever-beam-analytical-stress}.
+
+Problem rešimo numerično z uporabo 9 monomov in 9 Gaussovih baznih funkcij z $\sigma_b =
+500\,r_\chi$, obakrat z Gaussovo utežjo $\sigma_w = 1 r_\chi$.
+Za parametre problema smo izbrali $L = \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$, $\nu = 0.33$, $P = \unit[1000]{N/m}$.
+Numerična rešitev je prikazana na sliki~\ref{fig:cantilever-beam-solution}.
+Omeniti je treba še, kako iz numerične rešitve $\b{u}$ dobimo aproksimacijo za
+$\ts$. Komponente $\ts$ so linearne kombinacije odvodov $\vu$, tako da v vsaki
+diskretizacijski točki izračunamo funkciji oblike, ki aproksimirata $\dpar{}{x}$ in $\dpar{}{y}$
+in z njuno pomočjo izračunamo $\frac12 (\grad\vu + \grad\vu^\T)$ ter nato preko Hookovega zakona
+dobimo $\ts$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/cantilever_beam_solution.png}
+  \caption{Numerična rešitev problema vpetega nosilca. Pomiki so zaradi boljše vidnosti povečani za
+  faktor $10^5$. Komponenta $\ts_{yy}$ je kot v analitični rešitvi enaka 0.}
+  \label{fig:cantilever-beam-solution}
+\end{figure}
+Izračunamo lahko še, da je največji pomik po normi velik
+\[
+  \max_{x \in \Omega} |\vu(x)| \approx \unit[1.22 \cdot 10^{-5}]{m} = \unit[12.2]{\mu m}
+\]
+in največji gradient pomika
+\[
+  \max_{x \in \Omega} \|\grad \vu(x)\| \approx 8.53 \cdot 10^{-7}.
+\]
+Predpostavka o majhnosti pomikov in njihovih gradientov res velja.
+
+Na sliki~\ref{fig:cantilever-beam-convergence} je prikazana konvergenca numerične rešitve proti analitični.
+Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico označimo izračunane količine, brez strešice pa analitične, potem napako izračunamo kot
+\begin{align*}
+  e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|,|v(x)-\hat v(x)|\}}{\max_{x\in X} \{\max\{|u(x)|,|v(x)|\}}, \\
+  e_\infty(\ts) &= \frac{\max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
+  |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
+  |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\}}{
+  \max_{x\in X} \{\max\{|\sigma_{xx}(x)|, |\sigma_{yy}(x)|, |\sigma_{xy}(x)| \}\}}.
+\end{align*}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/cantilever_beam_convergence.pdf}
+  \caption{Konvergenca numerične metode pri reševanju problema vpetega nosilca.}
+  \label{fig:cantilever-beam-convergence}
+\end{figure}
+Rezultati so podobni kot pri Poissonovi enačbi na sliki~\ref{fig:poisson-square-convergence}.
+Monomi konvergirajo zelo regularno z redom $1$, Gaussove funkcije pa imajo slabše
+konvergenčne lastnosti.
+
+TODO COMMENT
+
+
 \subsection{Hertzev kontaktni problem}
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
 elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz. Ko dve ukrivljeni
@@ -3433,18 +3511,17 @@ Numerično smo problem rešili na dva načina, z uporabo 9 monomov in 9 Gaussovi
 sistema enačb smo uporabili iterativni BiCGSTAB algoritem z ILUT predpogojevanjem, kot opisano v
 razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$. BiCGSTAB
 algoritem smo iterirali največ 300-krat ali dokler ni bila ocena napake pod $10^{-13}$. Algoritem je
-v vseh primerih konvergiral. Omeniti je treba še, kako iz rešitve $\b{u}$ dobimo aproksimacijo za
-$\sigma$. Komponente $\sigma$ so linearne kombinacije odvodov $\vu$, tako da v vsaki
-diskretizacijski točki izračunamo funkciji oblike, ki aproksimirata $\dpar{}{x}$ in $\dpar{}{y}$
-in z njuno pomočjo izračunamo $\frac12 (\grad\vu + \grad\vu^\T)$ ter nato preko Hookovega zakona
-dobimo $\sigma$.
+v vseh primerih konvergiral.
 
 Za normo napake si zoper izberemo diskretno $L_\infty$ normo, le da tokrat
 primerjamo napetosti $\sigma_{xx}, \sigma_{yy}$ in $\sigma_{xy}$. Pošteno je primerjati
 brezdimenzijske količine $\sigma_{xx}/p_0$, saj so neodvisne od izbire $b$ in $p_0$.
-Za napako tako vzamemo
+Za napako med izračunanimi vrednostmi, označenimi s strešico, in pravimi vrednostmi, brez strešice,
+tako vzamemo
 \[
-  e_\infty = \max_{x\in X} \{\max\{\sigma_{xx}(x), \sigma_{yy}(x), \sigma_{xy}(x) \}\} / p_0.
+  e_\infty = \max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
+                                   |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
+                                   |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\} / p_0.
 \]
 
 \begin{figure}[h]

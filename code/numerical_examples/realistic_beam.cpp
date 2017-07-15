@@ -27,6 +27,24 @@ void solve_realistic(int n, T<Vec2d> basis, string name) {
     domain2.fillUniformWithStep(dy, dy);
     domain.add(domain2, BOUNDARY_TYPE::NONE);
 
+
+//    Vec2d center1 = {O.D, -O.D/2};
+//    Vec2d center2 = {O.D, +O.D/2};
+//    vector<double> length = {0.3}; // , 0.2, 0.1};
+//    int ps = domain.size();
+//    for (double l : length) {
+//        Range<int> to_refine1 = domain.positions.filter([&] (const Vec2d& x) {
+//            return std::abs(x[0]-center1[0]) < l*O.D && std::abs(x[1] - center1[1]) < l*O.D;
+//        });
+//        domain.refine(to_refine1, 25, 0.4);
+//        Range<int> to_refine2 = domain.positions.filter([&] (const Vec2d& x) {
+//            return std::abs(x[0]-center2[0]) < l*O.D && std::abs(x[1] - center2[1]) < l*O.D;
+//        });
+//        domain.refine(to_refine2, 25, 0.4);
+//        prn(domain.size() - ps);
+//        ps = domain.size();
+//    }
+
     int N = domain.size();
     prn(N);
 
@@ -96,7 +114,7 @@ void solve_realistic(int n, T<Vec2d> basis, string name) {
         double x = domain.positions[i][0];
         op.der1(M,0,0,i,O.lam, 1);
         op.der1(M,1,1,i,2.*O.mu+O.lam, 1);
-        rhs(i+N) = (x < O.L) ? 0. : O.P * (O.L - x)*(O.L+O.D - x) / O.D / O.D / O.D * 6;
+        rhs(i+N) = (O.L+O.D/4. < x && x < O.L+3./4.*O.D) ? O.P / O.D * 2 : 0;
     }
 
     for (int i : left) {
@@ -195,6 +213,13 @@ int main(int argc, char* argv[]) {
     testrange = {100};
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
+//    vector<vector<int>> mons;
+//    for (int i = 0; i < 5; ++i) {
+//        for (int j = 0; j < 5; ++j) {
+//            mons.push_back({i, j});
+//        }
+//    }
+//    Monomials<Vec2d> mon25(mons);
     NNGaussians<Vec2d> g9(O.sigmaB, O.m);
     for (int i = 0; i < testrange.size(); i += 4) {
         int n = testrange[i];

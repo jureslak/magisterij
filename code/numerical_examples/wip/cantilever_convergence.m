@@ -1,5 +1,5 @@
 prepare
-datafile = [datapath 'cantilever_convergence2.h5'];
+datafile = [datapath 'cantilever_convergence_jarjar.h5'];
 info = h5info(datafile);
 
 P = h5readatt(datafile, '/', 'P');
@@ -8,6 +8,8 @@ L = h5readatt(datafile, '/', 'L');
 I = h5readatt(datafile, '/', 'I');
 E = h5readatt(datafile, '/', 'E');
 nu = h5readatt(datafile, '/', 'v');
+
+sb = h5readatt(datafile, '/', 'sigmaB')
 
 typenum = length(info.Groups);
 simnum = length(info.Groups(1).Groups);
@@ -115,8 +117,8 @@ f1 = setfig('b1');
 Ns = data(1, :, 1);
 best = polyfit(log(Ns), log(data(2, :, 2)), 1);
 for i = 1:typenum
-    plot(Ns, data(i, :, 2), [markers{i}, '-'], 'Color', colors{i})
-    plot(Ns, data(i, :, 4), [markers{i}, '--'], 'Color', colors{i})
+    plot(Ns, data(i, :, 2), [markers{2*i}, '-'], 'Color', colors{i})
+    plot(Ns, data(i, :, 4), [markers{2*i+1}, '--'], 'Color', colors{i})
 end
 % plot(Ns, exp(best(2))*Ns.^best(1), '--k');
 text(0.50, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')

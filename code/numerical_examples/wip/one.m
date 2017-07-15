@@ -1,7 +1,7 @@
 prepare
-datafile = [datapath 'hertzian_refined_convergence_test.h5'];
+datafile = [datapath 'hertzian_domain_too_small.h5'];
 
-name = '/gau9/calc0100';
+name = '/mon_h00005.000000/calc0014_0113';
 
 pos = h5read(datafile, [name '/pos']);
 stress = h5read(datafile, [name '/stress']);
