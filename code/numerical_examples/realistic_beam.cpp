@@ -199,7 +199,7 @@ void solve_realistic(int n, T<Vec2d> basis, string name) {
 }
 
 int main(int argc, char* argv[]) {
-    O.init("params/realistic_beam.xml", "data/realistic_beam.h5");
+    O.init("params/realistic_beam.xml", "data/realistic_beam_wip.h5");
 
 //    solve_hertzian();
 

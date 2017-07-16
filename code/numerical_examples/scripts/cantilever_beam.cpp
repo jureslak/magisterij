@@ -6,7 +6,7 @@
 #include <Eigen/Sparse>
 #include <unsupported/Eigen/SparseExtra>
 #include "draw.hpp"
-#include "overseer_hertzian.hpp"
+#include "overseer_cantilever.hpp"
 
 using namespace mm;
 using namespace std;
@@ -15,30 +15,16 @@ using namespace Eigen;
 Overseer O;
 
 template <template<class> class T>
-void solve_hertzian(int n, double dh, T<Vec2d> basis, string name, int nglob) {
+void solve_cantilever(int n, T<Vec2d> basis, string name) {
     Timer timer;
     timer.addCheckPoint("beginning");
 
     /// [DOMAIN DEFINITION]
-    O.domain_lo = {-dh, -dh};
-    O.domain_hi = {dh, 0};
     RectangleDomain<Vec2d> domain(O.domain_lo, O.domain_hi);
-    double dy = dh / n;
+    double dy = O.D / n;
     domain.fillUniformWithStep(dy, dy);
-
-//    vector<double> length = {4};
-//    Vec2d center = {0, 0};
-//    for (double l : length) {
-//        Range<int> to_refine = domain.positions.filter([&] (const Vec2d& x) {
-//            return max(std::abs(x[0]-center[0]), std::abs(x[1] - center[1])) < l*O.b;
-//        });
-//        domain.refine(to_refine, 8, 0.4);
-//    }
-
     int N = domain.size();
     prn(N);
-
-
 
     // [Set indices for different domain parts]
     const static double tol = 1e-10;
@@ -78,66 +64,86 @@ void solve_hertzian(int n, double dh, T<Vec2d> basis, string name, int nglob) {
 
     // Set bottom boundary conditions
     for (int i : bottom) {
-        M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
+        op.der1(M,0,1,i,O.mu,0);
+        op.der1(M,1,0,i,O.mu,0);
         rhs(i) = 0;
-        M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
+        op.der1(M,0,0,i,O.lam,1);
+        op.der1(M,1,1,i,2.*O.mu+O.lam,1);
         rhs(i+N) = 0;
+//        double x = domain.positions[i][0];
+//
+//        M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
+//        rhs(i) = -(O.D*O.P*(O.D*O.D*(1 + 2*O.v) + 12*(-O.L*O.L + x*x)))/(48.*O.E*O.I);
+//        M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
+//        rhs(i+N) = -(O.P*(3*O.D*O.D*(O.L + O.L*O.v - x) + 4*(O.L - x)*(O.L - x)*(2*O.L + x)))/(24.*O.E*O.I);
     }
 
     // Set left boundary conditions
     for (int i : left) {
-        M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
+//        double y = domain.positions[i][1];
+//        M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
+//        rhs(i) = (O.P*y*(3*O.D*O.D*(1 + O.v) - 4*(3*O.L*O.L + (2 + O.v)*y*y)))/(24.*O.E*O.I);
+//        M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
+//        rhs(i+N) = -((8*O.L*O.L*O.L + 3*O.D*O.D*O.L*(1 + O.v))*O.P)/(24.*O.E*O.I);
+        op.der1(M,1,1,i,O.lam,0);
+        op.der1(M,0,0,i,2.*O.mu+O.lam,0);
         rhs(i) = 0;
-        M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
-        rhs(i+N) = 0;
+        double y = domain.positions[i][1];
+        op.der1(M,0,1,i,O.mu,1);
+        op.der1(M,1,0,i,O.mu,1);
+        rhs(i+N) = O.P*(O.D*O.D - 4*y*y)/(8.*O.I);
     }
 
     // Set right boundary conditions
     for (int i : right) {
+        double y = domain.positions[i][1];
+
         M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
-        rhs(i) = 0;
+        rhs(i) = (O.P*y*(3*O.D*O.D*(1 + O.v) - 4*(2 + O.v)*y*y))/(24.*O.E*O.I);
         M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
-        rhs(i+N) = 0;
+        rhs(i+N) = -(O.L*O.v*O.P*y*y)/(2.*O.E*O.I);
+//        op.der1(M,1,1,i,O.lam,0);
+//        op.der1(M,0,0,i,2.*O.mu+O.lam,0);
+//        rhs(i) = 0;
+//        double y = domain.positions[i][1];
+//        op.der1(M,0,1,i,O.mu,1);
+//        op.der1(M,1,0,i,O.mu,1);
+//        rhs(i+N) = -((O.P *(O.D*O.D - 4*y*y))/(8*O.I));
     }
 
-
-
     for (int i : top) {
-        // traction in x-direction
+        double x = domain.positions[i][0];
+
+//        M.coeffRef(i, i) = 1;  // boundary conditions on the boundary
+//        rhs(i) = (O.D*O.P*(O.D*O.D*(1 + 2*O.v) + 12*(-O.L*O.L + x*x)))/(48.*O.E*O.I);
+//        M.coeffRef(i+N, i+N) = 1;  // boundary conditions on the boundary
+//        rhs(i+N) = -(O.P*(3*O.D*O.D*(O.L + O.L*O.v - x) + 4*(O.L - x)*(O.L - x)*(2*O.L + x)))/(24.*O.E*O.I);
         op.der1(M,0,1,i,O.mu,0);
         op.der1(M,1,0,i,O.mu,0);
-        // traction in y-direction
+        rhs(i) = 0;
         op.der1(M,0,0,i,O.lam,1);
         op.der1(M,1,1,i,2.*O.mu+O.lam,1);
-        double x = std::abs(domain.positions[i][0]);
-        double trac;
-        if (x < O.b) {
-            trac = -O.p0 * std::sqrt(1 - x*x/O.b/O.b);
-        } else {
-            trac = 0;
-        }
-        rhs(i) = 0;
-        rhs(i+N) = trac;
+        rhs(i+N) = 0;
     }
 
     // Sparse solve
     timer.addCheckPoint("construct");
 
+//    cout << M << endl;
+//    SparseLU<matrix_t> solver;
     BiCGSTAB<matrix_t, IncompleteLUT<double>> solver;
     solver.preconditioner().setDroptol(1e-5);
     solver.preconditioner().setFillfactor(20);
-//    M.makeCompressed();
-//    SparseLU<SparseMatrix<double>, AMDOrdering<int>> solver;
-//    SuperLU<SparseMatrix<double>> solver;
+    M.makeCompressed();
     solver.compute(M);
+    timer.addCheckPoint("lut");
     solver.setMaxIterations(300);
     solver.setTolerance(O.precision);
 //    prn("solver ready");
-    timer.addCheckPoint("lut");
 
     VectorXd sol = solver.solve(rhs);
 //    prn("solver done");
-    cout << "#iterations:     " << solver.iterations() << endl;
+    cout << "iterations:     " << solver.iterations() << endl;
     cout << "estimated error: " << solver.error()      << endl;
 
     timer.addCheckPoint("solve");
@@ -156,15 +162,12 @@ void solve_hertzian(int n, double dh, T<Vec2d> basis, string name, int nglob) {
     }
     timer.addCheckPoint("postprocess");
 
-
-    std::string folder_name = format("/%s/calc%04d_%04d", name.c_str(), n, nglob);
+    std::string folder_name = format("/%s/calc%04d", name.c_str(), n);
     O.file.openFile(O.hdf5_filename, HDF5IO::APPEND);
     O.file.openFolder(folder_name);
 //    O.file.setSparseMatrix("matrix", M);
 //    O.file.setDoubleArray("rhs", rhs);
 
-    O.file.setDoubleAttribute("nglob", nglob);
-    O.file.setDoubleAttribute("height", dh);
     O.file.setDoubleAttribute("time_domain", timer.getTime("beginning", "domain"));
     O.file.setDoubleAttribute("time_shapes", timer.getTime("domain", "shapes"));
     O.file.setDoubleAttribute("time_construct", timer.getTime("shapes", "construct"));
@@ -172,44 +175,36 @@ void solve_hertzian(int n, double dh, T<Vec2d> basis, string name, int nglob) {
     O.file.setDoubleAttribute("time_solve", timer.getTime("lut", "solve"));
     O.file.setDoubleAttribute("time_post", timer.getTime("solve", "postprocess"));
     O.file.setDoubleAttribute("time_total", timer.getTime("beginning", "postprocess"));
-    O.file.setFloat2DArray("pos", domain.positions);
+    O.file.setDouble2DArray("pos", domain.positions);
     O.file.setDoubleAttribute("N", N);
-    O.file.setFloat2DArray("stress", stress_field);
-    O.file.setFloat2DArray("disp", displacement);
+    O.file.setDouble2DArray("stress", stress_field);
+    O.file.setDouble2DArray("disp", displacement);
 
     O.file.closeFolder();
     O.file.closeFile();
 }
 
 int main(int argc, char* argv[]) {
-    O.init("params/hertzian_domain_too_small.xml", "data/hertzian_domain_too_small_wip.h5");
+    O.init("params/cantilever_beam.xml", "data/cantilever_convergence.h5");
 
+//    solve_hertzian();
 
-//    vector<double> domain_height = {5, 7, 10, 20, 40, 80};
-    vector<double> domain_height = {5, 6, 7, 9, 10, 15, 20, 30, 40, 60, 70, 80};
-//    domain_height = {10};
-    double max_height = *max_element(domain_height.begin(), domain_height.end());
-
-//    vector<int> testrange = {50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 68, 70, 72, 74, 77, 79, 81,
-//                             84, 86, 89, 92, 94, 97, 100, 103, 106, 109, 113, 116, 120, 123, 127,
-//                             131, 135, 139, 143, 148, 152, 157, 161, 166, 171, 176, 182, 187, 193,
-//                             199, 205, 211, 218, 224, 231, 238, 245, 253, 260, 268, 276, 285, 293,
-//                             302, 311, 321, 331, 341, 351, 362, 373, 384, 396, 408, 420, 433, 446,
-//                             459, 473, 488, 503, 518, 534, 550, 566, 584, 601, 620, 639, 658, 678,
-//                             699, 720, 742, 764, 787, 811, 836, 861, 888, 915, 942, 971, 1000};
-//
-    vector<int> testrange = {100, 200, 300, 400};
-    O.file.openFolder("/");
-    O.file.setDoubleAttribute("max_height", max_height);
+    vector<int> testrange = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                             27, 28, 29, 31, 32, 33, 35, 36, 38, 39, 41, 43, 45, 47, 49, 51, 53,
+                             55, 58, 60, 63, 65, 68, 71, 74, 77, 81, 84, 88, 92, 96, 100, 104,
+                             108, 113, 118, 123, 128, 134, 140, 146, 152, 159, 166, 173, 180, 188,
+                             196, 205, 214, 223, 232, 243, 253, 264, 275, 287, 300, 313, 326, 340,
+                             355, 371, 387, 403, 421, 439, 458, 478, 499, 520, 543, 567, 591, 617,
+                             643, 671, 700};
+//    testrange = {50};
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
-    for (double dh : domain_height) {
-        prn(dh);
-        for (int i = 0; i < testrange.size(); i += 1) {
-            int n = testrange[i];
-            prn(n);
-            solve_hertzian(n*dh/max_height, O.b*dh, mon9, format("mon_h%012.6f", dh), n);
-        }
+    NNGaussians<Vec2d> g9(O.sigmaB, O.m);
+    for (int i = 0; i < testrange.size(); i += 1) {
+        int n = testrange[i];
+        prn(n);
+        solve_cantilever(n, mon9, "mon9");
+        solve_cantilever(n, g9, "gau9");
     }
 
     return 0;

@@ -12,7 +12,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/poisson_square_implicit_wip.h5", HDF5IO::DESTROY);
+HDF5IO file("data/poisson_square_implicit.h5", HDF5IO::DESTROY);
 
 template <template<class> class T>
 void solve(int n, T<Vec2d> basis, int support_size, std::string name) {

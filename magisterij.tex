@@ -3346,7 +3346,13 @@ brez površinskih sil ($\vt = 0$) na levem robu pa vzemimo navpično paraboličn
 
 Problem rešimo numerično z uporabo 9 monomov in 9 Gaussovih baznih funkcij z $\sigma_b =
 500\,r_\chi$, obakrat z Gaussovo utežjo $\sigma_w = 1 r_\chi$.
-Za parametre problema smo izbrali $L = \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$, $\nu = 0.33$, $P = \unit[1000]{N/m}$.
+Linearni sistem enačb smo reševali z iterativnim BiCGSTAB postopkom z ILUT predpogojevanjem z
+kot opisano v razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$.
+BiCGSTAB algoritem smo iterirali največ 300-krat ali dokler ni bila ocena napake pod $10^{-13}$.
+Algoritem je v vseh primerih konvergiral.
+
+Za parametre problema smo izbrali $L
+= \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$, $\nu = 0.33$, $P = \unit[1000]{N/m}$.
 Numerična rešitev je prikazana na sliki~\ref{fig:cantilever-beam-solution}.
 Omeniti je treba še, kako iz numerične rešitve $\b{u}$ dobimo aproksimacijo za
 $\ts$. Komponente $\ts$ so linearne kombinacije odvodov $\vu$, tako da v vsaki
@@ -3371,8 +3377,9 @@ in največji gradient pomika
 \]
 Predpostavka o majhnosti pomikov in njihovih gradientov res velja.
 
-Na sliki~\ref{fig:cantilever-beam-convergence} je prikazana konvergenca numerične rešitve proti analitični.
-Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico označimo izračunane količine, brez strešice pa analitične, potem napako izračunamo kot
+Na sliki~\ref{fig:cantilever-beam-convergence} je prikazana konvergenca numerične rešitve proti
+analitični.  Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico označimo
+izračunane količine, brez strešice pa analitične, potem napako izračunamo kot
 \begin{align*}
   e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|,|v(x)-\hat v(x)|\}}{\max_{x\in X} \{\max\{|u(x)|,|v(x)|\}}, \\
   e_\infty(\ts) &= \frac{\max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
@@ -3389,10 +3396,8 @@ Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico
 \end{figure}
 Rezultati so podobni kot pri Poissonovi enačbi na sliki~\ref{fig:poisson-square-convergence}.
 Monomi konvergirajo zelo regularno z redom $1$, Gaussove funkcije pa imajo slabše
-konvergenčne lastnosti.
-
-TODO COMMENT
-
+konvergenčne lastnosti. Vidimo, da konvergirajo tako vrednosti pomikov kot tudi vrednosti napetosti,
+pri čemer imamo pri napetostih malo večjo napako in malenkost slabši red, saj jih ocenjujemo iz pomikov.
 
 \subsection{Hertzev kontaktni problem}
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
@@ -3526,7 +3531,7 @@ tako vzamemo
 
 \begin{figure}[h]
   \centering
-  \includegraphics{images/hertzian_matrix_example.pdf}
+  \includegraphics[width=0.6\textwidth]{images/hertzian_matrix_example.pdf}
   \caption{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri reševanju
   problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno diskretizacijo s $11 \times 6$
 točkami.}
@@ -3552,19 +3557,19 @@ za monome in Gaussove funkcije so po pričakovanju zelo primerljivi.
   \label{fig:hertz-time}
 \end{figure}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\iw]{images/hertzian_refined_convergence.pdf}
-  \caption{Konvergenca metode pri zgoščeni mreži.}
-  \label{fig:hertz-refined-convergence}
-\end{figure}
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=\iw]{images/hertzian_refined_convergence.pdf}
+%   \caption{Konvergenca metode pri zgoščeni mreži.}
+%   \label{fig:hertz-refined-convergence}
+% \end{figure}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\iw]{images/hertzian_refined_time.pdf}
-  \caption{Časi posameznih kosov pri zgoščeni mreži.}
-  \label{fig:hertz-refined-time}
-\end{figure}
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=\iw]{images/hertzian_refined_time.pdf}
+%   \caption{Časi posameznih kosov pri zgoščeni mreži.}
+%   \label{fig:hertz-refined-time}
+% \end{figure}
 
 \begin{figure}[h]
   \centering

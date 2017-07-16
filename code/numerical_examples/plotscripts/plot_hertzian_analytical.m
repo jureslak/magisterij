@@ -49,7 +49,7 @@ contourf(X/b, Y/b, vm/p0, 30, 'LineStyle', 'none')
 colorbar
 xlabel('$x/b$')
 ylabel('$y/b$')
-title('von Mises stress$/p_0$', 'interpreter', 'latex')
+title('von Misesova napetost$/p_0$', 'interpreter', 'latex')
 ax = gca;
 ax.Position(3) = 0.35;
 ax.Position(1) = 0.56;

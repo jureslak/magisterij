@@ -107,7 +107,7 @@ void solve_hertzian(int n, T<Vec2d> basis, string name) {
 }
 
 int main(int arg_num, char* arg[]) {
-    O.init("data/hertzian.xml", "data/hertzian_matrix_example.h5");
+    O.init("data/hertzian.xml", "data/hertzian_matrix_example_wip.h5");
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
     int n = 5;

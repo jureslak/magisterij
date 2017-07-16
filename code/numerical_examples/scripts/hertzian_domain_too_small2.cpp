@@ -182,7 +182,7 @@ void solve_hertzian(int n, double dh, T<Vec2d> basis, string name, int nglob) {
 }
 
 int main(int argc, char* argv[]) {
-    O.init("params/hertzian_domain_too_small.xml", "data/hertzian_domain_too_small_wip.h5");
+    O.init("params/hertzian_domain_too_small.xml", "data/hertzian_domain_too_small.h5");
 
 
 //    vector<double> domain_height = {5, 7, 10, 20, 40, 80};

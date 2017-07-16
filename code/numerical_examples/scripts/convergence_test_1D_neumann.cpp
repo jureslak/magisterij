@@ -12,7 +12,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/convergence_test_1D_neumann_wip.h5", HDF5IO::DESTROY);
+HDF5IO file("data/convergence_test_1D_neumann.h5", HDF5IO::DESTROY);
 
 template <typename scalar_t>
 void solve_fdm(int n, std::string suffix = "") {

@@ -12,7 +12,7 @@ using namespace std;
 using namespace mm;
 using namespace Eigen;
 
-HDF5IO file("data/poisson_square_implicit_sigma_scan_wip.h5", HDF5IO::DESTROY);
+HDF5IO file("data/poisson_square_implicit_sigma_scan.h5", HDF5IO::DESTROY);
 
 template <typename T>
 double avg(const vector<T>& v) {

@@ -199,7 +199,7 @@ void solve_hertzian(int n, int refine_level, T<Vec2d> basis, string name) {
 }
 
 int main(int arg_num, char* arg[]) {
-    O.init("params/hertzian_refined.xml", "data/hertzian_refined_convergence2.h5");
+    O.init("params/hertzian_refined.xml", "data/hertzian_refined_convergence_wip.h5");
 
 //    solve_hertzian();
 

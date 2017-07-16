@@ -160,7 +160,7 @@ int main() {
     }
 
     VectorXd sol = solve3(domain5);
-    HDF5IO file("data/poisson_weird3d.h5", HDF5IO::DESTROY);
+    HDF5IO file("data/poisson_weird3d_wip.h5", HDF5IO::DESTROY);
     file.openFolder("/calc");
     file.setFloatArray("sol", sol);
     file.setFloat2DArray("pos", domain5.positions);
