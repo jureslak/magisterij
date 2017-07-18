@@ -2,7 +2,7 @@
 <params>
     <mls m="9" n="25" sigmaW="1" sigmaB="350" />
     <num ny="643" precision="1e-16" />
-    <phy v="0.33" E="72.1e9" />
+    <phy rho="7874" v="0.33" E="72.1e9" />
     <case P="10000" D="5" L="15" />
     <sys num_threads="1"/>
 </params>

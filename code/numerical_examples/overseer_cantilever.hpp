@@ -24,7 +24,7 @@ public:
     double dy;            // discretization step in y direction
 
     // physics params
-    double mu, E, lam, v, I; // material properties
+    double mu, E, lam, v, I, rho; // material properties
     double L;             // width of domain
     double D;             // height of domain
     Vec2d domain_lo;      // domain lo point
@@ -57,6 +57,7 @@ public:
 
         v =          xml.getAttribute({"params", "phy"},  "v");
         E =          xml.getAttribute({"params", "phy"}, "E");
+        rho =        xml.getAttribute({"params", "phy"}, "rho");
 
         num_threads= xml.getAttribute({"params", "sys"}, "num_threads");
 

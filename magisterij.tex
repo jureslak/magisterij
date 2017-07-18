@@ -150,7 +150,7 @@
 \newcommand{\ang}[1]{(\textit{angl.}\ #1)}
 \newcommand{\algorithmlist}{\hspace*{5pt}}
 \newlength{\iw}
-\setlength{\iw}{0.75\textwidth}  % image width
+\setlength{\iw}{0.7\textwidth}  % image width
 
 % bold math in sections
 % \usepackage{stmaryrd} % Bold math in sections
@@ -2242,6 +2242,35 @@ kar je neodvisno od $W$.
   kar lahko da precej drugačne rezultate.
 \end{opomba}
 
+Če je naš operator enostaven, kot je bil $\dpar{^2}{x^2}$ v primeru~\ref{prim:fdm}
+lahko enačbo za funkcije oblike izračunamo direktno. Kaj pa lahko storimo, če je operator bolj
+zapleten, ko ne moremo direktno izračunati $\L b$? Odgovor na to nudi naslednja trditev.
+\begin{trditev}
+  \label{trd:shape-linear}
+  Preslikava iz vektorskega prostora linearnih parcialnih diferencialnih operatorjev, ki operatorju
+  $\L$ priredi funkcijo oblike $\phi_{\L,p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem.
+\end{trditev}
+\begin{proof}
+Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
+  \begin{align*}
+    \phi_{\alpha \L_1 + \beta \L_2,p} &=
+    ((\alpha \L_1 + \beta \L_2)\b b)(p)(WB)^+W = \\
+    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W = \\
+    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W =\\
+  &= \alpha (\L_1\b b)(p)(WB)^+W + \beta (\L_2\b b)(p)(WB)^+W = \\
+  &= \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}. \qedhere
+  \end{align*}
+\end{proof}
+Zgornja trditev pove, da je za popis vseh linearnih operatorjev do reda $r$ dovolj izračunati le
+funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $|\omega| \leq r$.  Vsak drug
+operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti v vsaki točki
+aproksimiramo z elementarnimi aproksimacijami, tako da jih primerno pomnožimo in seštejemo. V tem
+primeru ni potrebno da so $a_\omega$ zgoraj konstante, lahko so tudi funkcije $p$, in v vsaki točki
+uporabimo drugače uteženo linearno kombinacijo $D^\omega$.  Poseben primer
+trditve~\ref{trd:shape-linear}, ki ga bomo pogosto uporabljali se nanaša na Laplaceov operator,
+katerega funkcjio oblike bomo računali kot $\phi_{\lap,p} = \phi_{\dpar{^2}{x^2}, p} +
+\phi_{\dpar{^2}{y^2}, p}$.
+
 Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceov robni problem na
 intervalu naša metoda ujema z metodo končnih diferenc. Pokažimo to tudi na
 primeru dvodimenzionalne Poissonove enačbe.
@@ -2880,12 +2909,12 @@ izberemo radialne bazne funkcije s centri v sosedih.
 V tabeli~\ref{tab:rbf} so naštete najpogostejše uporabljene radialne bazne funkcije, povzete
 po~\cite[str.\ 5]{schaback1995error}.
 
-\newcommand{\tc}[1]{\vspace{-25ex}\parbox{5.2cm}{#1}}
+\newcommand{\tc}[1]{\vspace{-15ex}\parbox{6cm}{#1}}
 \begin{table}[!h]
   \centering
-  \begin{tabular}{|m{5.2cm}|l|} \hline
-    \tc{Multikvadratične (MQ) \\ \ang{multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
-    \tc{Inverzne multikvadratične (IMQ) \\ \ang{Inverse multiquadrics}
+  \begin{tabular}{|m{6.2cm}|l|} \hline
+    \tc{Multikvadratične (MQ) \\ \ang{Multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
+    \tc{\mbox{Inverzne multikvadratične (IMQ)} \\ \ang{Inverse multiquadrics}
     \\[3ex] $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
     \tc{Linearna razdalja (L) \\ \ang{Linear distance} \\[3ex] $\psi(r) = r$} &
     \includegraphics[width=0.278\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
@@ -2918,6 +2947,7 @@ stabilnosti in redu konvergence aproksimacije z radialnimi baznimi funkcijami
 si lahko bralec prebere v~\cite{buhmann2000radial}.
 
 \subsection{Višjedimenzionalni problemi}
+\label{sec:visje-dimenzije}
 Numerično zelo pogosto rešujemo probleme, kjer je neznana količina vektorsko polje in
 ne le skalarno polje, kot smo predpostavili v izpeljavi v
 razdelku~\ref{sec:splosna-izpeljava}.  Navier-Stokesove enačbe in Navierova
@@ -2941,7 +2971,7 @@ tri skalarna polja hkrati. Neznanke, ki ustrezajo vektorju $\vu$ predstavimo num
 $\b{u}$ dolžine $3N$, katerega prvih $N$ komponent predstavlja $u$, naslednjih $N$ predstavlja $v$,
 zadnjih $N$ pa $w$. Enako storimo z $\vf$ in robnimi pogoji. Enačbo $A\b u = \b f$ lahko sedaj
 zapišemo po blokih
-\[
+\begin{equation}
   \begin{bmatrix}
     U1 & V1 & W1 \\
     U2 & V2 & W2 \\
@@ -2954,38 +2984,17 @@ zapišemo po blokih
   \begin{bmatrix}
     f_1 \\ f_2 \\ f_3
   \end{bmatrix}.
-\]
+  \label{eq:higher-dim-system}
+\end{equation}
 Vsako izmed treh komponent Navierove enačbe bomo napisali v eno izmed (bločnih) vrstic. Funkcijo
 oblike za člen $\dpar{^2v}{xy}$ bi napisali v blok $V1$, saj nastopa v prvi enačbi in se nanaša na
 polje $v$, podobno bi aproksimacijo za $\dpar{^2w}{z^2}$ iz tretje enačbe zapisali v blok $W3$.
 Če bi katere elemente napisali na mesta, kjer so že kakšni neničelni elementi, jih med seboj
-seštejemo.
-
-Pri zgornjem postopku smo operatorja $\lap$ in $\grad \div$ razbili na vsoto več elementarnih
-operatorjev in kar sešteli njihove aproksimacije, da smo dobili aproksimacijo celotnega operatorja.
-Dovoljenje za to nam da naslednja trditev.
-
-\begin{trditev}
-  Preslikava iz vektorskega prostora linearnih parcialnih diferencialnih operatorjev, ki operatorju
-  $\L$ priredi funkcijo oblike $\phi_{\L,p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem.
-\end{trditev}
-\begin{proof}
-Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
-  \begin{align*}
-    \phi_{\alpha \L_1 + \beta \L_2,p} &=
-    ((\alpha \L_1 + \beta \L_2)\b b)(p)(WB)^+W = \\
-    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W = \\
-    &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W =\\
-  &= \alpha (\L_1\b b)(p)(WB)^+W + \beta (\L_2\b b)(p)(WB)^+W = \\
-  &= \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}. \qedhere
-  \end{align*}
-\end{proof}
-Zgornja trditev pove, da je za popis vseh linearnih operatorjev do reda $r$ dovolj
-izračunati le funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $|\omega| \leq r$.
-Vsak drug operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti
-v vsaki točki aproksimiramo z elementarnimi aproksimacijami.
+seštejemo. Primer take matrike pri reševanju dvodimenzionalnega sistema je prikazan kasneje,
+na sliki~\ref{fig:hertz-matrix} na strani~\pageref{fig:hertz-matrix}.
 
 \subsection{Goščenje točk v domeni}
+\label{sec:goscenje}
 Pri reševanju problemov z divje spreminjajočimi rešitvami, singularnostmi ali zelo majhnimi
 lokalnimi fenomeni si pogosto pomagamo s finejšo diskretizacijo v okolici dela rešitve, ki nas
 najbolj zanima. Pri metodah, ki temeljijo na triangulaciji domene, lahko trikotnike v območju
@@ -3019,7 +3028,7 @@ pozitiven faktor, ponavadi manjši od $\nicefrac{1}{2}$.
 Zgornji postopek je lokalne narave in njegovo izvajanje je le logaritemsko odvisno od števila
 točk v domeni (zaradi iskanja sosedov). Če želimo na nekem območju še gostejšo diskretizacijo,
 ga preprosto ponovimo večkrat zapored. Primer večkrat zgoščene domene je prikazan na
-sliki~\ref{fig:hertz-refined-domain}.
+sliki~\ref{fig:hertz-refined-domain-together}.
 
 \section{Implementacija}
 \label{sec:implementacija}
@@ -3399,6 +3408,29 @@ Monomi konvergirajo zelo regularno z redom $1$, Gaussove funkcije pa imajo slab�
 konvergenčne lastnosti. Vidimo, da konvergirajo tako vrednosti pomikov kot tudi vrednosti napetosti,
 pri čemer imamo pri napetostih malo večjo napako in malenkost slabši red, saj jih ocenjujemo iz pomikov.
 
+Za demonstracijo splošnosti metode dodajmo v nosilec še nekaj lukenj. Nosilec fiksno vpnimo na
+desnem koncu in vlečimo navzdol na levem z enakomerno porazdeljeno silo $P$ enake velikosti kot
+prej. V domeno smo razporedili $N = 209903$ diskretizacijskih točk, po ustvarjanju domene pa
+smo jo še dodatno izboljšali z algoritmom~\ref{alg:relax} s 50 iteracijami na šestih sosedih z $F_0
+= 10^{-3}$ in $\alpha = 3$. Upogib nosilca, obarvan z vrednostjo von Misesove napetosti je
+prikazan na sliki~\ref{fig:cantilever-beam-with-holes}.
+Von Misesova napetost se za primer ravninske napetosti izračuna kot
+\[
+  \sigma_v = \sqrt{\sigma_{xx}^2-\sigma_{xx}\sigma_{yy}+\sigma_{yy}^2+3\sigma_{xy}^2},
+\]
+in se uporablja v von Misesovem kriteriju plastičnosti. Ta pravi, da material ni več
+elastičen, ko $\sigma_v$ preseže neko materialno konstanto $\sigma_0$. Višje vrednosti $\ts_v$
+torej nakazujejo, da je material bližje limitu svoje elastičnosti in visoke vrednosti $\ts_v$
+označujejo najverjetnejša mesta za poškodbe.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/cantilever_beam_with_holes.png}
+  \caption{Numerična rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
+  povečani za faktor $10^5$.}
+  \label{fig:cantilever-beam-with-holes}
+\end{figure}
+
 \subsection{Hertzev kontaktni problem}
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
 elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz. Ko dve ukrivljeni
@@ -3431,6 +3463,23 @@ Hertzeva teorija za dvodimenzionalni pritisk valja na elastično polravnino se i
 dvema vzporednima valjema dolžine $L$ z radijema $R_1$ in $R_1$, Youngovima moduloma $E_1$ in $E_2$
 in Poissonovima razmerjema $\nu_1$ in $\nu_2$. Situacija je prikazana na
 sliki~\ref{fig:hetzian-two-cylinders}.
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[t]{0.40\textwidth}
+    \includegraphics[width=0.7\textwidth]{images/hertzian_two_cylinders.pdf}
+    \caption{Stik dveh vzporednih valjev.}
+    \label{fig:hetzian-two-cylinders}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.50\textwidth}
+    \includegraphics[width=\textwidth]{images/hertzian_analytical_setup.pdf}
+    \caption{Robni pogoji za numerično rešitev.}
+    \label{fig:hertz-analytical-setup}
+  \end{subfigure}
+  \caption{Obravnavan Hertzev kontaktni problem.}
+  \label{fig:hertz-skica}
+\end{figure}
+
 Napovedano območje stika med valjema je širine $2b$, kjer je \[
   b = 2\sqrt{\frac{F R}{\pi E^\ast}},
 \]
@@ -3445,23 +3494,6 @@ pri čemer je $F$ sila na enoto dolžine, $R$ kombiniran krivinski radij dan z $
 \]
 Pri enem valju pošljemo krivinski radij proti
 neskončno in problem prevedemo na ravninskega preko predpostavke o ravninski napetosti.
-
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}[t]{0.40\textwidth}
-    \includegraphics[width=0.7\textwidth]{images/hertzian_two_cylinders.pdf}
-    \caption{Stik dveh vzporednih valjev.}
-    \label{fig:hetzian-two-cylinders}
-  \end{subfigure}
-  \begin{subfigure}[t]{0.50\textwidth}
-    \includegraphics[width=\textwidth]{images/hertzian_analytical_setup.pdf}
-    \caption{Robni pogoji za numerično rešitev Hertzevega kontaktnega problema med valjem in
-    polravnino.}
-    \label{fig:hertz-analytical-setup}
-  \end{subfigure}
-  \caption{Obravnavan Hertzev kontaktni problem.}
-  \label{fig:hertz-skica}
-\end{figure}
 
 Numerično želimo izračunati pomike in napetosti v materialu, zato rešimo stacionarno Navierovo
 enačbo~\eqref{eq:navier-stac}. Rešujemo problem
@@ -3488,35 +3520,15 @@ kjer je $m=\sqrt{m^2}$ in $n=\sgn(x)\sqrt{n^2}$.
   \sigma_{xy} &= \sigma_{yx} = \frac{p_0}{b}n\left(\frac{m^2 - y^2}{m^2 + n^2}\right).
 \end{align*}
 
-S pomočjo zgornje rešitve bomo analizirali napako numerične rešitve. Poleg tega bomo uporabljali
-tudi von Misesov stress
-\[
-  \sigma_v = \sqrt{\sigma_{xx}^2-\sigma_{xx}\sigma_{yy}+\sigma_{yy}^2+3\sigma_{xy}^2},
-\]
-ki se uporablja v von Misesovem kriteriju plastičnosti. Ta namreč pravi, da material ni več
-elastičen, ko $\sigma_v$ preseže neko materialno konstanto $\sigma_0$. Analitična rešitev v okolici
-kontakta je prikazana na sliki~\ref{fig:hertz-analytical}.
+S pomočjo zgornje rešitve bomo analizirali napako numerične rešitve.
+Analitične vrednosti napetosti v okolici kontakta so prikazana na sliki~\ref{fig:hertz-analytical}.
 
-\begin{figure}[h]
+\begin{figure}[!h]
   \centering
   \includegraphics[width=\textwidth]{images/hertzian_analytical.png}
   \caption{Napetosti pod območjem kontakta med valjem in polravnino.}
   \label{fig:hertz-analytical}
 \end{figure}
-
-Za numerično reševanje neskončno domeno omejimo na $[-H, H] \times [-H, 0]$ za dovolj velik $H$
-in na robu postavimo premik na 0, kot prikazano na sliki~\ref{fig:hertz-analytical-setup}. Na
-zgornjem robu domene kot prej zahtevamo predpisano napetost.  Za parametre problema smo vzeli $F =
-\unit[543]{N/m}$, $E_1 = E_2 = \unit[72.1]{GPa}$, $\nu_1 = \nu_2 = 0.33$, $R_1 = R = \unit[1]{m}$.
-Od tod dobimo širino kontakta $b = \unit[0.13]{mm}$ in maksimalni tlak $p_0 = \unit[2.6]{MPa}$.
-Za $H$ izberimo \unit[10]{mm}, torej približno 75-krat večjo domeno, kot je pojav, ki ga opazujemo.
-
-Numerično smo problem rešili na dva načina, z uporabo 9 monomov in 9 Gaussovih funkcij z $\sigma_b =
-350\,r_\chi$. Obakrat smo uporabili Gaussovo utež z $\sigma = r_\chi$. Za reševanje linearnega
-sistema enačb smo uporabili iterativni BiCGSTAB algoritem z ILUT predpogojevanjem, kot opisano v
-razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$. BiCGSTAB
-algoritem smo iterirali največ 300-krat ali dokler ni bila ocena napake pod $10^{-13}$. Algoritem je
-v vseh primerih konvergiral.
 
 Za normo napake si zoper izberemo diskretno $L_\infty$ normo, le da tokrat
 primerjamo napetosti $\sigma_{xx}, \sigma_{yy}$ in $\sigma_{xy}$. Pošteno je primerjati
@@ -3528,41 +3540,124 @@ tako vzamemo
                                    |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
                                    |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\} / p_0.
 \]
+Na sliki~\ref{fig:hertz-matrix} je prikazana matrika končnega sistema enačb za zelo grobo
+diskretizacijo. Vidimo, da ima bločno stukturo, kot opisano v enačbi~\ref{eq:higher-dim-system} v
+razdelku~\ref{sec:visje-dimenzije}, le za primer dveh dimenzij.
 
-\begin{figure}[h]
+\begin{figure}[!h]
   \centering
   \includegraphics[width=0.6\textwidth]{images/hertzian_matrix_example.pdf}
   \caption{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri reševanju
-  problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno diskretizacijo s $11 \times 6$
+  problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno diskretizacijo z $11 \times 6$
 točkami.}
   \label{fig:hertz-matrix}
 \end{figure}
 
-Na sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
+Poskusimo problem rešiti na enak način kot pri problemu vpetega nosilca.
+Za numerično reševanje neskončno domeno omejimo na $[-H, H] \times [-H, 0]$ za dovolj velik $H$
+in na robu postavimo premik na 0, kot prikazano na sliki~\ref{fig:hertz-analytical-setup}. Na
+zgornjem robu domene kot prej zahtevamo predpisano napetost.  Za parametre problema smo vzeli $F =
+\unit[543]{N/m}$, $E_1 = E_2 = \unit[72.1]{GPa}$, $\nu_1 = \nu_2 = 0.33$, $R_1 = R = \unit[1]{m}$.
+Od tod dobimo širino kontakta $b = \unit[0.13]{mm}$ in maksimalni tlak $p_0 = \unit[2.6]{MPa}$.
+Za $H$ izberimo \unit[10]{mm}, torej približno 75-krat večjo domeno, kot je pojav, ki ga opazujemo.
 
-\begin{figure}[h]
+Numerično smo problem rešili na dva načina, z uporabo 9 monomov in 9 Gaussovih funkcij z $\sigma_b =
+350\,r_\chi$. Obakrat smo uporabili Gaussovo utež z $\sigma = r_\chi$. Za reševanje linearnega
+sistema enačb smo uporabili iterativni BiCGSTAB algoritem z ILUT predpogojevanjem. Uporabili smo
+parametra $p=20$ in $\tau = 10^{-5}$. BiCGSTAB algoritem smo iterirali največ 300-krat ali dokler ni
+bila ocena napake pod $10^{-13}$. Algoritem je v vseh primerih konvergiral. Na
+sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
+
+\begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/hertzian_convergence.pdf}
   \caption{Konvergenca metode pri reševanju problema~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-convergence}
 \end{figure}
 
-Na sliki~\ref{fig:hertz-time} je prikazana razdelitev časa porabljenega za reševanje problema. Časi
-za monome in Gaussove funkcije so po pričakovanju zelo primerljivi.
+Vidimo, da je konvergenca zelo neregularna, nizkega reda in da imamo relativno visoko napako.
+Visoka napaka je posledica relativno redke diskretizacije, saj tudi pri $N = 10^6$ točkah v domeni
+to pomeni, da imamo le 10 točk na dolžino $b$. Neregularnost izhaja iz neregularnosti rognih
+pogojev, funkcija $p$ namreč ni niti Lipschitzeva in je njen vogal pri $\pm b$ težko dobro
+aproksimirati. Celotno ombočje $[-2b, 2b] \times [-2b, 0]$ v bližnji okolici kontakta torej popisuje
+le slabih 800 točk. Iz grafa konvergence pri problemu vpetega nosilca na
+sliki~\ref{fig:cantilever-beam-convergence} odčitamo, da bi pri takem številu točk imeli napako
+okoli $0.04$, kar je v enakem velikostnem razredu. Večjo napako v našem primeru gre pripisati
+aproksimaciji robnih pogojev in njihovi neregularnosti. Za zmanjšanje napake imamo dve strategiji,
+glede na to od kje izvira glavni del napake: ali povečamo domeno, ali pa izboljšamo diskretizacijo.
+Oglejmo si najprej, kaj lahko pridobimo s povečjanjem domene in kako vemo, kdaj smo izbrali dovolj
+velik $H$. Na sliki~\ref{fig:hertz-domain-too-small} so prikazane napake v odvisnosti od velikosti
+domene pri različnih gostotah diskretizacij.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_domain_too_small2.pdf}
+  \caption{Napaka pri različnih gostotah diskretizacij v odvisnosti od velikosti domene.}
+  \label{fig:hertz-domain-too-small}
+\end{figure}
+
+Vidimo, da na začetku napaka, pozročena z netočnimi robnimi pogoji, pada in ko pade pod vrednost
+napake, dobljene zaradi diskretizacije, večanje $H$ ne pomaga več. Pri bojl natančnih
+distretizacijah moramo vzeti tudi večji $H$, saj je napaka diskretizacije toliko nižja.
+Če torej ugotovimo, da se konvergenca ustavi ali ne nadaljuje več z enakom redom kot prej,
+smo najverjetneje zadeli ob napako zaradi končnih robnih pogojev.
+
+Pri veliki domeni je nemogoče enakomerno gosto večati diskretizacijo. Edina smiselna rešitev je
+zgostistev mreže le lokalno v okolici kontakta, kjer nas rešitev zanima bolj natančno.
+Izberimo $H = \unit[1]{m} \approx 75\,000\, b$ in zgostimo mrežo kot opisano v
+razdelku~\ref{sec:goscenje}. Izbrali smo $\ell = 8$ in $f = 0.4$.
+Najprej jo primarno zgostimo v pravokotnikih oblike \[
+  [-hb, hb] \times [0, hb], \text{ za } h \in \{1000, 500, 200, 100, 50, 20, 10, 5, 4, 3, 2\},
+\] nato še sekundarno zgostimo domeno okoli točk $\pm b$ na površini v pravokotnikih oblike \[
+  [c-hb, c+hb] \times [-hb, 0], \text{ za } c = \pm b \text{ in } h \in \{0.4, 0.3, 0.2, 0.1, 0.05, 0.0025\}.
+\]
+Na sliki~\ref{fig:hertz-refined-domain} je prikazan kos tako zgoščene domene, na
+sliki~\ref{fig:hertz-refined-domain-density} pa gostota diskretizacija v domeni, podana kot razmerje
+med razdaljo do najbljižjega soseda in največjo možno razdaljo do najbljižjega soseda.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\iw]{images/hertzian_time.pdf}
-  \caption{Časi posameznih kosov pri pri reševanju problema~\eqref{eq:hertzian-problem}.}
-  \label{fig:hertz-time}
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/hertzian_refined_domain.png}
+    \caption{Sedemnajstkrat zgoščena diskretizacija okoli področja zanimanja.}
+    \label{fig:hertz-refined-domain}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/hertzian_refined_domain_density.png}
+    \caption{Gostota diskretizacije zgoščene domene.}
+    \label{fig:hertz-refined-domain-density}
+  \end{subfigure}
+  \caption{Primer sedemnajstkrat zgoščene domene s pomočjo katere lahko natančneje rešimo
+  problem~\eqref{eq:hertzian-problem}.}
+  \label{fig:hertz-refined-domain-together}
 \end{figure}
 
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[width=\iw]{images/hertzian_refined_convergence.pdf}
-%   \caption{Konvergenca metode pri zgoščeni mreži.}
-%   \label{fig:hertz-refined-convergence}
-% \end{figure}
+Rešimo problem na zgoščeni domeni z uporabo Gausovih funkcij z parametrom oblike $\sigma_b = 350\,
+r_c$, Gaussovo utežjo s $\sigma_w = r_c$ in $n = m = 9$. Sitem enačb smo rešili z iterativnim
+BiCGSTAB algoritmom z ILUT predpogojevanjem. Uporabili smo parametra $p=100$ in $\tau = 10^{-6}$.
+BiCGSTAB algoritem smo iterirali največ 1000-krat ali dokler ni bila ocena napake pod $10^{-15}$.
+Algoritem je v vseh primerih konvergiral. Na sliki~\ref{fig:hertz-refined-convergence} je prikazana
+konvergenca numerične metode pri razližnih nivojih sekundarnega zgoščevanja.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_refine_levels_convergence.pdf}
+  \caption{Napaka metode pri različnih nivojih sekundarnega zgoščevanja.}
+  \label{fig:hertz-refined-convergence}
+\end{figure}
+
+Vidimo, da zgoščevanje zelo pomaga. Še samo pri primarnem zgoščevanju in $N = 10^4$ je napaka manjša
+kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo zgoščevanja še izboljša
+aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
+sliki~\ref{fig:hertz-solution}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
+  \caption{Numerična rešitev problema~\ref{eq:hertzian-problem}. Zaradi boljše vidnosti so
+  pomiki povečani za faktor $10^5$.}
+  \label{fig:hertz-solution}
+\end{figure}
 
 % \begin{figure}[h]
 %   \centering
@@ -3571,17 +3666,11 @@ za monome in Gaussove funkcije so po pričakovanju zelo primerljivi.
 %   \label{fig:hertz-refined-time}
 % \end{figure}
 
-\begin{figure}[h]
-  \centering
-%   \includegraphics{images/her}
-  \caption{Primer ??-krat zgoščene domene okoli izhodišča s pomočjo katere lahko natančneje rešimo
-  problem~\eqref{eq:hertzian-problem}. Prikazana je von Misesova napetost in pomik. Zaradi boljše
-vidljivosti je bil pomik pomnožen s faktorjem ??.}
-  \label{fig:hertz-refined-domain}
-\end{figure}
-
 
 \section{FWO case}
+
+\section{Paralelizacija}
+
 
 \section{Zaključek}
 

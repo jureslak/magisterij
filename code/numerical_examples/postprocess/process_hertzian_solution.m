@@ -21,6 +21,10 @@ sxx = stress(1, :);
 syy = stress(2, :);
 sxy = stress(3, :);
 
+displ = h5read(datafile, [name '/disp']);
+u = displ(1, :);
+v = displ(2, :);
+
 testidx = find(x.^2 + y.^2 < (1000*b)^2);% & y.^2 > (b/2)^2);
 
 errxx = max(max(abs(sxx(testidx) - asxx(testidx))));
@@ -37,6 +41,8 @@ yi = y(interesting);
 sxxi = sxx(interesting);
 syyi = syy(interesting);
 sxyi = sxy(interesting);
+ui = u(interesting);
+vi = v(interesting);
 
 top = find(y == max(y) & -lim < x & x < lim);
 [~, I] = sort(x(top));
@@ -50,5 +56,5 @@ sxyt = sxy(top);
 [asxxt, asyyt, asxyt] = hertzian_analytical(x(top), y(top), b, p0); 
 
 save([plotdatapath 'hertzian_solution.mat'], 'b', 'p0',...
-    'xi', 'yi', 'sxxi', 'sxyi', 'syyi',...
+    'xi', 'yi', 'sxxi', 'sxyi', 'syyi', 'ui', 'vi',...
     'xt', 'yt', 'sxxt', 'sxyt', 'syyt', 'asxxt');

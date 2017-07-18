@@ -29,6 +29,11 @@ target_link_libraries(poisson_square_implicit_sigma_scan pde_utils)
 add_executable(poisson_square_explicit poisson_square_explicit.cpp)
 target_link_libraries(poisson_square_explicit pde_utils)
 
+add_executable(poisson_square_parallel poisson_square_parallel.cpp)
+target_compile_options(poisson_square_parallel PUBLIC "-fopenmp")
+#target_compile_definitions(poisson_square_parallel PUBLIC EIGEN_USE_MKL_ALL)
+target_link_libraries(poisson_square_parallel pde_utils "-fopenmp")
+
 add_executable(poisson_weird poisson_weird.cpp)
 target_link_libraries(poisson_weird pde_utils)
 
@@ -52,3 +57,6 @@ target_link_libraries(cantilever_beam pde_utils)
 
 add_executable(realistic_beam realistic_beam.cpp overseer_cantilever.hpp)
 target_link_libraries(realistic_beam pde_utils)
+
+add_executable(cantilever_beam_with_holes cantilever_beam_with_holes.cpp overseer_cantilever.hpp)
+target_link_libraries(cantilever_beam_with_holes pde_utils)

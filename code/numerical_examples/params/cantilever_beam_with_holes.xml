@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<params>
+    <mls m="9" n="9" sigmaW="1" sigmaB="500" />
+    <num ny="643" precision="1e-16" />
+    <phy rho="7874" v="0.33" E="72.1e9" />
+    <case P="1000" D="5" L="30" />
+    <sys num_threads="1"/>
+</params>
