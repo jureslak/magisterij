@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<params>
+    <mls m="9" n="9" sigmaW="1" sigmaB="350" />
+    <num ny="100" precision="1e-10" />
+    <phy rho="7874" v="0.33" E="72.1e9" COF="2" sigmaAxial="1e8" Q="155.165"/>
+    <case force="543" width="0.04" height="0.004" radius="0.05"/>
+    <sys num_threads="1"/>
+    <solver fillfactor="100" droptol="1e-7" tolerance="1e-13" maxiter="2000"/>
+</params>

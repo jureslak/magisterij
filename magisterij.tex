@@ -63,7 +63,7 @@
 \newcommand{\imeavtorja}{Jure Slak} % ime avtorja
 \newcommand{\imementorja}{doc.~dr.~George Mejak} % akademski naziv in ime mentorja
 \newcommand{\imesomentorja}{dr.~Gregor Kosec} % akademski naziv in ime mentorja
-\newcommand{\naslovdela}{TBD}
+\newcommand{\naslovdela}{Numerično reševanje elastostatičnih problemov z brezmrežnimi metodami}
 \newcommand{\letnica}{2017} %letnica diplome
 
 % lists with less vertical space
@@ -139,6 +139,7 @@
 
 % tensors
 \newcommand{\ts}{\sigma}
+\newcommand{\sax}{\ensuremath{\sigma_{\text{ax}}}}
 
 % operators
 \DeclareMathOperator{\diag}{diag}
@@ -198,8 +199,9 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 
 \begin{center}
   \large
-  \imeavtorja\\[2mm]
-  \textbf{\naslovdela}\\[10mm]
+  \imeavtorja\\[10mm]
+  \huge \textbf{\naslovdela}\\[10mm]
+  \large
   Magistrsko delo \\[1cm]
   Mentor: \imementorja \\[2mm]
   Somentor: \imesomentorja
@@ -243,10 +245,12 @@ TBD
 \end{center}
 TBD
 
+\url{http://www.ams.org/msc/msc2010.html?t=65Mxx&btn=Current}
 \vfill\noindent
-{\bf Math. Subj. Class. (2010):}  \\[1mm]
-{\bf Ključne besede:} ?? \\[1mm]
-{\bf Keywords:} ??
+{\bf Math. Subj. Class. (2010):} 74B05, 65N99, 65Y20 \\[1mm]
+{\bf Ključne besede:} linearna elastostatika, brezmrežne metode \\[1mm]
+{\bf Keywords:} linear elastostatics, meshless methods
+
 
 \cleardoublepage
 
@@ -255,7 +259,38 @@ TBD
 
 \section{Uvod}
 
-Motivacija, pregled naloge
+Teorija linearne elastičnosti opisuje trdnine pod obremenitvijo v mirovanju. Z uporabo linearnih
+parcialnih diferencialnih enačb opisuje deformacije in napetosti v materialih in se zaradi tega
+močno uporablja v strojništvu in gradbeništvu-QUOTES. Enačbe, ki podajajo količine, ki nas zanimajo,
+so zelo redko rešljive na roke ali analitično in ne preostane nam drugega, kot da se reševanja lotimo z
+računalnikom. Numerično se probleme linearne elastičnosti ponavadi rešuje v šibki obliki z metodo
+končnih elementov-QUOTE. Toda že v preteklosti so probleme reševali v močni obliki z metodo končnih
+diferenc-QUOTE in metodo končnih volumnov-QUOTE. Poleg tega so se v bolj bližji preteklosti za
+reševanje elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v močni in šibki
+obliki-QUOTE. Prednost brezmrežnih metod je, da ne potrebujejo polne diskretizacije domene (npr.\ z
+večkotniki) kot jo metoda končnih elementov, temveč le točke v domeni in poznavanje njihove lokalne
+medsebojne lege, kar omogoča večjo splošnost, lažjo posplošitev na višje dimenzije-QUOTE in
+elegantnejšo implementacijo. Poleg tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot
+npr.\ pri problemih, kjer je treba premikati rob domene ali točke v notranjosti, kot na primer
+simulacije širjenja razpok-QUOTE. Eno izmed brezmrežnih metod s sodelavci razvijamo tudi v
+Laboratoriju za vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan'' in sodelujemo v
+mednarodnem projektu skupaj z Univerzo v Gentu in Univerzo v Luksemburgu na področju obrabe
+materialov.
+
+Tekom naloge si bomo v razdelku~\ref{sec:mehanika} ogledali natančno matematično teorijo linearne
+elastodinamike, ki bo izpeljana iz splošnih aksiomov gibanja. Jasno bo označeno na katerih mestih smo
+naredili poenostavitve in pod kakšnimi predpostavkami. S tem bo nakazano, v katero smer se lahko
+razvijajo posplošitve teorije. Poseben poudarek bo dan Navierovi enačbi ter enoličnosti in obstoju
+njenih rešitev, opisanih v razdelku~\ref{sec:obstoj-enol}, in poenostavitvah, ki jo naredijo
+primernejšo za numerično reševanje.  Brezmrežno metodo, ki bo kasneje v uporabi, bomo v
+razdelku~\ref{sec:numericna-metoda} izpeljali iz znane metode končnih diferenc. Metoda bo izpeljana
+v sorazmerno visoki splošnosti in v posebnih primerih bomo prepoznali znane posplošitve drugih
+metod. Metodo bomo v razdelku~\ref{sec:osnovni-zgledi} testirali na klasičnih zgledih in analizirali
+njeno obnašanje glede na različne izbire parametrov. Rezultati numerične aproksimacije
+elastostatičnega kontaktnega problema iz eksperimenta za raziskovanja obrabe materialov, ki se
+ujemajo z nedavno objavljenimi-QUOTE, so opisani v razdelku~\ref{sec:fwo}. V
+razdelku~\ref{sec:implementacija} si ogledamo še implementacijske detajle metode in možnosti
+paralelizacije.
 
 \subsection{Notacija}
 Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.\ $a, \alpha
@@ -913,7 +948,7 @@ $\pi h^4$. Primer valja je prikazan na sliki~\ref{fig:valj}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.3\textwidth]{images/cauchy_disc.pdf}
-  \caption{Valj, uporabljen v dokazu Cauchyjjeve recipročne relacije.}
+  \caption{Valj, uporabljen v dokazu Cauchyjeve recipročne relacije.}
   \label{fig:valj}
 \end{figure}
 
@@ -923,19 +958,19 @@ valj aksiom o gibalni količini~\eqref{eq:gib}:
   \DDt{} \int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vt dS.
 \end{align*}
 Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob vclja
-razpišimo po ploskvch:
+razpišimo po ploskvah:
 \[
   \int_{B_t} \DDt{\vv} \rho dV = \int_{B_t} \vf dV + \int_{B^+} \vt_{\vn} dS +
   \int_{B^-}\vt_{-\vn} dS + \int_{P} \vt_{\vm(\vx)}dS.
 \]
-Vektor $\vm(\vx)$ pri tem označuje normalo na plašč vclja. Celotno enačbo pomnožimo s konstantnim
+Vektor $\vm(\vx)$ pri tem označuje normalo na plašč valja. Celotno enačbo pomnožimo s konstantnim
 vektorjem $\vc$ in na vsakem od integralov, ki so zdaj integrali skalarnih funkcij, uporabimo izrek
 o povprečni vrednosti
 \begin{align*}
   V(B) (\rho\DDt{\vv})(\vx_1)\cdot\vc = V(B) \vf(\vx_2)\cdot\vc &+ S(B^+)\vt_{\vn}(\vx_3)\cdot\vc\;+ \\&+
   S(B^-)\vt_{-\vn}(\vx_4)\cdot\vc + S(P)\vt_{\vm(\vx)}(\vx_5)\cdot\vc,
 \end{align*}
-kjer so $\vx_1, \vx_2, \vx_3, \vx_4, \vx_5$ neke vmesne točke v ali na površini vclja.
+kjer so $\vx_1, \vx_2, \vx_3, \vx_4, \vx_5$ neke vmesne točke v ali na površini valja.
 Če vstavimo notri izraze za volumen in površine ploskev dobimo
 \[
   \pi h^4 (\rho \DDt{\vv})(\vx_1)\cdot\vc = \left[\pi h^4 \vf(\vx_2) + \pi h^2 \vt_{\vn}(\vx_3) +
@@ -1441,6 +1476,7 @@ Mejaka] TODO.
     jeklo    & 210 & 0.30 \\
     aluminij & 69 & 0.33 \\
     steklo   & 50 -- 90 & 0.20 -- 0.27 \\ \hline
+    beton    & 14 -- 41 & 0.20 - 0.21 \\ \hline
   \end{tabular}
   \caption{Vrednosti elastičnih parametrov za pogoste materiale.}
   \label{tab:Enu}
@@ -1715,7 +1751,8 @@ kot da je $\vu = \vu^\ast$ enolična rešitev v smislu definicije~\ref{def:sibka
 \end{proof}
 
 Samo enoličnost lahko dokažemo tudi na bolj elementaren način, ki morda nudi boljši
-vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti.
+vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti, hkrati pa ne potrebuje
+tako strogih predpostav na $\vf$ in $\vt$.
 \begin{izrek}[Kirchoff]
   Rešitev problema~\ref{eq:navier-general-problem} je enolična v
   $E$, če obstaja.
@@ -2496,7 +2533,7 @@ psevdokodi kot algoritem~\ref{alg:metoda}.
     \State $\phi[i] \gets$ \textsc{funkcijaOblike}$(\L, x[i], x, s[i], n, m, b, w)$
     \Comment{Glej algoritem~\ref{alg:shape-function}.}
     \EndFor
-    \For{i}{Q+1}{N} \Comment{Izračunamo funkcije oblik na robu.}
+    \For{i}{Q+1}{N} \Comment{Izračunamo funkcije oblik na robu.} \label{line:shape-loop}
     \State $\phi[i] \gets$ \textsc{funkcijaOblike}$(\Rc, x[i], x, s[i], n, m, b,
     w)$
     \Comment{Glej algoritem~\ref{alg:shape-function}.}
@@ -2771,6 +2808,7 @@ kolikokrat več spomina dovolimo za hranjenje predogojenke,
 parameter $\tau$ pa, kako natančna bo LU faktorizacija.
 
 \subsubsection{Časovna zahtevnost}
+\label{sec:casovna-zahtevnost}
 V tem razdelku analiziramo časovno zahtevnost metode. Predpostavili bomo, da so
 vse evalvacije funkcij $f$, $g$, $w$ in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v $O(1)$.
 Prav tako bomo predpostavili, da je dimenzija problema majhna in konstantna in
@@ -3030,33 +3068,16 @@ točk v domeni (zaradi iskanja sosedov). Če želimo na nekem območju še goste
 ga preprosto ponovimo večkrat zapored. Primer večkrat zgoščene domene je prikazan na
 sliki~\ref{fig:hertz-refined-domain-together}.
 
-\section{Implementacija}
-\label{sec:implementacija}
-Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
-implementirana na oddelku E6\footnote{\url{http://e6.ijs.si/}} Instituta ``Jožef Stefan''\footnote{\url{http://ijs.si/}}
-v Laboratoriju za vzporedno in porazdeljeno
-računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}}
-[TODO kaj o avtorstvu?] Implementirana je bila v programskem jeziku
-\CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih konstruktov,
-kot so recimo predloge \ang{templates}, ki omogočajo elegantno implementacijo.
-Podoben koncept uporablja knjižnica Eigen\footnote{\url{http://eigen.tuxfamily.org/}},
-uporabljena za numerično linearno algebro. Celotna implementacija je prosto dostopna
-na repozitoriju programske skupine\footnote{\url{http://gitlab.com/e62Lab/e62numcodes}}
-z dokumentacijo, prav tako na voljo na
-spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
-
-[TODO moram dat svojo kodo skupaj s e6numcodes v prilogo?]
-
 \section{Osnovni numerični zgledi}
 \label{sec:osnovni-zgledi}
 V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih, da si zgradimo
 intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v
 razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Least Squares Method}.  Če
-ni drugače navedeno, so vse meritve narejene na računalniku z osemjedrnim procesorjem
-\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| in \unit[16]{GB} DDR3 pomnilnika. Vsi programi so
-bili prevedeni s prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na
-operacijskem sistemu Linux.  Pri paralelizaciji je bila uporabljena knjižnica
-OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom.
+ni drugače navedeno, so vse meritve narejene na računalniku z eno centralno procesno enoto
+\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako podpira dve niti
+izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so bili prevedeni s prevajalnikom
+\verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Manjaro
+Linux.
 
 \subsection{Enodimenzionalni robni problem}
 Oglejmo si najprej preprost primer enodimenzionalne Poissonove enačbe, ki smo ga uporabili že za
@@ -3425,13 +3446,14 @@ označujejo najverjetnejša mesta za poškodbe.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\iw]{images/cantilever_beam_with_holes.png}
+  \includegraphics[width=0.8\textwidth]{images/cantilever_beam_with_holes.png}
   \caption{Numerična rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
   povečani za faktor $10^5$.}
   \label{fig:cantilever-beam-with-holes}
 \end{figure}
 
 \subsection{Hertzev kontaktni problem}
+\label{sec:hertz}
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
 elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz. Ko dve ukrivljeni
 telesi z različnima radijema ukrivljenosti staknemo, se na začetku dotikata le v točki ali na
@@ -3500,7 +3522,7 @@ enačbo~\eqref{eq:navier-stac}. Rešujemo problem
 \begin{align}
   (\lambda + \mu) \nabla(\nabla\cdot \vu) + \mu \nabla^2 \vu &= 0 \quad \text{ na } \Omega =
   (-\infty, \infty) \times (-\infty, 0)   \label{eq:hertzian-problem} \\
-  \vt(x, 0) &= p(x)\vj, \nonumber \\
+  \vt(x, 0) &= -p(x)\vj, \nonumber \\
   \lim_{x, y\to\infty} \vu(x, y) &= 0. \nonumber
 \end{align}
 Analitične rešitve kontaktnih problemov se ponavadi izpelje iz Flamantove rešitve, ki reši problem
@@ -3646,7 +3668,7 @@ konvergenca numerične metode pri razližnih nivojih sekundarnega zgoščevanja.
   \label{fig:hertz-refined-convergence}
 \end{figure}
 
-Vidimo, da zgoščevanje zelo pomaga. Še samo pri primarnem zgoščevanju in $N = 10^4$ je napaka manjša
+Vidimo, da zgoščevanje zelo pomaga. Že samo pri primarnem zgoščevanju in $N = 10^4$ je napaka manjša
 kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo zgoščevanja še izboljša
 aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
 sliki~\ref{fig:hertz-solution}.
@@ -3659,20 +3681,296 @@ sliki~\ref{fig:hertz-solution}.
   \label{fig:hertz-solution}
 \end{figure}
 
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[width=\iw]{images/hertzian_refined_time.pdf}
-%   \caption{Časi posameznih kosov pri zgoščeni mreži.}
-%   \label{fig:hertz-refined-time}
-% \end{figure}
+\section{Zgled iz mehanike obrabe materialov}
+\label{sec:fwo}
+Oglejmo si še primer elastostatičnega problema, ki prihaja iz mehanike obrabe materialov.
+Obraba materiala zaradi drgnjenja je pojav, ki se pojavi na kontaktni površini med dvema
+materialoma, ki se medsebojno gibljeta. Tako gibanje je ponavadi oscilatorno z majhno amplitudo.
+Ker se pod takimi pogoji se lahko zmanjša življenjska doba materiala tudi do
+\unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo, je
+pomebno dobro razumevanje tega pojava, kot tudi vpliva različnih parametrov uporabljenega materiala
+na posledice. Eden izmed pogostih eksperimentov za razumevanje tega pojava se izvede tako, da se
+ploščat kos materiala, ki ga imenujmo \emph{vzorec} vpne na enem koncu in drug konec pa periodično
+raztegujemo z napetostjo z amplitudo $\sax$. Z drugih dveh strani na vzorec
+pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta oscilatorno tangentno na
+površino materiala in nanj delujeta s tangentno silo $Q$.  Shema eksperimenta je prikazana na
+sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\iw]{images/placeholder.pdf}
+  \caption{Shema eksperimenta za raziskovanje obrabe materialov.}
+  \label{fig:fwo-shema}
+\end{figure}
 
-\section{FWO case}
+Naprednejše simulacije procesa želijo napovedati tudi rast razpoke v materialu, na
+katere smer, še posebno v režimu, ko je razpoka majhna, močno vpliva tangentna sila $Q$.
+Za kvalitetno numerično simulacijo razpoke torej potrebujemo dobro poznavanje napetosti na površini
+kontakta. Z numerično simulacijo simulacijo eksperimenta so se nedavno ukvarjali Pereira in
+drugi~\cite{pereira2016convergence} v sklopu mednarodnega sodelovanja med Univerzo v Luxemburgu,
+Univerzo v Gentu in Inštitutom ``Jožef Stefan''. Univerza v Luxemburgu bo postavila in izvedla
+zgoraj opisani eksperiment, Univerza v Gentu bo izvedla numerično simulacijo eksperimenta širjenja
+razpok z uporabo metode končnih elementov, Inštitut ``Jožef Stefan'' pa bo simuliral eksperiment z
+uporabo brezmrežnih metod in poskrbel za paralelizacijo. [TODO Gregor revise?]
 
-\section{Paralelizacija}
+Prvi korak pri simulaciji eksperimenta je kvalitetna aproksimacija napetosti na površini kontakta,
+ki se mora ujemati z rezultati v~\cite{pereira2016convergence}. Avtorji so uporabili programski
+paket ABAQUS\textregistered~\cite{hibbitt2001abaqus} za analizo problema z
+uporabo metode končnih elementov, pri čemer so simulirali eksperiment v statičnem stanju maksimalne
+oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$. Gravitacijo v tem
+primeru ignoriramo, saj so napetosti zaradi nje mnogo manjše kot napetosti v eksperimentu.
+Posledično ima eksperiment vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
+in polovično debelino, ter ga nato prezrcalimo. Poleg tega se problem ne spreminja vzdolž tretje
+dimenzije in ni tanek, torej ustreza predpostavki o ravninski deformaciji in ga lahko prevedemo na dve
+dimenziji. Tako so naredili tudi avtorji v~\cite{pereira2016convergence} in diskretizirali glavo in
+polovico vzorca ter aproksimirali kontaktne površine in napetosti. Lotimo se enakega problema, a z
+drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta, na kratko opisano
+v~\ref{sec:hertz}, le da ima prisotno tudi tangentno silo, osno napetost in končne dimenzije.
+V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za modeliranje napetosti, s
+katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij glave z $R$, višino oz.\ debelino
+vzorca s $t$ in dolžino z $L$. Če najprej Hertzevemu problemu dodamo končno višino,
+se širina polovice kontaktnega območja izraža z
+\[
+  a = 2\sqrt{\frac{FR}{t \pi E^\ast}},
+\]
+normalni pritisk na kontaktno površino pa je dan z
+\[
+  p(x) = \begin{cases}
+    p_0 \sqrt{1-\frac{x^2}{a^2}}; & |x| < a \\
+    0; & \text{sicer}
+  \end{cases}, \qquad p_0 = \sqrt{\frac{FE^\ast}{t \pi R}}.
+\]
+Pri tem je $E^\ast$ definiran enako kot pri Hertzevem kontaktu v razdelku~\ref{sec:hertz}.
+Na tangentno silo bo imel vpliv tudi koeficient trenja med površinama, ki ga, nekoliko nesrečno,
+označimo z $\mu$, tako kot Lam\'ejev drugi parameter. Iz konteksta, vrednosti in dimenzij $\mu$ bo
+razvidno, katero izmed količin predstavlja. Za tangentno silo predpostavimo, da je manjša kot mejna
+sila trenja, dana s Coulombovim zakonom kot $\mu F$. V tem primeru se kontakt razdeli na dve
+območji, območje drsenja in območje lepljenja in tangentna napetost je dana z
+\[
+  \tilde q(x) = \begin{cases}
+-\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq |x| \leq a \\
+-\mu p_0 \left(\sqrt{1 - \frac{x^2}{a^2}} - \frac{c}{a}\sqrt{1 - \frac{x^2}{c^2}}\right);& |x|
+< c \\
+0; & \text{ sicer,}
+\end{cases}
+\]
+pri čemer je $c = a\sqrt{1 - \frac{Q}{\mu F}}$ in $\{x; |x| < c\}$ območje lepljenja.
+Zgornji izraz se da prilagoditi tudi tako, da je pravilen ob prisotnosti osne napetosti
+$\sax$ z uvedbo ekscentričnosti $e = \sgn(Q)\frac{a \sax}{4 \mu p_0}$.
+Z njeno pomočjo izrazimo $q$ z
+\[
+q(x) = \begin{cases}
+-\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq | x - e | \text{ in } |x| \leq a \\
+-\mu p_0 \left(\sqrt{1 - \frac{x^2}{a^2}} - \frac{c}{a}\sqrt{1 - \frac{(x-e)^2}{c^2}}\right); &
+|x-e| < c \\
+0; & \text{ sicer,}
+\end{cases}
+\]
+pri čemer mora veljati $\sax \leq 4\left( 1 - \sqrt{1-\frac{Q}{\mu F}} \right)$, da ekscentričnost
+ne povzroči, da bi območje lepljivosti segalo izven območja kontakta. Sedaj imamo vse pripravljeno
+za numerično reševanje. Rešujemo torej problem
+\begin{align}
+  (\lambda + \mu) \nabla(\nabla\cdot \vu) + \mu \nabla^2 \vu &= 0, && \text{ na } \Omega =
+  [-L/2, L/2]\times[-t/2, 0] \nonumber  \\
+  \vt(x, 0) &= q(x)\vi - p(x)\vj, && \text{(napetost na vrhu)} \label{eq:fwo-problem}\\
+    \vu(-L/2, y) &= 0, \nonumber  && \text{(vpet levo)}\\
+    \vt(L/2, y) &= 0, \nonumber  && \text{(prost desno)}\\
+    \vu(x, -t/2)\cdot \vj &= 0, \dpar{\vu(x, -t/2)\cdot \vi}{y} = 0, \nonumber  && \text{(simetrija
+    spodaj)}
+\end{align}
+grafično prikazan na sliki~\ref{fig:fwo-bc}.
 
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/placeholder.pdf}
+    \caption{Primer napetosti $p(x)$ in $q(x)$, kot fig. 3 v FWO članku.}
+    \label{fig:fwo-pq-example}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/placeholder.pdf}
+    \caption{Domena in robni pogoji. Označili smo $\vu = (u, v)$, $\vt = (t_x, t_y)$.}
+    \label{fig:fwo-bc}
+  \end{subfigure}
+  \caption{Domena in robni pogoji za numerično reševanje problema~\eqref{eq:fwo-problem}.}
+  \label{fig:fwo-setup}
+\end{figure}
+
+V eksperimentu, opisanem v~\cite{hojjati2014prediction}, je bil uporabljen aluminij 2420-T3, katerega
+materialni lastnosti sta  $E = \unit[72.1]{GPa}$ in $\nu = 0.33$. Vzorec je bil velikosti $t =
+\unit[4]{mm}$ in $L = \unit[40]{mm}$. Največji izmerjeni sili sta bili $\vec{F} = -\unit[543]{N}\vj$ in
+$\vec{Q} = -\unit[155]{N}\vi$, osna napetost pa je bila $\sax = \unit[100]{MPa}$. Numerična simulacija
+v~\cite{pereira2016convergence} je bila narejena za $R = \unit[10]{mm}$ in $R = \unit[50]{mm}\}$ in
+tri različne koeficiente trenja $\mu = 0.3$, $\mu = 0.85$ in $\mu = 2$, zato tudi mi izberimo te
+parametre. Na Hertzevem kontaktnem problemu~\eqref{eq:hertzian-problem} smo se naučili, kako dobro
+diskretizirati domeno. Tudi tukaj uporabimo enake parametre, le goščenje domene prilagodimo
+manjšim dimenzijam. Metoda je za vse izbire parametrov $R$ in $\mu$ s povečevanjem $N$ konvergirala
+proti limitni rešitvi. Na sliki~\ref{fig:fwo-ujemanje} je prikazano ujemanje naše numerične rešitve
+z rešitvijo izračunano v~\cite{pereira2016convergence} za $N = TODO$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
+  \caption{Ujemanje MSLM in FEM rešitve pri analizi kontakta.}
+  \label{fig:fwo-ujemanje}
+\end{figure}
+
+Vidimo, da se rešitvi dobro ujemata, a ne povsem, kar je tudi pričakovati, saj je FEM rešitev
+nastala s simulacijo kontakta, MLSM pa z analitičnimi robnimi pogoji. Ujemanje rešitev kljub temu
+nakazuje, da je metoda MLSM primerna tudi za reševanje problemov iz kontaktne mehanike.
+
+Posebno zanimanje pa ima vrednost $\ts_{xx}$ v špici na desni strani kontaktne površine,
+saj so raziskave pokazale, da se glavna razpoka, ki pripomore k zlomu materiala, zgodi v neposredni
+bližini $x = a$. Analitična aproksimacija za največjo vrednost $\ts_{xx}$ se izraža kot
+\[
+  \ts_{xx,\max} = 2 p_0 \sqrt{\frac{\mu Q}{F}} + \sax.
+\]
+V tabeli~\ref{tab:sxxmax} je prikazana izračunana vrednost $\ts_{xx, \max}$ za FEM in MLSM
+pri različnih $N$. Tabela vrednosti za FEM je vzeta iz~\cite[tabela 3]{pereira2016convergence}.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|} \hline
+    to & bo & tabela \\ \hline
+    re & zul & tatov \\ \hline
+  \end{tabular}
+  \caption{Tabela vrednosti $\ts_{xx,\max}$ za FEM, MLSM in analitično aproksimacijo.}
+  \label{tab:sxxmax}
+\end{table}
+Vidimo, da vrednosti konvergirajo k neki vrednosti, ki pa se razlikuje pri obeh metodah, vendar je v
+istem velikostnem razredu, kar je tudi pričakovati. Primer rešitve za ?? je prikazan na
+sliki~\ref{fig:fwo-solution}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/placeholder.pdf}
+  \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=??$ in $R = ??$. Pomiki so
+  povečani za faktor ??, rešitev pa je obarvana z vrednostjo von Misesove napetosti.}
+  \label{fig:fwo-solution}
+\end{figure}
+
+\section{Implementacija}
+\label{sec:implementacija}
+Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
+implementirana na oddelku E6\footnote{\url{http://e6.ijs.si/}} Instituta ``Jožef
+Stefan''\footnote{\url{http://ijs.si/}} v Laboratoriju za vzporedno in porazdeljeno
+računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} [TODO kaj o
+avtorstvu?] Implementirana je bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti
+in dovolj močnih jezikovnih konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo
+elegantno implementacijo.  Podoben koncept uporablja knjižnica
+Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro.
+Za iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{ann}.
+Celotna implementacija je prosto dostopna na repozitoriju programske
+skupine\footnote{\url{http://gitlab.com/e62Lab/e62numcodes}} z dokumentacijo, prav tako na voljo na
+spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
+
+Dejanska implementacija v grobem sledi postopku, opisanem v algoritmu~\ref{alg:metoda}. Na
+sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\iw]{images/placeholder.pdf}
+  \caption{Diagram implementacije in izvedbe algoritma~\ref{alg:metoda}.}
+  \label{fig:implementacija}
+\end{figure}
+
+\subsection{Vzporedno računanje}
+Oglejmo si še možnost pospešitve računanja s pomočjo paralelizacije.
+Vse meritve časa v tem razdelku so bile narejene na računalniku z dvema centralno procesnima enotama
+\texttt{Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz} s po 6 jedri, od katerih vsako jedro podpira dve
+niti izvajanja, in \unit[64]{GiB} pomnilnika.  Programi so bili prevedeni z Intelovim c++
+prevajalnikom \texttt{icpc}  s stikali \texttt{-std=c++11 -O3 -DNDEBUG}
+na operacijskem sistemu Ubuntu Linux 14.04. Za matematične operacije je bila uporabljena Intelova
+knjižnica MKL~\cite{mkl}. Pri paralelizaciji je bila uporabljena Intelova implementacija knjižnice
+OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom. Za reševanje sistemov
+linearnih enačb je bil uporabljena Intelova implementacija sistema Pardiso~\cite{pardiso}. Vse
+knjižnice in programi so verzije 2016.1.150 za Linux.
+
+Oglejmo si najprej, kateri deli postopka so časovno najpotratnejši. Iz časovne analize v
+razdelku~\ref{sec:casovna-zahtevnost} lahko sklepamo, da je to računanje funkcij oblike,
+ki traja $O(m^2n N)$ časa ali pa reševanje sistema. Da bi bolje razumeli, koliko časa stane kateri
+del, to izmerimo. Na sliki~\ref{fig:poisson-square-time-distribution} vidimo porazdelitev časa, ki ga posamezni
+kosi metode potrebujejo pri reševanju Poissonovega robnega problema~\eqref{eq:poisson-problem}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\iw]{images/poisson_square_time_distribution_1.pdf}
+  \caption{Čas izvajanja posameznih delov programa pri reševanju
+  problema~\eqref{eq:poisson-problem}.}
+  \label{fig:poisson-square-time-distribution}
+\end{figure}
+
+Vidimo, da sta najdražja dela res računanje funkcij oblike in reševanje sistema, zato se ju najbolj
+splača paralelizirati. Zanko, ki računa funkcije oblik na vrstici~\ref{line:shape-loop}
+algoritma~\ref{alg:metoda} lahko trivialno paraleliziramo, saj so operacije neodvisne med seboj,
+deljeni podatki pa se ne spreminjajo. Paralelizacija reševanja razpršenega sistema linearnih enačb
+ni tako enostavna in je področje mnogo raziskav z veliko razvitimi sistemi za reševanje, kot na
+primer Pardiso~\cite{pardiso}, PaStiX~\cite{henon2002pastix} in MUMPS~\cite{amestoy2000mumps}.
+Zaradi najlažje integracije z Eigen in dostopnosti v MKL knjižnici za osnovni test izberemo
+Pardiso~\cite{pardiso}.  Isti robni problem sedaj rešimo vzporedno s $k$ nitmi in s $t_k(N)$
+označimo čas izvajanja programa s $k$ nitmi na problemu z $N$ točkami v domeni.
+Opazovali bomo \emph{faktor pohitritve} \ang{speed-up}
+\[
+  f_k(N) = t_k(N) / t_1(N).
+\]
+Vrednost $f_3(10^6) = 2.5$ pove, da je na problem velikosti $10^6$ rešimo 2.5-krat hitreje s tremi
+nitmi izvajanja kot z eno samo. Graf faktorjev pohitritve je prikazan na
+sliki~\ref{fig:poisson-square-speedup}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\iw]{images/poisson_square_speedup.pdf}
+  \caption{Faktorji pohitritve $f_k(N)$ pri reševanju problema~\eqref{eq:poisson-problem}.}
+  \label{fig:poisson-square-speedup}
+\end{figure}
+Pri problemih z $N < 5\cdot 10^4$ se program že brez paralelizacije izvede v manj kot sekundi, tako
+da so meritve pohitritve bolj nezanesljive in sama pohitritev ni tako pomembna, zato glejmo graf za
+večje $N$. Vidimo, da se izvajanje pohitri, toda ne zelo, z asimptotičnim faktorjem pospešitve malo manj kot
+1.5 za dve jedri, okoli 1.8 za štiri jedra in končnim faktorjem malo pod 2.5 za 12 jeder in več.
+Zanimivo si je tudi ogledati novo razporeditev časov izvajanja posameznih kosov, prikazano za primer
+$k =12$ na sliki~\ref{fig:poisson-square-time-distribution-12}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\iw]{images/poisson_square_time_distribution_12.pdf}
+  \caption{Čas izvajanja posameznih delov programa pri reševanju
+  problema~\eqref{eq:poisson-problem} z 12 nitmi.}
+  \label{fig:poisson-square-time-distribution-12}
+\end{figure}
+
+Pričakovano se poveča delež, ki ga porabimo za grajenje domene, relativno pa se precej poveča delež
+časa, ki ga porabimo za razcep matrike, saj se ta paralelizira slabše kot grajenje funkcij oblike.
+Iz grafov na slikah~\ref{fig:poisson-square-time-distribution}
+in~\ref{fig:poisson-square-time-distribution-12} preberemo, da je faktor pohitritve samo za funkcije
+oblike približno $6.4$ za razcep matrike pa $1.7$.
+
+Kljub slabim faktorjem pohitritve pri paralelizaciji, ta še vedno vsaj dvakrat skrajša čas izvajanja,
+brez veliko truda ali sprememb v izvorni kodi, tako da ni razloga, da je ne bi uporabili.
 
 \section{Zaključek}
+
+Tekom magistrske naloge smo si ogledali klasično teorijo elastomehanike, ki je še vedno aktualna,
+saj nudi osnovo probleme z drugih področij, kot na primer kontaktne mehanike. Poleg tega smo si
+ogledali splošno formulacijo brezmrežne MLSM metode in pokazali da posplošuje druge znane metode kot
+so metoda končnih diferenc in metoda radialnih baznih funkcij. Analizirali smo uporabo različnih
+baznih funkcij in uteži, različnega števila sosedov. Pokazali smo, da se s primernimi algoritmi za
+določanje položajev diskretizacijskih točk lahko domeno posploši na poljubne domene, z uporabo
+izpeljanih algoritmov za goščenje diskretizacije pa se jo lahko uporabi na bolj zapletenih
+problemih. Metodo smo testirali na dveh klasičnih primerih iz elastostatike in se naučili, kako jo
+najbolje uporabljati. Za konec smo rešili še aktualen primer iz mehanike obrabe materialov in
+pokazali ujemanje metode z drugimi metodami ter njeno primernost za reševanje takih problemov.
+
+Nadaljnje delo se lahko giblje v veliko smeri. Metodo samo se lahko obogati z večjo podporo za
+različne domene ali celo poveže s kakšnim sistemom za računsko podprto geometrijsko oblikovanje.
+Pri goščenju mreže se lahko poglobimo v različne cenilke napake rešitve, tako da bi avtomatsko
+vedeli, kje gostiti mrežo. Pri računanju funkcij oblike lahko problem v posebnih, a pogostih primerih
+zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
+splošnost, saj ima uporabnik sam na voljo izbiro postopka za reševanje. Na področju implementacije se
+lahko usmerimo v večjo modularno in razširimo nabor možnih aproksimacij ali pa v paralelizacijo
+postopka.
+
+Na področju mehanike materialov metoda še bolj pokaže svoje prednosti, ko se spustimo v simulacijo
+razpok, saj je potrebno domeno premikati in gostiti okoli vrha razpoke, vendar je potrebno njeno
+obnašanje še raziskati.
 
 \cleardoublepage
 \addcontentsline{toc}{section}{Literatura}

@@ -5,6 +5,7 @@ info = h5info(datafile);
 name = info.Groups(1).Groups(1).Name;
 
 pos = h5read(datafile, [name '/pos']);
+types = h5read(datafile, [name '/types']);
 stress = h5read(datafile, [name '/stress']);
 N = h5readatt(datafile, name, 'N');
 
@@ -42,20 +43,28 @@ max(sqrt(u.^2+v.^2))
    
 [asxx, asyy, asxy, au, av] = cantilever_beam_analytical(x, y, P, L, D, E, nu);
 asv = von_mises(asxx, asyy, asxy);
-
+    
 % M = spconvert(h5read(datafile, [name '/matrix'])');
 % rhs = h5read(datafile, [name '/rhs']);
-
+% 
 % displ2 = M \ rhs;
-% max(max(displ2))
+% um = displ2(1:N);
+% vm = displ2(N+1:end);
+% max(sqrt(um.^2+vm.^2))
+
 
 %%
 close all
 
 sf1 = setfig('b1');
-f = 1e1;
-plot([0 L L 0 0], [-D/2 -D/2 D/2 D/2 -D/2], '--k')
-scatter(x+f*u, y+f*v, 5, sxx/1000, 'filled')
+f = 1e5;
+% plot([0 L L 0 0], [-D/2 -D/2 D/2 D/2 -D/2], '--k')
+% c = zeros(size(x));
+% c(types < 0) = 1;
+% c(types == 1) = -1;
+% scatter(x, y, 5, sxx, 'filled')
+scatter(x+f*u, y+f*v, 5, sv/1000, 'filled')
+colormap parula
 % scontour(x+f*u, y+f*v, sxx/1000, 100, 100, 50);
 c = colorbar;
 title(c, 'kPa', 'interpreter', 'latex');

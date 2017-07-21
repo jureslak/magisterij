@@ -49,11 +49,14 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
     }
 
 //    std::thread th([&]() { draw2D(domain); });
-    domain.relax(6, 10e-4, [](Vec2d) { return 1.0; }, 3, 50);
-//    for (int i = 0; i < rs.size(); ++i) {
-//        domain.refine(domain.types == (-i-2), 8, 0.4);
-//    }
+    domain.relax(6, 10e-4, [](Vec2d) { return 1.0; }, 3, 20);
+    for (int i = 0; i < rs.size(); ++i) {
+        vector<int> to_refine = domain.positions.filter([&](const Vec2d& p) { return (p-centers[i]).norm() < 1.3*rs[i]/O.D*7; });
+        domain.refine(to_refine, 8, 0.4);
+    }
 //    th.join();
+    domain.relax(6, 10e-4, [](Vec2d) { return 1.0; }, 3, 20);
+
 //    draw2D(domain);
 
     int N = domain.size();
@@ -68,17 +71,18 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
             right  = domain.positions.filter([](const Vec2d &p) { return std::abs(p[0] - O.domain_hi[0]) < tol && std::abs(p[1] - O.domain_hi[1]) > tol && std::abs(p[1] - O.domain_lo[1]) > tol; }),
             left   = domain.positions.filter([](const Vec2d &p) { return std::abs(p[0] - O.domain_lo[0]) < tol && std::abs(p[1] - O.domain_hi[1]) > tol && std::abs(p[1] - O.domain_lo[1]) > tol; }),
             all = domain.types != 0;
+    int all_nodes = boundary.size() + top.size() + bottom.size() + left.size() +  right.size();
 
     domain.findSupport(O.n);
 
     timer.addCheckPoint("domain");
-    NNGaussians<Vec2d> weight(O.sigmaW * domain.characteristicDistance());
-    if (name.substr(0, 3) != "mon")
-        basis.shape = basis.shape * domain.characteristicDistance();
+    NNGaussians<Vec2d> weight(O.sigmaW);
+//    if (name.substr(0, 3) != "mon")
+//        basis.shape = basis.shape * domain.characteristicDistance();
     EngineMLS<Vec2d, T, NNGaussians> mls(basis, weight);
 
     /// Initialize operators on all nodes
-    auto op = make_mlsm(domain, mls, all);
+    auto op = make_mlsm(domain, mls, all, false);
 
     timer.addCheckPoint("shapes");
 
@@ -92,7 +96,7 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
         op.lapvec(M, i,  O.mu);
         op.graddiv(M, i, O.lam + O.mu);  // graddiv + laplace in interior
         rhs(i) = 0;
-        rhs(i+N) =0; // O.rho*9.81;
+        rhs(i+N) = 0; // O.rho*9.81;
     }
 
     for (int i : bottom) {
@@ -133,7 +137,9 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
     }
 
     for (int j = 0; j < rs.size(); ++j) {
-        for (int i : domain.types == (-j-2)) {
+        Range<int> circle = domain.types == (-j-2);
+        all_nodes += circle.size();
+        for (int i : circle) {
             Vec2d normal = (domain.positions[i] - centers[j]);
             normal.normalize();
             traction(M, i, normal, op);
@@ -141,6 +147,7 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
             rhs(i+N) = 0;
         }
     }
+    assert(all_nodes == domain.size());
 
     // Sparse solve
     timer.addCheckPoint("construct");
@@ -148,8 +155,8 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
 //    cout << M << endl;
 //    SparseLU<matrix_t> solver;
     BiCGSTAB<matrix_t, IncompleteLUT<double>> solver;
-    solver.preconditioner().setDroptol(1e-6);
-    solver.preconditioner().setFillfactor(100);
+    solver.preconditioner().setDroptol(1e-5);
+    solver.preconditioner().setFillfactor(50);
     M.makeCompressed();
     solver.compute(M);
     timer.addCheckPoint("lut");
@@ -192,6 +199,7 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
     O.file.setDoubleAttribute("time_post", timer.getTime("solve", "postprocess"));
     O.file.setDoubleAttribute("time_total", timer.getTime("beginning", "postprocess"));
     O.file.setDouble2DArray("pos", domain.positions);
+    O.file.setIntArray("types", domain.types);
     O.file.setDoubleAttribute("N", N);
     O.file.setDouble2DArray("stress", stress_field);
     O.file.setDouble2DArray("disp", displacement);
@@ -212,15 +220,15 @@ int main(int argc, char* argv[]) {
 //                             196, 205, 214, 223, 232, 243, 253, 264, 275, 287, 300, 313, 326, 340,
 //                             355, 371, 387, 403, 421, 439, 458, 478, 499, 520, 543, 567, 591, 617,
 //                             643, 671, 700};
-    vector<int> testrange = {200};
+    vector<int> testrange = {150};
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
     NNGaussians<Vec2d> g9(O.sigmaB, O.m);
     for (int i = 0; i < testrange.size(); i += 1) {
         int n = testrange[i];
         prn(n);
-        solve_cantilever(n, mon9, "mon9");
-//        solve_cantilever(n, g9, "gau9");
+//        solve_cantilever(n, mon9, "mon9");
+        solve_cantilever(n, g9, "gau9");
     }
 
     return 0;

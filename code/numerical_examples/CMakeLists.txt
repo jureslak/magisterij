@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(convergence_test)
+
+#SET(CMAKE_C_COMPILER "/opt/intel/compilers_and_libraries_2016.1.150/linux/bin/intel64/icc")
+#SET(CMAKE_CXX_COMPILER "/opt/intel/compilers_and_libraries_2016.1.150/linux/bin/intel64/icpc")
+
+project(numerical_examples)
 
 include_directories("${CMAKE_SOURCE_DIR}/../e62numcodes/src")
 
@@ -29,10 +33,11 @@ target_link_libraries(poisson_square_implicit_sigma_scan pde_utils)
 add_executable(poisson_square_explicit poisson_square_explicit.cpp)
 target_link_libraries(poisson_square_explicit pde_utils)
 
-add_executable(poisson_square_parallel poisson_square_parallel.cpp)
-target_compile_options(poisson_square_parallel PUBLIC "-fopenmp")
-#target_compile_definitions(poisson_square_parallel PUBLIC EIGEN_USE_MKL_ALL)
-target_link_libraries(poisson_square_parallel pde_utils "-fopenmp")
+#add_executable(poisson_square_parallel poisson_square_parallel.cpp)
+#target_compile_options(poisson_square_parallel PUBLIC "-openmp")
+#target_compile_definitions(poisson_square_parallel PUBLIC EIGEN_USE_MKL_ALL MKL_LP64)
+#link_directories("$ENV{MKLROOT}/lib/intel64")
+#target_link_libraries(poisson_square_parallel pde_utils mkl_intel_lp64 mkl_intel_thread mkl_core pthread iomp5)
 
 add_executable(poisson_weird poisson_weird.cpp)
 target_link_libraries(poisson_weird pde_utils)
@@ -60,3 +65,9 @@ target_link_libraries(realistic_beam pde_utils)
 
 add_executable(cantilever_beam_with_holes cantilever_beam_with_holes.cpp overseer_cantilever.hpp)
 target_link_libraries(cantilever_beam_with_holes pde_utils)
+
+add_executable(fwo_convergence fwo_convergence.cpp overseer_fwo.hpp)
+target_link_libraries(fwo_convergence pde_utils)
+
+add_executable(fwo_table fwo_table.cpp overseer_fwo.hpp)
+target_link_libraries(fwo_table pde_utils)
