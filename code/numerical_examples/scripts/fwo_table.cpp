@@ -25,7 +25,7 @@ void traction(matrix_t& M, int node, const Vec2d& normal, const MLSM& op) {
     op.der1(M, 1, 0, node, O.mu*nx, 1);             // mu*nx*v_x
 }
 
-void solve_fwo(int n) {
+void solve_fwo(int n, int refine_level) {
     // print_green("\n--- let's go! ---\n");
     Timer timer;
     timer.addCheckPoint("beginning");
@@ -38,25 +38,25 @@ void solve_fwo(int n) {
     double dy = O.height/2/n;
     domain.fillUniformWithStep(dy, dy);
 
-    vector<double> length = {3, 2.5, 2};
+    vector<double> length = {5, 3, 2.2, 1.7};
     Vec2d center = {0, 0};
     for (double l : length) {
-        Range<int> to_refine = domain.positions.filter([&] (const Vec2d& x) {
+        vector<int> to_refine = domain.positions.filter([&] (const Vec2d& x) {
             return max(std::abs(x[0]-center[0]), std::abs(x[1] - center[1])) < l*O.a;
         });
         domain.refine(to_refine, 8, 0.4);
     }
     Vec2d center1 = {-O.a, 0};
     Vec2d center2 = {+O.a, 0};
-    length = {0.4, 0.3, 0.2, 0.1};
+    length = {0.4, 0.3, 0.2, 0.1, 0.05, 0.025};
     int ps = domain.size();
-    for (int i = 0; i < length.size(); ++i) {
+    for (int i = 0; i < refine_level; ++i) {
         double l = length[i];
-        Range<int> to_refine1 = domain.positions.filter([&] (const Vec2d& x) {
+        vector<int> to_refine1 = domain.positions.filter([&] (const Vec2d& x) {
             return std::abs(x[0]-center1[0]) < (l)*O.a && std::abs(x[1] - center1[1]) < l*O.a;
         });
         domain.refine(to_refine1, 8, 0.4);
-        Range<int> to_refine2 = domain.positions.filter([&] (const Vec2d& x) {
+        vector<int> to_refine2 = domain.positions.filter([&] (const Vec2d& x) {
             return std::abs(x[0]-center2[0]) < (l)*O.a && std::abs(x[1] - center2[1]) < l*O.a;
         });
         domain.refine(to_refine2, 8, 0.4);
@@ -184,7 +184,7 @@ void solve_fwo(int n) {
     }
     timer.addCheckPoint("postprocess");
 
-    std::string folder_name = format("/rad%.2f/cof%.1f/calc%04d", O.radius, O.COF, n);
+    std::string folder_name = format("/rad%.2f/cof%.1f/rl%02d", O.radius, O.COF, refine_level);
     prn(folder_name);
     O.file.openFile(O.hdf5_filename, HDF5IO::APPEND);
     O.file.openFolder(folder_name);
@@ -197,6 +197,10 @@ void solve_fwo(int n) {
     O.file.setDoubleAttribute("time_total", timer.getTime("beginning", "postprocess"));
     O.file.setFloat2DArray("pos", domain.positions);
     O.file.setDoubleAttribute("N", N);
+    O.file.setDoubleAttribute("R", O.radius);
+    O.file.setDoubleAttribute("COF", O.COF);
+    O.file.setDoubleAttribute("a", O.a);
+    O.file.setDoubleAttribute("p0", O.p0);
     O.file.setFloat2DArray("stress", stress_field);
 //    O.file.setFloat2DArray("displacement", displacement);
     O.file.closeFolder();
@@ -206,34 +210,30 @@ void solve_fwo(int n) {
 int main(int argc, char* argv[]) {
     O.init("params/fwo_table_r10_cof0.3.xml", "data/fwo_table_wip.h5");
 
-    vector<double> ms = {20, 10, 5, 2.5, 1.25, 0.625, 0.3125};
+    vector<double> ms = {0.3125, 0.625, 1.25, 2.5}; // 5, 2.5, 1.25, 0.625, 0.3125};
     vector<int> testrange = {};
-    int refine_level = 7;
-    for (double m : ms) {
-        testrange.push_back(O.height/m*1e6/(1<<refine_level)+1);
-    }
-    prn(testrange);
+    int refine_level = 10;
+    int n = O.height/2/ms[0]*1e6/(1<<refine_level)+1;
+    prn(n);
 
-    for (int i = 0; i < testrange.size(); i += 1) {
-        int n = testrange[i];
-        
+    for (int i = 1; i <= 6; i += 1) {
         O.init("params/fwo_table_r10_cof0.3.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
 
         O.init("params/fwo_table_r10_cof0.85.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
 
         O.init("params/fwo_table_r10_cof2.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
 
         O.init("params/fwo_table_r50_cof0.3.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
 
         O.init("params/fwo_table_r50_cof0.85.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
 
         O.init("params/fwo_table_r50_cof2.xml", "data/fwo_table_wip.h5");
-        solve_fwo(n);
+        solve_fwo(n, i);
     }
 
     return 0;
