@@ -37,7 +37,7 @@ void solve_fwo() {
     RectangleDomain<Vec2d> domain(O.domain_lo, O.domain_hi);
     domain.fillUniformWithStep(O.dy, O.dy);
 
-    vector<double> length = {3, 2.5, 2};
+    vector<double> length = {3, 2.5, 2, 1.75};
     Vec2d center = {0, 0};
     for (double l : length) {
         Range<int> to_refine = domain.positions.filter([&] (const Vec2d& x) {
@@ -220,13 +220,13 @@ void solve_fwo() {
     O.file.setDoubleAttribute("time_solve", timer.getTime("lut", "solve"));
     O.file.setDoubleAttribute("time_post", timer.getTime("solve", "postprocess"));
     O.file.setDoubleAttribute("time_total", timer.getTime("beginning", "postprocess"));
-    O.file.setFloat2DArray("pos", domain.positions);
+    O.file.setFloat2DArray("pos", domain.positions, {-1ull, -1ull}, true);
     O.file.setIntAttribute("N", N);
     O.file.setDoubleAttribute("a", O.a);
     O.file.setDoubleAttribute("COF", O.COF);
     O.file.setDoubleAttribute("R", O.radius);
-    O.file.setFloat2DArray("stress", stress_field);
-    O.file.setFloat2DArray("displacement", displacement);
+    O.file.setFloat2DArray("stress", stress_field, {-1ull, -1ull}, true);
+    O.file.setFloat2DArray("displacement", displacement, {-1ull, -1ull}, true);
     O.file.closeFolder();
     O.file.closeFile();
 }

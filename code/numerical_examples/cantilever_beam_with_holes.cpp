@@ -30,7 +30,7 @@ void traction(matrix_t& M, int node, const Vec2d& normal, const MLSM& op) {
 }
 
 template <template<class> class T>
-void solve_cantilever(int n, T<Vec2d> basis, string name) {
+void solve_cantilever(int n, T<Vec2d> basis, const string& name) {
     Timer timer;
     timer.addCheckPoint("beginning");
 
@@ -50,12 +50,17 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
 
 //    std::thread th([&]() { draw2D(domain); });
     domain.relax(6, 10e-4, [](Vec2d) { return 1.0; }, 3, 20);
+    vector<double> lengths = {1.008}; //, 1.0002};
     for (int i = 0; i < rs.size(); ++i) {
-        vector<int> to_refine = domain.positions.filter([&](const Vec2d& p) { return (p-centers[i]).norm() < 1.3*rs[i]/O.D*7; });
-        domain.refine(to_refine, 8, 0.4);
+        for (double l : lengths) {
+            vector<int> to_refine = domain.positions.filter([&](const Vec2d& p) {
+                return (p - centers[i]).norm() < l * rs[i] / O.D * 7;
+            });
+            domain.refine(to_refine, 8, 0.4);
+        }
     }
 //    th.join();
-    domain.relax(6, 10e-4, [](Vec2d) { return 1.0; }, 3, 20);
+//    domain.relax(6, 5e-4, [](Vec2d) { return 1.0; }, 3, 20);
 
 //    draw2D(domain);
 
@@ -64,14 +69,14 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
 
     // [Set indices for different domain parts]
     const static double tol = 1e-10;
-    Range<int> internal = domain.types == INTERNAL,
+    std::vector<int> internal = domain.types == INTERNAL,
             boundary = domain.types < 0,
             top    = domain.positions.filter([](const Vec2d &p) { return std::abs(p[1] - O.domain_hi[1]) < tol; }),
             bottom = domain.positions.filter([](const Vec2d &p) { return std::abs(p[1] - O.domain_lo[1]) < tol; }),
             right  = domain.positions.filter([](const Vec2d &p) { return std::abs(p[0] - O.domain_hi[0]) < tol && std::abs(p[1] - O.domain_hi[1]) > tol && std::abs(p[1] - O.domain_lo[1]) > tol; }),
             left   = domain.positions.filter([](const Vec2d &p) { return std::abs(p[0] - O.domain_lo[0]) < tol && std::abs(p[1] - O.domain_hi[1]) > tol && std::abs(p[1] - O.domain_lo[1]) > tol; }),
             all = domain.types != 0;
-    int all_nodes = boundary.size() + top.size() + bottom.size() + left.size() +  right.size();
+    int all_nodes = internal.size() + top.size() + bottom.size() + left.size() +  right.size();
 
     domain.findSupport(O.n);
 
@@ -156,11 +161,11 @@ void solve_cantilever(int n, T<Vec2d> basis, string name) {
 //    SparseLU<matrix_t> solver;
     BiCGSTAB<matrix_t, IncompleteLUT<double>> solver;
     solver.preconditioner().setDroptol(1e-5);
-    solver.preconditioner().setFillfactor(50);
+    solver.preconditioner().setFillfactor(100);
     M.makeCompressed();
     solver.compute(M);
     timer.addCheckPoint("lut");
-    solver.setMaxIterations(1000);
+    solver.setMaxIterations(2000);
     solver.setTolerance(O.precision);
 //    prn("solver ready");
 

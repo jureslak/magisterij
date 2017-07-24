@@ -24,8 +24,7 @@ class Overseer {
     // physics params
     double rho, mu, E, lam, v, Q, COF, sigmaAxial, a, p0, Estar, c, e; // material properties
     double time;          // time
-    double width;         // half width of domain
-    double height;        // height of domain
+    double width, height, thickness;         // half width of domain
     Vec2d domain_lo;      // domain lo point
     Vec2d domain_hi;      // domain hi point
     double radius;        // pressing cylinder radius
@@ -46,6 +45,7 @@ class Overseer {
 
         width =      xml.getAttribute({"params", "case"}, "width");
         height =     xml.getAttribute({"params", "case"}, "height");
+        thickness =     xml.getAttribute({"params", "case"}, "thickness");
         force =      xml.getAttribute({"params", "case"}, "force");
         radius =     xml.getAttribute({"params", "case"}, "radius");
         rho =        xml.getAttribute({"params", "phy"}, "rho");
@@ -82,8 +82,8 @@ class Overseer {
         lam = E * v / (1-2*v) / (1+v);
 //        lam = 2 * mu * lam / (2 * mu + lam);  // plane stress
         Estar = E/(2*(1-v*v));
-        a = 2*std::sqrt(std::abs(force*radius/(height*M_PI*Estar)));
-        p0 = std::sqrt(std::abs(force*Estar/(height*M_PI*radius)));
+        a = 2*std::sqrt(std::abs(force*radius/(thickness*M_PI*Estar)));
+        p0 = std::sqrt(std::abs(force*Estar/(thickness*M_PI*radius)));
         c = a * std::sqrt(1 - Q / COF / std::abs(force));
         e = a * sigmaAxial / 4 / COF / p0;
 

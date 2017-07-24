@@ -70,8 +70,8 @@ for i = 1:typenum
         a = data{i}{j}{4}(1);
         COF = data{i}{j}{4}(2);
         R = data{i}{j}{4}(3);
-        plot(data{i}{j}{1}/a, data{i}{j}{2}, '.');    
-        plot(data{i}{j}{3}(:, 1)/a/10^3, data{i}{j}{3}(:, 2), '.');
+        plot(data{i}{j}{1}/a, data{i}{j}{2}, '.-');    
+        plot(data{i}{j}{3}(:, 1)/a/10^3, data{i}{j}{3}(:, 2), '.-');
         title(sprintf('$\\mu$ = %g, $R$ = %g\\,mm', COF, 1000*R));
         legend('MLSM', 'FEM', 'Location', 'NW')
         xlabel('$x/a$')

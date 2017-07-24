@@ -63,7 +63,7 @@
 \newcommand{\imeavtorja}{Jure Slak} % ime avtorja
 \newcommand{\imementorja}{doc.~dr.~George Mejak} % akademski naziv in ime mentorja
 \newcommand{\imesomentorja}{dr.~Gregor Kosec} % akademski naziv in ime mentorja
-\newcommand{\naslovdela}{Numerično reševanje elastostatičnih problemov z brezmrežnimi metodami}
+\newcommand{\naslovdela}{Reševanje linearnih elastostatičnih problemov z brezmrežnimi metodami}
 \newcommand{\letnica}{2017} %letnica diplome
 
 % lists with less vertical space
@@ -168,7 +168,7 @@
 
 % algorithms
 \usepackage{algpseudocode}  % za psevdokodo
-\usepackage{algorithm}			% za
+\usepackage{algorithm}      % za
 \floatname{algorithm}{Algoritem}
 \renewcommand{\listalgorithmname}{Kazalo algoritmov}
 \algnewcommand\algorithmicto{\textbf{to}}
@@ -225,7 +225,6 @@ Zahvala?
 \newpage
 
 \listoffigures
-\listofalgorithms
 
 \newpage
 
@@ -240,7 +239,7 @@ Program dela?
 TBD
 \vfill
 \begin{center}
-{\bf TBD}\\[3mm] % prevod slovenskega naslova dela
+{\bf Solving linear elastostatic problems using meshless methods}\\[3mm] % prevod slovenskega naslova dela
 {\sc Abstract}
 \end{center}
 TBD
@@ -261,20 +260,22 @@ TBD
 
 Teorija linearne elastičnosti opisuje trdnine pod obremenitvijo v mirovanju. Z uporabo linearnih
 parcialnih diferencialnih enačb opisuje deformacije in napetosti v materialih in se zaradi tega
-močno uporablja v strojništvu in gradbeništvu-QUOTES. Enačbe, ki podajajo količine, ki nas zanimajo,
-so zelo redko rešljive na roke ali analitično in ne preostane nam drugega, kot da se reševanja lotimo z
-računalnikom. Numerično se probleme linearne elastičnosti ponavadi rešuje v šibki obliki z metodo
-končnih elementov-QUOTE. Toda že v preteklosti so probleme reševali v močni obliki z metodo končnih
-diferenc-QUOTE in metodo končnih volumnov-QUOTE. Poleg tega so se v bolj bližji preteklosti za
-reševanje elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v močni in šibki
-obliki-QUOTE. Prednost brezmrežnih metod je, da ne potrebujejo polne diskretizacije domene (npr.\ z
-večkotniki) kot jo metoda končnih elementov, temveč le točke v domeni in poznavanje njihove lokalne
-medsebojne lege, kar omogoča večjo splošnost, lažjo posplošitev na višje dimenzije-QUOTE in
-elegantnejšo implementacijo. Poleg tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot
-npr.\ pri problemih, kjer je treba premikati rob domene ali točke v notranjosti, kot na primer
-simulacije širjenja razpok-QUOTE. Eno izmed brezmrežnih metod s sodelavci razvijamo tudi v
+močno uporablja v strojništvu in gradbeništvu. Enačbe, ki podajajo količine, ki nas zanimajo,
+so zelo redko rešljive na roke ali analitično in ne preostane nam drugega, kot da se reševanja
+lotimo z računalnikom. Numerično se probleme linearne elastičnosti ponavadi rešuje v šibki obliki z
+metodo končnih elementov~\cite{uienkiewicz2000finite}. Toda že v preteklosti so probleme reševali v
+močni obliki z metodo končnih diferenc~\cite{hattel1994control} in metodo končnih
+volumnov~\cite{stone2003dynamic}. Poleg tega so se v bolj bližji preteklosti za reševanje
+elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v močni in šibki
+obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da ne potrebujejo
+polne diskretizacije domene (npr.\ z večkotniki) kot jo metoda končnih elementov, temveč le točke v
+domeni in poznavanje njihove lokalne medsebojne lege, kar omogoča večjo splošnost, lažjo posplošitev
+na višje dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo implementacijo. Poleg
+tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot npr.\ pri problemih, kjer je
+treba premikati rob domene ali točke v notranjosti, kot na primer simulacije širjenja
+razpok~\cite{rao2000efficient}.  Eno izmed brezmrežnih metod s sodelavci razvijamo tudi v
 Laboratoriju za vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan'' in sodelujemo v
-mednarodnem projektu skupaj z Univerzo v Gentu in Univerzo v Luksemburgu na področju obrabe
+mednarodnem projektu skupaj z Univerzo v Gentu in Univerzo v Luksemburgu na področju utrujanja
 materialov.
 
 Tekom naloge si bomo v razdelku~\ref{sec:mehanika} ogledali natančno matematično teorijo linearne
@@ -287,8 +288,8 @@ razdelku~\ref{sec:numericna-metoda} izpeljali iz znane metode končnih diferenc.
 v sorazmerno visoki splošnosti in v posebnih primerih bomo prepoznali znane posplošitve drugih
 metod. Metodo bomo v razdelku~\ref{sec:osnovni-zgledi} testirali na klasičnih zgledih in analizirali
 njeno obnašanje glede na različne izbire parametrov. Rezultati numerične aproksimacije
-elastostatičnega kontaktnega problema iz eksperimenta za raziskovanja obrabe materialov, ki se
-ujemajo z nedavno objavljenimi-QUOTE, so opisani v razdelku~\ref{sec:fwo}. V
+elastostatičnega kontaktnega problema iz eksperimenta za raziskovanja utrujanja materialov, ki se
+ujemajo z nedavno objavljenimi~\cite{pereira2016convergence}, so opisani v razdelku~\ref{sec:fwo}. V
 razdelku~\ref{sec:implementacija} si ogledamo še implementacijske detajle metode in možnosti
 paralelizacije.
 
@@ -653,7 +654,7 @@ pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih sebe.
     \includegraphics[width=0.4\textwidth]{images/gibanje0.pdf}
     \hspace{1em}
     \includegraphics[width=0.4\textwidth]{images/gibanje02.pdf}
-    \caption{Prerez enotske kocke pri $Z = 0$ v referenčni konfiguraciji in v prostorski
+    \caption[Primer gibanja enotske kocke.]{Prerez enotske kocke pri $Z = 0$ v referenčni konfiguraciji in v prostorski
     konfiguraciji ob času $t=0.2$.}
     \label{fig:gibanje}
   \end{figure}
@@ -2096,8 +2097,9 @@ sliki~\ref{fig:domain-example}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{images/domain_theoretical.pdf}
-  \caption{Primer domene z diskretnim opisom notranjosti in roba, skupaj z izbrano
-  točko in njeno soseščino.}
+  \caption[Domena in diskretizacija notranjosti in roba.]{Primer domene z
+  diskretnim opisom notranjosti in roba, skupaj z izbrano točko in njeno
+soseščino.}
   \label{fig:domain-example}
 \end{figure}
 
@@ -2632,7 +2634,7 @@ Primeri domen in njihovih diskretizacij, dobljenih na ta način, so prikazani na
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/domains_generated.png}
-  \caption{Primeri domen in njihovih diskretizacij.}
+  \caption{Primeri bolj zapletenih domen in njihovih diskretizacij.}
   \label{fig:domains}
 \end{figure}
 
@@ -2710,9 +2712,10 @@ sliki~\ref{fig:relax-circle}.
   \includegraphics[width=0.3\textwidth]{images/domain_circle.png}
   \hspace{1em}
   \includegraphics[width=0.3\textwidth]{images/domain_circle_relaxed.png}
-  \caption{Primerjava domene z naključno diskretizacijo (levo) in domene po
-  izvedbi 10 iteracij algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$, $s
-  = 6$, $\alpha = 3$ (desno).}
+  \caption[Primerjava naključno diskretizirane in izboljšane domene.]{Primerjava
+  domene z naključno diskretizacijo (levo) in domene po izvedbi 10 iteracij
+algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$
+(desno).}
   \label{fig:relax-circle}
 \end{figure}
 
@@ -2727,10 +2730,11 @@ prej.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\iw]{images/relax_improvement.pdf}
-  \caption{Sprememba $h$ in $S$ po 10 iteracijah algoritma~\ref{alg:relax} s
-  parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem
-  krogu z začetno Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in
-  notranjih točk $x : \frac{12}{\pi} \sqrt{x}$.}
+  \caption[Spremeba kvalitete diskretizacije po izboljšavi.]{Sprememba $h$ in
+    $S$ po 10 iteracijah algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$,
+    $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem krogu z začetno
+    Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in notranjih
+  točk $x : \frac{12}{\pi} \sqrt{x}$.}
   \label{fig:relax-hs}
 \end{figure}
 
@@ -3056,7 +3060,8 @@ kvadratkom. Kandidati za nove diskretizacijske točke so torej
 \]
 Pri tem pazimo, da če sta tako $x$ kot $p$ točki na robu, je tudi njuno središče robna točka in jo
 projiciramo na rob domene, kot prikazano na primeru na sliki~\ref{fig:refine-algorithm} z dvema
-potemnjenima kvadratkoma. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali
+potemnjenima kvadratkoma. Če je katera izmed točk v $X'$ izven zaprtja $\Omega$, jo odstranimo iz
+množice kandidatov. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali
 pa preblizu starim točkam, kar bo povzročilo nestabilnosti pri reševanju. Zato v parih točk, ki so
 bolj skupaj kot dovoljena razdalja $r_{\text{min}}$ zavržemo eno izmed točk, kjer zavržemo najprej
 novo, če je ta preblizu neki stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo $r_\text{min} =
@@ -3102,7 +3107,7 @@ X} |\hat{u}(x) - u(x)|.  \]
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/lap1d_convergence.pdf}
-  \caption{Napaka FDM in MLSM metode v primerjavi s pravilno rešitvijo.}
+  \caption[Napaka FDM in MLSM metode.]{Napaka FDM in MLSM metode v primerjavi s pravilno rešitvijo.}
   \label{fig:mlsm-fdm-err}
 \end{figure}
 
@@ -3225,7 +3230,8 @@ prikazana na sliki~\ref{fig:poisson-square-convergence}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_convergence.pdf}
-  \caption{Konvergenca MLSM za različne parametre pri reševanju problema~\eqref{eq:poisson-problem}.}
+  \caption[Konvergenca MLSM pri reševanju Poissonove enačbe]{Konvergenca MLSM
+  za različne parametre pri reševanju problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-convergence}
 \end{figure}
 
@@ -3243,8 +3249,9 @@ rastejo linearno z $N$ s konstantnim razmerjem.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_time.pdf}
-  \caption{Čas izvajanja za različne izbore parametrov pri reševanju
-  problema~\eqref{eq:poisson-problem}.}
+  \caption[Čas izvajanja MLSM pri reševanju Poissonove enačbe]{Čas izvajanja za
+  različne izbore parametrov pri reševanju
+problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time}
 \end{figure}
 
@@ -3261,9 +3268,10 @@ za izračun funkcije oblike postane čedalje bolj občutljiv.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_rbf_konv_k_mon.pdf}
-  \caption{Konvergenčne krivulje za Gaussove funkcije pri čedalje večjem
-  $\sigma$ in za monome ($\sigma = \infty$). Uporabili smo $n = m = 5$ in
-Gaussovo utež s parametrom $\sigma_w = \frac34 r_\chi$.}
+  \caption[Konvergenčne krivulje za Gaussove funkcije.]{Konvergenčne krivulje
+  za Gaussove funkcije pri čedalje večjem $\sigma$ in za monome ($\sigma =
+  \infty$). Uporabili smo $n = m = 5$ in Gaussovo utež s parametrom $\sigma_w =
+  \frac34 r_\chi$.}
   \label{fig:rbf-konv-k-mon}
 \end{figure}
 
@@ -3283,11 +3291,11 @@ Graf napake je prikazan na sliki~\ref{fig:poisson-square-sigma-dep-error}.
   \end{subfigure}
   \begin{subfigure}[t]{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_cutoff.png}
-    \caption{Število odrezanim singularnih vrednosti v odvisnosti of $\sigma_b$
-    in $\sigma_w$.}
+    \caption[Šetvilo odrezanim singularnih vrednosti.]{Število odrezanih
+    singularnih vrednosti v odvisnosti od $\sigma_b$ in $\sigma_w$.}
     \label{fig:poisson-square-sigma-dep-cutoff}
   \end{subfigure}
-  \caption{Reševanje problema~\eqref{eq:poisson-problem} z Gaussovimi funkcijami
+  \caption[Analiza reševanja Possonove enačbe z Gaussovimi funkcijami in utežmi.]{Analiza reševanja problema~\eqref{eq:poisson-problem} z Gaussovimi funkcijami
   in Gaussovo utežjo pri $n = m = 9$ in $N = 2601$.}
   \label{fig:poisson-square-sigma-dep}
 \end{figure}
@@ -3342,7 +3350,7 @@ enaka.
   \includegraphics[height=5cm]{images/poisson_weird2.png}
   \hspace{10pt}
   \includegraphics[height=5cm]{images/poisson_weird3.png}
-  \caption{Reševanje Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na
+  \caption[Reševanje $\lap u = 1$ na zanimivejših domenah.]{Reševanje Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na
   zanimivejših domenah.}
   \label{fig:poisson-square-weird}
 \end{figure}
@@ -3393,8 +3401,9 @@ dobimo $\ts$.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/cantilever_beam_solution.png}
-  \caption{Numerična rešitev problema vpetega nosilca. Pomiki so zaradi boljše vidnosti povečani za
-  faktor $10^5$. Komponenta $\ts_{yy}$ je kot v analitični rešitvi enaka 0.}
+  \caption[Numerična rešitev problema vpetega nosilca.]{Numerična rešitev
+  problema vpetega nosilca. Pomiki so zaradi boljše vidnosti povečani za faktor
+  $10^5$. Komponenta $\ts_{yy}$ je kot v analitični rešitvi enaka 0.}
   \label{fig:cantilever-beam-solution}
 \end{figure}
 Izračunamo lahko še, da je največji pomik po normi velik
@@ -3431,10 +3440,10 @@ pri čemer imamo pri napetostih malo večjo napako in malenkost slabši red, saj
 
 Za demonstracijo splošnosti metode dodajmo v nosilec še nekaj lukenj. Nosilec fiksno vpnimo na
 desnem koncu in vlečimo navzdol na levem z enakomerno porazdeljeno silo $P$ enake velikosti kot
-prej. V domeno smo razporedili $N = 209903$ diskretizacijskih točk, po ustvarjanju domene pa
-smo jo še dodatno izboljšali z algoritmom~\ref{alg:relax} s 50 iteracijami na šestih sosedih z $F_0
-= 10^{-3}$ in $\alpha = 3$. Upogib nosilca, obarvan z vrednostjo von Misesove napetosti je
-prikazan na sliki~\ref{fig:cantilever-beam-with-holes}.
+prej. V domeno smo razporedili $N = 177618$ diskretizacijskih točk z večjo gostoto okoli robov
+lukenj, po ustvarjanju domene pa smo jo še dodatno izboljšali z algoritmom~\ref{alg:relax} s 50
+iteracijami na šestih sosedih z $F_0 = 10^{-3}$ in $\alpha = 3$. Upogib nosilca, obarvan z
+vrednostjo von Misesove napetosti je prikazan na sliki~\ref{fig:cantilever-beam-with-holes}.
 Von Misesova napetost se za primer ravninske napetosti izračuna kot
 \[
   \sigma_v = \sqrt{\sigma_{xx}^2-\sigma_{xx}\sigma_{yy}+\sigma_{yy}^2+3\sigma_{xy}^2},
@@ -3447,7 +3456,8 @@ označujejo najverjetnejša mesta za poškodbe.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{images/cantilever_beam_with_holes.png}
-  \caption{Numerična rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
+  \caption[Numerična rešitev upogiba nosilca z nekaj luknjami.]{Numerična
+  rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
   povečani za faktor $10^5$.}
   \label{fig:cantilever-beam-with-holes}
 \end{figure}
@@ -3569,9 +3579,10 @@ razdelku~\ref{sec:visje-dimenzije}, le za primer dveh dimenzij.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.6\textwidth]{images/hertzian_matrix_example.pdf}
-  \caption{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri reševanju
-  problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno diskretizacijo z $11 \times 6$
-točkami.}
+  \caption[Matrika sistema enačb pri reševanju problema vpetega
+  nosilca.]{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri
+  reševanju problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno
+  diskretizacijo z $11 \times 6$ točkami.}
   \label{fig:hertz-matrix}
 \end{figure}
 
@@ -3593,7 +3604,9 @@ sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/hertzian_convergence.pdf}
-  \caption{Konvergenca metode pri reševanju problema~\eqref{eq:hertzian-problem}.}
+  \caption[Konvergenca metode pri reševanju Hertzevega kontaktnega
+  problema.]{Konvergenca metode pri reševanju Hertzevega kontaktnega
+  problema~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-convergence}
 \end{figure}
 
@@ -3614,7 +3627,8 @@ domene pri različnih gostotah diskretizacij.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/hertzian_domain_too_small2.pdf}
-  \caption{Napaka pri različnih gostotah diskretizacij v odvisnosti od velikosti domene.}
+  \caption[Napaka v odvisnosti od velikosti domene.]{Napaka pri različnih
+  gostotah diskretizacij v odvisnosti od velikosti domene.}
   \label{fig:hertz-domain-too-small}
 \end{figure}
 
@@ -3641,7 +3655,7 @@ med razdaljo do najbljižjega soseda in največjo možno razdaljo do najbljižje
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/hertzian_refined_domain.png}
-    \caption{Sedemnajstkrat zgoščena diskretizacija okoli področja zanimanja.}
+    \caption[Sedemnajstkrat zgoščena diskretizacija.]{Sedemnajstkrat zgoščena diskretizacija okoli področja zanimanja.}
     \label{fig:hertz-refined-domain}
   \end{subfigure}
   \begin{subfigure}[t]{0.45\textwidth}
@@ -3649,8 +3663,9 @@ med razdaljo do najbljižjega soseda in največjo možno razdaljo do najbljižje
     \caption{Gostota diskretizacije zgoščene domene.}
     \label{fig:hertz-refined-domain-density}
   \end{subfigure}
-  \caption{Primer sedemnajstkrat zgoščene domene s pomočjo katere lahko natančneje rešimo
-  problem~\eqref{eq:hertzian-problem}.}
+  \caption[Primer zgoščene domene s katero rešujemo Hertzev kontaktni
+  problem.]{Primer sedemnajstkrat zgoščene domene s pomočjo katere lahko
+  natančneje rešimo Hertzev kontaktni problem~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-refined-domain-together}
 \end{figure}
 
@@ -3676,30 +3691,31 @@ sliki~\ref{fig:hertz-solution}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
-  \caption{Numerična rešitev problema~\ref{eq:hertzian-problem}. Zaradi boljše vidnosti so
-  pomiki povečani za faktor $10^5$.}
+  \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
+  rešitev Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}. Zaradi
+  boljše vidnosti so pomiki povečani za faktor $10^5$.}
   \label{fig:hertz-solution}
 \end{figure}
 
-\section{Zgled iz mehanike obrabe materialov}
+\section{Zgled iz mehanike utrujenosti materialov}
 \label{sec:fwo}
-Oglejmo si še primer elastostatičnega problema, ki prihaja iz mehanike obrabe materialov.
-Obraba materiala zaradi drgnjenja je pojav, ki se pojavi na kontaktni površini med dvema
-materialoma, ki se medsebojno gibljeta. Tako gibanje je ponavadi oscilatorno z majhno amplitudo.
-Ker se pod takimi pogoji se lahko zmanjša življenjska doba materiala tudi do
+Oglejmo si še primer elastostatičnega problema, ki prihaja iz mehanike utrujenosti materialov
+\ang{fretting fatigue}.  Obraba materiala zaradi drgnjenja je pojav, ki se pojavi na kontaktni
+površini med dvema materialoma, ki se medsebojno gibljeta. Tako gibanje je ponavadi oscilatorno z
+majhno amplitudo.  Ker se pod takimi pogoji se lahko zmanjša življenjska doba materiala tudi do
 \unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo, je
-pomebno dobro razumevanje tega pojava, kot tudi vpliva različnih parametrov uporabljenega materiala
-na posledice. Eden izmed pogostih eksperimentov za razumevanje tega pojava se izvede tako, da se
-ploščat kos materiala, ki ga imenujmo \emph{vzorec} vpne na enem koncu in drug konec pa periodično
-raztegujemo z napetostjo z amplitudo $\sax$. Z drugih dveh strani na vzorec
-pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta oscilatorno tangentno na
-površino materiala in nanj delujeta s tangentno silo $Q$.  Shema eksperimenta je prikazana na
-sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
+pomembno dobro razumevanje tega pojava, kot tudi vpliva različnih parametrov uporabljenega materiala
+na posledice. Eden izmed pogostih eksperimentov, opisan v~\cite{hojjati2014prediction},  za
+razumevanje tega pojava se izvede tako, da se ploščat kos materiala, ki ga imenujmo \emph{vzorec}
+vpne na enem koncu in drug konec pa periodično raztegujemo z napetostjo z amplitudo $\sax$. Z drugih
+dveh strani na vzorec pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta
+oscilatorno tangentno na površino materiala in nanj delujeta s tangentno silo $Q$.  Shema
+eksperimenta je prikazana na sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
 
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\iw]{images/placeholder.pdf}
-  \caption{Shema eksperimenta za raziskovanje obrabe materialov.}
+  \includegraphics[width=\iw]{images/fwo_shema.pdf}
+  \caption{Shema eksperimenta za raziskovanje utrujanja materialov.}
   \label{fig:fwo-shema}
 \end{figure}
 
@@ -3720,16 +3736,17 @@ uporabo metode končnih elementov, pri čemer so simulirali eksperiment v stati�
 oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$. Gravitacijo v tem
 primeru ignoriramo, saj so napetosti zaradi nje mnogo manjše kot napetosti v eksperimentu.
 Posledično ima eksperiment vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
-in polovično debelino, ter ga nato prezrcalimo. Poleg tega se problem ne spreminja vzdolž tretje
-dimenzije in ni tanek, torej ustreza predpostavki o ravninski deformaciji in ga lahko prevedemo na dve
-dimenziji. Tako so naredili tudi avtorji v~\cite{pereira2016convergence} in diskretizirali glavo in
-polovico vzorca ter aproksimirali kontaktne površine in napetosti. Lotimo se enakega problema, a z
-drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta, na kratko opisano
-v~\ref{sec:hertz}, le da ima prisotno tudi tangentno silo, osno napetost in končne dimenzije.
-V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za modeliranje napetosti, s
-katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij glave z $R$, višino oz.\ debelino
-vzorca s $t$ in dolžino z $L$. Če najprej Hertzevemu problemu dodamo končno višino,
-se širina polovice kontaktnega območja izraža z
+in polovično širino, ter ga nato prezrcalimo. Poleg tega je debelina materiala majhna in
+vse sile in napetosti so v ravnini materiala, torej ustreza predpostavki o ravninski napetosti in ga
+lahko prevedemo na dve dimenziji. Tako so naredili tudi avtorji v~\cite{pereira2016convergence} in
+diskretizirali glavo in polovico vzorca ter aproksimirali kontaktne površine in napetosti. Lotimo se
+enakega problema, a z drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta, na
+kratko opisano v~\ref{sec:hertz}, le da ima prisotno tudi tangentno silo, osno napetost in končne
+dimenzije.  V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za modeliranje
+napetosti, s katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij glave z $R$,
+širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak kot pri
+Hertzevem problemu, pri čemer upoštevamo, da je dolžinska gostota sile enaka $F/t$.
+Širina polovice kontaktnega območja se tako izraža z
 \[
   a = 2\sqrt{\frac{FR}{t \pi E^\ast}},
 \]
@@ -3771,11 +3788,11 @@ ne povzroči, da bi območje lepljivosti segalo izven območja kontakta. Sedaj i
 za numerično reševanje. Rešujemo torej problem
 \begin{align}
   (\lambda + \mu) \nabla(\nabla\cdot \vu) + \mu \nabla^2 \vu &= 0, && \text{ na } \Omega =
-  [-L/2, L/2]\times[-t/2, 0] \nonumber  \\
+  [-\frac{L}{2}, \frac{L}{2}]\times[-\frac{W}{2}, 0] \nonumber  \\
   \vt(x, 0) &= q(x)\vi - p(x)\vj, && \text{(napetost na vrhu)} \label{eq:fwo-problem}\\
-    \vu(-L/2, y) &= 0, \nonumber  && \text{(vpet levo)}\\
-    \vt(L/2, y) &= 0, \nonumber  && \text{(prost desno)}\\
-    \vu(x, -t/2)\cdot \vj &= 0, \dpar{\vu(x, -t/2)\cdot \vi}{y} = 0, \nonumber  && \text{(simetrija
+    \vu(-\frac{L}{2}, y) &= 0, \nonumber  && \text{(vpet levo)}\\
+    \vt(\frac{L}{2}, y) &= 0, \nonumber  && \text{(prost desno)}\\
+    \vu(x, -\frac{W}{2})\cdot \vj &= 0, \dpar{\vu(x, -t/2)\cdot \vi}{y} = 0, \nonumber  && \text{(simetrija
     spodaj)}
 \end{align}
 grafično prikazan na sliki~\ref{fig:fwo-bc}.
@@ -3783,13 +3800,15 @@ grafično prikazan na sliki~\ref{fig:fwo-bc}.
 \begin{figure}[!h]
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{images/placeholder.pdf}
-    \caption{Primer napetosti $p(x)$ in $q(x)$, kot fig. 3 v FWO članku.}
+    \includegraphics[width=\textwidth]{images/fwo_sample_pq.pdf}
+    \caption[Primer napetosti $p(x)$ in $q(x)$.]{Primer napetosti $p(x)$ in $q(x)$ z označenima območjema drsenja in lepljenja za $R =
+    \unit[50]{mm}$ in $\mu = 0.85$.}
     \label{fig:fwo-pq-example}
   \end{subfigure}
+  \hspace{10pt}
   \begin{subfigure}[t]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{images/placeholder.pdf}
-    \caption{Domena in robni pogoji. Označili smo $\vu = (u, v)$, $\vt = (t_x, t_y)$.}
+    \includegraphics[width=\textwidth]{images/fwo_bc.pdf}
+    \caption[Domena in robni pogoji.]{Domena in robni pogoji. Označili smo $\vu = (u, v)$, $\vt = (t_x, t_y)$.}
     \label{fig:fwo-bc}
   \end{subfigure}
   \caption{Domena in robni pogoji za numerično reševanje problema~\eqref{eq:fwo-problem}.}
@@ -3798,15 +3817,16 @@ grafično prikazan na sliki~\ref{fig:fwo-bc}.
 
 V eksperimentu, opisanem v~\cite{hojjati2014prediction}, je bil uporabljen aluminij 2420-T3, katerega
 materialni lastnosti sta  $E = \unit[72.1]{GPa}$ in $\nu = 0.33$. Vzorec je bil velikosti $t =
-\unit[4]{mm}$ in $L = \unit[40]{mm}$. Največji izmerjeni sili sta bili $\vec{F} = -\unit[543]{N}\vj$ in
-$\vec{Q} = -\unit[155]{N}\vi$, osna napetost pa je bila $\sax = \unit[100]{MPa}$. Numerična simulacija
-v~\cite{pereira2016convergence} je bila narejena za $R = \unit[10]{mm}$ in $R = \unit[50]{mm}\}$ in
-tri različne koeficiente trenja $\mu = 0.3$, $\mu = 0.85$ in $\mu = 2$, zato tudi mi izberimo te
-parametre. Na Hertzevem kontaktnem problemu~\eqref{eq:hertzian-problem} smo se naučili, kako dobro
-diskretizirati domeno. Tudi tukaj uporabimo enake parametre, le goščenje domene prilagodimo
-manjšim dimenzijam. Metoda je za vse izbire parametrov $R$ in $\mu$ s povečevanjem $N$ konvergirala
-proti limitni rešitvi. Na sliki~\ref{fig:fwo-ujemanje} je prikazano ujemanje naše numerične rešitve
-z rešitvijo izračunano v~\cite{pereira2016convergence} za $N = TODO$.
+\unit[4]{mm}$, $W = \unit[10]{mm}$ in $L = \unit[40]{mm}$. Največji izmerjeni sili sta bili $F =
+\unit[543]{N}$ v smeri $-\vj$ in $Q = \unit[155]{N}$ v smeri $-\vi$, osna napetost pa je bila $\sax
+= \unit[100]{MPa}$. Numerična simulacija v~\cite{pereira2016convergence} je bila narejena za $R =
+\unit[10]{mm}$ in $R = \unit[50]{mm}$ in tri različne koeficiente trenja $\mu = 0.3$, $\mu = 0.85$
+in $\mu = 2$, zato tudi mi izberimo te parametre. Na Hertzevem kontaktnem
+problemu~\eqref{eq:hertzian-problem} smo se naučili, kako dobro diskretizirati domeno. Tudi tukaj
+uporabimo enake parametre, le goščenje domene prilagodimo manjšim dimenzijam. Metoda je za vse
+izbire parametrov $R$ in $\mu$ s povečevanjem $N$ konvergirala proti limitni rešitvi. Na
+sliki~\ref{fig:fwo-ujemanje} je prikazano ujemanje naše numerične rešitve z rešitvijo izračunano
+v~\cite{pereira2016convergence} za $N = 52659$ pri manjšem in $N = 178897$ pri večjem radiju.
 
 \begin{figure}[h]
   \centering
@@ -3829,24 +3849,52 @@ V tabeli~\ref{tab:sxxmax} je prikazana izračunana vrednost $\ts_{xx, \max}$ za 
 pri različnih $N$. Tabela vrednosti za FEM je vzeta iz~\cite[tabela 3]{pereira2016convergence}.
 \begin{table}[h]
   \centering
-  \begin{tabular}{|c|c|c|} \hline
-    to & bo & tabela \\ \hline
-    re & zul & tatov \\ \hline
+  \begin{tabular}{ccllll} \hline
+    \multicolumn{1}{c}{$\mu$} & minimalna        & \multicolumn{2}{c}{$R=\unit[10]{mm}$}              & \multicolumn{2}{c}{$R=\unit[50]{mm}$}              \\ \cline{3-6}
+    & razdalja $[\unit{\mu m}]$ & \multicolumn{1}{c}{MSLM} & \multicolumn{1}{c}{FEM} & \multicolumn{1}{c}{MLSM} & \multicolumn{1}{c}{FEM} \\ \hline \hline
+                              & 10                 & 325.36                   & 242.57                  & 210.78                   & 182.87                  \\
+                              & 5                  & 340.99                   & 268.70                  & 216.54                   & 192.96                  \\
+                              & 2.5                & 354.46                   & 290.50                  & 214.69                   & 200.09                  \\
+    0.3                       & 1.25               & 350.33                   & 307.81                  & 217.82                   & 205.33                  \\
+                              & 0.625              & 357.84                   & 320.33                  & 216.76                   & 208.99                  \\
+                              & 0.3125             & 355.65                   & 329.94                  & 218.35                   & 212.00                  \\ \cline{2-6}
+                              & analitična         & 342.28                   & 342.28                  & 208.35                   & 208.35                  \\ \hline
+                              & 10                 & 479.12                   & 349.91                  & 293.75                   & 254.12                  \\
+                              & 5                  & 496.08                   & 398.69                  & 305.06                   & 274.64                  \\
+                              & 2.5                & 522.88                   & 440.60                  & 307.62                   & 287.93                  \\
+    0.85                      & 1.25               & 527.76                   & 474.40                  & 311.77                   & 297.38                  \\
+                              & 0.625              & 539.26                   & 496.58                  & 314.20                   & 303.26                  \\
+                              & 0.3125             & 543.71                   & 513.08                  & 315.77                   & 308.06                  \\ \cline{2-6}
+                              & analitična         & 507.82                   & 507.82                  & 283.90                   & 283.90                  \\ \hline
+                              & 10                 & 686.07                   & 441.20                  & 417.73                   & 336.52                  \\
+                              & 5                  & 729.38                   & 537.49                  & 435.49                   & 373.08                  \\
+                              & 2.5                & 769.58                   & 612.33                  & 438.91                   & 399.72                  \\
+    2.0                       & 1.25               & 785.98                   & 683.24                  & 448.12                   & 417.17                  \\
+                              & 0.625              & 808.62                   & 719.75                  & 447.74                   & 428.46                  \\
+                              & 0.3125             & 809.06                   & 750.50                  & 451.95                   & 436.21                  \\ \cline{2-6}
+                              & analitična         & 725.56                   & 725.56                  & 382.10                   & 382.10                  \\ \hline
   \end{tabular}
-  \caption{Tabela vrednosti $\ts_{xx,\max}$ za FEM, MLSM in analitično aproksimacijo.}
+  \caption{Tabela vrednosti $\ts_{xx,\max}\ [\unit{MPa}]$ za FEM, MLSM in analitično aproksimacijo pri različnih gostotah diskretizacije.}
   \label{tab:sxxmax}
 \end{table}
 Vidimo, da vrednosti konvergirajo k neki vrednosti, ki pa se razlikuje pri obeh metodah, vendar je v
-istem velikostnem razredu, kar je tudi pričakovati. Primer rešitve za ?? je prikazan na
-sliki~\ref{fig:fwo-solution}.
+istem velikostnem razredu, kar je tudi pričakovati. Naša rešitev dosega višje vrednosti
+$\ts_{xx,\max}$, kot je tudi razvidno iz grafa na sliki~\ref{fig:fwo-ujemanje}. To je zato, ker
+imamo ni natančne analitične robne pogoje in lahko posledično bolje popišemo divje obnašanje,
+kot ga lahko dobimo s simulacijo. Primer izračunane napetosti za problem~\eqref{eq:fwo-problem}
+za $\mu=0.85$ in $R = \unit[50]{mm}$ z $N = 178897$ točkami je prikazan na sliki~\ref{fig:fwo-solution}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\iw]{images/placeholder.pdf}
-  \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=??$ in $R = ??$. Pomiki so
-  povečani za faktor ??, rešitev pa je obarvana z vrednostjo von Misesove napetosti.}
+  \includegraphics[width=\iw]{images/fwo_solution.png}
+  \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=0.65$ in $R = \unit[50]{mm}$.}
   \label{fig:fwo-solution}
 \end{figure}
+
+Če to sliko primerjamo z sliko~\ref{fig:hertz-solution}, na kateri je rešitem Hertzevega kontaktnega
+problema opazimo podobno splošno obliko nivojnic napetosti v notranjosti, na površini pa se na
+sliki~\ref{fig:fwo-solution} močno pozna vpliv tangente sile $Q$, ki povzroči zamik nivojniv in
+koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja kot drugje v vzorcu.
 
 \section{Implementacija}
 \label{sec:implementacija}
@@ -3869,7 +3917,8 @@ sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/placeholder.pdf}
-  \caption{Diagram implementacije in izvedbe algoritma~\ref{alg:metoda}.}
+  \caption[Diagram implementacije in izvedbe MLSM]{Diagram implementacije in
+  izvedbe algoritma~\ref{alg:metoda}.}
   \label{fig:implementacija}
 \end{figure}
 
@@ -3894,7 +3943,8 @@ kosi metode potrebujejo pri reševanju Poissonovega robnega problema~\eqref{eq:p
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_time_distribution_1.pdf}
-  \caption{Čas izvajanja posameznih delov programa pri reševanju
+  \caption[Čas izvajanja delov programa pri reševanju Poissonove enačbe.]{Čas
+  izvajanja posameznih delov programa pri reševanju
   problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time-distribution}
 \end{figure}
@@ -3919,7 +3969,7 @@ sliki~\ref{fig:poisson-square-speedup}.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_speedup.pdf}
-  \caption{Faktorji pohitritve $f_k(N)$ pri reševanju problema~\eqref{eq:poisson-problem}.}
+  \caption[Faktorji pohitritve pri reševanju Poissonove enačbe.]{Faktorji pohitritve $f_k(N)$ pri reševanju problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-speedup}
 \end{figure}
 Pri problemih z $N < 5\cdot 10^4$ se program že brez paralelizacije izvede v manj kot sekundi, tako
@@ -3932,7 +3982,7 @@ $k =12$ na sliki~\ref{fig:poisson-square-time-distribution-12}.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_time_distribution_12.pdf}
-  \caption{Čas izvajanja posameznih delov programa pri reševanju
+  \caption[Čas izvajanja delov programa pri uporabi 12 niti.]{Čas izvajanja posameznih delov programa pri reševanju
   problema~\eqref{eq:poisson-problem} z 12 nitmi.}
   \label{fig:poisson-square-time-distribution-12}
 \end{figure}
@@ -3956,7 +4006,7 @@ baznih funkcij in uteži, različnega števila sosedov. Pokazali smo, da se s pr
 določanje položajev diskretizacijskih točk lahko domeno posploši na poljubne domene, z uporabo
 izpeljanih algoritmov za goščenje diskretizacije pa se jo lahko uporabi na bolj zapletenih
 problemih. Metodo smo testirali na dveh klasičnih primerih iz elastostatike in se naučili, kako jo
-najbolje uporabljati. Za konec smo rešili še aktualen primer iz mehanike obrabe materialov in
+najbolje uporabljati. Za konec smo rešili še aktualen primer iz mehanike utrujanja materialov in
 pokazali ujemanje metode z drugimi metodami ter njeno primernost za reševanje takih problemov.
 
 Nadaljnje delo se lahko giblje v veliko smeri. Metodo samo se lahko obogati z večjo podporo za

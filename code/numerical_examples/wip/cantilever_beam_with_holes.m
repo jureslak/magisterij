@@ -30,29 +30,17 @@ displ  = h5read(datafile, [name '/disp']);
 u = displ(1, :);
 v = displ(2, :);
 max(sqrt(u.^2+v.^2))
-
-% M = spconvert(h5read(datafile, [name '/matrix'])');
-% rhs = h5read(datafile, [name '/rhs']);
-
-% displ2 = M \ rhs;
-% msu = displ2(1:N);
-% msv = displ2(N+1:end);
-
-% errum = norm(msu'-u)
-% errvm = norm(msv'-v)
-   
-[asxx, asyy, asxy, au, av] = cantilever_beam_analytical(x, y, P, L, D, E, nu);
-asv = von_mises(asxx, asyy, asxy);
+ 
     
-% M = spconvert(h5read(datafile, [name '/matrix'])');
-% rhs = h5read(datafile, [name '/rhs']);
-% 
+M = spconvert(h5read(datafile, [name '/matrix'])');
+rhs = h5read(datafile, [name '/rhs']);
+
 % displ2 = M \ rhs;
 % um = displ2(1:N);
 % vm = displ2(N+1:end);
 % max(sqrt(um.^2+vm.^2))
 
-
+size(M)
 %%
 close all
 
@@ -62,9 +50,13 @@ f = 1e5;
 % c = zeros(size(x));
 % c(types < 0) = 1;
 % c(types == 1) = -1;
-% scatter(x, y, 5, sxx, 'filled')
+
+sm = sum(abs(M),2);
+% types(1) = 3;
+% scatter(x, y, 5, types, 'filled')
 scatter(x+f*u, y+f*v, 5, sv/1000, 'filled')
 colormap parula
+% brighten(-0.7)
 % scontour(x+f*u, y+f*v, sxx/1000, 100, 100, 50);
 c = colorbar;
 title(c, 'kPa', 'interpreter', 'latex');

@@ -14,9 +14,18 @@ data = zeros(radnum, cofnum, simnum, 3);
 for i = 1:radnum
     for j = 1:cofnum
         for k = 1:simnum
-            if k > 4, break, end
+%             if k > 4, break, end
             grp = info.Groups(i).Groups(j).Groups(k);
             name = grp.Name;
+            
+            a = h5readatt(datafile, name, 'a');
+            pos = h5read(datafile, [name '/pos']);
+            x = pos(1, :);
+            y = pos(2, :);
+            n = sort(sqrt((x+a).^2 + y.^2));
+            md = n(2)*10^6
+            
+            
 
             N = h5readatt(datafile, name, 'N');
             stress = h5read(datafile, [name '/stress']);
@@ -33,4 +42,6 @@ end
 
 %%
 
-table = data(:, :, end-1, 2)/10^6
+% table = data(:, :, end-2, 2)/10^6
+% table = data(:, :, end-1, 2)/10^6
+table = data(:, :, :, 2)/10^6
