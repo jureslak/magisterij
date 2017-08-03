@@ -3635,8 +3635,7 @@ distretizacijah moramo vzeti tudi večji $H$, saj je napaka diskretizacije tolik
 Če torej ugotovimo, da se konvergenca ustavi ali ne nadaljuje več z enakim redom kot prej,
 smo najverjetneje zadeli ob napako zaradi končnih robnih pogojev.
 
-Pri veliki domeni je nemogoče enakomerno gosto večati diskretizacijo. Edina smiselna rešitev je
-zgostitev mreže le lokalno v okolici kontakta, kjer nas rešitev zanima bolj natančno.
+Pri veliki domeni je računsko nemogoče enakomerno gosto večati diskretizacijo. Neposredna rešitev je lokalno zgoščevanje mreže, kjer pričakujemo največjo napako in sicer v okolici kontakta.
 Izberimo $H = \unit[1]{m} \approx 75\,000\, b$ in zgostimo mrežo kot opisano v
 razdelku~\ref{sec:goscenje}. Izbrali smo $\ell = 8$ in $f = 0.4$.
 Najprej jo primarno zgostimo v pravokotnikih oblike \[
@@ -3646,7 +3645,7 @@ Najprej jo primarno zgostimo v pravokotnikih oblike \[
 \]
 Na sliki~\ref{fig:hertz-refined-domain} je prikazan kos tako zgoščene domene, na
 sliki~\ref{fig:hertz-refined-domain-density} pa gostota diskretizacija v domeni, podana kot razmerje
-med razdaljo do najbližjega soseda in največjo možno razdaljo do najbližjega soseda.
+med razdaljo do najbljižjega soseda in največjo možno razdaljo do najbljižjega soseda.
 
 \begin{figure}[h]
   \centering
@@ -3662,16 +3661,16 @@ med razdaljo do najbližjega soseda in največjo možno razdaljo do najbližjega
   \end{subfigure}
   \caption[Primer zgoščene domene s katero rešujemo Hertzev kontaktni
   problem.]{Primer sedemnajstkrat zgoščene domene s pomočjo katere lahko
-  natančneje rešimo Hertzev kontaktni problem~\eqref{eq:hertzian-problem}.}
+  bolj natančno rešimo Hertzev kontaktni problem~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-refined-domain-together}
 \end{figure}
 
-Rešimo problem na zgoščeni domeni z uporabo Gausovih funkcij z parametrom oblike $\sigma_b = 350\,
-r_c$, Gaussovo utežjo s $\sigma_w = r_c$ in $n = m = 9$. Sitem enačb smo rešili z iterativnim
-BiCGSTAB algoritmom z ILUT predpogojevanjem. Uporabili smo parametra $p=100$ in $\tau = 10^{-6}$.
-BiCGSTAB algoritem smo iterirali največ 1000-krat ali dokler ni bila ocena napake pod $10^{-15}$.
+Rešimo problem na zgoščeni domeni z uporabo Gausovih funkcij s parametrom oblike $\sigma_b = 350\,
+r_c$, Gaussovo utežjo s $\sigma_w = r_c$ in $n = m = 9$. Sitem enačb rešimo z iterativnim
+BiCGSTAB algoritmom z ILUT predpogojevanjem. Uporabimo parametra $p=100$ in $\tau = 10^{-6}$.
+BiCGSTAB algoritem iteriramo največ 1000-krat ali dokler ni ocena napake pod $10^{-15}$.
 Algoritem je v vseh primerih konvergiral. Na sliki~\ref{fig:hertz-refined-convergence} je prikazana
-konvergenca numerične metode pri različnih nivojih sekundarnega zgoščevanja.
+konvergenca numerične metode pri razližnih nivojih sekundarnega zgoščevanja.
 
 \begin{figure}[h]
   \centering
@@ -3682,8 +3681,7 @@ konvergenca numerične metode pri različnih nivojih sekundarnega zgoščevanja.
 
 Vidimo, da zgoščevanje zelo pomaga. Že samo pri primarnem zgoščevanju in $N = 10^4$ je napaka manjša
 kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo zgoščevanja še izboljša
-aproksimacijo in ohranja enak red. 
-Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
+aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
 sliki~\ref{fig:hertz-solution}.
 
 \begin{figure}[h]
@@ -3691,24 +3689,20 @@ sliki~\ref{fig:hertz-solution}.
   \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
   \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
   rešitev Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}. Zaradi
-  boljše vidnosti so pomiki povečani za faktor $5 \cdot 10^3$.}
+  boljše vidnosti so pomiki povečani za faktor $10^5$.}
   \label{fig:hertz-solution}
 \end{figure}
 
 \section{Zgled iz mehanike utrujenosti materialov}
 \label{sec:fwo}
-Oglejmo si še primer elastostatičnega problema, ki prihaja iz mehanike utrujenosti materialov
-\ang{fretting fatigue}.  Obraba materiala zaradi drgnjenja je pojav, ki se pojavi na kontaktni
-površini med dvema materialoma, ki se medsebojno gibljeta. Tako gibanje je ponavadi oscilatorno z
-majhno amplitudo.  Ker se pod takimi pogoji se lahko zmanjša življenjska doba materiala tudi do
-\unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo, je
-pomembno dobro razumevanje tega pojava, kot tudi vpliva različnih parametrov uporabljenega materiala
-na posledice. Eden izmed pogostih eksperimentov, opisan v~\cite{hojjati2014prediction},  za
+Oglejmo si še nekoliko bolj konkreten primer elastostatičnega problema in sicer mehaniko utrujanja materialov
+\ang{fretting fatigue}.  Ena izmed oblik utrujanja je obraba materiala zaradi drgnjenja. Tako gibanje je ponavadi oscilatorno z
+majhno amplitudo in skrajša življenjsko dobo materiala tudi do
+\unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo, kar je vsekakor dovolj dober motiv, da je razumevanje tega pojava pomembna znanstvena disciplina. Eden izmed pogostih eksperimentov za
 razumevanje tega pojava se izvede tako, da se ploščat kos materiala, ki ga imenujmo \emph{vzorec}
-vpne na enem koncu in drug konec pa periodično raztegujemo z napetostjo z amplitudo $\sax$. Z drugih
+vpne na enem koncu, med tem ko drug konec periodično raztegujemo z napetostjo $\sax$ ~\cite{hojjati2014prediction}. Z drugih
 dveh strani na vzorec pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta
-oscilatorno tangentno na površino materiala in nanj delujeta s tangentno silo $Q$.  Shema
-eksperimenta je prikazana na sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
+oscilatorno tangentno na površino materiala in nanj delujeta s tangentno silo $Q$.  Shema eksperimenta je prikazana na sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
 
 \begin{figure}[!h]
   \centering
@@ -3717,29 +3711,11 @@ eksperimenta je prikazana na sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
   \label{fig:fwo-shema}
 \end{figure}
 
-Naprednejše simulacije procesa želijo napovedati tudi rast razpoke v materialu, na
-katere smer, še posebno v režimu, ko je razpoka majhna, močno vpliva tangentna sila $Q$.
-Za kvalitetno numerično simulacijo razpoke torej potrebujemo dobro poznavanje napetosti na površini
-kontakta. Z numerično simulacijo simulacijo eksperimenta so se nedavno ukvarjali Pereira in
-drugi~\cite{pereira2016convergence} v sklopu mednarodnega sodelovanja med Univerzo v Luxemburgu,
-Univerzo v Gentu in Inštitutom ``Jožef Stefan''. Univerza v Luxemburgu bo postavila in izvedla
-zgoraj opisani eksperiment, Univerza v Gentu bo izvedla numerično simulacijo eksperimenta širjenja
-razpok z uporabo metode končnih elementov, Inštitut ``Jožef Stefan'' pa bo simuliral eksperiment z
-uporabo brezmrežnih metod in poskrbel za paralelizacijo. [TODO Gregor revise?]
-
-Prvi korak pri simulaciji eksperimenta je kvalitetna aproksimacija napetosti na površini kontakta,
-ki se mora ujemati z rezultati v~\cite{pereira2016convergence}. Avtorji so uporabili programski
-paket ABAQUS\textregistered~\cite{hibbitt2001abaqus} za analizo problema z
-uporabo metode končnih elementov, pri čemer so simulirali eksperiment v statičnem stanju maksimalne
-oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$. Gravitacijo v tem
-primeru ignoriramo, saj so napetosti zaradi nje mnogo manjše kot napetosti v eksperimentu.
-Posledično ima eksperiment vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
+Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo  v sklopu mednarodnega projekta (G018916N ``Multi-analysis of fretting fatigue using physical and virtual experiments'')  z Univerzo v Luksemburgu, Univerzo v Gentu in Inštitutom ``Jožef Stefan''  tudi numerično~\cite{pereira2016convergence}. Vloga Inštituta ``Jožef Stefan'' in Univerze v Luksemburgu je razviti originalno numerično rešitev problema, saj do sedaj uporabljena komercialna rešitev ABAQUS\textregistered~\cite{hibbitt2001abaqus}, ki jo uporabljajo na Univerzi V gentu, ni zagotovila zadovoljivih rezultatov pri simulaciji širjenja razpoke. Prvi korak k simulaciji eksperimenta je izračun napetosti na površini kontakta. Za referenčno rešitev uporabimo ~\cite{pereira2016convergence}, kjer so predstavljeni rezultati simulacije eksperimenta  statičnem stanju maksimalne oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$. 
+Eksperiment ima vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
 in polovično širino, ter ga nato prezrcalimo. Poleg tega je debelina materiala majhna in
 vse sile in napetosti so v ravnini materiala, torej ustreza predpostavki o ravninski napetosti in ga
-lahko prevedemo na dve dimenziji. Tako so naredili tudi avtorji v~\cite{pereira2016convergence} in
-diskretizirali glavo in polovico vzorca ter aproksimirali kontaktne površine in napetosti. Lotimo se
-enakega problema, a z drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta, na
-kratko opisano v~\ref{sec:hertz}, le da ima prisotno tudi tangentno silo, osno napetost in končne
+lahko prevedemo na dve dimenziji. Lotimo se problema z drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta (\ref{sec:hertz}), le da ima prisotno tudi tangentno silo, osno napetost in končne
 dimenzije.  V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za modeliranje
 napetosti, s katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij glave z $R$,
 širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak kot pri
@@ -3829,7 +3805,7 @@ v~\cite{pereira2016convergence} za $N = 52659$ pri manjšem in $N = 178897$ pri 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
-  \caption{Ujemanje MLSM in FEM rešitve pri analizi kontakta.}
+  \caption{Ujemanje MSLM in FEM rešitve pri analizi kontakta.}
   \label{fig:fwo-ujemanje}
 \end{figure}
 
@@ -3889,9 +3865,9 @@ za $\mu=0.85$ in $R = \unit[50]{mm}$ z $N = 178897$ točkami je prikazan na slik
   \label{fig:fwo-solution}
 \end{figure}
 
-Če to sliko primerjamo z sliko~\ref{fig:hertz-solution}, na kateri je rešitev Hertzevega kontaktnega
+Če to sliko primerjamo z sliko~\ref{fig:hertz-solution}, na kateri je rešitem Hertzevega kontaktnega
 problema opazimo podobno splošno obliko nivojnic napetosti v notranjosti, na površini pa se na
-sliki~\ref{fig:fwo-solution} močno pozna vpliv tangente sile $Q$, ki povzroči zamik nivojnic in
+sliki~\ref{fig:fwo-solution} močno pozna vpliv tangente sile $Q$, ki povzroči zamik nivojniv in
 koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja kot drugje v vzorcu.
 
 \section{Implementacija}
@@ -3899,8 +3875,7 @@ koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja ko
 Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
 implementirana na oddelku E6\footnote{\url{http://e6.ijs.si/}} Instituta ``Jožef
 Stefan''\footnote{\url{http://ijs.si/}} v Laboratoriju za vzporedno in porazdeljeno
-računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} [TODO kaj o
-avtorstvu?] Implementirana je bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti
+računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} Implementirana je bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti
 in dovolj močnih jezikovnih konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo
 elegantno implementacijo.  Podoben koncept uporablja knjižnica
 Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro.
@@ -3996,32 +3971,34 @@ brez veliko truda ali sprememb v izvorni kodi, tako da ni razloga, da je ne bi u
 
 \section{Zaključek}
 
-Tekom magistrske naloge smo si ogledali klasično teorijo elastomehanike, ki je še vedno aktualna,
-saj nudi osnovo probleme z drugih področij, kot na primer kontaktne mehanike. Poleg tega smo si
-ogledali splošno formulacijo brezmrežne MLSM metode in pokazali da posplošuje druge znane metode kot
-so metoda končnih diferenc in metoda radialnih baznih funkcij. Analizirali smo uporabo različnih
-baznih funkcij in uteži, različnega števila sosedov. Pokazali smo, da se s primernimi algoritmi za
-določanje položajev diskretizacijskih točk lahko domeno posploši na poljubne domene, z uporabo
-izpeljanih algoritmov za goščenje diskretizacije pa se jo lahko uporabi na bolj zapletenih
-problemih. Metodo smo testirali na dveh klasičnih primerih iz elastostatike in se naučili, kako jo
-najbolje uporabljati. Za konec smo rešili še aktualen primer iz mehanike utrujanja materialov in
-pokazali ujemanje metode z drugimi metodami ter njeno primernost za reševanje takih problemov.
+V magistrski nalogi smo si ogledali klasično teorijo elastomehanike in izpeljali Navierovo enačbo, ki opisuje deformacijo teles pod zunanjimi obremenitvami. Pokazali smo obstoj in enoličnost rešitve. Samega reševanja smo se lotili numerično in sicer s posplošeno močnostno MLSM metodo, za katero smo pokazali, da v posebnih primerih preide v FDM. Vpeljali smo tudi algoritem za zgoščevanje in prilagajanje diskretizacije poljubnim oblikam. 
 
-Nadaljnje delo se lahko giblje v veliko smeri. Metodo samo se lahko obogati z večjo podporo za
-različne domene ali celo poveže s kakšnim sistemom za računsko podprto geometrijsko oblikovanje.
-Pri goščenju mreže se lahko poglobimo v različne cenilke napake rešitve, tako da bi avtomatsko
-vedeli, kje gostiti mrežo. Pri računanju funkcij oblike lahko problem v posebnih, a pogostih primerih
-zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
-splošnost, saj ima uporabnik sam na voljo izbiro postopka za reševanje. Na področju implementacije se
-lahko usmerimo v večjo modularno in razširimo nabor možnih aproksimacij ali pa v paralelizacijo
-postopka.
+Metodo smo najprej testirali na preprosti Poissonovi enačbi, kjer smo preverili obnašanje glede na uporabo različnih
+baznih funkcij in uteži ter različnega števila sosedov. V nadaljevanju smo rešili dva klasična primera iz elastostatike in sicer vpet nosilec ter Hertzev kontakt. Splošnost MLSM glede postavitve diskretizacisjkih točk smo predstavili preko rešitve ``navrtanega'' vpetega nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici lukenj. Za konec smo rešili še primer iz mehanike utrujanja materialov in
+pokazali ujemanje metode z referenčno rešitvijo.  
 
-Na področju mehanike materialov metoda še bolj pokaže svoje prednosti, ko se spustimo v simulacijo
-razpok, saj je potrebno domeno premikati in gostiti okoli vrha razpoke, vendar je potrebno njeno
-obnašanje še raziskati.
+Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti razpoke. V ta namen bomo MLSM obogatili z adaptacijo baznih funkcij, kar bomo potrebovali za opis konice razpoke. Za opis razpoke bomo prav tako potrebovali cenilko napake rešitve, saj ne bo več v naprej znano, kje lahko pričakujemo največje napake. Pri računanju funkcij oblike bomo problem v posebnih, a pogostih primerih, zastavili preko reševanja sistema in tako pridobili na času reševanja, ki bo pri simulacijah rasti razpoke postal pomemben faktor. V ta namen se bomo posvetili tudi implementaciji paralelnih rešitvenih postopkov, tako na arhitekturah s skupnim pomnilnikom, kot tudi na distribuiranih arhitekturah. 
+
+%orabnik na voljo izbiro postopka za reševanje
+%zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
+%splošnost, saj ima uporabnik na voljo izbiro postopka za reševanje.
+
+% Metodo samo se lahko obogati z večjo 
+% podporo za
+%različne domene ali celo poveže s kakšnim sistemom za računsko podprto geometrijsko oblikovanje.
+%Pri goščenju mreže se lahko poglobimo v različne cenilke napake rešitve, tako da bi avtomatsko
+%vedeli, kje gostiti mrežo. Pri računanju funkcij oblike lahko problem v posebnih, a pogostih primerih
+%zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
+%splošnost, saj ima uporabnik na voljo izbiro postopka za reševanje. 
+%Na področju implementacije se
+%lahko usmerimo v večjo modularno in razširimo nabor možnih aproksimacij ali pa v paralelizacijo
+%postopka.
+
+%Na področju mehanike materialov metoda še bolj pokaže svoje prednosti, ko se spustimo v simulacijo
+%razpok, saj je potrebno domeno premikati in gostiti okoli vrha razpoke, vendar je potrebno njeno
+%obnašanje še raziskati.
 
 \cleardoublepage
-
 \addcontentsline{toc}{section}{Literatura}
 \bibliographystyle{unsrt}
 \bibliography{reference}
