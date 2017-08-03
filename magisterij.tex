@@ -1,3 +1,4 @@
+% !TeX spellcheck = sl_SI
 \documentclass[12pt,a4paper,twoside]{article}
 \usepackage[slovene]{babel}
 \usepackage[T1]{fontenc}
@@ -10,7 +11,7 @@
 \usepackage{array}
 \usepackage{enumerate}
 \usepackage{nicefrac}
-\usepackage{emptypage} % emply pages without any headers and footers
+%\usepackage{emptypage} % emply pages without any headers and footers
 \usepackage[list=true,listformat=simple]{subcaption}  % subfigure
 % \usepackage[all]{xy}  % diagrami
 \usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
@@ -211,10 +212,6 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 \noindent{\large Ljubljana, \letnica}
 
 \pagebreak
-
-Izjava o avtorstvu?
-
-\newpage
 
 Zahvala?
 
@@ -2836,7 +2833,7 @@ Izvajanje funkcije \textsc{sosedi} traja $O((N+n) \log N)$ časa za konstrukcijo
 drevesa in iskanje sosedov.
 
 Izvajanje funkcije \textsc{funkcijaOblike} traja po $O(n + nm + m + m^2n + nm +
-n) = O(mn^2)$, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
+n) = O(m^2n)$, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
 razcepa z dvostranskim Jacobi SVD razcepom iz knjižnice
 Eigen.\footnote{\url{https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html}
 [obiskano 16.\ 6.\ 2017]} Funkcija oblike se izračuna za vsako točko v domeni,
@@ -2848,7 +2845,7 @@ sestavljanje robnih pogojev pa $O(N)$ časa. Na koncu še rešimo razpršen sist
 linearnih enačb, kjer pa je čas zelo odvisen od problema, iteracijske metode in
 predpogojenke.
 
-Skupna časovna zahtevnost je tako $O(I N s \log^2 N + (N+n)\log N + m^2 N) + T$,
+Skupna časovna zahtevnost je tako $O(I N s \log^2 N + (N+n)\log N + m^2n N) + T$,
 kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
 \end{proof}
 
@@ -3632,14 +3629,14 @@ domene pri različnih gostotah diskretizacij.
   \label{fig:hertz-domain-too-small}
 \end{figure}
 
-Vidimo, da na začetku napaka, pozročena z netočnimi robnimi pogoji, pada in ko pade pod vrednost
-napake, dobljene zaradi diskretizacije, večanje $H$ ne pomaga več. Pri bojl natančnih
+Vidimo, da na začetku napaka, povzročena z netočnimi robnimi pogoji, pada in ko pade pod vrednost
+napake, dobljene zaradi diskretizacije, večanje $H$ ne pomaga več. Pri bolj natančnih
 distretizacijah moramo vzeti tudi večji $H$, saj je napaka diskretizacije toliko nižja.
-Če torej ugotovimo, da se konvergenca ustavi ali ne nadaljuje več z enakom redom kot prej,
+Če torej ugotovimo, da se konvergenca ustavi ali ne nadaljuje več z enakim redom kot prej,
 smo najverjetneje zadeli ob napako zaradi končnih robnih pogojev.
 
 Pri veliki domeni je nemogoče enakomerno gosto večati diskretizacijo. Edina smiselna rešitev je
-zgostistev mreže le lokalno v okolici kontakta, kjer nas rešitev zanima bolj natančno.
+zgostitev mreže le lokalno v okolici kontakta, kjer nas rešitev zanima bolj natančno.
 Izberimo $H = \unit[1]{m} \approx 75\,000\, b$ in zgostimo mrežo kot opisano v
 razdelku~\ref{sec:goscenje}. Izbrali smo $\ell = 8$ in $f = 0.4$.
 Najprej jo primarno zgostimo v pravokotnikih oblike \[
@@ -3649,7 +3646,7 @@ Najprej jo primarno zgostimo v pravokotnikih oblike \[
 \]
 Na sliki~\ref{fig:hertz-refined-domain} je prikazan kos tako zgoščene domene, na
 sliki~\ref{fig:hertz-refined-domain-density} pa gostota diskretizacija v domeni, podana kot razmerje
-med razdaljo do najbljižjega soseda in največjo možno razdaljo do najbljižjega soseda.
+med razdaljo do najbližjega soseda in največjo možno razdaljo do najbližjega soseda.
 
 \begin{figure}[h]
   \centering
@@ -3674,7 +3671,7 @@ r_c$, Gaussovo utežjo s $\sigma_w = r_c$ in $n = m = 9$. Sitem enačb smo reši
 BiCGSTAB algoritmom z ILUT predpogojevanjem. Uporabili smo parametra $p=100$ in $\tau = 10^{-6}$.
 BiCGSTAB algoritem smo iterirali največ 1000-krat ali dokler ni bila ocena napake pod $10^{-15}$.
 Algoritem je v vseh primerih konvergiral. Na sliki~\ref{fig:hertz-refined-convergence} je prikazana
-konvergenca numerične metode pri razližnih nivojih sekundarnega zgoščevanja.
+konvergenca numerične metode pri različnih nivojih sekundarnega zgoščevanja.
 
 \begin{figure}[h]
   \centering
@@ -3685,7 +3682,8 @@ konvergenca numerične metode pri razližnih nivojih sekundarnega zgoščevanja.
 
 Vidimo, da zgoščevanje zelo pomaga. Že samo pri primarnem zgoščevanju in $N = 10^4$ je napaka manjša
 kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo zgoščevanja še izboljša
-aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
+aproksimacijo in ohranja enak red. 
+Numerična rešitev, pridobljena z najfinejšo diskretizacijo je prikazana na
 sliki~\ref{fig:hertz-solution}.
 
 \begin{figure}[h]
@@ -3693,7 +3691,7 @@ sliki~\ref{fig:hertz-solution}.
   \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
   \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
   rešitev Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}. Zaradi
-  boljše vidnosti so pomiki povečani za faktor $10^5$.}
+  boljše vidnosti so pomiki povečani za faktor $5 \cdot 10^3$.}
   \label{fig:hertz-solution}
 \end{figure}
 
@@ -3831,7 +3829,7 @@ v~\cite{pereira2016convergence} za $N = 52659$ pri manjšem in $N = 178897$ pri 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
-  \caption{Ujemanje MSLM in FEM rešitve pri analizi kontakta.}
+  \caption{Ujemanje MLSM in FEM rešitve pri analizi kontakta.}
   \label{fig:fwo-ujemanje}
 \end{figure}
 
@@ -3891,9 +3889,9 @@ za $\mu=0.85$ in $R = \unit[50]{mm}$ z $N = 178897$ točkami je prikazan na slik
   \label{fig:fwo-solution}
 \end{figure}
 
-Če to sliko primerjamo z sliko~\ref{fig:hertz-solution}, na kateri je rešitem Hertzevega kontaktnega
+Če to sliko primerjamo z sliko~\ref{fig:hertz-solution}, na kateri je rešitev Hertzevega kontaktnega
 problema opazimo podobno splošno obliko nivojnic napetosti v notranjosti, na površini pa se na
-sliki~\ref{fig:fwo-solution} močno pozna vpliv tangente sile $Q$, ki povzroči zamik nivojniv in
+sliki~\ref{fig:fwo-solution} močno pozna vpliv tangente sile $Q$, ki povzroči zamik nivojnic in
 koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja kot drugje v vzorcu.
 
 \section{Implementacija}
@@ -4023,6 +4021,7 @@ razpok, saj je potrebno domeno premikati in gostiti okoli vrha razpoke, vendar j
 obnašanje še raziskati.
 
 \cleardoublepage
+
 \addcontentsline{toc}{section}{Literatura}
 \bibliographystyle{unsrt}
 \bibliography{reference}
