@@ -66,6 +66,9 @@ add_executable(cantilever_beam cantilever_beam.cpp overseer_cantilever.hpp)
 target_compile_definitions(cantilever_beam PUBLIC NDEBUG)
 target_link_libraries(cantilever_beam pde_utils)
 
+add_executable(cantilever_beam_matrix_example cantilever_beam_matrix_example.cpp overseer_cantilever.hpp)
+target_link_libraries(cantilever_beam_matrix_example pde_utils)
+
 add_executable(realistic_beam realistic_beam.cpp overseer_cantilever.hpp)
 target_link_libraries(realistic_beam pde_utils)
 

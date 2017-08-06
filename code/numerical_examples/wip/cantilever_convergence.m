@@ -1,5 +1,5 @@
 prepare
-datafile = [datapath 'cantilever_convergence_jarjar.h5'];
+datafile = [datapath 'cantilever_convergence_jarjar_wip.h5'];
 info = h5info(datafile);
 
 P = h5readatt(datafile, '/', 'P');
@@ -75,21 +75,26 @@ for i = 1:simnum
 
 
     fprintf('point %d/%d %s\r', i, simnum, name);
+    N=N
 end
 
 %%
 
 close all
-markers = {'+','o','*','x','s','d','^','v','<','>','p','h'};
-legendvals = {'G9 -- displacement', 'G9 -- stress', 'MON9 -- displacement',...
-    'MON9 -- stress'};
+markers = {'+','o','*','x','s','d','^','v','<','>','p','h', '+','o','*','x','s','d','^','v','<','>','p','h'};
+legendvals = {...
+    'G9 100 -- displacement', 'G9 -- stress',...
+    'G9 200 -- displacement', 'G9 -- stress',...
+    'G9 300 -- displacement', 'G9 -- stress',...
+    'G9 400 -- displacement', 'G9 -- stress',...
+    'MON9 -- displacement', 'MON9 -- stress'};
 colors = {
     [1,123,206]/256,
     [255,169,0]/256,
 %     [1,56,147]/256,
 %     [0,98,199]/256,
     [253,94,91]/256,
-    [255,169,0]/256,
+%     [255,169,0]/256,
 %     [137,1,1]/256,
 %     [238,16,31]/256,
     [15,85,48]/256+0.1,
@@ -125,13 +130,13 @@ text(0.50, 0.32, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-% xlim([1e2, 2e6])
-% ylim([0.05, 0.5])
+xlim([150, 1e4])
+ylim([1e-3, 0.2])
 % set(gca, 'YTick', [0.05, 0.1, 0.2, 0.5])
 legend(legendvals)
 
 f2 = setfig('b2');
-h = area(Ns, time/60);
+h = area(Ns, time);
 for i = 1:6, h(i).FaceColor = colors{i+2}; end
 legend('grajenje domene','ra\v{c}unanje funkcij oblike',...
        'grajenje matrike', 'ILUT', 're\v{s}evanje sistema',...
@@ -141,7 +146,7 @@ legend('grajenje domene','ra\v{c}unanje funkcij oblike',...
 % set(gca, 'TickDir','out')
 set(gca, 'Layer', 'top')
 xlabel('$N$')
-ylabel('\v{c}as [min]')
+ylabel('\v{c}as [s]')
 xlim([-inf, inf])
 
 

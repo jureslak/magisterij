@@ -219,6 +219,9 @@ int main(int arg_num, char* arg[]) {
     NNGaussians<Vec2d> g9(O.sigmaB, O.m);
     vector<int> refine_levels = {0, 1, 2, 3, 4, 5, 6};
 
+//      solve_hertzian(150, 5, mon9, "mon9");
+
+//      return 0;
     for (int i = 0; i < testrange.size(); i += 4) {
         int n = testrange[i];
         prn(n);

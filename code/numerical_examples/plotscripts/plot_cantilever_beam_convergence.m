@@ -28,19 +28,19 @@ for i = 1:typenum
     plot(Ns, data(i, :, 4), [markers{2*i+1}, '--'], 'Color', colors{i})
 end
 
-fitrange = 1:90;
+fitrange = 1:40;
 fitx = Ns(fitrange);
 best = polyfit(log(fitx), log(data(2, fitrange, 2)), 1);
 % plot(fitx, exp(best(2))*fitx.^best(1), ':k');
 text(0.775, 0.131, sprintf('$k = %.2f$', best(1)), 'Units', 'normalized')
 
 best2 = polyfit(log(fitx), log(data(2, fitrange, 4)), 1);
-text(0.893, 0.24, sprintf('$k = %.2f$', best2(1)), 'Units', 'normalized')
+text(0.873, 0.29, sprintf('$k = %.2f$', best2(1)), 'Units', 'normalized')
 
 set(gca, 'XScale', 'log', 'YScale', 'log')
 xlabel('$N$')
 ylabel('$L_\infty$ napaka')
-xlim([1e2, 1.5e6])
+xlim([1e2, 1.1e6])
 ylim([5e-6, 1e0])
 % set(gca, 'YTick', [0.05, 0.1, 0.2, 0.5])
 legend(legendvals)

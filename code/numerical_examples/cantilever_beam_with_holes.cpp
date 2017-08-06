@@ -160,8 +160,8 @@ void solve_cantilever(int n, T<Vec2d> basis, const string& name) {
 //    cout << M << endl;
 //    SparseLU<matrix_t> solver;
     BiCGSTAB<matrix_t, IncompleteLUT<double>> solver;
-    solver.preconditioner().setDroptol(1e-5);
-    solver.preconditioner().setFillfactor(100);
+    solver.preconditioner().setDroptol(1e-6);
+    solver.preconditioner().setFillfactor(150);
     M.makeCompressed();
     solver.compute(M);
     timer.addCheckPoint("lut");
@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
 //                             196, 205, 214, 223, 232, 243, 253, 264, 275, 287, 300, 313, 326, 340,
 //                             355, 371, 387, 403, 421, 439, 458, 478, 499, 520, 543, 567, 591, 617,
 //                             643, 671, 700};
-    vector<int> testrange = {150};
+    vector<int> testrange = {150}; // 150;
 
     Monomials<Vec2d> mon9({{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}});
     NNGaussians<Vec2d> g9(O.sigmaB, O.m);

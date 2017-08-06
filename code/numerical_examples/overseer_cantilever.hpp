@@ -88,7 +88,7 @@ public:
         mu = E / 2. / (1+v);
         lam = E * v / (1-2*v) / (1+v);
         // plane stress
-//        lam = 2 * mu * lam / (2 * mu + lam);
+        lam = 2 * mu * lam / (2 * mu + lam);
 
 
         file.setDoubleAttribute("mu"          , mu        );
