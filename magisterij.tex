@@ -213,10 +213,6 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 
 \pagebreak
 
-Zahvala?
-
-\pagebreak
-
 \tableofcontents
 
 \newpage
@@ -225,7 +221,21 @@ Zahvala?
 
 \newpage
 
-Program dela?
+\section*{Program dela}
+V delu predstavite teorijo linearne elastičnosti s poudarkom na natančni matematični formulaciji.
+Izpeljite pripadajoče enačbe ravnovesja in nato z orodji funkcionalne analize obravnavajte
+enoličnost obstoja rešitve.
+
+Iz metode končnih diferenc izpeljite bolj splošno numerično metodo, ki bo omogočala obravnavo
+neregularnih oblik, zgoščevanje porazdelitve računskih točk in spreminjanje reda natančnosti
+aproksimacij odvodov. Analizirajte delovanje metode na preprostih primerih in postopoma nadgrajujte
+problem do Hertzevega problema. Kot zadnji primer predstavite rešitev Hertzevega kontakta z
+upoštevanjem trenja in lepenja na stični površini. Kjer je mogoče rešitve podprite s primerjavami z
+analitičnimi rešitvami in konvergenčnimi analizami.
+
+Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearized},\cite{hertz1882beruhrung}
+\cite{gurtin1982introduction} (prvi del), \cite{meshless_review}, \cite{uienkiewicz2000finite},
+\cite{liu_solid}, \cite{chen2006meshless}, \cite{trobec_kosec} (drugi del).
 
 \newpage
 
@@ -262,7 +272,7 @@ so zelo redko rešljive na roke ali analitično in ne preostane nam drugega, kot
 lotimo z računalnikom. Numerično se probleme linearne elastičnosti ponavadi rešuje v šibki obliki z
 metodo končnih elementov~\cite{uienkiewicz2000finite}. Toda že v preteklosti so probleme reševali v
 močni obliki z metodo končnih diferenc~\cite{hattel1994control} in metodo končnih
-volumnov~\cite{stone2003dynamic}. Poleg tega so se v bolj bližji preteklosti za reševanje
+volumnov~\cite{stone2003dynamic}. Poleg tega so se v bolj bližnji preteklosti za reševanje
 elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v močni in šibki
 obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da ne potrebujejo
 polne diskretizacije domene (npr.\ z večkotniki) kot jo metoda končnih elementov, temveč le točke v
@@ -270,7 +280,7 @@ domeni in poznavanje njihove lokalne medsebojne lege, kar omogoča večjo sploš
 na višje dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo implementacijo. Poleg
 tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot npr.\ pri problemih, kjer je
 treba premikati rob domene ali točke v notranjosti, kot na primer simulacije širjenja
-razpok~\cite{rao2000efficient}.  Eno izmed brezmrežnih metod s sodelavci razvijamo tudi v
+razpok~\cite{rao2000efficient}.  Eno izmed brezmrežnih metod razvijamo s sodelavci  tudi v
 Laboratoriju za vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan'' in sodelujemo v
 mednarodnem projektu skupaj z Univerzo v Gentu in Univerzo v Luksemburgu na področju utrujanja
 materialov.
@@ -439,8 +449,8 @@ izpeljavah.
 \subsection{Osnovni izreki funkcionalne analize}
 
 Ponovimo še nekaj osnovnih definicij in izrekov funkcionalne analize, ki jih bomo potrebovali pri
-obravnavi enoličnosti in obstoje rešitve linearnih parcialnih diferencialnih enačb. Enačbe bodo
-veljale na neki množici $\Omega$, za katero bomo predpostavili da je odprta, povezana z odsekoma
+obravnavi enoličnosti in obstoja rešitve linearnih parcialnih diferencialnih enačb. Enačbe bodo
+veljale na neki množici $\Omega$, za katero bomo predpostavili, da je odprta, povezana z odsekoma
 gladkim robom.  Taki množici bomo rekli \emph{domena}. Gaussov izrek~\ref{izr:gauss} tako velja za
 omejene domene. Za matematično natančno obravnavo parcialnih diferencialnih enačb in njihovih
 odvodov bomo potrebovali ustrezne funkcijske prostore, ti.\ prostore Soboljeva.  Na temo prostorov
@@ -499,7 +509,7 @@ $\vv \in [H^1(\Omega)]^3$, kar pomeni, da je $v_i \in H^1(\Omega)$ za vsak $i$.
 
 \begin{trditev}[Kornova neenakost]
   \label{trd:korn}
-  Za vsako funkcijo $\vu \in [H^1(\Omega)]^3$ in pozitivno definiten tenzor četrtega reda $C$ velja.
+  Za vsako funkcijo $\vu \in [H^1(\Omega)]^3$ in pozitivno definiten tenzor četrtega reda $C$ velja:
   \[ \int_{\Omega} (|\vu|^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
   \frac14 (\grad \vu + \grad \vu^\T) :C: (\grad \vu + \grad \vu^\T)dV, \]
   za neko konstanto $c_1$ neodvisno od $\vu$.
@@ -535,7 +545,7 @@ sledi~\cite[str.\ 164, izrek 5.36]{adams2003sobolev}.
   je operator zožitve, ki slika $W^{m,p}(\Omega) \to L^q(\partial \Omega)$ zvezen.
 \end{izrek}
 \begin{opomba}
-  Pogosto se tudi tej preslikave reče vložitev, saj zožitve funkcij na rob domene vlagamo v druge
+  Pogosto se tudi tej preslikavi reče vložitev, saj zožitve funkcij na rob domene vlagamo v druge
   prostore. Za primer $d=3$, $k=1$ in $p=2$ dobimo $p^\ast = 4$ in s tem zvezno vložitev
   \[
     H^1(\Omega) \hookrightarrow L^4(\partial\Omega).
@@ -665,7 +675,7 @@ pojaviti drugje, ter da se ne morejo sploščiti ali sekati samih sebe.
   \end{equation}
 \end{primer}
 
-Vsako količino $\phi$ definirano na telesu $\B$, kot na primer temperaturo ali
+Vsako količino $\phi$, definirano na telesu $\B$, kot na primer temperaturo ali
 hitrost, lahko zapišemo na dva načina, v
 prostorskih ali v referenčnih koordinatah. Za funkcijo
 \begin{align}
@@ -689,7 +699,7 @@ koordinatah. Z velikimi črkami bomo pisali operatorje, kjer odvajamo glede na
 referenčne koordinate, z malimi pa tiste, kjer odvajamo glede na prostorske.
 
 \begin{primer}
-  Damo imamo količino $\vartheta(t, X, Y, Z) = tX^2 + 2 ZY$, ki je zapisana v
+  Dano imamo količino $\vartheta(t, X, Y, Z) = tX^2 + 2 ZY$, ki je zapisana v
   referenčnih koordinatah. Če jo zapišemo v prostorskih s pomočjo izpeljane
   inverzne relacije~\eqref{eq:gibanje-inv} iz primera~\ref{prim:gib}, dobimo
   \[
@@ -785,9 +795,9 @@ zakonom, ki jih bomo za nadaljnje izpeljave privzeli kot aksiome.
   konstantna.
 \end{aksiom}
 
-Druga dva aksioma bosta poleg mase imela opraviti s silami. Kako lahko sile delujejo na telo?
-En način so sile na daljavo, kot na primer gravitacija, ki delujejo na vsak košček telesa posebej.
-Drug način so kontaktne sile, ki nastanejo zaradi stika s telesa z nekim zunanjim objektov in se
+Druga dva aksioma bosta poleg mase imela opraviti s silami. Kako lahko sile delujejo na telo?  En
+način so sile na daljavo, kot na primer gravitacija, ki delujejo na vsak košček telesa posebej.
+Drug način so kontaktne sile, ki nastanejo zaradi stika telesa z nekim zunanjim objektom in se
 prenašajo preko površine. Te sile v skladu s hipotezo kontinuuma opišemo z njihovimi
 \emph{gostotami} in vedno delujejo na telo v njegovi prostorski konfiguraciji, saj je to
 konfiguracija, ki jo telo dejansko zavzame med gibanjem. Če bi bila sila konstantna, potem gostota
@@ -902,7 +912,7 @@ Iz telesa izrežimo neko podtelo. Na površini tega podtelesa zunanji del
 kontinuuma deluje na podtelo, toda ekvivalentno bi bilo, če bi zunanji del odstranili in na površino
 preostanka delovali z enakim poljem sil, kot je prej deloval drugi del.
 
-Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa.  V nekem trenutku $t$ v
+Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa. V nekem trenutku $t$ v
 času se postavimo v neko točko $\vx$ v telesu in si zamislimo neko podtelo, tako da je izbrana točka
 na njegovi površini. Tedaj obstaja vektor $\vt$, ki predstavlja silo, s katero preostali kontinuum
 deluje v tej točki na izbrano podtelo. Če bi si izbrali drugo podtelo, bi bila sila v splošnem
@@ -955,7 +965,7 @@ valj aksiom o gibalni količini~\eqref{eq:gib}:
 \begin{align*}
   \DDt{} \int_{B_t} \vv dm = \int_{B_t} \vf dV + \int_{\partial B_t} \vt dS.
 \end{align*}
-Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob vclja
+Po trditvi~\ref{trd:swap-der-int} lahko zamenjamo odvod in integral, rob valja
 razpišimo po ploskvah:
 \[
   \int_{B_t} \DDt{\vv} \rho dV = \int_{B_t} \vf dV + \int_{B^+} \vt_{\vn} dS +
@@ -997,7 +1007,7 @@ matematični objekt, s pomočjo katerega lahko opišemo napetost v materialu.
 \end{izrek}
 \begin{proof}
 Podobno kot pri Cauchyjevi recipročni relaciji si tokrat izberimo majhno telo z ogliščem v točki
-$\vx$. Naj bo to tetraeder z tremi stranicami, vzporednimi koordinatnim osem in normalo $\vn$ na
+$\vx$. Naj bo to tetraeder s tremi stranicami, vzporednimi koordinatnim osem in normalo $\vn$ na
 ploskev, ki jo razpenjajo preostale tri stranice, kot prikazano na sliki~\ref{fig:tetra}.
 
 \begin{figure}[h]
@@ -1008,7 +1018,7 @@ ploskev, ki jo razpenjajo preostale tri stranice, kot prikazano na sliki~\ref{fi
 \end{figure}
 
 Označimo oglišča tetraedra z $A_1, A_2, A_3, A_4 = \vx$ in ploskev nasproti izbranega
-oglišča z $S_1, S_2, S_3, S_4$. Ploščine teh ploskev označimo z
+oglišča s $S_1, S_2, S_3, S_4$. Ploščine teh ploskev označimo z
 $a_1, a_2, a_3, a_4$.  Naj bodo pravokotne stranice tetraedra
 dolge $\eps_1 h$, $\eps_2 h$ in $\eps_3 h$, kjer razmerje $\eps_1 : \eps_2 : \eps_3$
 določimo tako, da je normala na $S_4$ enaka $\vn$.
@@ -1274,7 +1284,7 @@ Izračunamo:
 Deformacijo $F$ lahko s pomočjo polarnega razcepa zapišemo kot $F = RU$, kjer je
 $R$ ortogonalna in $U$ pozitivno definitna matrika. Tenzor $R$ predstavlja
 rotacijo, $U$ pa razteg in strig. Predstavljamo si lahko, da deformacijo $F$
-izvedemo tako, da najprej telo v koordinatne sistemu, v katerem je $U$ diagonalna,
+izvedemo tako, da najprej telo v koordinatnem sistemu, v katerem je $U$ diagonalna,
 raztegnemo, nato pa zavrtimo v končno lego.
 
 Rotacija $R$ ne vpliva na obrabo in deformacijo materiala, saj je pomik tog in ne povzroča notranjih
@@ -1330,7 +1340,7 @@ linearizacijo: zanemarimo člen $\Grad \vu^\T \Grad \vu$.
   linearizacija deformacijskega tenzorja.
 \end{definicija}
 
-Pokažimo še naslednjo karaterizacijo, ki pove, da se tudi $\eps$ za toge pomike
+Pokažimo še naslednjo karakterizacijo, ki pove, da se tudi $\eps$ za toge pomike
 obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduction}.
 \begin{trditev}
   \label{trd:eps-0}
@@ -1339,8 +1349,8 @@ obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduct
 \end{trditev}
 \begin{proof}
   Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$, torej je $\Grad u$ antisimetričen.
-  Naj bo $\Omega$ odprta konveksna množica pod $\B$.  Izbrerimo poljubni točki $\vX, \vY \in \Omega$
-  in daljico med njima enakomerno parametrizirajmo, tako da je $\gamma(1) = \vX, \gamma(0) = \vY,
+  Naj bo $\Omega$ odprta konveksna množica pod $\B$.  Izberimo poljubni točki $\vX, \vY \in \Omega$
+  in daljico med njima enakomerno parametriziramo, tako da je $\gamma(1) = \vX, \gamma(0) = \vY,
   \dot\gamma(t) = \vX-\vY$. Integrirajmo $\Grad \vu$ po $\gamma$:
   \[
     \vu(\vX) - \vu(\vY) = \int_0^1 (\Grad\vu(\gamma(t)))\dot\gamma(t)dt =
@@ -1364,7 +1374,7 @@ obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduct
   \[
     \Grad \vu(\vY) = \Grad\vu(\vX).
   \]
-  Ker lahko telo $\B$ pokrijemo z odpritmi konveksnimi množicami (na primer kroglami),
+  Ker lahko telo $\B$ pokrijemo z odprtimi konveksnimi množicami (na primer kroglami),
   je $\Grad\vu$ konstanten. Pomik $\vu$ je torej oblike $\vu = \va + (\Grad\vu) \vX$.
   Ker je $\Grad \vu$ antisimetričen, ga lahko zapišemo kot vektorski produkt z
   njegovim osnim vektorjem in dobimo $\vu = \va + \vb \times \vX$.
@@ -1444,7 +1454,7 @@ Parametra $\lambda$ in $\mu$ imenujemo Lam\'{e}jevi konstanti.
 Običajno so materiali tudi homogeni, torej snovne konstante niso odvisne od
 lokacije v materialu, temveč so lastnosti materiala samega.
 Veliko resničnih gradbenih materialov kot na primer železo, jeklo, aluminij in
-ostale kovine ter steklo zadoščajo vseh predpostavkam Navierove enačbe. Primer
+ostale kovine ter steklo zadoščajo vsem predpostavkam Navierove enačbe. Primer
 anizotropnega materiala je recimo les.  V strojniških priročnikih najdemo snovne
 lastnosti bolje pogosto opisane s parametroma $E$ in $\nu$, ki jima pravimo
 Youngov (prožnostni) modul in Poissonovo razmerje. Zveza med njimi je
@@ -1457,7 +1467,7 @@ stisljivost. Tabela pretvorb med različnimi parametri je na voljo v~\cite[tabel
 5.1, str.\ 215]{slaughter2012linearized}. Teoretična omejitev za parametre je
 dana s tem, da zahtevamo pozitivno definitnost energije kot kvadratne forme in
 velja, če je $\lambda, \mu > 0$ ali pa $E > 0$ in $-1 < \nu < \frac12$.
-Poissonovo razmerje predstavlja razmerje med tem, koliko se telo ob pri raztegu v eni dimenziji
+Poissonovo razmerje predstavlja razmerje med tem, koliko se telo pri raztegu v eni dimenziji
 skrči v drugi. Materiali, ki imajo Poissonovo razmerje negativno se ob raztegu v eni dimenziji
 raztegnejo tudi v drugi, se imenujejo \emph{auksetični} materiali \ang{auxetic materials}.
 Eden prvih auksetičnih materialov je bil sintetiziran leta 1987~\cite{lakes1987foam}, raziskave na
@@ -1582,17 +1592,15 @@ Z obstojem in enoličnostjo rešitve se bomo ukvarjali pri stacionarni Navierovi
 enačbi~\eqref{eq:navier-stac} z mešanimi robnimi pogoji pri katerih je na nekem
 delu roba predpisan pomik, na drugem delu pa površinska sila.
 
-Ker je enačba linearna, je ideja dokaza obstoja in enoličnosti, da rešitev
-enačbe zapišemo kot linearen funkcional na primernem prostoru in nato uporabimo
-Riezsov reprezentacijski izrek~\ref{izr:riesz-useful}, ki nam bo dal obstoj
-rešitve. Ideja poti do dokaza je vzeta iz~\cite[izrek 3.17.1, str.\
-232]{lebedev2009introduction}. Iz izkušenj vemo, da bo rešitev obstajala in bo
-enolična v šibkem smislu, zato prevedimo enačbo v šibko obliko in definirajmo
-šibko rešitev. Začeli bomo bolj splošno in prevedli na šibko obliko
-stacionarno linearizirano enačbo gibanja~\eqref{eq:gib-lin}, nato pa nadaljevali
-do stacionarne Navierove enačbe. Šibko obliko enačbe dobimo tako, da jo pomnožimo z splošno
-funkcijo $\vv$, integriramo in preko integracije \emph{per partes} ali drugih
-izrekov znižamo red odvoda na funkciji, ki jo iščemo.
+Ker je enačba linearna, je ideja dokaza obstoja in enoličnosti, da rešitev enačbe zapišemo kot
+linearen funkcional na primernem prostoru in nato uporabimo Riezsov reprezentacijski
+izrek~\ref{izr:riesz-useful}, ki nam bo dal obstoj rešitve. Ideja poti do dokaza je vzeta
+iz~\cite[izrek 3.17.1, str.\ 232]{lebedev2009introduction}. Iz izkušenj vemo, da bo rešitev
+obstajala in bo enolična v šibkem smislu, zato prevedimo enačbo v šibko obliko in definirajmo šibko
+rešitev. Začeli bomo bolj splošno in prevedli na šibko obliko stacionarno linearizirano enačbo
+gibanja~\eqref{eq:gib-lin}, nato pa nadaljevali do stacionarne Navierove enačbe. Šibko obliko enačbe
+dobimo tako, da jo pomnožimo s splošno funkcijo $\vv$, integriramo in preko integracije \emph{per
+partes} ali drugih izrekov znižamo red odvoda na funkciji, ki jo iščemo.
 
 \begin{trditev}
   Šibka oblika linearne stacionarne enačbe gibanja $\div \ts + \vf = 0$ je
@@ -1638,7 +1646,7 @@ pri čemer je $\Omega$ povezana omejena odprta množica z odsekoma gladkim robom
 $S$ nek kos $\partial\Omega$ z odsekoma gladkim robom in $\vn$
 enotska zunanja normala za $\partial\Omega$.
 Klasično rešitve iščemo v podprostoru dvakrat zvezno odvedljivih funkcij
-$C^2(\Omega, R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor z $C^2_S$
+$C^2(\Omega, R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor s $C^2_S$
 in na njem definirajmo bilinearno formo \[
   \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV.
 \]
@@ -1679,13 +1687,12 @@ Kornova neenakost~\ref{trd:korn} pravi, da je
   \int_{\Omega} (|\vu|^2 + \|\grad \vu\|^2) dV \leq c_1 \int_{\Omega}
   \eps(\vu):C:\eps(\vu)dV.
 \]
-Drugače prebrano pove, da je $\|u\|_{[H^1(\Omega)]^3}^2 \leq c_1 \|u\|_E^2$.
-Dano imamo torej zvezno vložitev $E$ v $[H^1(\Omega)]^3$.
-Na vsaki komponenti $\vu$ lahko sedaj uporabimo izrek o vložitvi prostorov
-Soboljeva~\ref{izr:vlozitev-sobolj} in izrek o sledi~\ref{izr:soboljev-sled} in dobimo, da je vsaka
-komponenta $\vu$ in $|\vu|$ ležijo v $L^6$. Po istem izreku dobimo, da za vsako odsekoma gladko
-ploskev $\Sigma \subseteq \Omega$ komponente in norma $\vu$ ležijo v
-$L^4(\Sigma)$. Dobimo verigi zveznih vložitev
+Drugače prebrano pove, da je $\|u\|_{[H^1(\Omega)]^3}^2 \leq c_1 \|u\|_E^2$.  Dano imamo torej
+zvezno vložitev $E$ v $[H^1(\Omega)]^3$.  Na vsaki komponenti $\vu$ lahko sedaj uporabimo izrek o
+vložitvi prostorov Soboljeva~\ref{izr:vlozitev-sobolj} in izrek o sledi~\ref{izr:soboljev-sled} in
+dobimo, da vsaka komponenta $\vu$ in $|\vu|$ ležijo v $L^6$. Po istem izreku dobimo, da za vsako
+odsekoma gladko ploskev $\Sigma \subseteq \Omega$ komponente in norma $\vu$ ležijo v $L^4(\Sigma)$.
+Dobimo verigi zveznih vložitev
 \begin{align*}
   E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^6(\Omega)]^3 \\
   E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^4(\Sigma)]^3,
@@ -1699,7 +1706,7 @@ ki prek norm na prvem in zadnjem prostoru implicirata neenakosti
 \end{align*}
 
 Na šibko obliko Navierove enačbe iz definicije šibke rešitve~\ref{def:sibka}
-lahko gledamo kot na na enačbo oblike
+lahko gledamo kot na enačbo oblike
 \[
   \langle \vv, \vu \rangle_E = F(\vv),
 \]
@@ -1732,7 +1739,7 @@ in
     |\vv|^4dS\right)^\frac14}_{\leq \; c_4 \|\vv\|_E} \leq \\
     &\leq c_3 c_4 \|\vv\|_E.
 \end{align*}
-Funkcional $F$ je po trikotniški neenakost torej omejen in zato zvezen. Po
+Funkcional $F$ je po trikotniški neenakosti torej omejen in zato zvezen. Po
 izreku~\ref{izr:riesz-useful} torej obstaja enolično določen $\vu^\ast \in E$,
 tako da je
 \[ F(v) = \langle \vv, \vu^\ast \rangle_E \]
@@ -1750,7 +1757,7 @@ kot da je $\vu = \vu^\ast$ enolična rešitev v smislu definicije~\ref{def:sibka
 
 Samo enoličnost lahko dokažemo tudi na bolj elementaren način, ki morda nudi boljši
 vpogled v to, kako robni pogoji določijo enoličnost rešitve v notranjosti, hkrati pa ne potrebuje
-tako strogih predpostav na $\vf$ in $\vt$.
+tako strogih predpostavk na $\vf$ in $\vt$.
 \begin{izrek}[Kirchoff]
   Rešitev problema~\ref{eq:navier-general-problem} je enolična v
   $E$, če obstaja.
@@ -1770,7 +1777,7 @@ Zaradi pozitivne definitnosti $C$ sledi $\eps(\vw) = 0$ od koder kot prej zaradi
 robnih pogojev sledi $\vw = 0$ oziroma $\vu_1 = \vu_2$.
 \end{proof}
 \begin{opomba}
-  Iz enoličnost v $E$ sledi tudi enoličnost v klasičnem smislu, saj je prostor klasičnih rešitev
+  Iz enoličnosti v $E$ sledi tudi enoličnost v klasičnem smislu, saj je prostor klasičnih rešitev
   podprostor v $E$.
 \end{opomba}
 
@@ -2727,7 +2734,7 @@ prej.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\iw]{images/relax_improvement.pdf}
-  \caption[Spremeba kvalitete diskretizacije po izboljšavi.]{Sprememba $h$ in
+  \caption[Sprememba kvalitete diskretizacije po izboljšavi.]{Sprememba $h$ in
     $S$ po 10 iteracijah algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$,
     $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem krogu z začetno
     Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in notranjih
@@ -2976,9 +2983,7 @@ funkcija vrednosti blizu nič pri vseh sosedih razen pri sebi. Hkrati mora biti
 parameter dovolj majhen, da sistem~\eqref{eq:shape-system} ni preveč nestabilen.
 Bolj natančna analiza izbire parametra oblike za radialne bazne funkcije in
 za utež je narejena na sliki~\ref{fig:poisson-square-sigma-dep} med numeričnimi
-zgledi na strani~\pageref{fig:poisson-square-sigma-dep}. V~\cite{schaback1997efficiency} je tudi
-pokazano, da izbire velikih parametrov oblike nudijo visoko natančnost za ceno numerične stabilnosti
-in obratno.
+zgledi na strani~\pageref{fig:poisson-square-sigma-dep}.
 
 Pogosto se k bazi radialnih baznih funkcij doda še monome nizkih stopenj, za
 boljšo aproksimacijo funkcij, ki so blizu konstantam. Več o kvaliteti,
@@ -3288,11 +3293,11 @@ Graf napake je prikazan na sliki~\ref{fig:poisson-square-sigma-dep-error}.
   \end{subfigure}
   \begin{subfigure}[t]{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_cutoff.png}
-    \caption[Šetvilo odrezanim singularnih vrednosti.]{Število odrezanih
+    \caption[Število odrezanih singularnih vrednosti.]{Število odrezanih
     singularnih vrednosti v odvisnosti od $\sigma_b$ in $\sigma_w$.}
     \label{fig:poisson-square-sigma-dep-cutoff}
   \end{subfigure}
-  \caption[Analiza reševanja Possonove enačbe z Gaussovimi funkcijami in utežmi.]{Analiza reševanja problema~\eqref{eq:poisson-problem} z Gaussovimi funkcijami
+  \caption[Analiza reševanja Poissonove enačbe z Gaussovimi funkcijami in utežmi.]{Analiza reševanja problema~\eqref{eq:poisson-problem} z Gaussovimi funkcijami
   in Gaussovo utežjo pri $n = m = 9$ in $N = 2601$.}
   \label{fig:poisson-square-sigma-dep}
 \end{figure}
@@ -3417,7 +3422,8 @@ Na sliki~\ref{fig:cantilever-beam-convergence} je prikazana konvergenca numerič
 analitični.  Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico označimo
 izračunane količine, brez strešice pa analitične, potem napako izračunamo kot
 \begin{align*}
-  e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|,|v(x)-\hat v(x)|\}}{\max_{x\in X} \{\max\{|u(x)|,|v(x)|\}}, \\
+  e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|,|v(x)-\hat v(x)|\}\}}
+  {\max_{x\in X} \{\max\{|u(x)|,|v(x)|\}\}}, \\
   e_\infty(\ts) &= \frac{\max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
   |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
   |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\}}{
@@ -3711,7 +3717,7 @@ oscilatorno tangentno na površino materiala in nanj delujeta s tangentno silo $
   \label{fig:fwo-shema}
 \end{figure}
 
-Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo  v sklopu mednarodnega projekta (G018916N ``Multi-analysis of fretting fatigue using physical and virtual experiments'')  z Univerzo v Luksemburgu, Univerzo v Gentu in Inštitutom ``Jožef Stefan''  tudi numerično~\cite{pereira2016convergence}. Vloga Inštituta ``Jožef Stefan'' in Univerze v Luksemburgu je razviti originalno numerično rešitev problema, saj do sedaj uporabljena komercialna rešitev ABAQUS\textregistered~\cite{hibbitt2001abaqus}, ki jo uporabljajo na Univerzi V gentu, ni zagotovila zadovoljivih rezultatov pri simulaciji širjenja razpoke. Prvi korak k simulaciji eksperimenta je izračun napetosti na površini kontakta. Za referenčno rešitev uporabimo ~\cite{pereira2016convergence}, kjer so predstavljeni rezultati simulacije eksperimenta  statičnem stanju maksimalne oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$. 
+Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo  v sklopu mednarodnega projekta (G018916N ``Multi-analysis of fretting fatigue using physical and virtual experiments'')  z Univerzo v Luksemburgu, Univerzo v Gentu in Inštitutom ``Jožef Stefan''  tudi numerično~\cite{pereira2016convergence}. Vloga Inštituta ``Jožef Stefan'' in Univerze v Luksemburgu je razviti originalno numerično rešitev problema, saj do sedaj uporabljena komercialna rešitev ABAQUS\textregistered~\cite{hibbitt2001abaqus}, ki jo uporabljajo na Univerzi V gentu, ni zagotovila zadovoljivih rezultatov pri simulaciji širjenja razpoke. Prvi korak k simulaciji eksperimenta je izračun napetosti na površini kontakta. Za referenčno rešitev uporabimo ~\cite{pereira2016convergence}, kjer so predstavljeni rezultati simulacije eksperimenta  statičnem stanju maksimalne oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$.
 Eksperiment ima vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
 in polovično širino, ter ga nato prezrcalimo. Poleg tega je debelina materiala majhna in
 vse sile in napetosti so v ravnini materiala, torej ustreza predpostavki o ravninski napetosti in ga
@@ -3805,7 +3811,7 @@ v~\cite{pereira2016convergence} za $N = 52659$ pri manjšem in $N = 178897$ pri 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
-  \caption{Ujemanje MSLM in FEM rešitve pri analizi kontakta.}
+  \caption{Ujemanje MLSM in FEM rešitve pri analizi kontakta.}
   \label{fig:fwo-ujemanje}
 \end{figure}
 
@@ -3879,7 +3885,7 @@ računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} 
 in dovolj močnih jezikovnih konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo
 elegantno implementacijo.  Podoben koncept uporablja knjižnica
 Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro.
-Za iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{ann}.
+Za iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{mount1998ann}.
 Celotna implementacija je prosto dostopna na repozitoriju programske
 skupine\footnote{\url{http://gitlab.com/e62Lab/e62numcodes}} z dokumentacijo, prav tako na voljo na
 spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
@@ -3942,7 +3948,8 @@ sliki~\ref{fig:poisson-square-speedup}.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_speedup.pdf}
-  \caption[Faktorji pohitritve pri reševanju Poissonove enačbe.]{Faktorji pohitritve $f_k(N)$ pri reševanju problema~\eqref{eq:poisson-problem}.}
+  \caption[Faktorji pohitritve pri reševanju Poissonove enačbe.]{Faktorji pohitritve $f_k(N)$ pri
+  reševanju problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-speedup}
 \end{figure}
 Pri problemih z $N < 5\cdot 10^4$ se program že brez paralelizacije izvede v manj kot sekundi, tako
@@ -3971,25 +3978,40 @@ brez veliko truda ali sprememb v izvorni kodi, tako da ni razloga, da je ne bi u
 
 \section{Zaključek}
 
-V magistrski nalogi smo si ogledali klasično teorijo elastomehanike in izpeljali Navierovo enačbo, ki opisuje deformacijo teles pod zunanjimi obremenitvami. Pokazali smo obstoj in enoličnost rešitve. Samega reševanja smo se lotili numerično in sicer s posplošeno močnostno MLSM metodo, za katero smo pokazali, da v posebnih primerih preide v FDM. Vpeljali smo tudi algoritem za zgoščevanje in prilagajanje diskretizacije poljubnim oblikam. 
+V magistrski nalogi smo si ogledali klasično teorijo elastomehanike in izpeljali Navierovo enačbo,
+ki opisuje deformacijo teles pod zunanjimi obremenitvami. Pokazali smo obstoj in enoličnost rešitve.
+Samega reševanja smo se lotili numerično in sicer s posplošeno močnostno MLSM metodo, za katero smo
+pokazali, da v posebnih primerih preide v FDM. Vpeljali smo tudi algoritem za zgoščevanje in
+prilagajanje diskretizacije poljubnim oblikam.
 
-Metodo smo najprej testirali na preprosti Poissonovi enačbi, kjer smo preverili obnašanje glede na uporabo različnih
-baznih funkcij in uteži ter različnega števila sosedov. V nadaljevanju smo rešili dva klasična primera iz elastostatike in sicer vpet nosilec ter Hertzev kontakt. Splošnost MLSM glede postavitve diskretizacisjkih točk smo predstavili preko rešitve ``navrtanega'' vpetega nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici lukenj. Za konec smo rešili še primer iz mehanike utrujanja materialov in
-pokazali ujemanje metode z referenčno rešitvijo.  
+Metodo smo najprej testirali na preprosti Poissonovi enačbi, kjer smo preverili obnašanje glede na
+uporabo različnih baznih funkcij in uteži ter različnega števila sosedov. V nadaljevanju smo rešili
+dva klasična primera iz elastostatike in sicer vpet nosilec ter Hertzev kontakt. Splošnost MLSM
+glede postavitve diskretizacisjkih točk smo predstavili preko rešitve ``navrtanega'' vpetega
+nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici lukenj. Za konec
+smo rešili še primer iz mehanike utrujanja materialov in pokazali ujemanje metode z referenčno
+rešitvijo.
 
-Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti razpoke. V ta namen bomo MLSM obogatili z adaptacijo baznih funkcij, kar bomo potrebovali za opis konice razpoke. Za opis razpoke bomo prav tako potrebovali cenilko napake rešitve, saj ne bo več v naprej znano, kje lahko pričakujemo največje napake. Pri računanju funkcij oblike bomo problem v posebnih, a pogostih primerih, zastavili preko reševanja sistema in tako pridobili na času reševanja, ki bo pri simulacijah rasti razpoke postal pomemben faktor. V ta namen se bomo posvetili tudi implementaciji paralelnih rešitvenih postopkov, tako na arhitekturah s skupnim pomnilnikom, kot tudi na distribuiranih arhitekturah. 
+Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti razpoke. V ta namen
+bomo MLSM obogatili z adaptacijo baznih funkcij, kar bomo potrebovali za opis konice razpoke. Za
+opis razpoke bomo prav tako potrebovali cenilko napake rešitve, saj ne bo več v naprej znano, kje
+lahko pričakujemo največje napake. Pri računanju funkcij oblike bomo problem v posebnih, a pogostih
+primerih, zastavili preko reševanja sistema in tako pridobili na času reševanja, ki bo pri
+simulacijah rasti razpoke postal pomemben faktor. V ta namen se bomo posvetili tudi implementaciji
+paralelnih rešitvenih postopkov, tako na arhitekturah s skupnim pomnilnikom, kot tudi na
+distribuiranih arhitekturah.
 
 %orabnik na voljo izbiro postopka za reševanje
 %zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
 %splošnost, saj ima uporabnik na voljo izbiro postopka za reševanje.
 
-% Metodo samo se lahko obogati z večjo 
+% Metodo samo se lahko obogati z večjo
 % podporo za
 %različne domene ali celo poveže s kakšnim sistemom za računsko podprto geometrijsko oblikovanje.
 %Pri goščenju mreže se lahko poglobimo v različne cenilke napake rešitve, tako da bi avtomatsko
 %vedeli, kje gostiti mrežo. Pri računanju funkcij oblike lahko problem v posebnih, a pogostih primerih
 %zastavimo preko reševanja sistema in tako pridobimo na času reševanja, hkrati pa odpremo večjo
-%splošnost, saj ima uporabnik na voljo izbiro postopka za reševanje. 
+%splošnost, saj ima uporabnik na voljo izbiro postopka za reševanje.
 %Na področju implementacije se
 %lahko usmerimo v večjo modularno in razširimo nabor možnih aproksimacij ali pa v paralelizacijo
 %postopka.
@@ -3999,9 +4021,10 @@ Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti r
 %obnašanje še raziskati.
 
 \cleardoublepage
+\phantomsection
 \addcontentsline{toc}{section}{Literatura}
-\bibliographystyle{unsrt}
-\bibliography{reference}
+\bibliographystyle{fmf-sl-num}
+\bibliography{literatura}
 
 \end{document}
 
