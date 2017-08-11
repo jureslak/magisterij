@@ -12,7 +12,7 @@
 \usepackage{enumerate}
 \usepackage{nicefrac}
 \usepackage{cancel}
-%\usepackage{emptypage} % emply pages without any headers and footers
+\usepackage{emptypage} % emply pages without any headers and footers
 \usepackage[list=true,listformat=simple]{subcaption}  % subfigure
 % \usepackage[all]{xy}  % diagrami
 \usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
@@ -202,7 +202,7 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 \begin{center}
   \large
   \imeavtorja\\[10mm]
-  \huge \textbf{\naslovdela}\\[10mm]
+  \Large \textbf{\MakeUppercase{\naslovdela}} \\[10mm]
   \large
   Magistrsko delo \\[1cm]
   Mentor: \imementorja \\[2mm]
@@ -211,6 +211,73 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 \vfill
 
 \noindent{\large Ljubljana, \letnica}
+
+\cleardoublepage
+
+% izjava
+\setlength\topsep{0pt}
+\setlength\parskip{0pt}
+\begin{center}
+  \textbf{Univerza v Ljubljani} \\
+  \textbf{Fakulteta za matematiko in fiziko}
+
+  \vfill
+
+  \underline{Izjava o avtorstvu, istovetnosti tiskane in elektronske verzije magistrskega dela in} \\
+  \underline{objavi osebnih podatkov študenta}
+
+  \vfill
+
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{flushleft}
+    Spodaj podpisani študent \imeavtorja{} avtor magistrskega dela (v nadaljevanju: pisnega
+    zaključnega dela študija) z naslovom:
+  \end{flushleft}
+
+  \vfill
+
+  \textbf{\naslovdela}
+
+  \vfill
+
+  IZJAVLJAM
+\end{center}
+
+\begin{enumerate}[1. ]
+  \item \emph{Obkrožite eno od variant a) ali b)}
+  \begin{enumerate}[a)]
+    \item da sem pisno zaključno delo študija izdelal samostojno;
+    \item da je pisno zaključno delo študija rezultat lastnega dela več kandidatov in izpolnjuje
+      pogoje, ki jih Statut UL določa za skupna zaključna dela študija ter je v zahtevanem deležu
+      rezultat mojega samostojnega dela;
+  \end{enumerate}
+  pod mentorstvom  doc.~dr.~Georgea Mejaka \\ in somentorstvom dr.~Gregorja Kosca.
+  \item da je tiskana oblika pisnega zaključnega dela študija istovetna elektronski obliki
+    pisnega zaključnega dela študija;
+  \item da sem pridobil vsa potrebna dovoljenja za uporabo podatkov in avtorskih del v pisnem
+    zaključnem delu študija in jih v pisnem zaključnem delu študija jasno označil;
+  \item da sem pri pripravi pisnega zaključnega dela študija ravnal v skladu z etičnimi načeli in,
+    kjer je to potrebno, za raziskavo pridobil soglasje etične komisije;
+  \item da soglašam, da se elektronska oblika pisnega zaključnega dela študija uporabi za preverjanje
+    podobnosti vsebine z drugimi deli s programsko opremo za preverjanje podobnosti
+    vsebine, ki je povezana s študijskim informacijskim sistemom fakultete;
+  \item da na UL neodplačno, neizključno, prostorsko in časovno neomejeno prenašam pravico shranitve
+    avtorskega dela v elektronski obliki, pravico reproduciranja ter pravico dajanja pisnega
+    zaključnega dela študija na voljo javnosti na svetovnem spletu preko Repozitorija UL;
+  \item da dovoljujem objavo svojih osebnih podatkov, ki so navedeni v pisnem zaključnem delu študija
+    in tej izjavi, skupaj z objavo pisnega zaključnega dela študija.
+\end{enumerate}
+
+\vfill
+
+\noindent
+Kraj:  \hfill   Podpis študenta: \phantom{prostor za podpis}
+
+\vfill
+
+\noindent
+Datum:
 
 \cleardoublepage
 
@@ -234,9 +301,15 @@ problem do Hertzevega problema. Kot zadnji primer predstavite rešitev Hertzeveg
 upoštevanjem trenja in lepenja na stični površini. Kjer je mogoče rešitve podprite s primerjavami z
 analitičnimi rešitvami in konvergenčnimi analizami.
 
-Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearized},\cite{hertz1882beruhrung}
+Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearized}, \cite{hertz1882beruhrung}
 \cite{gurtin1982introduction} (prvi del), \cite{meshless_review}, \cite{uienkiewicz2000finite},
 \cite{liu_solid}, \cite{chen2006meshless}, \cite{trobec_kosec} (drugi del).
+
+\vspace{1cm}
+\hspace*{\fill} Podpis mentorja: \phantom{prostor za podpis}
+
+\vspace{1cm}
+\hspace*{\fill} Podpis somentorja: \phantom{prostor za podpis}
 
 \cleardoublepage
 
@@ -276,10 +349,10 @@ močni obliki z metodo končnih diferenc~\cite{hattel1995control} in metodo kon�
 volumnov~\cite{stone2003dynamic}. Poleg tega so se v bolj bližnji preteklosti za reševanje
 elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v močni in šibki
 obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da ne potrebujejo
-polne diskretizacije domene (npr.\ z večkotniki) kot jo metoda končnih elementov, temveč le točke v
+polne diskretizacije domene (npr.~z večkotniki) kot jo metoda končnih elementov, temveč le točke v
 domeni in poznavanje njihove lokalne medsebojne lege, kar omogoča večjo splošnost, lažjo posplošitev
 na višje dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo implementacijo. Poleg
-tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot npr.\ pri problemih, kjer je
+tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot npr.~pri problemih, kjer je
 treba premikati rob domene ali točke v notranjosti, kot na primer simulacije širjenja
 razpok~\cite{rao2000efficient}.  Eno izmed brezmrežnih metod razvijamo s sodelavci  tudi v
 Laboratoriju za vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan'' in sodelujemo v
@@ -302,11 +375,11 @@ razdelku~\ref{sec:implementacija} si ogledamo še implementacijske detajle metod
 paralelizacije.
 
 \subsection{Notacija}
-Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.\ $a, \alpha
-\in \R$. Vektorje iz $\R^3$ bomo označevali s puščico nad črko, npr.\ $\vv \in
+Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.~$a, \alpha
+\in \R$. Vektorje iz $\R^3$ bomo označevali s puščico nad črko, npr.~$\vv \in
 \R^3$. Tenzorje (drugega reda) bomo označevali z malimi latinskimi ali grškimi
-črkami, npr. $t, \sigma \in \R^3\otimes\R^3$. Identični tenzor, definiran z $I\vv = \vv$ bomo
-označevali z $I$. Komponente tenzorjev ali vektorjev bomo označevali z indeksom spodaj, npr.\ $v_i$
+črkami, npr.~$t, \sigma \in \R^3\otimes\R^3$. Identični tenzor, definiran z $I\vv = \vv$ bomo
+označevali z $I$. Komponente tenzorjev ali vektorjev bomo označevali z indeksom spodaj, npr.~$v_i$
 ali $t_{ij}$.  V razdelkih~\ref{sec:uvod-tenz} in~\ref{sec:mehanika} bomo uporabljali tudi
 sumacijsko konvencijo na ponovljenem indeksu. Tako na primer enačba
 \[
@@ -319,15 +392,16 @@ nekem prostoru $X$ pa bomo označevali z $\langle u, v\rangle_X$.  S $t^\T$ bomo
 transpozicijo tenzorja ali matrike, definirano z $\va\cdot t\vb = t^\T\va \cdot \vb$. Z oznako
 $\langle \va, \vb, \vc\rangle$ bomo označevali mešani produkt vektorjev $\va$, $\vb$ in $\vc$,
 definiran kot $\langle \va, \vb, \vc\rangle = (\va\times\vb)\cdot \vc$.
+Linearno ogrinjačo množice vektorjev bomo označevali z $\Lin$.
 
 Divergenco, gradient in Laplaceov operator bomo označevali z $\div$, $\grad$,
 $\lap$ ali pa z $\nabla\cdot$, $\nabla$ in $\nabla^2$.
 
 V razdelkih~\ref{sec:numericna-metoda} in~\ref{sec:osnovni-zgledi} bomo imeli opravka tudi z
 vektorji in matrikami splošnih dimenzij, ki ne predstavljajo mehaničnih količin, ampak samo končno
-zaporedje skalarjev. Take vektorje bomo označevali odebeljeno, npr.\ $\b u, \b\phi \in \R^{n}$,
-matrike pa z velikimi tiskanimi črkami $A, B \in \R^{m\times n}$. Linearno ogrinjačo množice
-vektorjem bomo označevali z $\Lin$.
+zaporedje skalarjev. Take vektorje bomo označevali odebeljeno, npr.~$\b u, \b\phi \in \R^{n}$,
+matrike pa z velikimi tiskanimi črkami $A, B \in \R^{m\times n}$. Komponente bomo označevali z
+indeksom spodaj, npr.~$\b{u}_i$ ali $A_{ij}$.
 
 \subsection{Osnovne trditve vektorske analize}
 \label{sec:uvod-tenz}
@@ -351,7 +425,7 @@ Prostor tenzorjev drugega reda opremimo s skalarnim produktom
   Vsak tenzor $s$ lahko zapišemo kot $s = \frac12 (s+s^\T) + \frac12(s-s^\T)$.
   Če je $s \in Sym(V)\cap Asym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
   Vsota je res direktna. Ker velja za simetričen $s$ in antisimetričen $t$ tudi
-  \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t,\]
+  \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t, \]
   od koder sledi $s:t = 0$, je vsota ortogonalna.
 \end{proof}
 
@@ -647,9 +721,9 @@ po~\cite{slaughter2012linearized}.
   $B_t = \chi_t(\B)$.
 \end{definicija}
 Koordinatam telesa v referenčni konfiguraciji pravimo \emph{referenčne
-koordinate} in jih pišemo z velikimi tiskanimi črkami, npr.\ $\vX \in \chi_R(\B)$.
+koordinate} in jih pišemo z velikimi tiskanimi črkami, npr.~$\vX \in \chi_R(\B)$.
 Koordinatam telesa v prostorski konfiguraciji pravimo \emph{prostorske
-koordinate} in jih pišemo z malimi črkami, npr. $\vx \in \chi_t(\B)$.
+koordinate} in jih pišemo z malimi črkami, npr.~$\vx \in \chi_t(\B)$.
 
 Gladkost gibanja glede na $t$ iz definicije~\ref{def:gibanje} pomeni, da je
 preslikava
@@ -677,7 +751,7 @@ sebe.
 
 \begin{primer}
   \label{prim:gib}
-  Pišimo $\vX = (X,Y,Z)$ in $\vx = (x, y, z)$.  Naj bo dano gibanje
+  Pišimo $\vX = (X, Y, Z)$ in $\vx = (x, y, z)$.  Naj bo dano gibanje
   \begin{equation}
     \vx(t, X, Y, Z) = (X + t X^2, Y + t X Y, Z),
   \end{equation}
@@ -699,7 +773,7 @@ sebe.
   \end{equation}
   Zato lahko izrazimo obratno preslikavo
   \begin{equation}
-    \vX(t, x, y, z) = \left(\frac{\sqrt{4 t x+1}-1}{2 t},\frac{y
+    \vX(t, x, y, z) = \left(\frac{\sqrt{4 t x+1}-1}{2 t}, \frac{y
     \left(\sqrt{4 t x+1}-1\right)}{2 t x}, z\right).
     \label{eq:gibanje-inv}
   \end{equation}
@@ -1501,7 +1575,7 @@ Parametra $\lambda$ in $\mu$ sta edina preostala parametra in ju imenujemo Lam\'
 konstanti~\cite[str.\ 211]{slaughter2012linearized}.
 Običajno so materiali tudi homogeni, torej snovne konstante niso krajevno odvisne.
 Navkljub privzetim predpostavkam lahko samo z dvema konstantama dobro opišemo kar nekaj materialov
-kot na primer železo, aluminij in ostale kovine, nekatere zlitine kot npr.\ jeklo, ter tudi steklo.
+kot na primer železo, aluminij in ostale kovine, nekatere zlitine kot npr.~jeklo, ter tudi steklo.
 Primer anizotropnega materiala, ki ga na tak način ne moremo opisati, je les.  V strojniških
 priročnikih najdemo snovne lastnosti bolje pogosto opisane s parametroma $E$ in $\nu$, ki jima
 pravimo Youngov (prožnostni) modul in Poissonovo razmerje. Zveza med njima in Lam\'{e}jevima
@@ -1522,7 +1596,7 @@ tem področju pa so aktivne še danes.
 
 V praksi se izkaže, da pozitivni definitnosti brez težav zadostimo. Vrednosti parametrov za nekaj
 pogostih materialov so podane v tabeli~\ref{tab:Enu} in jih lahko najdemo v primernem fizikalnem ali
-strojniškem priročniku, npr.\ v~[vstavi referenco / vprašaj Mejaka] TODO.
+strojniškem priročniku, npr.~v~[vstavi referenco / vprašaj Mejaka] TODO.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|l|} \hline
@@ -1898,7 +1972,7 @@ Pri reševanju robnih problemov bomo imeli tri vrste robnih pogojev. Dirichletov
 $u|_{\partial \Omega} = u_0$ bomo uporabili, ko bomo poznali pomike na robu. Najpogosteje bo pogoj
 oblike $u = 0$, ko kos robu materiala držimo pritrjen.  Pri drugi vrsti robnih pogojev poznamo
 napetosti na robovih.  Najpogosteje bomo podali kar napetost na robu $\vt = \vt_0$, kjer je $\vt_0$
-neka znana vrednost, npr. 0, če je ta rob prost. Tretja vrsta pogojev bodo simetrijski pogoji, ko
+neka znana vrednost, npr.~0, če je ta rob prost. Tretja vrsta pogojev bodo simetrijski pogoji, ko
 bomo problem reducirali preko neke osi simetrije, na osi pa bomo zahtevali kompatibilnostne ali
 simetrijske pogoje.
 
@@ -2039,26 +2113,26 @@ Interpolacijski polinom skozi točke $(x_i, u_i)$ lahko sedaj zapišemo kot
   \end{bmatrix}
   \begin{bmatrix}
     u_{i-1} \\ u_{i} \\ u_{i+1}
-  \end{bmatrix}= \b\phi(x)^\T\b u.
+  \end{bmatrix}= \b\phi(x)\b u.
 \end{equation}
 S tem smo ločili podatke, ki se nanašajo na vrednost funkcije, od podatkov, ki se nanašajo na
 pozicije točk. V primerih, ko bomo večkrat potrebovali vrednost interpolacijskega polinoma v
 neki točki $x^\ast$ za različne nabore funkcijskih vrednosti (vendar še vedno izmerjene v istih
 točkah) $\b u$, potem je ugodno izračunati vrednosti $\b\phi(x^\ast)$ vnaprej in tako lahko
 vrednosti interpolacijskega polinoma dobimo vsakič znova le s skalarnim produktom $\hat u(x^\ast) =
-\b\phi(x^\ast) ^\T \b u$. Pri tem ni potrebno, da je $x^\ast$ ena izmed točk $x_i$, ampak je lahko
+\b\phi(x^\ast) \b u$. Pri tem ni potrebno, da je $x^\ast$ ena izmed točk $x_i$, ampak je lahko
 poljubna točka v domeni.
 
 Z odvajanjem $\hat{u}$ aproksimiramo $u'$ in $u''$. Izračunajmo
 jih v točki $x_i$ in dobimo znane formule za aproksimacijo odvodov s končnimi diferencami:
 \begin{align}
-  \hat u'(x_i) &= \b\phi'(x_i)^\T \b u =
+  \hat u'(x_i) &= \b\phi'(x_i) \b u =
   \begin{bmatrix}
     -\frac{1}{2h} & 0 & \frac{1}{2h}
   \end{bmatrix} \begin{bmatrix}
     u_{i-1} \\ u_{i} \\ u_{i+1}
   \end{bmatrix}, \label{eq:uhat-der1} \\
-  \hat u''(x_i) &= \b\phi''(x_i)^\T \b u =
+  \hat u''(x_i) &= \b\phi''(x_i) \b u =
   \begin{bmatrix}
     \frac{1}{h^2} & -\frac{2}{h^2} & \frac{1}{h^2}
   \end{bmatrix}\begin{bmatrix}
@@ -2080,7 +2154,7 @@ za vsako točko $x_i$ v notranjosti zapišemo
   \end{bmatrix} = f(x_i).
 \end{equation}
 Dirichletov pogoj na levem robu zapišemo preprosto kot $u_0 = A$,
-za Neumannovega na desnem robu pa lahko uporabimo npr. enostransko diferenco
+za Neumannovega na desnem robu pa lahko uporabimo npr.~enostransko diferenco
 na treh točkah \[
   \begin{bmatrix}
     \frac{1}{2h} & \frac{-2}{h} & \frac{3}{2h}
@@ -2142,7 +2216,7 @@ indeksov, za katere so izbrani $x_{i_j}$ v soseščini $p$. Velja torej
 \begin{equation}
   \Nc(p) = \{x_i; i \in \I(p)\}.
 \end{equation}
-Običajno bo $n \ll N$, npr. $n = 9$ in $N = 10^6$.
+Običajno bo $n \ll N$, npr.~$n = 9$ in $N = 10^6$.
 Primer domene $\Omega$, točke $p$ in njene soseščine je prikazan na
 sliki~\ref{fig:domain-example}.
 
@@ -2198,12 +2272,12 @@ težek problem.
 V vsakem primeru lahko definiramo neke vrste rešitev sistema~\eqref{eq:shape-system},
 za katero zahtevamo, da minimizira napako v smislu utežene diskretne 2-norme, torej da minimizira
 \begin{align}
-  \|u-\uh\|_{2, \Nc(p),\b{w}} &= \sum_{i\in \I(p)} w(p-x_i) (u_i - \uh(x_i))^2,
+  \|u-\uh\|_{2, \Nc(p), \b{w}} &= \sum_{i\in \I(p)} w(p-x_i) (u_i - \uh(x_i))^2,
 \end{align}
 pri čemer je $w\colon\R^d\to\R$ nenegativna funkcija, ki jo imenujemo \emph{utež}, $\b{w}$ pa je
 vektor sestavljen iz vrednosti te funkcije v točkah v soseščini.  Če je takih rešitev $\b \alpha$ več,
 izberimo tisto, za katero je $\|\alpha\|$ najmanjša.  Zgornjo minimizacijo lahko prevedemo na
-minimiziranje diskretne 2-norme $\|WB\b{\alpha}-W\b{\tilde{u}}\|_{2,\Nc(p)}$, kjer je $W$ diagonalna
+minimiziranje diskretne 2-norme $\|WB\b{\alpha}-W\b{\tilde{u}}\|_{2, \Nc(p)}$, kjer je $W$ diagonalna
 matrika korenov uteži za posamezne točke, $W = \diag(\sqrt{w(x_{i_1}-p)}, \dots,
 \sqrt{w(x_{i_n}-p)})$. Tak sistem lahko, ne glede na njegovo določenost, rešimo s pomočjo
 Moore-Penroseovega psevdoinverza, ki ga izračunamo s pomočjo singularnega razcepa matrike $WB$.
@@ -2226,82 +2300,83 @@ Podobno kot pri deljenih diferencah odvode funkcije $u$ aproksimiramo z odvodi
 interpolacijskega polinoma skozi točke v soseščini, bomo tudi v našem primeru
 aproksimirali odvode funkcije $u$ z odvodi $\uh$,
 \begin{equation}
-   (\L u)(p) \approx (\L \uh)(p) = (\L\b{b})(p)^\T(WB)^{+}W \b{\tilde{u}}
+  (\L u)(p) \approx (\L \uh)(p) = (\L\b{b})(p)^\T(WB)^{+}W \b{\tilde{u}},
 \end{equation}
-od koder kot prej definiramo
+kjer podobno kot v primeru~\ref{prim:fdm} definiramo
 \begin{equation}
-  \b\phi_{\L,p} = (\L\b{b})(p)^\T(WB)^{+}W.
+  \b\phi_{\L, p} = (\L\b{b})(p)^\T(WB)^{+}W.
   \label{eq:shape-definition}
 \end{equation}
-Funkcional $\b\phi_{\L,p}$ je aproksimacija operatorja $\L$ v točki $p$.
+Funkcional $\b\phi_{\L, p}$ je aproksimacija operatorja $\L$ v točki $p$.
 Pogosto se ga imenuje tudi \emph{funkcija oblike}~\ang{shape function}, saj v
 sebi nosi podatke o lokalni obliki domene in izboru okoliških točk, ter seveda o
 obnašanju $\L$ v tej okolici. Tudi če funkcijskih vrednosti $\b{\tilde{u}}$ v
 okolici $p$ ne poznamo, lahko $\b\phi_{\L, p}$ izračunamo in kasneje samo s
-skalarnim produktom dobimo aproksimacijo za $(\L u)(p)$. Lahko pa to izkoristimo
-za zapis linearne enačbe
-\[
-  \b\phi_{\L,p} \cdot \b{\tilde{u}} = f(p),
-\]
+skalarnim produktom \begin{equation}
+   \b\phi_{\L, p} \b{\tilde{u}} = f(p)
+\end{equation}
+dobimo aproksimacijo za $(\L u)(p)$. Lahko pa to izkoristimo za zapis linearne enačbe,
 ki je direktna aproksimacija diferencialne enačbe~\eqref{eq:general-problem} v točki $p$,
-\[
-  (\L u)(p) = f(p).
-\]
+\begin{equation}
+  \label{eq:discrete-approx-in-one-point}
+   (\L u)(p) = f(p).
+\end{equation}
 Tu ni potrebno, da je $p \in \Nc(p)$, temveč je lahko katerakoli točka v domeni, čeprav bo
 najpogosteje tudi sama ena izmed diskretizacijskih točk.
 
-Operatorja $\L$ in $\Rc$ sedaj aproksimiramo po celi domeni, tako za vsako diskretizacijsko točko
-$x_i$ v izračunamo $\b\phi_{\L,x_i}$ in dobimo sistem enačb
+Operatorja $\L$ in $\Rc$ aproksimiramo po celi domeni, tako da za vsako diskretizacijsko točko $x$
+v notranjosti izračunamo $\b\phi_{\L, x}$, za vsako točko $y$ na robu pa
+$\b\phi_{\Rc, y}$. Za vsako diskretizacijsko točko napišemo
+enačbo~\eqref{eq:discrete-approx-in-one-point} in dobimo sistem enačb
 \begin{align}
-  \b\phi_{\L,x_i} \cdot \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$ } \\
-  \b\phi_{\Rc,x_i} \cdot \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak, da je $x_i \in \partial\Omega$.}
+  \b\phi_{\L, x_i} \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$ } \\
+  \b\phi_{\Rc, x_i} \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak, da je $x_i \in \partial\Omega$.}
 \end{align}
 Te enačbe lahko zapišemo v matrični sistem
 \begin{equation}
   A\b{u} = \b{f},
   \label{eq:discretized-system}
 \end{equation}
-kjer ima matrika $A$ v vrsticah zapisane funkcionale $\b\phi_{\L,x_i}$ tako, da so
-neničelni elementi na tistih mestih, ki se pomnožijo z neznankami, ki ustrezajo
-sosedom $x_i$. Natančneje, elementi matrike $A$ so
+kjer ima matrika $A$ v vrsticah zapisane funkcije oblike, tako da so neničelni elementi na tistih
+mestih, ki se pomnožijo z neznankami, ki ustrezajo sosedom $x_i$. Natančneje, elementi matrike $A$
+so
 \begin{align}
-  A(k, i_j) &= \b\phi_{\L,p}(j), \text{ za vsak $k$, tak, da je $x_k \in \Omega$
+  A_{k, i_j} &= (\b\phi_{\L, p})_j, \text{ za vsak $k$, tak, da je $x_k \in \Omega$
   in za vsak $i_j \in \I(x_k)$,} \\
-  A(k, i_j) &= \b\phi_{\Rc,p}(j), \text{ za vsak $k$, tak, da je $x_k \in
+  A_{k, i_j} &= (\b\phi_{\Rc, p})_j, \text{ za vsak $k$, tak, da je $x_k \in
   \partial\Omega$ in za vsak $i_j \in \I(x_k)$.}
 \end{align}
-Razumljivejša je morda kar Matlab-ova notacija
-\[
-A(k, \I(x_k)) = \begin{cases}
-    \b\phi_{\L, p} & x_k \in \Omega \\
-    \b\phi_{\Rc, p} & x_k \in \partial\Omega \\
-  \end{cases}, \text{ za $k = 1, \ldots, N$}.
-\]
+% Razumljivejša je morda kar Matlab-ova notacija
+% \[
+% A(k, \I(x_k)) = \begin{cases}
+%     \b\phi_{\L, p} & x_k \in \Omega \\
+%     \b\phi_{\Rc, p} & x_k \in \partial\Omega \\
+%   \end{cases}, \text{ za $k = 1, \ldots, N$}.
+% \]
 Vektor $\b{u} = (u_i)_{i=1}^N$ je vektor neznanih funkcijskih vrednosti, ki ga
 iščemo, v vektorju $\b{f}$ pa so zapisani robni pogoji
-\[
-  \b f(k) = \begin{cases}
+\begin{equation}
+  \b f_k = \begin{cases}
     f(x_k) & x_k \in \Omega \\
     g(x_k) & x_k \in \partial\Omega \\
   \end{cases}, \text{ za $k = 1, \ldots, N$}.
-\]
-Vidimo, da je matrika $A$ razpršena. Sama je dimenzij $N\times N$,
-v vsaki vrstici pa ima največ $n$ neničelnih
+\end{equation}
+Matrika $A$ razpršena, dimenzij $N\times N$ in
+v vsaki vrstici ima največ $n$ neničelnih
 elementov, torej je skupno število neničelnih elementov
-\[
-  \nnz(A) \leq nN.
-\]
-Enakost je lahko dosežena, lahko pa je tudi stroga, saj so kakšni koeficienti v $\phi_{\L,x_i}$ lahko
+\begin{equation}
+   \nnz(A) \leq nN.
+\end{equation}
+Enakost je lahko dosežena, lahko pa je tudi stroga, saj so kakšni koeficienti v $\phi_{\L, x_i}$ lahko
 tudi 0, kot se to zgodi pri Dirichletovih robnih pogojih.
 
-Sistem~\eqref{eq:discretized-system} nato rešimo in za aproksimacijo $u(x_i)$
-vzamemo $u(x_i) \approx u_i$.
+Rešitev sistema~\eqref{eq:discretized-system} nam da aproksimacijo $u(x_i) \approx u_i$, kar vzamemo
+za numerično rešitev problema~\eqref{eq:general-problem}.
 
 \subsection{Posebni primeri}
 \label{sec:posebni-primeri}
-Metoda iz razdelka~\ref{sec:splosna-izpeljava} je formulirana precej splošno in
-v posebnih primerih lahko prepoznamo druge znane metode. Za začetek pokažimo
-enostavno trditev, ki bo metodo v določenih primerih poenostavila.
+V metodi iz razdelka~\ref{sec:splosna-izpeljava} lahko v posebnih primerih prepoznamo druge znane
+metode. Za začetek pokažimo enostavno trditev, ki bo metodo v določenih primerih poenostavila.
 \begin{trditev}
   \label{trd:weight-independence}
   Če je $m = n$ in je matrika $B$ iz sistema~\eqref{eq:shape-system} obrnljiva,
@@ -2329,40 +2404,41 @@ kar je neodvisno od $W$.
   velikosti, lahko to povzroči nepotrebne numerične nestabilnosti. Prav tako
   lahko zaradi izbire uteži pri izračunu psevdoinverza v vrstici~\ref{line:pinv}
   v algoritmu~\ref{alg:shape-function} SVD razcep, uporabljen v ozadju
-  funkcije \textsc{pinv}, odreže kakšno majhno singularno vrednost več ali manj,
-  kar lahko da precej drugačne rezultate.
+  funkcije \textsc{pinv}, odreže različno število singularnih vrednosti,
+  kar seveda vpliva na rezultate.
 \end{opomba}
 
 Če je naš operator enostaven, kot je bil $\dpar{^2}{x^2}$ v primeru~\ref{prim:fdm}
 lahko enačbo za funkcije oblike izračunamo direktno. Kaj pa lahko storimo, če je operator bolj
-zapleten, ko ne moremo direktno izračunati $\L b$? Odgovor na to nudi naslednja trditev.
+zapleten, ko ne moremo direktno izračunati $\L \b b$? Odgovor na to nudi naslednja trditev.
 \begin{trditev}
   \label{trd:shape-linear}
   Preslikava iz vektorskega prostora linearnih parcialnih diferencialnih operatorjev, ki operatorju
-  $\L$ priredi funkcijo oblike $\phi_{\L,p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem. Za $\L = \alpha \L_1 + \beta \L_2$ velja torej
-  \[
-   \phi_{\alpha \L_1 + \beta \L_2,p} =  \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}.
-  \]
+  $\L$ priredi funkcijo oblike $\phi_{\L, p} \in (\R^n)^\ast$ v neki točki $p$, je homomorfizem. Za
+  $\L = \alpha \L_1 + \beta \L_2$ velja torej
+  \begin{equation}
+    \b{\phi}_{\alpha \L_1 + \beta \L_2,\,p} =  \alpha \b{\phi}_{\L_1,\,p} + \beta \b{\phi}_{\L_2,\,p}.
+  \end{equation}
 \end{trditev}
 \begin{proof}
 Naj bo $\L = \alpha \L_1 + \beta \L_2$. Izračunajmo
   \begin{align*}
-    \phi_{\alpha \L_1 + \beta \L_2,p} &=
+    \b{\phi}_{\alpha \L_1 + \beta \L_2,\,p} &=
     ((\alpha \L_1 + \beta \L_2)\b b)(p)(WB)^+W = \\
     &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W = \\
     &= (\alpha (\L_1\b b)(p) + \beta (\L_2\b b)(p))(WB)^+W =\\
   &= \alpha (\L_1\b b)(p)(WB)^+W + \beta (\L_2\b b)(p)(WB)^+W = \\
-  &= \alpha \phi_{\L_1,p} + \beta \phi_{\L_2,p}. \qedhere
+  &= \alpha \b{\phi}_{\L_1,\,p} + \beta \b{\phi}_{\L_2,\,p}. \qedhere
   \end{align*}
 \end{proof}
 Zgornja trditev pove, da je za popis vseh linearnih operatorjev do reda $r$ dovolj izračunati le
 funkcije oblike za elementarne odvode $D^\omega$ za multiindeks $|\omega| \leq r$.  Vsak drug
 operator $\L = \sum_{|\omega| \leq r} a_\omega D^\omega$ lahko po linearnosti v vsaki točki
 aproksimiramo z elementarnimi aproksimacijami, tako da jih primerno pomnožimo in seštejemo. V tem
-primeru ni potrebno da so $a_\omega$ zgoraj konstante, lahko so tudi funkcije $p$, in v vsaki točki
+primeru ni potrebno da so $a_\omega$ zgoraj konstante, lahko so tudi funkcije $p$ in v vsaki točki
 uporabimo drugače uteženo linearno kombinacijo $D^\omega$.  Poseben primer
 trditve~\ref{trd:shape-linear}, ki ga bomo pogosto uporabljali se nanaša na Laplaceov operator,
-katerega funkcjio oblike bomo računali kot $\phi_{\lap,p} = \phi_{\dpar{^2}{x^2}, p} +
+katerega funkcjio oblike bomo računali kot $\phi_{\lap, p} = \phi_{\dpar{^2}{x^2}, p} +
 \phi_{\dpar{^2}{y^2}, p}$.
 
 Že v primeru~\ref{prim:fdm} smo videli, da se za Laplaceov robni problem na
@@ -2373,19 +2449,17 @@ primeru dvodimenzionalne Poissonove enačbe.
   \label{trd:eq-to-fdm}
   Metoda iz razdelka~\ref{sec:splosna-izpeljava} se za reševanje Poissonove
   enačbe na enakomerni pravokotni mreži z razmakom $h$ ujema z metodo končnih
-  diferenc, če vzamemo $\b{b} = \{1, x, y, x^2, y^2\}$, $w \equiv 1$ in
+  diferenc pri $\b{b} = \{1, x, y, x^2, y^2\}$, $w \equiv 1$ in
   $n=5$.
 \end{trditev}
 \begin{proof}
 Kot ponavadi označimo točke na mreži s koordinatami $(x_i, y_j)$, tako da je
 $x_{i+1} = x_i + h$ in $y_{j+1} = y_j + h$.
-Pokazati moramo, da se funkcija oblike v vsaki točki $x$ ujema z aproksimacijo
-končnih diferenc,
-ki pravi
-\[
-  (\lap u)(x_i, y_j) = \frac{u_{i+1,j} + u_{i, j+1} + u_{i-1,j} + u_{i, j-1} -
-  4u_{i,j}}{h^2},
-\]
+Pokazati moramo, da se funkcija oblike v vsaki točki $x$ ujema z aproksimacijo končnih diferenc, ki
+pravi
+\begin{equation}
+  (\lap u)(x_i, y_j) = \frac{u_{i+1,j} + u_{i, j+1} + u_{i-1,j} + u_{i, j-1} - 4u_{i,j}}{h^2},
+\end{equation}
 pri čemer spremenljivka $u_{i, j}$ pripada koordinati $(x_i, y_j)$. Če se
 aproksimaciji Laplaceovega operatorja ujemata, potem se ujemata tudi
 aproksimaciji rešitve, saj sistem pri obeh metodah gradimo na enak način.
@@ -2395,7 +2469,8 @@ za splošnost predpostavimo, da računamo funkcijo oblike za točko
 $p = (0, 0)$. Najbližjih $n$ sosedov je tako $\Nc(p) = \{(0, 0), (0, h), (0, -h),
 (h, 0), (-h, 0)\}$. Matrika $B = [b_j(x_i)]$ iz sistema~\eqref{eq:shape-system},
 ki ima po stolpcih izračunane bazne funkcije v vseh sosedih je
-\[
+\begin{equation}
+  \label{eq:fdm-special-case-start}
   B =
   \begin{bmatrix}
     1 & 0 & 0 & 0 & 0 \\
@@ -2404,9 +2479,9 @@ ki ima po stolpcih izračunane bazne funkcije v vseh sosedih je
     1 & h & 0 & h^2 & 0 \\
     1 & -h & 0 & h^2 & 0 \\
   \end{bmatrix}
-\]
-in njen psevdoinverz je
-\[
+\end{equation}
+in njen psevdoinverz, ki je kar njen inverz, je
+\begin{equation}
   B^+ = B^{-1} =
   \begin{bmatrix}
      1 & 0 & 0 & 0 & 0 \\
@@ -2415,31 +2490,30 @@ in njen psevdoinverz je
  -\frac{1}{h^2} & 0 & 0 & \frac{1}{2 h^2} & \frac{1}{2 h^2} \\
  -\frac{1}{h^2} & \frac{1}{2 h^2} & \frac{1}{2 h^2} & 0 & 0 \\
   \end{bmatrix}.
-\]
+\end{equation}
 Pri tem smo že upoštevali $w \equiv 1$.
-Vektor vrednosti operatorja na baznih funkcijah je
-\[
-  (\lap \b{b})(p) =
-\begin{bmatrix}
-  0 & 0 & 0 & 2 & 2
-\end{bmatrix}^\T.
-\]
+Vektor izračunanih vrednosti operatorja na baznih funkcijah v točki $x$ je
+\begin{equation}
+   (\lap \b{b})(x) = \begin{bmatrix} 0 & 0 & 0 & 2 & 2 \end{bmatrix}^\T.
+\end{equation}
 Od tod dobimo po zvezi~\eqref{eq:shape-definition}
-\[
-  \b\phi = (\lap \b b)(p)^\T B^{+} =
+\begin{equation}
+  \label{eq:fdm-special-case-end}
+  \b\phi = (\lap \b b)(x)^\T B^{+} =
   \begin{bmatrix}
     -\frac{4}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} & \frac{1}{h^2} &
     \frac{1}{h^2}
   \end{bmatrix},
-\]
+\end{equation}
 kar je ravno iskana aproksimacija.
 \end{proof}
 \begin{opomba}
   Metodo za izračun funkcije oblike je zelo elegantno implementirati v
-  Wolfram Mathematici, kar olajša simbolno raziskovanje takih aproksimacij.
-  Zgornje matrike so bile izračunane s programom~\ref{prog:shape-mathematica}.
+  Wolfram Mathematici~\cite{mathematica}, kar olajša simbolno raziskovanje takih aproksimacij.
+  Enačbe~(\ref{eq:fdm-special-case-start}--\ref{eq:fdm-special-case-end}) so bile izračunane s
+  programom~\ref{prog:shape-mathematica}.
 
-  \begin{listing}[!h]
+\begin{listing}[!h]
     \vspace{-1ex}
   \begin{minted}[frame=lines,linenos,fontsize=\scriptsize]{wolfram}
 (* podatki *)
@@ -2477,27 +2551,32 @@ phi = Lb.PseudoInverse[B] // Simplify
   Naredimo še en primer, kjer za bazne funkcije vzamemo monome. Vzemimo tokrat
   $n = 9$ in za bazne funkcije vse monome skupne stopnje manj kot 3, torej $\b b = \{1,
   x, y, x^2, y^2, xy\}$. V tem primeru je matrika $B$ velikosti $9\times 6$ in
-  s pomočjo programa~\ref{prog:shape-mathematica} dobimo
-  \[
+  s pomočjo programa~\ref{prog:shape-mathematica} izračunamo
+  \begin{equation}
     \b\phi =
     \begin{bmatrix}
 -\frac{4}{3 h^2} & -\frac{1}{3 h^2} & -\frac{1}{3 h^2} & -\frac{1}{3 h^2} &
 -\frac{1}{3 h^2} & \frac{2}{3 h^2} & \frac{2}{3 h^2} & \frac{2}{3 h^2} &
 \frac{2}{3 h^2}
     \end{bmatrix}.
-  \]
+  \end{equation}
   Vidimo, da tokrat v aproksimaciji upoštevamo vseh 9 sosedov, za razliko od
   aproksimacije v opombi~\ref{op:fdm-9}. Naravno sledi vprašanje, ali je ta
-  aproksimacija kaj slabša, morda drugačnega reda? Izkaže se, da ne, saj z
+  aproksimacija drugačnega reda? Izkaže se, da ne, saj z
   razvojem aproksimacij v Taylorjevo vrsto dobimo
   \scriptsize
+  \begin{equation}
+    \frac{-4 u(0, 0) + u(0, h) + u(0, -h) + u(h, 0) + u(-h, 0)}{h^2} = \lap u +
+    \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0, 0) + \dpar{^4u}{y^4}(0, 0)\right) + O(h^4)
+  \end{equation}
+  \normalsize
+  in
+  \scriptsize
   \begin{align}
-    &\frac{-4 u(0, 0) + u(0, h) + u(0, -h) + u(h, 0) + u(-h, 0)}{h^2} = \lap u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) +
-  \dpar{^4u}{y^4}(0, 0)\right) + O(h^4) \\
     &\frac{-4 u(0, 0) - u(0, h) - u(0, -h) - u(h, 0) - u(-h, 0)
     + 2u(h, h) + 2u(h, -h) + 2u(-h, h) + 2u(-h, -h)}{3h^2} = \nonumber \\
     & \qquad =
-    \lap u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0,0) + \dpar{^4u}{x^2y^2}(0,0) +
+    \lap u + \frac{h^2}{12}\left(\dpar{^4u}{x^4}(0, 0) + \dpar{^4u}{x^2y^2}(0, 0) +
     \dpar{^4u}{y^4}(0, 0)\right) + O(h^4).
   \end{align}
   \normalsize
@@ -2507,16 +2586,21 @@ phi = Lb.PseudoInverse[B] // Simplify
 
 \begin{primer}
 \label{prim:rbf}
-Poglejmo še, kaj se zgodi, če za bazne funkcije vzamemo radialne bazne funkcije.
-V tem primeru je smiselno vzeti $n = m$, torej postavimo po eno radialno funkcijo
-na vsakega izmed sosedov. Opisana metoda tako postane kolokacijska metoda z
-lokalnimi radialnimi baznimi funkcijami \ang{local radial basis function
-collocation method}.
+Poglejmo še, kaj se zgodi, če za bazne funkcije vzamemo radialne bazne funkcije in $n = m$, torej
+postavimo po eno radialno funkcijo na vsakega izmed sosedov. Opisana metoda tako postane
+kolokacijska metoda z lokalnimi radialnimi baznimi funkcijami \ang{local radial basis function
+collocation method}~\cite{kosec2011h}.
 
-Če za $n = 9$ sosedov točke $(0, 0)$ izberemo točke \[ \Nc(p) = \{
-  (0, 0), (0, h), (0, -h), (h, 0), (-h, 0), (h, h), (h, -h), (-h, h), (-h, -h)
-\} \] in za $\b b$ vzamemo \[ \b b = \{ x\mapsto \exp((x-c)^2/\sigma^2); c \in \Nc(p)
-\}, \]
+Če za $n = 9$ sosedov točke $(0, 0)$ izberemo točke
+\small
+\begin{equation}
+  \Nc(p) = \{  (0, 0), (0, h), (0, -h), (h, 0), (-h, 0), (h, h), (h, -h), (-h, h), (-h, -h)\}
+\end{equation}
+\normalsize
+in za $\b b$ vzamemo
+\begin{equation}
+  \b b = \{ x\mapsto \exp((x-c)^2/\sigma^2); c \in \Nc(p)\},
+\end{equation}
 potem zopet s
 pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
 \small
@@ -2532,15 +2616,17 @@ pomočjo programa~\ref{prog:shape-mathematica} izračunamo aproksimacijo
 \normalsize
 Tokrat vidimo, da se precej razlikuje od aproksimacije s končnimi diferencami.
 Toda, še vedno je drugega reda, saj za napako velja
-\[
+\small
+\begin{equation}
   \b \phi\cdot \b{\tilde{u}} - \lap u(0, 0) =
-  h^2\left(\frac{2u(0,0)}{\sigma^2} - \frac{\lap u(0,0)}{\sigma^2} +
-  \frac{1}{12}\left( \dpar{^4u}{x^4}(0,0) + \dpar{^4u}{y^4}(0, 0) \right)\right)
+  h^2\left(\frac{2u(0, 0)}{\sigma^2} - \frac{\lap u(0, 0)}{\sigma^2} +
+  \frac{1}{12}\left( \dpar{^4u}{x^4}(0, 0) + \dpar{^4u}{y^4}(0, 0) \right)\right)
   + O(h^4).
-\]
+\end{equation}
+\normalsize
 \end{primer}
 
-Vidimo, da je aproksimacija operatorja in napaka odvisna od tega, kakšen
+Vidimo, da sta aproksimacija operatorja in napaka odvisni od tega, kakšen
 $\sigma$ si izberemo v baznih funkcijah.
 \begin{trditev}
   \label{trd:rbf-konv-k-mon}
@@ -2554,15 +2640,15 @@ $\sigma$ si izberemo v baznih funkcijah.
 \end{proof}
 
 \subsection{Algoritem}
-V izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava} je veliko detajlov
+V izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava} je nekaj podrobnosti
 ostalo neizdelanih, kot na primer, kako diskretiziramo domeno ali kako poiščemo
-sosede. Ti detajli so opisani v naslednjih podrazdelkih, celotno metodo pa podajamo v
-psevdokodi kot algoritem~\ref{alg:metoda}.
+sosede. Ti detajli so opisani v naslednjih podrazdelkih, celotna metoda pa je opisana
+s pomočjo psevdokode kot algoritem~\ref{alg:metoda}.
 
 \begin{algorithm}[!ht]
   \caption{Brezmrežna metoda za reševanje PDE iz
   razdelka~\ref{sec:splosna-izpeljava}.}
-  \textbf{Vhod:} Parcialna diferencialna enačba, kot opisana
+  \textbf{Vhod:} Parcialna diferencialna enačba, opisana
   v~\eqref{eq:general-problem}. Parametri metode: \\
   \begin{tabular}{llll}
     \algorithmlist & $N$     & \ldots & celotno število diskretizacijskih točk    \\
@@ -2792,82 +2878,101 @@ prej.
   \label{fig:relax-hs}
 \end{figure}
 
+\subsubsection{Goščenje točk v domeni}
+\label{sec:goscenje}
+Pri reševanju problemov z divje spreminjajočimi rešitvami, singularnostmi ali zelo majhnimi
+lokalnimi fenomeni si pogosto pomagamo z lokalnim zgoščevanjem krajevne diskretizacije v okolici
+dela rešitve, ki nas najbolj zanima. Pri metodah, ki temeljijo na triangulaciji domene, lahko
+trikotnike v območju interesa delimo in tako dobimo finejšo triangulacijo. Pri brezmrežnih metodah
+metodah želimo doseči enak učinek, zato potrebujemo način, da gostimo točke na nekem območju.
+Postopek bomo imenovali \emph{goščenje} \ang{refinement}.
+
+Izberimo točko $p$ okoli katere bomo gostili diskretizacijo. Pri opisu postopka si pomagajmo z
+ilustracijo na sliki~\ref{fig:refine-algorithm}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/domain_refine.pdf}
+  \caption{Algoritem za goščenje točk v domeni.}
+  \label{fig:refine-algorithm}
+\end{figure}
+Poiščimo najbližjih $\ell$ sosedov točke $p$, pri čemer ne štejemo $p$ in jih označimo z $L = \{x_1,
+\dots, x_\ell\}$.  Za vsakega izmed sosedov dodamo novo točko, na polovici daljice med $x_i$ in $p$,
+označeno s sivim kvadratkom. Kandidati za nove diskretizacijske točke so torej
+\begin{equation}
+   X' = \left\{ \frac{p+x}{2}; x \in L \right\}.
+\end{equation}
+Pri tem pazimo, da če sta tako $x$ kot $p$ točki na robu, je tudi njuno središče robna točka in jo
+projiciramo na rob domene, kot prikazano na primeru na sliki~\ref{fig:refine-algorithm} z dvema
+potemnjenima kvadratkoma. Če je katera izmed točk v $X'$ izven zaprtja $\Omega$, jo odstranimo iz
+množice kandidatov. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali pa
+preblizu starim točkam, kar bi povzročilo nestabilnosti pri računanju funkcij oblike. Zato v parih
+točk, ki so bolj skupaj kot dovoljena razdalja $r_{\text{min}}$ zavržemo eno izmed točk, kjer
+zavržemo najprej novo, če je ta preblizu kakšni stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo
+$r_\text{min} = f r_c$, kjer je $r_c$ razdalja do najbližjega soseda~\eqref{eq:min-dist} in $f$
+pozitiven faktor, ponavadi manjši od $\nicefrac{1}{2}$.
+
+Zgornji postopek je lokalne narave in njegovo izvajanje je, zaradi iskanja sosedov, le logaritemsko
+odvisno od števila točk v domeni. Če želimo na nekem območju še gostejšo diskretizacijo, ga
+preprosto ponovimo večkrat zapored. Primer večkrat zgoščene domene je prikazan na
+sliki~\ref{fig:hertz-refined-domain-together} na strani~\pageref{fig:hertz-refined-domain-together}.
 
 \subsubsection{Iskanje najbližjih sosedov}
 
-Tako v algoritmu~\ref{alg:metoda} v vrstici~\ref{line:kdtree}, kot v
-algoritmu~\ref{alg:relax} v vrstici~\ref{line:closest} potrebujemo
-najti nekaj najbližjih sosedov dane točke. Navadno za okolico izberemo kar
-$n$ najbližjih sosedov v evklidski metriki, vendar bi lahko soseščino definirali
-tudi drugače, na primer kot množico vozlišč, ki so oddaljeni manj kot neka
-fiksna razdalja $R$.  Pri tem pristopu bi imeli manjšo kontrolo nad velikostjo
-soseščine, zato izberemo prvega.
-
-Problem iskanja najbližjih sosedov \ang{nearest neighbour search} je znana in
-dobro raziskana tema z razvitimi veliko podatkovnimi strukturami, ki podpirajo
-grajenje, iskanje, vstavljanje in brisanje v logaritemskem času. Večina jih
-temelji na delitvi prostora na različne hierarhično urejene podprostore, ki jih
-potem hranimo v drevesni strukturi, kar nam omogoča logaritemski dostop. Med
-bolj znanimi strukturami so \emph{$k$-d tree}~\cite{moore1991intoductory},
-\emph{ball tree}~\cite{omohundro1989five} in \emph{cover
-tree}~\cite{beygelzimer2006cover}. V članku~\cite{kibriya2007empirical} je
-narejena empirična primerjava med zgornjimi tremi strukturami, ki pokaže, da
-se v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najbolje obnese
-\emph{$k$-d tree}. Poleg tega \emph{$k$-d tree} najboljše deluje tudi, ko imajo
-točke, v katerih bomo iskali sosede, podobno porazdelitev kot točke, iz katerih
-smo naredili drevo, kar v našem primeru drži. Če vključimo še dejstvo, da je
-\emph{$k$-d tree} tudi najpopularnejša rešitev za problem najbližjih sosedov
-in ima na voljo veliko prosto dostopnih implementacij, je to dovolj argumentov,
-da jo uporabimo tudi mi. Specifična uporabljena implementacija je predstavljena
-v~\cite{mount1998ann}, ki za shrambo $N$ točk porabi $O(N)$ prostora in
-odgovarja na poizvedbe o $n$ najbližjih sosedih v $O(n\log N)$ časa.
-S pomočjo tega postane implementacija funkcije \textsc{sosedi} iz
-algoritma~\ref{alg:metoda} trivialna, pri algoritmu~\ref{alg:relax} pa si na
-vsaki iteraciji na novo zgradimo drevo in ga uporabimo za iskanje $s$ najbližjih
-sosedov.
+Tako v algoritmu~\ref{alg:metoda} na vrstici~\ref{line:kdtree}, kot v algoritmu~\ref{alg:relax} na
+vrstici~\ref{line:closest} je potrebno poiskati najti nekaj najbližjih sosedov dane točke.  Problem
+iskanja najbližjih sosedov \ang{nearest neighbour search} je znana in dobro raziskana tema z
+razvitimi veliko podatkovnimi strukturami, ki podpirajo grajenje, iskanje, vstavljanje in brisanje v
+logaritemskem času. Večina jih temelji na delitvi prostora na različne hierarhično urejene
+podprostore, ki jih potem hranimo v drevesni strukturi, kar nam omogoča logaritemski dostop. Med
+bolj znanimi strukturami so \emph{$k$-d tree}~\cite{moore1991intoductory}, \emph{ball
+tree}~\cite{omohundro1989five} in \emph{cover tree}~\cite{beygelzimer2006cover}. V
+članku~\cite{kibriya2007empirical} je narejena empirična primerjava med zgornjimi tremi strukturami,
+ki pokaže, da se v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najbolje obnese
+\emph{$k$-d tree}. Poleg tega \emph{$k$-d tree} najboljše deluje tudi, ko imajo točke, v katerih
+bomo iskali sosede, podobno porazdelitev kot točke, iz katerih smo naredili drevo, kar v našem
+primeru drži. Če vključimo še dejstvo, da je \emph{$k$-d tree} tudi najpopularnejša rešitev za
+problem najbližjih sosedov in ima na voljo veliko prosto dostopnih implementacij, je to dovolj
+argumentov, da jo uporabimo tudi mi. Specifična uporabljena implementacija je predstavljena
+v~\cite{mount1998ann}, ki za shrambo $N$ točk porabi $O(N)$ prostora in odgovarja na poizvedbe o $n$
+najbližjih sosedih v $O(n\log N)$ časa.  S pomočjo tega postane implementacija funkcije
+\textsc{sosedi} iz algoritma~\ref{alg:metoda} trivialna, pri algoritmu~\ref{alg:relax} pa si na
+vsaki iteraciji na novo zgradimo drevo in ga uporabimo za iskanje $s$ najbližjih sosedov.
 
 \subsubsection{Reševanje razpršenega sistema}
 \label{sec:solve-sparse}
-Za reševanje razpršenih sistemov poznamo veliko različnih metod, ki se v grobem
-delijo na direktne (obsežno opisane v~\cite{davis2006direct}) in iterativne
-(obsežno opisane v~\cite{saad2003iterative}).
-Pri običajnih, polnih matrikah bi za reševanje splošnega sistema linearnih enačb
-uporabili LU razcep in razcepili matriko $A$ kot $A = LU$. Toda, tudi če je
-matrika $A$ razpršena, v splošnem $L$ in $U$ nista nujno in sta lahko celo
-polni, kar povzroči, da nam zmanjka pomnilnika. Direktne metode, kot na primer
-SuperLU~\cite{li2005overview} poskušajo s preureditvijo stolpcev v razpršeni
-matriki $A$ minimizirati število novih neničelnih elementov v matrikah $L$ in
-$U$. Po drugi strani iterativne metode aproksimirajo pravilno rešitev sistema
-$Ax=b$ z zaporedjem približkov $\{x^{(r)}\}$, ki naj bi konvergirali k $x$. Te
-metode običajno ne zahtevajo veliko pomnilnika, je pa natančnost približka
-odvisna od števila porabljenih iteracij, tako da moramo za višjo natančnost
-porabiti večje število računskih operacij.
+Za reševanje razpršenih sistemov poznamo veliko različnih metod, ki se v grobem delijo na
+direktne~\cite{davis2006direct} in iterativne~\cite{saad2003iterative}.  Pri običajnih, polnih
+matrikah bi za reševanje splošnega sistema linearnih enačb uporabili LU razcep in razcepili matriko
+$A$ kot $A = LU$. Toda, tudi če je matrika $A$ razpršena, v splošnem $L$ in $U$ nista nujno in sta
+lahko celo polni, kar povzroči, da nam zmanjka pomnilnika. Direktne metode, kot na primer
+SuperLU~\cite{li2005overview} poskušajo s preureditvijo stolpcev v razpršeni matriki $A$
+minimizirati število novih neničelnih elementov v matrikah $L$ in $U$. Po drugi strani iterativne
+metode aproksimirajo pravilno rešitev sistema $Ax=b$ z zaporedjem približkov $\{x^{(r)}\}$, ki naj
+bi konvergirali k $x$. Te metode običajno ne zahtevajo veliko pomnilnika, je pa natančnost približka
+odvisna od števila porabljenih iteracij, ali drugače, z višanjem želene natančnosti raste tudi
+računska zahtevnost.
 
-Za metode iz numerične linearne algebre bomo uporabljali knjižnico
-Eigen~\cite{eigenweb}, ki nudi elegantno in hitro delo z matrikami v \CC.
-Vgrajenih ima veliko direktnih in iterativnih metod za reševanje sistemov
-linearnih
+V primerih, predstavljenih v tem delu, uporabljamo knjižnico Eigen~\cite{eigenweb}, ki nudi
+elegantno in hitro delo z matrikami v \CC.  Vgrajenih ima več direktnih in iterativnih metod za
+reševanje sistemov linearnih
 enačb.\footnote{\url{https://eigen.tuxfamily.org/dox/group__TopicSparseSystems.html}
   \newline
 [obiskano 17.\ 6.\ 2017]}
-Pri sistemih tipa~\eqref{eq:discretized-system} se je
-v praksi najbolje obnesel BiCGSTAB~\cite{van1992bi} z
-ILUT predpogojevanjem~\cite{saad1994ilut}. BiCGSTAB v primeru uporabe pravilne
-shrambe matrike v pomnilniku podpira tudi paralelizacijo, poleg tega pa je
-konvergenca v praksi dovolj hitra. Predpogojevanje z uporabo nepopolnega LU
-razcepa z dvojnim pragom~\ang{dual threshold incomplete LU factorization (ILUT)}
-omogoča natančnejšo kontrolo nad porabljenim spominom in hitrostjo konvergence z
-uporabo dveh parametrov $p$ in $\tau$. Med $LU$ faktorizacijo izpustimo vsak
-element, ki je manjši kot $\tau\cdot e$, kjer je $e$ povprečna absolutna
-vrednost elementov v trenutni vrstici. Nato obdržimo le največjih $f$ elementov
-v matrikah $L$ in $U$, kjer je $p$ uporabljen kot razmerje med $f$ in začetnim
-številom neničelnih elementov. V grobem nam tako parameter $p$ kontrolira
-kolikokrat več spomina dovolimo za hranjenje predogojenke,
-parameter $\tau$ pa, kako natančna bo LU faktorizacija.
+Pri sistemih tipa~\eqref{eq:discretized-system} se je v praksi najbolje obnesel
+BiCGSTAB~\cite{van1992bi} z ILUT predpogojevanjem~\cite{saad1994ilut}. BiCGSTAB v primeru uporabe
+pravilne shrambe matrike v pomnilniku podpira tudi paralelizacijo, poleg tega pa je konvergenca v
+praksi dovolj hitra. Predpogojevanje z uporabo nepopolnega LU razcepa z dvojnim pragom~\ang{dual
+threshold incomplete LU factorization (ILUT)} omogoča natančnejšo kontrolo nad porabljenim spominom
+in hitrostjo konvergence z uporabo dveh parametrov $p$ in $\tau$. Med $LU$ faktorizacijo izpustimo
+vsak element, ki je manjši kot $\tau\cdot e$, kjer je $e$ povprečna absolutna vrednost elementov v
+trenutni vrstici. Nato obdržimo le največjih $f$ elementov v matrikah $L$ in $U$, kjer je $p$
+uporabljen kot razmerje med $f$ in začetnim številom neničelnih elementov. V grobem tako parameter
+$p$ kontrolira kolikokrat več spomina dovolimo za hranjenje predogojenke, parameter $\tau$ pa kako
+natančna bo LU faktorizacija.
 
 \subsubsection{Časovna zahtevnost}
 \label{sec:casovna-zahtevnost}
-V tem razdelku analiziramo časovno zahtevnost metode. Predpostavili bomo, da so
+Pri analizi časovne zahtevnosti metode bomo predpostavili, da so
 vse evalvacije funkcij $f$, $g$, $w$ in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v $O(1)$.
 Prav tako bomo predpostavili, da je dimenzija problema majhna in konstantna in
 ne bo nastopala v analizah.
@@ -2894,10 +2999,10 @@ n) = O(m^2n)$, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
 razcepa z dvostranskim Jacobi SVD razcepom iz knjižnice
 Eigen.\footnote{\url{https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html}
 [obiskano 16.\ 6.\ 2017]} Funkcija oblike se izračuna za vsako točko v domeni,
-torej ta del algoritma traja $O(m^2 n N)$ časa.
+kar doprinese $O(m^2 n N)$ k skupni zahtevnosti.
 
 Pri sestavljanju razpršene matrike lahko v naprej rezerviramo prostor za $n$
-elementov v vsaki vrstici, tako da nas sestavljanje matrike stane $O(nN)$ časa,
+elementov v vsaki vrstici, tako da sestavljanje matrike stane $O(nN)$ časa,
 sestavljanje robnih pogojev pa $O(N)$ časa. Na koncu še rešimo razpršen sistem
 linearnih enačb, kjer pa je čas zelo odvisen od problema, iteracijske metode in
 predpogojenke.
@@ -2907,12 +3012,9 @@ kjer je $T$ čas, porabljen za reševanje razpršenega sistema enačb.
 \end{proof}
 
 \subsubsection{Prostorska zahtevnost}
-V tem razdelku analiziramo časovno zahtevnost metode. Podobno kot pri časovni
-zahtevnosti bomo predpostavili, da so
-vse evalvacije funkcij $f$, $g$, $w$ in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v
-$O(1)$ prostora.
-Prav tako bomo predpostavili, da je dimenzija problema majhna in konstantna in
-ne bo nastopala v analizah.
+Podobno kot pri časovni zahtevnosti bomo predpostavili, da so vse evalvacije funkcij $f$, $g$, $w$
+in $b_j$, $\L b_j$, $\Rc b_j$ izvedene v $O(1)$ prostora.  Prav tako bomo predpostavili, da je
+dimenzija problema majhna in konstantna in ne bo nastopala v analizah.
 
 \begin{trditev}
   Prostorska zahtevnost algoritma~\ref{alg:metoda} je $O(nN) + P$, kjer je $P$
@@ -2966,19 +3068,18 @@ zgrajenega drevesa, zato se ponavadi na enostavnejših primerih poslužujemo kar
 $r_\chi$. Kadar pa to ni dobra aproksimacija razdalje med vozlišči za celo
 domeno, kot na primer ob goščenju mreže, se poslužimo $r_c$.
 
-Pogoste vrednosti za število sosedov so $n = 3, 5, 7$ v eni dimenziji, $n = 5,
-9, 13, 25$ v dveh dimenzijah in $n = 7$ ali $27$ v treh dimenzijah. Za regularne
-domene to pomeni, da so vozlišča izbrana simetrično, pri neregularnih pa izbira
-$n$ ni tako pomembna, dokler je dovolj visoka, da dobro popiše operator, ki ga
-aproksimiramo.  Višji $n$ ponavadi pomeni večjo stabilnost, morda višji red in
-počasnejše izvajanje. V praksi izberemo najmanjši $n$, ki daje zadovoljive
-rezultate.
+Pogoste vrednosti za število sosedov so $n = 3, 5, 7$ v eni dimenziji, $n = 5, 9, 13, 25$ v dveh
+dimenzijah in $n = 7$ ali $27$ v treh dimenzijah. Za regularno porazdeljene točke v domeni to
+pomeni, da so vozlišča izbrana simetrično, pri neregularnih pa izbira $n$ ni tako pomembna, dokler
+je dovolj visoka, da dobro popiše operator, ki ga aproksimiramo.  Višji $n$ ponavadi pomeni večjo
+stabilnost, morda višji red in počasnejše izvajanje. V praksi izberemo najmanjši $n$, ki zagotovi
+zadovoljive rezultate.
 
 Za utež se pogosto uporablja konstanta $w\equiv1$, če ne želimo uteženih
 najmanjših kvadratov, sicer pa pogosto vzamemo za utež Gaussovo funkcijo
-\[
-  w(x) = \exp\left(-\left(\frac{x}{\sigma_w}\right)^2 \right),
-\]
+\begin{equation}
+   w(x) = \exp\left(-\left(\frac{x}{\sigma_w}\right)^2 \right),
+\end{equation}
 kjer $\sigma_w$ imenujemo parameter oblike \ang{shape parameter} uteži.
 Velja opozoriti, da je ta funkcija praktično nič, če smo več kot $3\sigma_w$
 stran od središča ($w(3\sigma_w) \approx 0.0001234$). Če na primer izberemo
@@ -2990,7 +3091,7 @@ pa potrebno optimalno vrednost določiti za vsak posamezen problem posebej.
 Pogosta izbira baznih funkcij so prostori $\mathbb{P}_\ell$ monomov skupne
 stopnje manj ali enako $\ell$. Pri tem moramo seveda paziti, da izberemo dovolj
 visok $n$. Druga pogosta izbira je, da vzamemo $m = n$ in za bazne funkcije
-izberemo radialne bazne funkcije s centri v sosedih.
+izberemo radialne bazne funkcije s centri v sosedih~\cite{kosec2011h}.
 
 \begin{definicija}
   Funkcija $\psi_c$ se imenuje radialna bazna funkcija s centrom v točki
@@ -3002,25 +3103,39 @@ izberemo radialne bazne funkcije s centri v sosedih.
   in $\tilde\psi$ in pišemo $\psi_c = \psi_c(r)$.
 \end{definicija}
 
-V tabeli~\ref{tab:rbf} so naštete najpogostejše uporabljene radialne bazne funkcije, povzete
+Na sliki~\ref{fig:rbf} so naštete najpogostejše uporabljene radialne bazne funkcije, povzete
 po~\cite[str.\ 5]{schaback1995error}.
 
-\newcommand{\tc}[1]{\vspace{-15ex}\parbox{6cm}{#1}}
-\begin{table}[!h]
+\begin{figure}[h]
   \centering
-  \begin{tabular}{|m{6.2cm}|l|} \hline
-    \tc{Multikvadratične (MQ) \\ \ang{Multiquadric}  \\[3ex] $\psi(r) = \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
-    \tc{\mbox{Inverzne multikvadratične (IMQ)} \\ \ang{Inverse multiquadrics}
-    \\[3ex] $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$} & \includegraphics[width=0.33\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
-    \tc{Linearna razdalja (L) \\ \ang{Linear distance} \\[3ex] $\psi(r) = r$} &
-    \includegraphics[width=0.278\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
-    \tc{Gaussove funkcije (G) \\ \ang{Gaussians} \\[3ex] $\psi(r) =
-    \exp(-(r/\sigma_b)^2)$} & \includegraphics[width=0.33\textwidth]{images/rbf_gau.pdf} \\ \hline
-  \end{tabular}
-  \caption{Najpogosteje uporabljene radialne bazne funkcije s parametrom oblike
-  $\sigma_b$.}
-  \label{tab:rbf}
-\end{table}
+  \begin{subfigure}[t]{0.33\textwidth}
+    \includegraphics[width=\textwidth]{images/rbf_mq.pdf}
+    \caption[Multikvadratične]{Multikvadratične \\ \ang{Multiquadric}  \\ $\psi(r) = \sqrt{r^2+\sigma_b^2}$}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.33\textwidth}
+    \includegraphics[width=\textwidth]{images/rbf_imq.pdf}
+    \caption[Inverzne multikvadratične]{Inverzne multikvadratične \\ \ang{Inverse multiquadrics}  \\ $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\textwidth]{images/rbf_gau.pdf}
+    \caption[Gaussove funkcije]{Gaussove funkcije \\ \ang{Gaussians} \\ $\psi(r) = \exp(-(r/\sigma_b)^2)$}
+  \end{subfigure}
+  \caption[Najpogosteje uporabljene radialne bazne funkcije]{Najpogosteje uporabljene radialne bazne
+  funkcije s parametrom oblike $\sigma_b$.}
+  \label{fig:rbf}
+\end{figure}
+
+% \newcommand{\tc}[1]{\vspace{-15ex}\parbox{6cm}{#1}}
+% \begin{table}[!h]
+%   \centering
+%   \begin{tabular}{|m{6.2cm}|l|} \hline
+%     \tc{} & \includegraphics[width=0.33\textwidth]{images/rbf_mq.pdf} \vspace{-1ex} \\ \hline
+%     \tc{} & \includegraphics[width=0.33\textwidth]{images/rbf_imq.pdf} \vspace{-1ex} \\ \hline
+%     \tc{} &
+%     \includegraphics[width=0.278\textwidth]{images/rbf_lin.pdf} \vspace{-1ex} \\ \hline
+%     \tc{} & \includegraphics[width=0.33\textwidth]{images/rbf_gau.pdf} \\ \hline
+%   \end{tabular}
+% \end{table}
 
 Ko si izberemo neko bazno funkcijo $\psi$, potem za bazne funkcije okoli točke
 $p$ vzamemo
@@ -3040,106 +3155,21 @@ boljšo aproksimacijo funkcij, ki so blizu konstantam. Več o kvaliteti,
 stabilnosti in redu konvergence aproksimacije z radialnimi baznimi funkcijami
 si lahko bralec prebere v~\cite{buhmann2000radial}.
 
-\subsection{Višjedimenzionalni problemi}
-\label{sec:visje-dimenzije}
-Numerično zelo pogosto rešujemo probleme, kjer je neznana količina vektorsko polje in
-ne le skalarno polje, kot smo predpostavili v izpeljavi v
-razdelku~\ref{sec:splosna-izpeljava}.  Navier-Stokesove enačbe in Navierova
-enačba sta najbolj osnovna zgleda vektorskih enačb. Pri teh problemih moramo poprijeti
-po drugačnih metodah, najenostavnejše preprosto obravnavamo enačbo za vektorsko polje
-kot tri sklopljene enačbe za tri skalarna polja. Oglejmo si postopek na primeru Navierove
-enačbe. Vektorsko polje razpišemo po komponentah, za primer treh dimenzij zapišemo
-$\vu = (u, v, w)$. Vektorska oblika stacionarne Navierove enačbe
-\[
-  (\lambda+\mu)\nabla(\nabla\cdot \vu) + \mu\nabla^2 \vu + \vf = 0
-\]
-se razpiše v sistem treh enačb
-\begin{align}
-(\lambda +\mu ) \left(\dpar{^2u}{x^2}+\dpar{^2v}{xy}+\dpar{^2w}{xz}\right)+\mu  \left(\dpar{^2u}{x^2}+\dpar{^2u}{y^2}+\dpar{^2u}{z^2}\right)+f_1&=0 \\
-(\lambda +\mu ) \left(\dpar{^2u}{xy}+\dpar{^2v}{y^2}+\dpar{^2w}{yz}\right)+\mu  \left(\dpar{^2v}{x^2}+\dpar{^2v}{y^2}+\dpar{^2v}{z^2}\right)+f_2&=0 \\
-(\lambda +\mu ) \left(\dpar{^2u}{xz}+\dpar{^2v}{yz}+\dpar{^2w}{z^2}\right)+\mu  \left(\dpar{^2w}{x^2}+\dpar{^2w}{y^2}+\dpar{^2w}{z^2}\right)+f_3&=0.
-\end{align}
-Enačbe so sklopljene preko operatorja $\grad\div$. Če domeno diskretiziramo z $N$ točkami, bomo
-namesto sistema $N\times N$ za neznano skalarno polje, sedaj reševali sistem $3N\times 3N$ za
-tri skalarna polja hkrati. Neznanke, ki ustrezajo vektorju $\vu$ predstavimo numerično kot vektor
-$\b{u}$ dolžine $3N$, katerega prvih $N$ komponent predstavlja $u$, naslednjih $N$ predstavlja $v$,
-zadnjih $N$ pa $w$. Enako storimo z $\vf$ in robnimi pogoji. Enačbo $A\b u = \b f$ lahko sedaj
-zapišemo po blokih
-\begin{equation}
-  \begin{bmatrix}
-    U1 & V1 & W1 \\
-    U2 & V2 & W2 \\
-    U3 & V3 & W3
-  \end{bmatrix}
-  \begin{bmatrix}
-    u \\ v \\ w
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-    f_1 \\ f_2 \\ f_3
-  \end{bmatrix}.
-  \label{eq:higher-dim-system}
-\end{equation}
-Vsako izmed treh komponent Navierove enačbe bomo napisali v eno izmed (bločnih) vrstic. Funkcijo
-oblike za člen $\dpar{^2v}{xy}$ bi napisali v blok $V1$, saj nastopa v prvi enačbi in se nanaša na
-polje $v$, podobno bi aproksimacijo za $\dpar{^2w}{z^2}$ iz tretje enačbe zapisali v blok $W3$.
-Če bi katere elemente napisali na mesta, kjer so že kakšni neničelni elementi, jih med seboj
-seštejemo. Primer take matrike pri reševanju dvodimenzionalnega sistema je prikazan kasneje,
-na sliki~\ref{fig:hertz-matrix} na strani~\pageref{fig:hertz-matrix}.
-
-\subsection{Goščenje točk v domeni}
-\label{sec:goscenje}
-Pri reševanju problemov z divje spreminjajočimi rešitvami, singularnostmi ali zelo majhnimi
-lokalnimi fenomeni si pogosto pomagamo s finejšo diskretizacijo v okolici dela rešitve, ki nas
-najbolj zanima. Pri metodah, ki temeljijo na triangulaciji domene, lahko trikotnike v območju
-interesa delimo in tako dobimo finejšo triangulacijo. Pri brezmrežnih metodah metodah želimo doseči
-enak učinek, zato potrebujemo način, da gostimo točke na nekem območju.
-
-Izberimo točko $p$ okoli katere bomo gostili diskretizacijo. Postopek bomo imenovali \emph{goščenje}
-\ang{refinement}. Pri tem si pomagajmo z ilustracijo postopka na sliki~\ref{fig:refine-algorithm}.
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.5\textwidth]{images/domain_refine.pdf}
-  \caption{Algoritem za goščenje točk v domeni.}
-  \label{fig:refine-algorithm}
-\end{figure}
-Najdimo najbližjih $\ell$ sosedov točke $p$, pri čemer ne štejemo $p$ in jih
-označimo z $L = \{x_1, \dots, x_\ell\}$.
-Za vsakega izmed sosedov dodamo novo točko, na polovici daljice med $x_i$ in $p$, označeno s sivim
-kvadratkom. Kandidati za nove diskretizacijske točke so torej
-\[
-  X' = \left\{ \frac{p+x}{2}; x \in L \right\}.
-\]
-Pri tem pazimo, da če sta tako $x$ kot $p$ točki na robu, je tudi njuno središče robna točka in jo
-projiciramo na rob domene, kot prikazano na primeru na sliki~\ref{fig:refine-algorithm} z dvema
-potemnjenima kvadratkoma. Če je katera izmed točk v $X'$ izven zaprtja $\Omega$, jo odstranimo iz
-množice kandidatov. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali
-pa preblizu starim točkam, kar bo povzročilo nestabilnosti pri reševanju. Zato v parih točk, ki so
-bolj skupaj kot dovoljena razdalja $r_{\text{min}}$ zavržemo eno izmed točk, kjer zavržemo najprej
-novo, če je ta preblizu neki stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo $r_\text{min} =
-f r_c$, kjer je $r_c$ definiran z~\eqref{eq:min-dist} razdalja do najbližjega soseda in $f$ nek
-pozitiven faktor, ponavadi manjši od $\nicefrac{1}{2}$.
-
-Zgornji postopek je lokalne narave in njegovo izvajanje je le logaritemsko odvisno od števila
-točk v domeni (zaradi iskanja sosedov). Če želimo na nekem območju še gostejšo diskretizacijo,
-ga preprosto ponovimo večkrat zapored. Primer večkrat zgoščene domene je prikazan na
-sliki~\ref{fig:hertz-refined-domain-together}.
-
 \section{Osnovni numerični zgledi}
 \label{sec:osnovni-zgledi}
-V tem razdelku bomo pogledali obnašanje metode na osnovnih numeričnih zgledih, da si zgradimo
-intuicijo o njenem delovanju. V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v
-razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Least Squares Method}.  Če
-ni drugače navedeno, so vse meritve narejene na računalniku z eno centralno procesno enoto
-\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako podpira dve niti
-izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so bili prevedeni s prevajalnikom
-\verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Manjaro
-Linux.
+V tem razdelku si bomo ogledali obnašanje metode na čedalje bolj zapletenih numeričnih zgledih, da
+si zgradimo intuicijo o njenem delovanju in da se pripravimo na reševanje problema iz mehanike
+utrujenosti materialov, opisanega v uvodu. V nadaljnjem besedilu in na vseh grafih bo metoda,
+opisana v razdelku~\ref{sec:numericna-metoda} označena s kratico MLSM \ang{Meshless Local Strong
+Form Method}. Če ni drugače navedeno, so vse meritve narejene na računalniku z eno centralno
+procesno enoto \verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako
+podpira dve niti izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so bili prevedeni s
+prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem
+sistemu Manjaro Linux.
 
 \subsection{Enodimenzionalni robni problem}
-Oglejmo si najprej preprost primer enodimenzionalne Poissonove enačbe, ki smo ga uporabili že za
-motivacijo izpeljave numerične metode.
-Rešujmo problem
+Oglejmo si najprej preprost primer reševanja enodimenzionalne Poissonove enačbe, ki smo ga uporabili
+že za motivacijo izpeljave numerične metode.  Rešujmo problem
 \begin{align}
   u''(x) &= \sin(x), \quad x \in (0, 1) \nonumber \\
   u(0) &= 0,  \\
@@ -3163,16 +3193,16 @@ X} |\hat{u}(x) - u(x)|.  \]
   \label{fig:mlsm-fdm-err}
 \end{figure}
 
-Na grafu vidimo, da metodi tudi v praksi sovpadata dokler ne preideta v območje nestabilnosti. Pri
-enojni natančnosti se to zgodi precej hitro, pri $N = 30$, pri dvojni natančnosti pa obe metodi
-konvergirata linearno do približno $N = 1000$.  Nato se obe metodi približujeta vsaka svoji največji
-natančnosti, med $N = 10^4$ in $N = 10^5$ diskretizacijskimi točkami pa se začnejo pojavljati
-numerične nestabilnosti. Manjšo končno natančnosti MLSM lahko pripišemo numeričnim napakam pri
-računanju aproksimacije drugih odvodov. Pri FDM namreč v matriko direktno zapišemo koeficiente
-$\frac{1}{h^2}$ in $-\frac{2}{h^2}$, pri MLSM pa se ti izračunajo numerično. Iz naklona premice
-vidimo, da sta obe metodi tudi v praksi reda~2. Če uporabimo za računanje aproksimacije odvoda 5
-sosedov namesto 3, po pričakovanjih dobimo metodo, ki konvergira z višjim redom, ima pa enako končno
-natančnost kot prej.
+Na grafu (slika~\ref{fig:mlsm-fdm-err}) vidimo, da metodi tudi v praksi sovpadata dokler ne preideta
+v območje nestabilnosti. Pri enojni natančnosti se to zgodi precej hitro, pri $N = 30$, pri dvojni
+natančnosti pa obe metodi konvergirata linearno do približno $N = 1000$.  Nato se obe metodi
+približujeta vsaka svoji največji natančnosti, med $N = 10^4$ in $N = 10^5$ diskretizacijskimi
+točkami pa se začnejo pojavljati numerične nestabilnosti. Manjšo končno natančnosti MLSM lahko
+pripišemo numeričnim napakam pri računanju aproksimacije drugih odvodov. Pri FDM namreč v matriko
+direktno zapišemo koeficiente $\frac{1}{h^2}$ in $-\frac{2}{h^2}$, pri MLSM pa se ti izračunajo
+numerično. Iz naklona premice vidimo, da sta obe metodi tudi v praksi reda~2. Če uporabimo za
+računanje aproksimacije odvoda 5 sosedov namesto 3, po pričakovanjih dobimo metodo, ki konvergira z
+višjim redom, ima pa enako končno natančnost kot prej.
 
 \begin{figure}[h]
   \centering
@@ -3183,24 +3213,24 @@ natančnost kot prej.
 
 Časovna primerjava obeh metod je prikazana na sliki~\ref{fig:mlsm-fdm-time}.  MLSM je približno
 konstantno 5.5-krat počasnejši kot FDM za velike $(\geq 10^4)$ $N$, kot prikazano z razmerjem,
-merjenim na desni osi. To je tudi pričakovano, saj MLSM išče sosede in računa aproksimacije, medtem
-je to pri FDM izračunano na roke.  Če pri MLSM posebej merimo samo čas, ki ga porabimo za
-sestavljanje matrike in reševanje sistema, vidimo, da se skoraj ujema z časom, porabljenim pri FDM.
-Minimalno razliko gre pripisati razliki pri načinu grajenja matrike, saj pri FDM natanko vemo
-pozicije in število neničelnih elementov vnaprej, pri MLSM pa v splošnem ne. MLSM višjega reda je
-pričakovano počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja $N$ glavna parametra v časovni
-zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je konsistentno dvakrat
-počasnejši. Toda, če pogledamo koliko časa potrebujemo, da dosežemo natančnost $10^{-6}$, z
-grafov~\ref{fig:mlsm-fdm-err} in~\ref{fig:mlsm-fdm-time} odčitamo, da MLSM višjega reda potrebuje le
-$N = 22$, za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo $N = 400$ kar
-nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega reda je dovolj zoprna, da se zanjo
-malokrat odločimo, saj je treba uporabljati enostranske diference pri robu. Pri MLSM pa se
+merjenim na desni osi. To je tudi pričakovano, saj MLSM išče sosede in gradi funkcije oblike, medtem
+ko so uporabljene aproksimacije pri FDM znane vnaprej. Če pri MLSM posebej merimo samo čas, ki ga
+porabimo za sestavljanje matrike in reševanje sistema, vidimo, da se skoraj ujema z časom,
+porabljenim pri FDM. Majhno razliko gre pripisati razliki pri načinu grajenja matrike, saj pri
+FDM natanko vemo pozicije in število neničelnih elementov vnaprej, medtem ko za MLSM to v splošnem
+ne velja. MLSM višjega reda je pričakovano počasnejši saj sta $n$ in $m$ poleg osnovnega faktorja
+$N$ glavna parametra v časovni zahtevnosti~\eqref{eq:casovna-zahtevnost}, iz razmerja vidimo, da je
+konsistentno dvakrat počasnejši. Toda, če pogledamo koliko časa potrebujemo, da dosežemo natančnost
+$10^{-6}$, z grafov~\ref{fig:mlsm-fdm-err} in~\ref{fig:mlsm-fdm-time} odčitamo, da MLSM višjega reda
+potrebuje le $N = 22$, za kar potrebujemo $\unit[0.3]{ms}$, pri običajnem redu pa potrebujemo $N =
+400$ kar nanese $\unit[1.5]{ms}$. Implementacija deljenih diferenc višjega reda je dovolj zoprna, da
+se zanjo malokrat odločimo, saj je treba uporabljati enostranske diference pri robu. Pri MLSM pa se
 izračunajo same, vse kar je potrebno je, da $n$ iz 3 spremenimo na 5. Če uporabljamo enojno
-natančnost namesto dvojne, se to zgolj malenkostno pozna na času, ki ga porabimo za reševanje, in
-se zaradi zgodnje nestabilnosti enojne natančnosti ne splača uporabljati.
+natančnost namesto dvojne, se to zgolj malenkostno pozna na času, ki ga porabimo za reševanje, in se
+zaradi zgodnje nestabilnosti enojne natančnosti ne splača uporabljati.
 
 \subsection{Poissonova enačba}
-Oglejmo si sedaj obnašanje metode na klasični Poissonovi enačbi na kvadratu:
+Oglejmo si obnašanje numerične rešitve klasične Poissonove enačbe na kvadratu:
 \begin{align}
   \lap u &= 1, \quad (x, y) \in (0, 1) \times (0, 1)
   \label{eq:poisson-problem} \\
@@ -3253,13 +3283,13 @@ kar drži; v resnici je najbolj ekstremna vrednost $u(1/2, 1/2) \approx -0.0736$
 Iz zgornje trditve lahko izračunamo, da je rep
 vrste~\eqref{eq:poisson-analytical} za $\ell = 59$ manjši kot $10^{-5}$, za
 $\ell = 181$ pa manjši kot $10^{-6}$.  Za izračun analitične rešitve ob
-primerjavi z numerično je bil uporabljen $\ell = 181$.
+primerjavi z numerično je uporabljen $\ell = 181$.
 \begin{opomba}
   Računanje izraza \[
     \frac{\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi
     y}{2}}{\cosh(\frac{k\pi}{2})}
   \] ni numerično stabilno, ko $k$ raste, kajti tako števec kot imenovalec se
-  približujeta neskončno, kvocient pa ima končno limito. Ko za želimo izračunati
+  približujeta neskončnosti, kvocient pa ima končno limito. Ko za želimo izračunati
   numerično je bolje uporabiti stabilnejšo obliko
   \[
     \frac12\left( 1 - \frac{\exp(-k\pi y) + \exp(-k\pi(1-y)) }{1 +
@@ -3268,16 +3298,14 @@ primerjavi z numerično je bil uporabljen $\ell = 181$.
   kjer vedno nastopa negativen eksponent.
 \end{opomba}
 
-Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori
-baznih funkcij: monomi, Gaussovimi funkcijami, multikvadratičnimi in inverznimi
-multikvadratičnimi. Za parametre smo vedno vzeli $n = m = 9$
-kar sovpada s primeri iz razdelka~\ref{sec:posebni-primeri}. Pri monomih smo
-dodali tudi primer $n = 9$ in $m = 6$. Za parameter oblike
-pri radialnih baznih funkcijah smo vzeli $\sigma_b = 100\, r_\chi$.
-Za utež vzemimo Gaussovo utež z $\sigma_w = \frac34 r_\chi$.
-V vseh primerih je bila za reševanje sistema enačb uporabljena direktna metoda
-SuperLU. Iterativni BiCGSTAB algoritem je dal enake rezultate.  Napaka metod je
-prikazana na sliki~\ref{fig:poisson-square-convergence}.
+Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori baznih funkcij:
+monomi, Gaussovimi funkcijami~(G), multikvadratičnimi~(MQ) in inverznimi multikvadratičnimi~(IMQ).
+Za parametre smo vedno vzeli $n = m = 9$ kar sovpada s primeri iz
+razdelka~\ref{sec:posebni-primeri}. Pri monomih smo dodali tudi primer $n = 9$ in $m = 6$. Za
+parameter oblike pri radialnih baznih funkcijah smo vzeli $\sigma_b = 100\, r_\chi$.  Za utež
+vzemimo Gaussovo utež z $\sigma_w = \frac34 r_\chi$.  V vseh primerih je bila za reševanje sistema
+enačb uporabljena direktna metoda SuperLU.\footnote{Iterativni BiCGSTAB algoritem je vrnil enake
+rezultate.} Primerjava napak je prikazana na sliki~\ref{fig:poisson-square-convergence}.
 
 \begin{figure}[h]
   \centering
@@ -3287,16 +3315,14 @@ prikazana na sliki~\ref{fig:poisson-square-convergence}.
   \label{fig:poisson-square-convergence}
 \end{figure}
 
-Vidimo, da monomi za $n=5$ in $n=9$ konvergirajo linearno z redom 1, kot vemo iz
-teorije končnih diferenc. Radialne bazne funkcije se na začetku ujemamo z
-monomi, nato pa pokažejo slabše konvergenčne lastnosti in nelinearno obnašanje,
-drugačno pri vsakem razredu funkcij. Funkcije, ki uporabljajo več sosedov,
-začnejo z malenkost nižjo napako, prav tako pa morda presenetljivo tudi
-monomi z $n=6$. S slike~\ref{fig:poisson-square-time},
-ki prikazuje čas računanja vidimo, da se uporaba baznih funkcij z $n = 9$
-ne splača, saj minimalna pridobljena natančnost ne odtehta časa izvajanja.
-Vidimo, da se čas izvajanja loči na tri pasove glede na $n$, ki vsi
-rastejo linearno z $N$ s konstantnim razmerjem.
+Vidimo, da monomi za $n=5$ in $n=9$ konvergirajo linearno z redom 2 (glede na $\sqrt{N}$), kar
+vemo tudi iz teorije metode končnih diferenc. Radialne bazne funkcije se na začetku ujemamo z monomi,
+nato pa pokažejo slabše konvergenčne lastnosti in nelinearno obnašanje, drugačno pri vsakem razredu
+funkcij. Funkcije, ki uporabljajo več sosedov, začnejo z malenkost nižjo napako, prav tako pa morda
+presenetljivo tudi monomi z $n=6$. S slike~\ref{fig:poisson-square-time}, ki prikazuje čas računanja
+vidimo, da se uporaba baznih funkcij z $n = 9$ ne splača, saj minimalna pridobljena natančnost ne
+odtehta časa izvajanja.  Vidimo, da se čas izvajanja loči na tri pasove glede na $n$, ki vsi rastejo
+linearno z $N$ z konstantnim razmerjem.
 
 \begin{figure}[h]
   \centering
@@ -3307,15 +3333,12 @@ problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time}
 \end{figure}
 
-Po trditvi~\ref{trd:rbf-konv-k-mon} aproksimacija z Gaussovimi funkcijami
-konvergira proti aproksimaciji z monomi. Na sliki~\ref{fig:rbf-konv-k-mon}
-vidimo to dejstvo demonstrirano tudi numerično. Konvergenčne krivulje za
-Gaussove funkcije se pri povečevanju parametra oblike čedalje bolj približujejo
-konvergenčni krivulji monomov. Tako obnašanje zasledimo tudi pri bolj
-kompliciranih enačbah in drugih radialnih baznih funkcijah. Če imamo pri radialnih
-baznih funkcijah težavo s konvergenco, lahko poiskusimo povečati parameter
-oblike. Seveda to ne gre prek vseh meja, saj sistem~\eqref{eq:shape-system}
-za izračun funkcije oblike postane čedalje bolj občutljiv.
+Po trditvi~\ref{trd:rbf-konv-k-mon} aproksimacija z Gaussovimi funkcijami konvergira proti
+aproksimaciji z monomi. Slika~\ref{fig:rbf-konv-k-mon} to dejstvo potrjuje. Konvergenčne krivulje za
+Gaussove funkcije se pri povečevanju parametra oblike čedalje bolj približujejo konvergenčni
+krivulji monomov. Če imamo pri radialnih baznih funkcijah težavo s konvergenco, lahko poiskusimo
+povečati parameter oblike. Seveda to ne gre prek vseh meja, saj sistem~\eqref{eq:shape-system} za
+izračun funkcije oblike z večanjem parametra oblike postane čedalje bolj občutljiv.
 
 \begin{figure}[h]
   \centering
@@ -3352,48 +3375,38 @@ Graf napake je prikazan na sliki~\ref{fig:poisson-square-sigma-dep-error}.
   \label{fig:poisson-square-sigma-dep}
 \end{figure}
 
-Trditev~\ref{trd:weight-independence} pravi, da mora v primeru $n=m$ ni
-obrnljive matrike $B$ aproksimacija operatorja (in posledično tudi napaka) neodvisna od
-izbire uteži. Opomba po trditvi pravi, da numerično to velja, če le utež ni
-premajhna, da bi bila sama razlog za numerične nestabilnosti.
-Slika~\ref{fig:poisson-square-sigma-dep-error} to potrdi; trditev velja v
-območju, kjer je matrika tudi numerično obrnljiva. Če je utež zelo
-majhna, manjša od $0.3\,r_\chi$, potem se nekatere enačbe v
-sistemu~\eqref{eq:shape-system} pomnožijo s približno $\exp(-2/0.3^2) \approx
-2.23\cdot10^{-10}$, kar privede do velike nestabilnosti. Do numerične
-neobrnljivosti matrike pa lahko pripelje tudi izbira prevelikega parametra
-$\sigma_b$, kajti za $\sigma_b = 70\,r_\chi$ so vsi elementi matrike $B$
-med $1.00041$ in $1$. Boljši vpogled v obrnljivost matrike $B$ nam da graf na
-sliki~\ref{fig:poisson-square-sigma-dep-cutoff}, ki predstavlja število
-odrezanim singularnih vrednosti pri SVD razcepu, s pomočjo katerega smo
-izračunali psevdoinverz matrike $WB$. Aproksimacija je res neodvisna od
-na predelu, kjer nismo odrezali nobene singularne vrednosti, torej približno
-na območju $[0, 70] \times [0.3, \infty)$, drugje pa lahko utež vpliva na
-izračun psevdoinverza in število odrezanih singularnih vrednosti.
+Trditev~\ref{trd:weight-independence} pravi, da mora biti v primeru $n=m$ in obrnljive matrike $B$
+aproksimacija operatorja (in posledično tudi napaka) neodvisna od izbire uteži. Opomba po trditvi
+pravi, da numerično to velja, če le utež ni premajhna, da bi bila sama razlog za numerične
+nestabilnosti.  Slika~\ref{fig:poisson-square-sigma-dep-error} to potrdi; trditev velja v območju,
+kjer je matrika tudi numerično obrnljiva. Če je utež zelo majhna, manjša od $0.3\,r_\chi$, potem se
+nekatere enačbe v sistemu~\eqref{eq:shape-system} pomnožijo s približno $\exp(-2/0.3^2) \approx
+2.23\cdot10^{-10}$, kar privede do velike nestabilnosti. Do numerične neobrnljivosti matrike pa
+lahko pripelje tudi izbira prevelikega parametra $\sigma_b$, kajti za $\sigma_b = 70\,r_\chi$ so vsi
+elementi matrike $B$ med $1.00041$ in $1$. Boljši vpogled v obrnljivost matrike $B$ nam da graf na
+sliki~\ref{fig:poisson-square-sigma-dep-cutoff}, ki predstavlja število odrezanim singularnih
+vrednosti pri SVD razcepu, s pomočjo katerega smo izračunali psevdoinverz matrike $WB$.
+Aproksimacija je res neodvisna od uteži na predelu, kjer nismo odrezali nobene singularne vrednosti,
+torej približno na območju $[0, 70] \times [0.3, \infty)$, drugje pa lahko utež vpliva na izračun
+psevdoinverza in število odrezanih singularnih vrednosti.
 
-Kvaliteta aproksimacije je za $\sigma_b$ blizu 0 zelo slaba, saj imajo bazne
-funkcije neničelno vrednost samo v svojem centru. Nato napaka pada z večanjem
-$\sigma_b$, dokler ne pridemo v območje numerične neobrnljivosti matrike $B$.
-Tam pride v igro regularizacija v SVD razcepu, ki nam lahko pomaga, kot vidimo
-v pasu nizke napake okoli $\sigma_w = 1$. Na
-sliki~\ref{fig:poisson-square-sigma-dep-cutoff} vidimo, da se z večanjem
-$\sigma_b$ reže čedalje več singularnih vrednosti in s časoma bi aproksimacija
-zopet postala nestabilna. Podobno sliko dobimo pri različnih $N$, $n$ in
-ostalih izbirah baznih funkcij. Običajno zato izberemo sorazmerno velik
-parameter $\sigma_b$ okoli $150\,r_\chi$, za obliko uteži pa vzamemo približno
-$r_\chi$.
+Kvaliteta aproksimacije je za $\sigma_b$ blizu 0 zelo slaba, saj imajo bazne funkcije neničelno
+vrednost samo v svojem centru. Nato napaka pada z večanjem $\sigma_b$, dokler ne pridemo v območje
+numerične neobrnljivosti matrike $B$.  Tam pride v igro regularizacija v SVD razcepu, ki nam lahko
+pomaga, kot lahko to vidimo v pasu nizke napake okoli $\sigma_w = 1$. Na
+sliki~\ref{fig:poisson-square-sigma-dep-cutoff} vidimo, da se z večanjem $\sigma_b$ reže čedalje več
+singularnih vrednosti in s časoma bi aproksimacija zopet postala nestabilna. Podobno sliko dobimo
+pri različnih $N$, $n$ in ostalih izbirah baznih funkcij. Običajno zato izberemo sorazmerno velik
+parameter $\sigma_b$ okoli $150\,r_\chi$, za obliko uteži pa vzamemo približno $r_\chi$.
 
-V dosedanjih analizah smo videli, da se MLSM metoda obnaša enako ali slabše kot
-metoda končnih diferenc na šolskih primerih. Njena prednost leži v splošnosti,
-saj se jo z lahkoto prilagodi na drugačne domene, v višje dimenzije in na druge
-operatorje. Na sliki~\ref{fig:poisson-square-weird} so prikazane rešitve
-Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na bolj
-zanimivih domenah in v višjih dimenzijah. V dveh dimenzijah so bili za bazne
-funkcije uporabljeni monomi $\{1, x, y, x^2, y^2\}$ in $n=5$ v treh pa 9
-Gaussovih baznih funkcij z $\sigma_b = 50\,r_\chi$ in Gaussovo utežjo s
-$\sigma_w = r_\chi$ na devetih točkah. V vseh primerih je bilo potrebno
-poleg parametrov spremeniti le definicijo domene, vsa druga koda je ostala
-enaka.
+V dosedanjih analizah smo videli, da se MLSM metoda obnaša enako ali slabše kot metoda končnih
+diferenc na šolskih primerih. Njena prednost leži v splošnosti, saj se jo z lahkoto prilagodi na
+drugačne domene, v višje dimenzije in na druge operatorje. Na sliki~\ref{fig:poisson-square-weird}
+so prikazane rešitve Poissonove enačbe $\lap u = 1$ s homogenimi robnimi pogoji na bolj zanimivih
+domenah in v višjih dimenzijah. V dveh dimenzijah so bili za bazne funkcije uporabljeni monomi $\{1,
+x, y, x^2, y^2\}$ in $n=5$ v treh pa 9 Gaussovih baznih funkcij z $\sigma_b = 50\,r_\chi$ in
+Gaussovo utežjo s $\sigma_w = r_\chi$ na devetih točkah. V vseh primerih je bilo potrebno poleg
+parametrov spremeniti le definicijo domene, ostala formulacija je ostala enaka.
 
 \begin{figure}[h]
   \centering
@@ -3408,13 +3421,13 @@ enaka.
 \end{figure}
 
 \subsection{Vpet nosilec}
-Problem vpetega nosilca \ang{cantilever beam} je standarden problem v elastomehaniki in eden
-osnovnih testnih primerov za raziskovanje obnašanja numeričnih metod.
-Imejmo tanek nosilec dolžine $L$ in višine $D$ vpet na desnem koncu, ki ga na levem koncu potiska
-navzdol sila $P$ na enoto debeline. Idealizirana Timoshenkova teorija nosilcev nudi rešitev za ta problem v primeru
-predpostavke o ravninski napetosti. Napetosti v nosilcu, ki smo ga postavili na območje
-$[0, L] \times [-D/2, D/2]$ so izpeljane v~\cite[str.\ 284--289, enačba 7.4.55]{slaughter2012linearized}
-in se izražajo kot
+Problem vpetega nosilca \ang{cantilever beam} je standarden problem v linearni elastomehaniki in eden
+osnovnih testnih primerov za raziskovanje obnašanja numeričnih metod. Imejmo tanek nosilec dolžine
+$L$ in višine $D$ vpet na desnem koncu, ki ga na levem koncu potiska navzdol sila $P$ na enoto
+debeline. Idealizirana Timoshenkova teorija nosilcev nudi analitično rešitev za ta problem v primeru
+predpostavke o ravninski napetosti. Napetosti v nosilcu, ki smo ga postavili na območje $[0, L]
+\times [-D/2, D/2]$ so izpeljane v~\cite[str.\ 284--289, enačba 7.4.55]{slaughter2012linearized} in
+se izražajo kot
 \begin{align}
   \ts_{xx} &= \frac{Pxy}{I}, \quad \ts_{yy} = 0, \quad \ts_{xy} = \frac{P}{2I} \left( \frac{D^2}{4}
   - y^2 \right),
@@ -3427,28 +3440,82 @@ pomiki pa kot
   v &= -\frac{P \left(3 D^2 (\nu +1) (L-x)+4 (L-x)^2 (2 L+x)+12 \nu  x y^2\right)}{24 E I}, \label{eq:cantilever-beam-analytical-v}
 \end{align}
 pri čemer je $I = \frac{1}{12} D^3$ vztrajnostni moment preseka nosilca za vrtenje okoli središča,
-$E$ Youngov modul in $\nu$ Poissonovo razmerje. Idealiziran primer rešimo tudi numerično. Rešimo
-Navierovo enačbo na $\Omega = [0, L] \times [-D/2, D/2]$ s predpisanim pomikom pri $x = L$ danim z
-analitično rešitvijo~(\ref{eq:cantilever-beam-analytical-u}--\ref{eq:cantilever-beam-analytical-v}).
-Zgornji in spodnji rob naj bosta prosta brez površinskih sil ($\vt = 0$) na levem robu pa vzemimo
-navpično parabolično razporejeno silo $\vt = \ts_{xy}\vj$, dano z analitično
+$E$ Youngov modul in $\nu$ Poissonovo razmerje. Rešimo primer tudi numerično. Rešimo Navierovo
+enačbo~\eqref{eq:navier-stac} na $\Omega = [0, L] \times [-D/2, D/2]$ s predpisanim pomikom pri $x =
+L$ danim z analitično
+rešitvijo~(\ref{eq:cantilever-beam-analytical-u}--\ref{eq:cantilever-beam-analytical-v}).  Zgornji
+in spodnji rob naj bosta prosta brez površinskih sil ($\vt = 0$) na levem robu pa vzemimo navpično
+parabolično razporejeno silo $\vt = \ts_{xy}\vj$, dano z analitično
 rešitvijo~\eqref{eq:cantilever-beam-analytical-stress}.
+
+
+Z razliko primera pri izpeljavi metode v razdelku~\ref{sec:splosna-izpeljava}, kjer je bila neznana
+količina skalarno polje, je tokrat neznana količina vektorsko polje. V tem primeru je
+najenostavnejši pristop k rešitvi, da obravnavamo enačbo za vektorsko polje kot posamezne sklopljene
+enačbe za komponente polja, ki so skalarne funkcije. Oglejmo si postopek na primeru dvodimenzionalne
+Navierove enačbe. Vektorsko polje razpišemo po komponentah, za primer treh dimenzij zapišemo $\vu =
+(u, v)$. Vektorska oblika stacionarne Navierove enačbe
+\begin{equation}
+  (\lambda+\mu)\nabla(\nabla\cdot \vu) + \mu\nabla^2 \vu + \vf = 0
+\end{equation}
+se razpiše v sistem dveh enačb
+\begin{align}
+  \label{eq:navier-components-1}
+(\lambda +\mu ) \left(\dpar{^2u}{x^2}+\dpar{^2v}{xy}\right)+\mu  \left(\dpar{^2u}{x^2}+\dpar{^2u}{y^2}\right)+f_1&=0 \\
+(\lambda +\mu ) \left(\dpar{^2u}{xy}+\dpar{^2v}{y^2}\right)+\mu  \left(\dpar{^2v}{x^2}+\dpar{^2v}{y^2}\right)+f_2&=0
+\end{align}
+Enačbe so sklopljene preko operatorja $\grad\div$. Če domeno diskretiziramo z $N$ točkami, bomo
+namesto sistema $N\times N$ za neznano skalarno polje, sedaj reševali sistem $2N\times 2N$ za
+obe skalarni polji hkrati. Neznanke, ki ustrezajo vektorju $\vu$ predstavimo numerično kot vektor
+$\b{u}$ dolžine $2N$, katerega prvih $N$ komponent predstavlja $u$, preostalih $N$ pa predstavlja $v$.
+Enako storimo z $\vf$ in robnimi pogoji. Enačbo $A\b u = \b f$ lahko sedaj zapišemo po blokih
+\begin{equation}
+  \begin{bmatrix}
+    U1 & V1 \\
+    U2 & V2
+  \end{bmatrix}
+  \begin{bmatrix}
+    u \\ v
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    f_1 \\ f_2
+  \end{bmatrix}.
+  \label{eq:higher-dim-system}
+\end{equation}
+Vsako izmed komponent Navierove enačbe smo napisali v eno izmed (bločnih) vrstic. Funkcijo
+oblike za člen $\dpar{^2v}{xy}$ bi napisali v blok $V1$, saj nastopa v prvi enačbi in se nanaša na
+polje $v$, podobno bi aproksimacijo za $\dpar{^2u}{y^2}$ iz~\eqref{eq:navier-components-1} napisali
+v blok $U1$. Če bi katere elemente napisali na mesta, kjer so že kakšni neničelni elementi, jih med
+seboj seštejemo. Primer take matrike je prikazan na sliki~\ref{fig:cantilever-beam-matrix}.
+Vidimo, da ima bločno strukturo, kot opisano v enačbi~\ref{eq:higher-dim-system}, pri čemer se
+dodatno znotraj blokih vidijo še različni vzorci na območjih, ki pripadajo notranjim točkam ali
+točkam na robu.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/cantilever_beam_matrix_example.pdf}
+  \caption[Matrika sistema enačb pri reševanju problema vpetega
+  nosilca.]{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri
+  reševanju problema vpetega nosilca z 9 monomi in pravokotno
+  diskretizacijo z $39$ točkami}
+  \label{fig:cantilever-beam-matrix}
+\end{figure}
 
 Problem rešimo numerično z uporabo 9 monomov in 9 Gaussovih baznih funkcij z $\sigma_b =
 500\,r_\chi$, obakrat z Gaussovo utežjo $\sigma_w = 1 r_\chi$.
-Linearni sistem enačb smo reševali z iterativnim BiCGSTAB postopkom z ILUT predpogojevanjem z
+Linearni sistem enačb rešimo z iterativnim BiCGSTAB postopkom z ILUT predpogojevanjem
 kot opisano v razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$.
-BiCGSTAB algoritem smo iterirali največ 300-krat ali dokler ni bila ocena napake pod $10^{-13}$.
+BiCGSTAB algoritem iteriramo največ 300-krat ali dokler ni ocena napake pod $10^{-13}$.
 Algoritem je v vseh primerih konvergiral.
 
-Za parametre problema smo izbrali $L
-= \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$, $\nu = 0.33$, $P = \unit[1000]{N/m}$.
-Numerična rešitev je prikazana na sliki~\ref{fig:cantilever-beam-solution}.
-Omeniti je treba še, kako iz numerične rešitve $\b{u}$ dobimo aproksimacijo za
-$\ts$. Komponente $\ts$ so linearne kombinacije odvodov $\vu$, tako da v vsaki
-diskretizacijski točki izračunamo funkciji oblike, ki aproksimirata $\dpar{}{x}$ in $\dpar{}{y}$
-in z njuno pomočjo izračunamo $\frac12 (\grad\vu + \grad\vu^\T)$ ter nato preko Hookovega zakona
-dobimo $\ts$.
+Za parametre problema smo izbrali $L = \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$,
+$\nu = 0.33$, $P = \unit[1000]{N/m}$.  Numerična rešitev je prikazana na
+sliki~\ref{fig:cantilever-beam-solution}.  Omeniti je treba še, kako iz numerične rešitve $\b{u}$
+dobimo aproksimacijo za $\ts$. Komponente $\ts$ so linearne kombinacije odvodov $\vu$, tako da v
+vsaki diskretizacijski točki izračunamo funkciji oblike, ki aproksimirata $\dpar{}{x}$ in
+$\dpar{}{y}$ in z njuno pomočjo izračunamo $\frac12 (\grad\vu + \grad\vu^\T)$ ter nato preko
+Hookovega zakona~\eqref{eq:hooke-isotropic} dobimo $\ts$.
 
 \begin{figure}[h]
   \centering
@@ -3458,27 +3525,27 @@ dobimo $\ts$.
   $10^5$. Komponenta $\ts_{yy}$ je kot v analitični rešitvi enaka 0.}
   \label{fig:cantilever-beam-solution}
 \end{figure}
-Izračunamo lahko še, da je največji pomik po normi velik
-\[
+Izračunajmo še, da je največji pomik
+\begin{equation}
   \max_{x \in \Omega} |\vu(x)| \approx \unit[1.22 \cdot 10^{-5}]{m} = \unit[12.2]{\mu m}
-\]
+\end{equation}
 in največji gradient pomika
-\[
+\begin{equation}
   \max_{x \in \Omega} \|\grad \vu(x)\| \approx 8.53 \cdot 10^{-7}.
-\]
+\end{equation}
 Predpostavka o majhnosti pomikov in njihovih gradientov res velja.
 
 Na sliki~\ref{fig:cantilever-beam-convergence} je prikazana konvergenca numerične rešitve proti
-analitični.  Napako pomikov in napetosti merimo relativno v $L_\infty$ normi. Če s strešico označimo
-izračunane količine, brez strešice pa analitične, potem napako izračunamo kot
+analitični.  Napako pomikov in napetosti merimo relativno v $L_\infty$ normi
 \begin{align}
-  e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|,|v(x)-\hat v(x)|\}\}}
-  {\max_{x\in X} \{\max\{|u(x)|,|v(x)|\}\}}, \\
+  e_\infty(\vu) &= \frac{\max_{x\in X} \{\max\{|u(x)-\hat u(x)|, |v(x)-\hat v(x)|\}\}}
+  {\max_{x\in X} \{\max\{|u(x)|, |v(x)|\}\}}, \\
   e_\infty(\ts) &= \frac{\max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
   |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
   |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\}}{
   \max_{x\in X} \{\max\{|\sigma_{xx}(x)|, |\sigma_{yy}(x)|, |\sigma_{xy}(x)| \}\}}.
 \end{align}
+kjer s strešico označimo izračunane količine, brez strešice pa analitične.
 
 \begin{figure}[h]
   \centering
@@ -3487,13 +3554,14 @@ izračunane količine, brez strešice pa analitične, potem napako izračunamo k
   \label{fig:cantilever-beam-convergence}
 \end{figure}
 Rezultati so podobni kot pri Poissonovi enačbi na sliki~\ref{fig:poisson-square-convergence}.
-Monomi konvergirajo zelo regularno z redom $1$, Gaussove funkcije pa imajo slabše
-konvergenčne lastnosti. Vidimo, da konvergirajo tako vrednosti pomikov kot tudi vrednosti napetosti,
-pri čemer imamo pri napetostih malo večjo napako in malenkost slabši red, saj jih ocenjujemo iz pomikov.
+Monomi konvergirajo zelo regularno z redom $2$, medtem ko z uporabo Gaussovih baznih funkcij
+dosegamo nekoliko slabše konvergenčno obnašanje. Vidimo, da konvergirajo tako vrednosti pomikov kot
+tudi vrednosti napetosti, pri čemer imamo pri napetostih nekoliko večjo napako in malenkost slabši red,
+saj jih ocenjujemo iz pomikov, kaj zahteva še eno diferenčno aproksimacijo več.
 
 Za demonstracijo splošnosti metode dodajmo v nosilec še nekaj lukenj. Nosilec fiksno vpnimo na
 desnem koncu in vlečimo navzdol na levem z enakomerno porazdeljeno silo $P$ enake velikosti kot
-prej. V domeno smo razporedili $N = 177618$ diskretizacijskih točk z večjo gostoto okoli robov
+prej. V domeno smo razporedili $N = 177617$ diskretizacijskih točk z večjo gostoto okoli robov
 lukenj, po ustvarjanju domene pa smo jo še dodatno izboljšali z algoritmom~\ref{alg:relax} s 50
 iteracijami na šestih sosedih z $F_0 = 10^{-3}$ in $\alpha = 3$. Upogib nosilca, obarvan z
 vrednostjo von Misesove napetosti je prikazan na sliki~\ref{fig:cantilever-beam-with-holes}.
@@ -3504,7 +3572,10 @@ Von Misesova napetost se za primer ravninske napetosti izračuna kot
 in se uporablja v von Misesovem kriteriju plastičnosti. Ta pravi, da material ni več
 elastičen, ko $\sigma_v$ preseže neko materialno konstanto $\sigma_0$. Višje vrednosti $\ts_v$
 torej nakazujejo, da je material bližje limitu svoje elastičnosti in visoke vrednosti $\ts_v$
-označujejo najverjetnejša mesta za poškodbe.
+označujejo najverjetnejša mesta za poškodbe. Največji pomik v tem primeru je
+\begin{equation}
+  \max_{x \in \Omega} |\vu(x)| \approx \unit[1.55 \cdot 10^{-5}]{m} = \unit[15.5]{\mu m}.
+\end{equation}
 
 \begin{figure}[h]
   \centering
@@ -3520,19 +3591,18 @@ označujejo najverjetnejša mesta za poškodbe.
 Hertzev kontaktni problem je leta 1882 v svojem članku ``{\"U}ber die Ber{\"u}hrung fester
 elastischer K{\"o}rper.''~\cite{hertz1882beruhrung} obravnaval že Heinrich Hertz. Ko dve ukrivljeni
 telesi z različnima radijema ukrivljenosti staknemo, se na začetku dotikata le v točki ali na
-premici. Čim ti telesi pritisnemo skupaj z neko silo, se elastično deformirata in
-med njima se ustvari stična površina, prek katere poteka vsa interakcija. Glavni objekti
-zanimanja v elastični kontaktni mehaniki so normalne in tangencialne napetosti med telesi, ki nastanejo kot
-posledice medsebojnega pritiska in trenja. Klasična Hertzeva teorija predpostavlja, da je kontakt
-med telesoma nelepljiv \ang{non-adhesive}. To pomeni, da je pritisk na kontaktni ploskvi lahko samo
-pozitiven in da se telesi ne moreta sprijeti med seboj ter da za njuno ločitev ne potrebujemo nobene
-sile. Kasnejše teorije so veljavne tudi za lepljive kontakte in upoštevajo več parametrov površine,
-npr.\ tudi njeno hrapavost. Kljub temu je klasična teorija še vedno aktualna in se uporablja v
-drugih vejah mehanike, npr.\ v tribologiji, vedi o trenju, obrabi in mazanju materialov.
+premici. Ko ju pritisnemo skupaj z neko silo, se elastično deformirata in med njima se ustvari
+stična površina. Izračunati želimo napetost v telesih, ki nastanejo kot posledice medsebojnega
+pritiska ali trenja. Klasična Hertzeva teorija predpostavlja, da je kontakt med telesoma nelepljiv
+\ang{non-adhesive}. To pomeni, da je pritisk na kontaktni ploskvi lahko samo pozitiven in da se
+telesi ne moreta sprijeti med seboj ter da za njuno ločitev ne potrebujemo nobene sile. Kasnejše
+teorije so veljavne tudi za lepljive kontakte in upoštevajo več parametrov površine, npr.~tudi njeno
+hrapavost. Kljub temu je klasična teorija še vedno aktualna in se uporablja v drugih vejah mehanike,
+npr.~v tribologiji, vedi o trenju, obrabi in mazanju materialov.
 
 Za prvi primer uporabe izpeljane numerične metode na problemu iz elastomehanike obravnavajmo
 elastičen Hertzev stik valja in polravnine, kot opisan v~\cite[str.\ 122, poglavje 3.2]{williams2001contact}.
-Hertzeva teorija ima poleg nelepljivega stika naslednje predpostavke:
+Hertzeva teorija je, poleg predpostavke o nelepljivem stiku, osnovana na naslednjih predpostavkah:
 \begin{enumerate*}
   \item kontaktni ploskvi sta gladki, ne sovpadata in sta brez trenja,
   \item kontaktna površina je majhna v primerjavi z velikostjo teles v kontaktu,
@@ -3546,8 +3616,7 @@ njihove limite, ko pošljemo ukrivljenosti proti 0.
 
 Hertzeva teorija za dvodimenzionalni pritisk valja na elastično polravnino se izpelje iz stika med
 dvema vzporednima valjema dolžine $L$ z radijema $R_1$ in $R_1$, Youngovima moduloma $E_1$ in $E_2$
-in Poissonovima razmerjema $\nu_1$ in $\nu_2$. Situacija je prikazana na
-sliki~\ref{fig:hetzian-two-cylinders}.
+in Poissonovima razmerjema $\nu_1$ in $\nu_2$ (slika~\ref{fig:hetzian-two-cylinders}).
 
 \begin{figure}[h!]
   \centering
@@ -3565,18 +3634,19 @@ sliki~\ref{fig:hetzian-two-cylinders}.
   \label{fig:hertz-skica}
 \end{figure}
 
-Napovedano območje stika med valjema je širine $2b$, kjer je \[
+Območje stika med valjema je širine $2b$, kjer je
+\begin{equation}
   b = 2\sqrt{\frac{F R}{\pi E^\ast}},
-\]
+\end{equation}
 pri čemer je $F$ sila na enoto dolžine, $R$ kombiniran krivinski radij dan z $\frac1R = \frac1{R_2}
 + \frac1{R_2}$ in $E^\ast$ kombiniran elastični modul dan z $\frac{1}{E^\ast} = \frac{1-\nu_1^2}{E_1}
 + \frac{1-\nu_2^2}{E_2}$. Pritisk na kontaktno površino je dan z
-\[
+\begin{equation}
   p(x) = \begin{cases}
     p_0 \sqrt{1-\frac{x^2}{b^2}}; & |x| < b \\
     0; & \text{sicer}
   \end{cases}, \qquad p_0 = \sqrt{\frac{FE^\ast}{\pi R}}.
-\]
+\end{equation}
 Pri enem valju pošljemo krivinski radij proti
 neskončno in problem prevedemo na ravninskega preko predpostavke o ravninski napetosti.
 
@@ -3590,23 +3660,23 @@ enačbo~\eqref{eq:navier-stac}. Rešujemo problem
 \end{align}
 Analitične rešitve kontaktnih problemov se ponavadi izpelje iz Flamantove rešitve, ki reši problem
 točkovnega pritiska na polravnino za robni pogoj $\vt(x, 0) = p_0\delta(x)\vj$. Druge rešitve lahko
-dobimo z konvolucijo s Flamantovo rešitvijo ali pa z metodo kompleksnih potencialov, kot je to
-narejeno v~\cite{mcewen1949stresses} še za malce splošnejši problem, kot opisano zgoraj.
-Od tam dobimo tudi analitično rešitev v zaprti obliki za napetost, ki se izraža v splošni točki $(x,
-y)$ s funkcijama $m$ in $n$,
+dobimo s konvolucijo s Flamantovo rešitvijo ali pa z metodo kompleksnih potencialov, kot je to
+narejeno v~\cite{mcewen1949stresses} še za nekoliko splošnejši problem.  Od tam dobimo tudi
+analitično rešitev v zaprti obliki za napetost, ki se izraža v splošni točki $(x, y)$ s funkcijama
+$m$ in $n$,
 \begin{align}
   m^2 &= \frac{1}{2} \left(\sqrt{\left(b^2-x^2+y^2\right)^2+4 x^2 y^2}+b^2-x^2+y^2\right), \\
   n^2 &= \frac{1}{2} \left(\sqrt{\left(b^2-x^2+y^2\right)^2+4 x^2 y^2}-(b^2-x^2+y^2)\right),
 \end{align}
-kjer je $m=\sqrt{m^2}$ in $n=\sgn(x)\sqrt{n^2}$.
+kjer je $m=\sqrt{m^2}$ in $n=\sgn(x)\sqrt{n^2}$. Z njuno pomočjo zapišemo napetosti
 \begin{align}
-  \sigma_{xx} &= -\frac{p_0}{b}\left[m\left(1 + \frac{y^2 + n^2}{m^2 + n^2}\right)+2y\right] \\
-  \sigma_{yy} &= -\frac{p_0}{b}m\left(1 - \frac{y^2 + n^2}{m^2 + n^2}\right) \\
+  \sigma_{xx} &= -\frac{p_0}{b}\left[m\left(1 + \frac{y^2 + n^2}{m^2 + n^2}\right)+2y\right], \\
+  \sigma_{yy} &= -\frac{p_0}{b}m\left(1 - \frac{y^2 + n^2}{m^2 + n^2}\right), \\
   \sigma_{xy} &= \sigma_{yx} = \frac{p_0}{b}n\left(\frac{m^2 - y^2}{m^2 + n^2}\right).
 \end{align}
 
 S pomočjo zgornje rešitve bomo analizirali napako numerične rešitve.
-Analitične vrednosti napetosti v okolici kontakta so prikazana na sliki~\ref{fig:hertz-analytical}.
+Analitične vrednosti napetosti v okolici kontakta so prikazane na sliki~\ref{fig:hertz-analytical}.
 
 \begin{figure}[!h]
   \centering
@@ -3620,24 +3690,11 @@ primerjamo napetosti $\sigma_{xx}, \sigma_{yy}$ in $\sigma_{xy}$. Pošteno je pr
 brezdimenzijske količine $\sigma_{xx}/p_0$, saj so neodvisne od izbire $b$ in $p_0$.
 Za napako med izračunanimi vrednostmi, označenimi s strešico, in pravimi vrednostmi, brez strešice,
 tako vzamemo
-\[
+\begin{equation}
   e_\infty = \max_{x\in X} \{\max\{|\sigma_{xx}(x)-\hat{\sigma}_{xx}(x)|,
                                    |\sigma_{yy}(x)-\hat{\sigma}_{yy}(x)|,
                                    |\sigma_{xy}(x)-\hat{\sigma}_{xy}(x)| \}\} / p_0.
-\]
-Na sliki~\ref{fig:hertz-matrix} je prikazana matrika končnega sistema enačb za zelo grobo
-diskretizacijo. Vidimo, da ima bločno stukturo, kot opisano v enačbi~\ref{eq:higher-dim-system} v
-razdelku~\ref{sec:visje-dimenzije}, le za primer dveh dimenzij.
-
-\begin{figure}[!h]
-  \centering
-  \includegraphics[width=0.6\textwidth]{images/hertzian_matrix_example.pdf}
-  \caption[Matrika sistema enačb pri reševanju problema vpetega
-  nosilca.]{Matrika končnega sistema enačb~\eqref{eq:discretized-system} pri
-  reševanju problema~\eqref{eq:hertzian-problem} z 9 monomi in pravokotno
-  diskretizacijo z $11 \times 6$ točkami.}
-  \label{fig:hertz-matrix}
-\end{figure}
+\end{equation}
 
 Poskusimo problem rešiti na enak način kot pri problemu vpetega nosilca.
 Za numerično reševanje neskončno domeno omejimo na $[-H, H] \times [-H, 0]$ za dovolj velik $H$
@@ -3873,7 +3930,7 @@ Posebno zanimanje pa ima vrednost $\ts_{xx}$ v špici na desni strani kontaktne 
 saj so raziskave pokazale, da se glavna razpoka, ki pripomore k zlomu materiala, zgodi v neposredni
 bližini $x = a$. Analitična aproksimacija za največjo vrednost $\ts_{xx}$ se izraža kot
 \[
-  \ts_{xx,\max} = 2 p_0 \sqrt{\frac{\mu Q}{F}} + \sax.
+  \ts_{xx, \max} = 2 p_0 \sqrt{\frac{\mu Q}{F}} + \sax.
 \]
 V tabeli~\ref{tab:sxxmax} je prikazana izračunana vrednost $\ts_{xx, \max}$ za FEM in MLSM
 pri različnih $N$. Tabela vrednosti za FEM je vzeta iz~\cite[tabela 3]{pereira2016convergence}.
@@ -3904,12 +3961,12 @@ pri različnih $N$. Tabela vrednosti za FEM je vzeta iz~\cite[tabela 3]{pereira2
                               & 0.3125             & 809.06                   & 750.50                  & 451.95                   & 436.21                  \\ \cline{2-6}
                               & analitična         & 725.56                   & 725.56                  & 382.10                   & 382.10                  \\ \hline
   \end{tabular}
-  \caption{Tabela vrednosti $\ts_{xx,\max}\ [\unit{MPa}]$ za FEM, MLSM in analitično aproksimacijo pri različnih gostotah diskretizacije.}
+  \caption{Tabela vrednosti $\ts_{xx, \max}\ [\unit{MPa}]$ za FEM, MLSM in analitično aproksimacijo pri različnih gostotah diskretizacije.}
   \label{tab:sxxmax}
 \end{table}
 Vidimo, da vrednosti konvergirajo k neki vrednosti, ki pa se razlikuje pri obeh metodah, vendar je v
 istem velikostnem razredu, kar je tudi pričakovati. Naša rešitev dosega višje vrednosti
-$\ts_{xx,\max}$, kot je tudi razvidno iz grafa na sliki~\ref{fig:fwo-ujemanje}. To je zato, ker
+$\ts_{xx, \max}$, kot je tudi razvidno iz grafa na sliki~\ref{fig:fwo-ujemanje}. To je zato, ker
 imamo ni natančne analitične robne pogoje in lahko posledično bolje popišemo divje obnašanje,
 kot ga lahko dobimo s simulacijo. Primer izračunane napetosti za problem~\eqref{eq:fwo-problem}
 za $\mu=0.85$ in $R = \unit[50]{mm}$ z $N = 178897$ točkami je prikazan na sliki~\ref{fig:fwo-solution}.

@@ -13,4 +13,6 @@ daspect([1, 1, 1])
 ylim([-4.5 2.75])
 xlim([-0.5 30.25])
 
+maxmove = max(sqrt(u.^2+v.^2))
+
 exportfig(f1, [imagepath 'cantilever_beam_with_holes'], '-png', '-r300', '-opengl')
