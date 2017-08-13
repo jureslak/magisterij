@@ -2741,36 +2741,35 @@ s pomočjo psevdokode kot algoritem~\ref{alg:metoda}.
 \end{algorithm}
 
 \subsubsection{Diskretizacija}
-Splošno $d$-dimenzionalno domeno $\Omega$ je težko dobro diskretizirati.
-Želimo si, da bi bile točke v domeni čim bolj enakomerno razporejene, saj to
-pomeni, da smo dobro popisali celotno področje in upamo, da s tem tudi obnašanje
-funkcije $u$, hkrati pa si zaradi numerične stabilnosti ne želimo, da bi bile
-točke preveč skupaj. Uvedimo dve količini, ki nam merita ti dve lastnosti.
+Brezmrežne metode se pogosto oglašuje kot metode, pri katerih je manj težav z diskretizacijo domene
+in da lahko kar naključno porazdelimo diskretizacijske točke v domeno. Temu na žalost ni tako,
+saj sta natančnost in stabilnost metode odvisni od razporeditve
+točk~\cite[slika~8]{kosec2016local},~\cite{amani2012mixed} in je za kvalitetno rešitve potrebno
+poskrbeti, da so točke čim bolj enakomerno razporejene.
+
+V poljubni $d$-dimenzionalni domeni $\Omega$ je težko dobro razporediti točke.
+Uvedimo dve količini, ki merita, kako dobra je diskretizacija domene.
 Za dano domeno $\Omega$ in množico točk $X$ definirajmo
 \begin{align}
   h_\Omega(X) &= \max_{p \in \Omega} \min_{x \in X} \|p - x\| \\
   \label{eq:def-hs}
   S(X) &= \min_{\substack{x, y \in X \\ x \neq y}} \|x-y\|.
 \end{align}
-Količina $h$ pove, da ne glede na to, kje v domeni smo, imamo na razdalji manj ali enako $h$
-vsaj eno diskretizacijsko točko. Količina $S$ pa pove, kako blizu so si
-diskretizacijske točke med seboj. Dobra diskretizacija želi maksimizirati $S$ in
-minimizirati~$h$.
+Količina $h$ pove kolikšna je maksimalna razdalja do najbližje točke kjerkoli v domeni in intuitivno
+opisuje kako dobro smo z diskretizacijskimi točkami pokrili domeno. Največji krog, ki ga lahko
+narišemo v domeni, ne da bi v notranjosti vseboval kakšno diskretizacijsko točko je ravno radija
+$h_\Omega(X)$. Količina $S$ pove, kolikšna je najmanjša razdalja med dvema sosednjima točkama in
+karakterizira stabilnost metode. Dobra diskretizacija želi pri danem številu točk maksimizirati $S$
+in minimizirati~$h$.
 
-Algoritmi za diskretizacijo so odvisni od načina, kako podamo domeno.
-V našem primeru se izkaže, da je za trenutne potrebe dovolj, da podpiramo
-kvadre in krogle do vključno treh dimenzij, kot tudi unije in razlike
-osnovnih oblik.
+Pri domenah lepih oblik kot so kvadri in krogle, lahko uporabimo znane algoritme za regularne
+diskretizacije.  Tako lahko za diskretizacijo kvadra uporabimo kar enakomerno diskretizacijo.  Za
+čimbolj enakomerno diskretizacijo notranjosti kroga ali površine sfere lahko uporabimo
+npr.~Fibonaccijevo mrežo, kot predlagano v~\cite{hannay2004fibonacci}
+ali~v~\cite{gonzalez2010measurement}.
+Z nekaj osnovnimi operacijami kot so unija in razlika množic lahko opišemo že dokaj zanimive oblike
+(slika~\ref{fig:domains}).
 
-Tako lahko za diskretizacijo kvadra uporabimo kar enakomerno diskretizacijo.
-Prav tako ni težko ugotoviti, kdaj so točke na robu. Za čimbolj enakomerno
-diskretizacijo notranjosti kroga ali površine sfere
-lahko uporabimo npr.~Fibonaccijevo mrežo, kot predlagano
-v~\cite{hannay2004fibonacci} ali~v~\cite{gonzalez2010measurement}.
-Pri razlikah domen preprosto izbrišemo točke, ki so padle izven domene,
-pri unijah pa naredimo tudi unijo diskretizacij. Pri tem lahko potem naredimo še
-en korak in pobrišemo ven kakšno izmed točk, ki so si preblizu skupaj.
-Primeri domen in njihovih diskretizacij, dobljenih na ta način, so prikazani na sliki~\ref{fig:domains}.
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{images/domains_generated.png}
@@ -2778,33 +2777,29 @@ Primeri domen in njihovih diskretizacij, dobljenih na ta način, so prikazani na
   \label{fig:domains}
 \end{figure}
 
-Pri enakomerni diskretizaciji smo močno uporabili naše znanje o domeni in njeni
-obliki. Lahko pa, da tega nimamo na voljo in želimo splošnejši algoritem, ki
-potrebuje npr.~samo karakteristično funkcijo domene in njene meje, torej, kakšen
-kvader, ki našo domeno vsebuje.
-V tem primeru lahko vzamemo enakomerno diskretizacijo kvadra in odstranimo vse
-točke, ki niso v domeni, vendar je tu težko kontrolirati število točk.
-Druga metoda je, da naključno izbiramo točke v kvadru, in sprejmemo tiste, ki
-pristanejo v notranjosti. Še boljšo diskretizacijo dobimo, če namesto
-psevdonaključnih števil uporabimo kvazinaključna števila, ki imajo manjšo
-diskrepanco. Več o tem si bralec lahko prebere v~\cite{morokoff1994quasi}.
+Pogosto pa nimamo opravka z domenami pravilnih oblik in želimo splošnejši algoritem, ki potrebuje
+samo implementacijo operacije ``je element''. Ker je domena omejena, je vsebovana v nekem
+$d$-dimenzionalnem kvadru in lahko diskretizacijo $\Omega$ konstruiramo tako, da vzamemo enakomerno
+diskretizacijo tega kvadra ter odstranimo vse točke, ki niso v domeni.  Druga metoda je, da
+naključno izbiramo točke v kvadru, in sprejmemo tiste, ki pristanejo v notranjosti $\Omega$. Še
+boljšo diskretizacijo dobimo, če namesto psevdonaključnih števil uporabimo kvazinaključna števila,
+ki imajo manjšo diskrepanco~\cite{morokoff1994quasi} in so zato bolj primerna.
+Kljub njihovi splošnosti so naključne diskretizacije precej slabe, kot lahko vidimo na
+enakomerni naključni diskretizaciji kroga na sliki~\ref{fig:relax-circle} (levo).
 
-Kljub njihovi splošnosti so naključne diskretizacije precej slabe, kot na primer
-naključna diskretizacija kroga na sliki~\ref{fig:relax-circle} (levo).
-Pri tem, da bi točke v domeni porazdelili čimbolj enakomerno, si lahko pomagamo
-s preprostim iterativnim postopkom, za katerega se izkaže, da v praksi dobro
-deluje. Navdih jemljemo iz fizike in si zamislimo, da je vsaka točka naboj, ki
-se odbija od sosednjih točk in pustimo fiziki, da opravi svoje delo.
-Na vsako točko tako deluje neka sila, ki jo sili
-stran od drugih točk, v prazen prostor. Točko lahko malo premaknemo v smeri
-sile, ponovno izračunamo medsebojne sile in postopek ponavljamo. Pri tem točkam
-na robu ne dovolimo premikanja in če kakšna točka iz notranjosti zleze iz
-domene, jo postavimo na naključno mesto nazaj v domeno. Zapis zgornjega postopka
-je v psevdokodi podan kot algoritem~\ref{alg:relax}. Postopku se kdaj reče
-tudi \emph{sprostitev} \ang{relaxation} domene, kajti na začetku so med točkami
-napetosti, ki jih s premikanjem poskušajo minimizirati. Rezultati na primeru
-izboljšanja naključne diskretizacije kroga so podani na
-sliki~\ref{fig:relax-circle}.
+Vendar ni še vse izgubljeno, saj lahko zgoraj opisane enostavne postopke za diskretizacijo
+uporabimo, da dobimo začetni približek za boljšo diskretizacijo.  Pri tem, da bi ta približek
+izboljšali in točke v domeni porazdelili čimbolj enakomerno, si lahko pomagamo s preprostim
+iterativnim postopkom, za katerega se izkaže, da v praksi dobro deluje. Navdih jemljemo iz fizike in
+si zamislimo, da je vsaka točka naboj, ki se odbija od sosednjih točk. Na vsako točko tako deluje
+sila, porojena z nekim potencialom, ki jo sili stran od drugih točk, v prazen prostor. Točko lahko
+malo premaknemo v smeri sile, ponovno izračunamo medsebojne sile in postopek ponavljamo. Pri tem
+točkam na robu ne dovolimo premikanja in če kakšna točka iz notranjosti zleze iz domene, jo
+postavimo nazaj na naključno mesto v domeno. Zapis zgornjega postopka je v psevdokodi podan kot
+algoritem~\ref{alg:relax}. Postopek se imenuje \emph{sprostitev} \ang{relaxation} domene, kajti na
+začetku so med točkami napetosti, ki jih s premikanjem
+minimiziramo~\cite[razdelek~2.2]{kosec2016local}. Rezultati opisanega postopka na primeru
+izboljšanja naključne diskretizacije kroga so prikazani na sliki~\ref{fig:relax-circle} (desno).
 
 \begin{algorithm}[!ht]
   \caption{Algoritem za izboljšanje kvalitete diskretizacije domene.}
@@ -2853,19 +2848,17 @@ sliki~\ref{fig:relax-circle}.
   \hspace{1em}
   \includegraphics[width=0.3\textwidth]{images/domain_circle_relaxed.png}
   \caption[Primerjava naključno diskretizirane in izboljšane domene.]{Primerjava
-  domene z naključno diskretizacijo (levo) in domene po izvedbi 10 iteracij
+  domene z naključno diskretizacijo (levo) in domene po izvedbi 30 iteracij
 algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$, $s = 6$, $\alpha = 3$
 (desno).}
   \label{fig:relax-circle}
 \end{figure}
 
 Da algoritem izboljša kvaliteto aproksimacije se vidi tudi, če izračunamo
-parametra $h$ in $S$. Pričakujemo, da se bo $S$ povečal, saj se točke, ki so
-bolj skupaj, bolj odbijajo. Na sliki~\ref{fig:relax-hs} vidimo primerjavo med
-kvaliteto diskretizacije s Fibonaccijevo mrežo in njeno 10-kratno izboljšavo.
-Vidimo, da se $h$ ni bistveno spremenil, le varianca se mu je malce povečala,
-$S$ pa se je v povprečju precej izboljšal in izkazuje celo lepše obnašanje kot
-prej.
+parametra $h$ in $S$. Na sliki~\ref{fig:relax-hs} vidimo primerjavo med
+kvaliteto diskretizacije s Fibonaccijevo mrežo in njeno 30-kratno izboljšavo.
+Vidimo, da se je $h$ nekoliko izboljšal ampak se mu je povečala varianca,
+$S$ pa se je precej izboljšal in izkazuje celo lepše obnašanje kot prej.
 
 \begin{figure}[ht]
   \centering
@@ -3748,9 +3741,10 @@ distretizacijah moramo vzeti tudi večji $H$, saj je napaka diskretizacije tolik
 Če torej ugotovimo, da se konvergenca ustavi ali ne nadaljuje več z enakim redom kot prej,
 smo najverjetneje zadeli ob napako zaradi končnih robnih pogojev.
 
-Pri veliki domeni je računsko nemogoče enakomerno gosto večati diskretizacijo. Neposredna rešitev je lokalno zgoščevanje mreže, kjer pričakujemo največjo napako in sicer v okolici kontakta.
-Izberimo $H = \unit[1]{m} \approx 75\,000\, b$ in zgostimo mrežo kot opisano v
-razdelku~\ref{sec:goscenje}. Izbrali smo $\ell = 8$ in $f = 0.4$.
+Pri veliki domeni je računsko nemogoče enakomerno gosto večati diskretizacijo. Neposredna rešitev je
+lokalno zgoščevanje mreže, kjer pričakujemo največjo napako in sicer v okolici kontakta.  Izberimo
+$H = \unit[1]{m} \approx 75\,000\, b$ in zgostimo mrežo kot opisano v razdelku~\ref{sec:goscenje}.
+Izbrali smo $\ell = 8$ in $f = 0.4$.
 Najprej jo primarno zgostimo v pravokotnikih oblike \[
   [-hb, hb] \times [0, hb], \text{ za } h \in \{1000, 500, 200, 100, 50, 20, 10, 5, 4, 3, 2\},
 \] nato še sekundarno zgostimo domeno okoli točk $\pm b$ na površini v pravokotnikih oblike \[
@@ -3988,21 +3982,21 @@ koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja ko
 Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
 implementirana na oddelku E6\footnote{\url{http://e6.ijs.si/}} Instituta ``Jožef
 Stefan''\footnote{\url{http://ijs.si/}} v Laboratoriju za vzporedno in porazdeljeno
-računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} Implementirana je bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti
-in dovolj močnih jezikovnih konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo
-elegantno implementacijo.  Podoben koncept uporablja knjižnica
-Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro.
-Za iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{mount1998ann}.
-Celotna implementacija je prosto dostopna na repozitoriju programske
-skupine\footnote{\url{http://gitlab.com/e62Lab/e62numcodes}} z dokumentacijo, prav tako na voljo na
+računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} Implementirana je
+bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih
+konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo elegantno implementacijo.  Podoben
+koncept uporablja knjižnica Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro.  Za
+iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{mount1998ann}.  Celotna
+implementacija je prosto dostopna na repozitoriju programske
+skupine~\cite{utils_web} z dokumentacijo, prav tako na voljo na
 spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
 
 Dejanska implementacija v grobem sledi postopku, opisanem v algoritmu~\ref{alg:metoda}. Na
 sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=\iw]{images/placeholder.pdf}
+  \includegraphics[width=\textwidth]{images/diagram_finished.pdf}
   \caption[Diagram implementacije in izvedbe MLSM]{Diagram implementacije in
   izvedbe algoritma~\ref{alg:metoda}.}
   \label{fig:implementacija}
@@ -4012,7 +4006,7 @@ sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
 Oglejmo si še možnost pospešitve računanja s pomočjo paralelizacije.
 Vse meritve časa v tem razdelku so bile narejene na računalniku z dvema centralno procesnima enotama
 \texttt{Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz} s po 6 jedri, od katerih vsako jedro podpira dve
-niti izvajanja, in \unit[64]{GiB} pomnilnika.  Programi so bili prevedeni z Intelovim c++
+niti izvajanja, in \unit[64]{GiB} pomnilnika.  Programi so bili prevedeni z Intelovim~\CC{}
 prevajalnikom \texttt{icpc}  s stikali \texttt{-std=c++11 -O3 -DNDEBUG}
 na operacijskem sistemu Ubuntu Linux 14.04. Za matematične operacije je bila uporabljena Intelova
 knjižnica MKL~\cite{mkl}. Pri paralelizaciji je bila uporabljena Intelova implementacija knjižnice
@@ -4085,7 +4079,7 @@ brez veliko truda ali sprememb v izvorni kodi, tako da ni razloga, da je ne bi u
 
 \section{Zaključek}
 
-V magistrski nalogi smo si ogledali klasično teorijo elastomehanike in izpeljali Navierovo enačbo,
+V magistrskem delu smo si ogledali klasično teorijo elastomehanike in izpeljali Navierovo enačbo,
 ki opisuje deformacijo teles pod zunanjimi obremenitvami. Pokazali smo obstoj in enoličnost rešitve.
 Samega reševanja smo se lotili numerično in sicer s posplošeno močnostno MLSM metodo, za katero smo
 pokazali, da v posebnih primerih preide v FDM. Vpeljali smo tudi algoritem za zgoščevanje in
