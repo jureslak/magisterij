@@ -15,7 +15,8 @@ plot(Ns_relax, Ss_relax, 'v');
 set(gca, 'YScale', 'log')
 xlabel('N')
 xlim([0 3000])
-legend('$h$', '$h_{relax}$', '$S$', '$S_{relax}$')
+legend('$h$', '$h_{\textrm{spro\v{s}\v{c}ena}}$',...
+    '$S$', '$S_{\textrm{spro\v{s}\v{c}ena}}$')
 uistack(c1, 'top')
 uistack(c2, 'top')
 set(gca,'Position', [.06 .1 .91 .87])

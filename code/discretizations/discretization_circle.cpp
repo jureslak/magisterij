@@ -34,17 +34,17 @@ double calculate_h(CircleDomain<Vec2d>& d) {
 
 int main() {
     HDF5IO file("../hs_data.h5", HDF5IO::DESTROY);
-    file.openFolder("circle_refine");
+    file.openFolder("/circle_refine");
 
     {
     vector<int> Ns;
     vector<double> hs, Ss;
 
-    for (int N = 10; N < 2800; ++N) {
+    for (int N = 10; N < 2800; N += 5) {
 
         CircleDomain<Vec2d> domain({0, 0}, 1);
         domain.fillUniform(N, int(3*4/3.14*std::sqrt(N)));
-        domain.relax(6, 1e-2, [](Vec2d) { return 1.0; }, 3, 10);
+        domain.relax(6, 1e-2, [](Vec2d) { return 1.0; }, 3, 30);
 
         double S = calculate_S(domain);
         double h = calculate_h(domain);
@@ -60,13 +60,13 @@ int main() {
     file.setDoubleArray("h", hs);
     }
 
-    file.openFolder("circle");
+    file.openFolder("/circle");
 
     {
     vector<int> Ns;
     vector<double> hs, Ss;
 
-    for (int N = 10; N < 2800; ++N) {
+    for (int N = 10; N < 2800; N += 5) {
 
         CircleDomain<Vec2d> domain({0, 0}, 1);
         domain.fillUniform(N, int(3*4/3.14*std::sqrt(N)));
