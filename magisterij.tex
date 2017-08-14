@@ -15,10 +15,6 @@
 \usepackage{emptypage} % emply pages without any headers and footers
 \usepackage[list=true,listformat=simple]{subcaption}  % subfigure
 % \usepackage[all]{xy}  % diagrami
-\usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
-  linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
-  menucolor=black, runcolor=black, urlcolor=black, pdfencoding=unicode
-]{hyperref}
 % oblika strani
 \usepackage[
   textwidth=15cm,
@@ -30,6 +26,27 @@
 \setlength{\overfullrule}{50pt} % označi predlogo vrstico
 \pagestyle{plain}
 
+\usepackage[bookmarks, bookmarksopen, bookmarksdepth=3, colorlinks=true,
+  linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
+  menucolor=black, runcolor=black, urlcolor=black, pdfencoding=unicode
+]{hyperref}
+
+% naslednje ukaze ustrezno popravi
+\newcommand{\program}{Matematika} % ime studijskega programa
+\newcommand{\imeavtorja}{Jure Slak} % ime avtorja
+\newcommand{\imementorja}{doc.~dr.~George Mejak} % akademski naziv in ime mentorja
+\newcommand{\imesomentorja}{dr.~Gregor Kosec} % akademski naziv in ime mentorja
+\newcommand{\naslovdela}{Reševanje linearnih elastostatičnih problemov z brezmrežnimi metodami}
+\newcommand{\letnica}{2017} %letnica diplome
+
+% PDF metapodatki
+\hypersetup{pdftitle={\naslovdela}}  % da se pokaže v naslovu pdf okna
+\hypersetup{pdfauthor={\imeavtorja}} % da se pokaže v pdf metapodatkih
+
+% lists with less vertical space
+\newenvironment{itemize*}{\vspace{-1.5\parskip}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{itemize}\vspace{-1\parskip}}
+\newenvironment{enumerate*}{\vspace{-1.5\parskip}\begin{enumerate}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{enumerate}\vspace{-1\parskip}}
+\newenvironment{description*}{\vspace{-6pt}\begin{description}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{description}\vspace{-1\parskip}}
 
 % ukazi za matematična okolja
 \theoremstyle{definition} % tekst napisan pokoncno
@@ -59,24 +76,6 @@
 \renewcommand{\P}{\mathcal{P}}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\T}{\mathsf{T}}
-
-% naslednje ukaze ustrezno popravi
-\newcommand{\program}{Matematika} % ime studijskega programa
-\newcommand{\imeavtorja}{Jure Slak} % ime avtorja
-\newcommand{\imementorja}{doc.~dr.~George Mejak} % akademski naziv in ime mentorja
-\newcommand{\imesomentorja}{dr.~Gregor Kosec} % akademski naziv in ime mentorja
-\newcommand{\naslovdela}{Reševanje linearnih elastostatičnih problemov z brezmrežnimi metodami}
-\newcommand{\letnica}{2017} %letnica diplome
-
-% lists with less vertical space
-\newenvironment{itemize*}{\vspace{-1.5\parskip}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{itemize}\vspace{-1\parskip}}
-\newenvironment{enumerate*}{\vspace{-1.5\parskip}\begin{enumerate}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{enumerate}\vspace{-1\parskip}}
-\newenvironment{description*}{\vspace{-6pt}\begin{description}\setlength{\itemsep}{0pt}\setlength{\parskip}{2pt}}{\end{description}\vspace{-1\parskip}}
-
-
-% vstavi svoje definicije ...
-\hypersetup{pdftitle={\naslovdela}}  % da se pokaže v naslovu pdf okna
-\hypersetup{pdfauthor={\imeavtorja}} % da se pokaže v pdf metapodatkih
 
 % matematika
 \newcommand{\lap}{\triangle}
@@ -281,6 +280,7 @@ Datum:
 
 \cleardoublepage
 
+\pdfbookmark{\contentsname}{Kazalo}
 \tableofcontents
 
 \cleardoublepage
@@ -317,13 +317,13 @@ Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearize
 {\bf \naslovdela}\\[3mm]
 {\sc Povzetek}
 \end{center}
-TBD
+TODO
 \vfill
 \begin{center}
 {\bf Solving linear elastostatic problems using meshless methods}\\[3mm] % prevod slovenskega naslova dela
 {\sc Abstract}
 \end{center}
-TBD
+TODO
 
 \url{http://www.ams.org/msc/msc2010.html?t=65Mxx&btn=Current}
 \vfill\noindent
@@ -1596,15 +1596,15 @@ tem področju pa so aktivne še danes.
 
 V praksi se izkaže, da pozitivni definitnosti brez težav zadostimo. Vrednosti parametrov za nekaj
 pogostih materialov so podane v tabeli~\ref{tab:Enu} in jih lahko najdemo v primernem fizikalnem ali
-strojniškem priročniku, npr.~v~[vstavi referenco / vprašaj Mejaka] TODO.
+strojniškem priročniku, npr.~v~\cite[str.\ 11]{cambridge2003materials}.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|l|l|} \hline
     material & $E$ [\unit{GPa}] & $\nu$ \\ \hline
-    jeklo    & 210 & 0.30 \\
-    aluminij & 69 & 0.33 \\
-    steklo   & 50 -- 90 & 0.20 -- 0.27 \\
-    beton    & 14 -- 41 & 0.20 - 0.21 \\ \hline
+    jeklo    & 189 -- 216 & 0.30 \\
+    aluminij & 68 -- 82   & 0.33 \\
+    steklo   & 61 -- 110  & 0.18 -- 0.30 \\
+    beton    & 25 -- 38   & 0.10 - 0.20 \\ \hline
   \end{tabular}
   \caption{Vrednosti elastičnih parametrov za pogoste materiale.}
   \label{tab:Enu}
@@ -3802,32 +3802,55 @@ sliki~\ref{fig:hertz-solution}.
 
 \section{Zgled iz mehanike utrujenosti materialov}
 \label{sec:fwo}
-Oglejmo si še nekoliko bolj konkreten primer elastostatičnega problema in sicer mehaniko utrujanja materialov
-\ang{fretting fatigue}.  Ena izmed oblik utrujanja je obraba materiala zaradi drgnjenja. Tako gibanje je ponavadi oscilatorno z
-majhno amplitudo in skrajša življenjsko dobo materiala tudi do
-\unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo, kar je vsekakor dovolj dober motiv, da je razumevanje tega pojava pomembna znanstvena disciplina. Eden izmed pogostih eksperimentov za
-razumevanje tega pojava se izvede tako, da se ploščat kos materiala, ki ga imenujmo \emph{vzorec}
-vpne na enem koncu, med tem ko drug konec periodično raztegujemo z napetostjo $\sax$ ~\cite{hojjati2014prediction}. Z drugih
-dveh strani na vzorec pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta
-oscilatorno tangentno na površino materiala in nanj delujeta s tangentno silo $Q$.  Shema eksperimenta je prikazana na sliki~\ref{fig:fwo-shema}. [TODO Gregor foto?]
+Oglejmo si še nekoliko bolj konkreten primer elastostatičnega problema in sicer mehaniko utrujanja
+materialov \ang{fretting fatigue}.  Ena izmed oblik utrujanja je obraba materiala zaradi drgnjenja.
+Tako gibanje je ponavadi oscilatorno z majhno amplitudo in skrajša življenjsko dobo materiala tudi
+do \unit[50]{\%}~\cite{jeung2015crack} glede na življenjsko dobo, pri kateri oscilacij ne bi bilo,
+kar je vsekakor dovolj dober motiv, da je razumevanje tega pojava pomembna znanstvena disciplina.
+Eden izmed pogostih eksperimentov za razumevanje tega pojava se izvede tako, da se ploščat kos
+materiala, ki ga imenujmo \emph{vzorec} vpne na enem koncu, med tem ko drug konec periodično
+raztegujemo z napetostjo $\sax$ ~\cite{hojjati2014prediction}. Z drugih dveh strani na vzorec
+pritiskata dve cilindrični glavi z normalno silo $F$, ki se tudi gibljeta oscilatorno tangentno na
+površino materiala in nanj delujeta s tangentno silo $Q$. Shema eksperimenta je prikazana na
+sliki~\ref{fig:fwo-shema}, fotografija njegove izvedbe pa na sliki~\ref{fig:fwo-experiment}.
 
 \begin{figure}[!h]
-  \centering
-  \includegraphics[width=\iw]{images/fwo_shema.pdf}
-  \caption{Shema eksperimenta za raziskovanje utrujanja materialov.}
-  \label{fig:fwo-shema}
+  \begin{subfigure}[t]{0.60\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fwo_shema.pdf}
+    \caption{Shema eksperimenta.}
+    \label{fig:fwo-shema}
+  \end{subfigure}
+  \hspace{1em}
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/experiment.png}
+    \caption[Fotografija eksperimenta]{Fotografija eksperimenta. \\ vir: Univerza v Luksemburgu}
+    \label{fig:fwo-experiment}
+  \end{subfigure}
+  \caption{Eksperiment za raziskovanje utrujanja materialov.}
 \end{figure}
 
-Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo  v sklopu mednarodnega projekta (G018916N ``Multi-analysis of fretting fatigue using physical and virtual experiments'')  z Univerzo v Luksemburgu, Univerzo v Gentu in Inštitutom ``Jožef Stefan''  tudi numerično~\cite{pereira2016convergence}. Vloga Inštituta ``Jožef Stefan'' in Univerze v Luksemburgu je razviti originalno numerično rešitev problema, saj do sedaj uporabljena komercialna rešitev ABAQUS\textregistered~\cite{hibbitt2001abaqus}, ki jo uporabljajo na Univerzi V gentu, ni zagotovila zadovoljivih rezultatov pri simulaciji širjenja razpoke. Prvi korak k simulaciji eksperimenta je izračun napetosti na površini kontakta. Za referenčno rešitev uporabimo ~\cite{pereira2016convergence}, kjer so predstavljeni rezultati simulacije eksperimenta  statičnem stanju maksimalne oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$.
-Eksperiment ima vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo
-in polovično širino, ter ga nato prezrcalimo. Poleg tega je debelina materiala majhna in
-vse sile in napetosti so v ravnini materiala, torej ustreza predpostavki o ravninski napetosti in ga
-lahko prevedemo na dve dimenziji. Lotimo se problema z drugega zornega kota. Problem nas spominja na teorijo Hertzevega kontakta (\ref{sec:hertz}), le da ima prisotno tudi tangentno silo, osno napetost in končne
-dimenzije.  V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za modeliranje
-napetosti, s katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij glave z $R$,
-širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak kot pri
-Hertzevem problemu, pri čemer upoštevamo, da je dolžinska gostota sile enaka $F/t$.
-Širina polovice kontaktnega območja se tako izraža z
+Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo  v sklopu
+mednarodnega projekta (G018916N ``Multi-analysis of fretting fatigue using physical and virtual
+experiments'')  z Univerzo v Luksemburgu, Univerzo v Gentu in Inštitutom ``Jožef Stefan''  tudi
+numerično~\cite{pereira2016convergence}. Vloga Inštituta ``Jožef Stefan'' in Univerze v Luksemburgu
+je razviti originalno numerično rešitev problema, saj do sedaj uporabljena komercialna rešitev
+ABAQUS\textregistered~\cite{hibbitt2001abaqus}, ki jo uporabljajo na Univerzi v Gentu, ni zagotovila
+zadovoljivih rezultatov pri simulaciji širjenja razpoke. Prvi korak k simulaciji eksperimenta je
+izračun napetosti na površini kontakta. Za referenčno rešitev
+uporabimo~\cite{pereira2016convergence}, kjer so predstavljeni rezultati simulacije eksperimenta
+statičnem stanju maksimalne oscilacije s tangentno silo enako $Q$ in osno napetostjo enako $\sax$.
+Eksperiment ima vodoravno simetrijsko os in lahko simuliramo eksperiment samo z eno glavo in
+polovično širino, ter ga nato prezrcalimo. Poleg tega je debelina materiala majhna in vse sile in
+napetosti so v ravnini materiala, torej ustreza predpostavki o ravninski napetosti in ga lahko
+prevedemo na dve dimenziji. Lotimo se problema z drugega zornega kota. Problem nas spominja na
+teorijo Hertzevega kontakta (\ref{sec:hertz}), le da ima prisotno tudi tangentno silo, osno napetost
+in končne dimenzije.  V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za
+modeliranje napetosti, s katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij
+glave z $R$, širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak
+kot pri Hertzevem problemu, pri čemer upoštevamo, da je dolžinska gostota sile enaka $F/t$.  Širina
+polovice kontaktnega območja se tako izraža~z
 \[
   a = 2\sqrt{\frac{FR}{t \pi E^\ast}},
 \]
