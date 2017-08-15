@@ -626,8 +626,8 @@ dokaz pa v~\cite{ciarlet2010korn}.
 Že Soboljev sam je raziskoval vložitve prostorov Soboljeva v Lebesgueove $L^p$
 prostore~\cite{soboleff1938theoreme}, kasneje pa še mnogi
 drugi~\cite{brezis1980note,edmunds2000sobolev,evans1987sobolev}. V~\cite{adams2003sobolev} je
-problemu vložitve posvečeno celo četrto poglavje, kjer je tudi dokaz spodnjega izreka~\cite[str.\
-85, izrek 4.12]{adams2003sobolev}.
+problemu vložitve posvečeno celo četrto poglavje, kjer je tudi dokaz spodnjega izreka~\cite[str.~85,
+izrek 4.12]{adams2003sobolev}.
 \begin{izrek}[Rellich--Kondrachov]
   \label{izr:vlozitev-sobolj}
   Naj bo $\Omega$ domena v $\R^d$ in $1 \leq kp < d$. Naj bo $p^\ast = \frac{dp}{d-kp}.$ Potem lahko
@@ -1866,7 +1866,7 @@ kjer je $F$ linearen funkcional na $E$, ki slika kot
 Prostor $E$ je poln in opremljen s skalarnim produktom, tako da je Hilbertov.
 Če pokažemo še, da je $F$ zvezen, potem lahko zanj uporabimo Riezsov
 reprezentacijski izrek~\ref{izr:riesz-useful}. Pokažimo raje omejenost. Z
-uporabo trikotniške, Cauchy-Schwarzove, H\"olderjeve in zgoraj izpeljanih
+uporabo trikotniške, Cauchy-Schwarzeve, H\"olderjeve in zgoraj izpeljanih
 neenakosti dobimo
 \begin{align*}
   \left| \int_\Omega \vf \cdot \vv dV \right| &\leq
@@ -3006,7 +3006,7 @@ drevesa in iskanje sosedov.
 
 Izvajanje funkcije \textsc{funkcijaOblike} traja $O(n + nm + m + m^2n + nm +
 n) = O(m^2n)$ časa, kjer je prevladujoči faktor $O(m^2 n)$ rezultat računanja SVD
-razcepa z dvostranskim Jacobi SVD razcepom iz knjižnice
+razcepa z dvostranskim Jacobijevim SVD razcepom iz knjižnice
 Eigen.\footnote{\url{https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html}
 [ogled 16.\ 6.\ 2017]} Funkcija oblike se izračuna za vsako točko v domeni,
 kar doprinese $O(m^2 n N)$ k skupni zahtevnosti.
@@ -4009,7 +4009,7 @@ pri različnih $N$. Tabela vrednosti za FEM je vzeta iz~\cite[tabela 3]{pereira2
 Vidimo, da vrednosti konvergirajo k neki limiti, ki pa se razlikuje pri obeh metodah, vendar je v
 istem velikostnem razredu. Naša rešitev dosega višje vrednosti $\ts_{xx, \max}$, kot je tudi
 razvidno iz grafa na sliki~\ref{fig:fwo-ujemanje}. To je zato, ker rešujemo problem z danimi
-analitičnimi robnimi pogoji, medtem ko FEM rešitev kontakt simulira in slabše apoksimira ostre
+analitičnimi robnimi pogoji, medtem ko FEM rešitev kontakt simulira in slabše aproksimira ostre
 vogale. Primer izračunane napetosti za problem~\eqref{eq:fwo-problem} za $\mu=0.85$ in $R =
 \unit[50]{mm}$ z $N = 178897$ točkami je prikazan na sliki~\ref{fig:fwo-solution}.
 
@@ -4028,15 +4028,14 @@ koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja ko
 \section{Implementacija}
 \label{sec:implementacija}
 Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
-implementirana na oddelku E6 Instituta ``Jožef
-Stefan'' v Laboratoriju za vzporedno in porazdeljeno
+implementirana na oddelku E6 Instituta ``Jožef Stefan'' v Laboratoriju za vzporedno in porazdeljeno
 računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} Implementirana je
 bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih
 konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo elegantno implementacijo. Podoben
 koncept uporablja knjižnica Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro. Za
 iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{mount1998ann}. Celotna
-implementacija je prosto dostopna na repozitoriju programske
-skupine~\cite{utils_web} z dokumentacijo, prav tako na voljo na
+implementacija je prosto dostopna na repozitoriju programske skupine~\cite{utils_web} z
+dokumentacijo, prav tako na voljo na
 spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
 
 Dejanska implementacija v grobem sledi postopku, opisanem v algoritmu~\ref{alg:metoda}. Na
@@ -4065,7 +4064,7 @@ OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom. Za reše
 linearnih enačb je bila uporabljena Intelova implementacija sistema Pardiso~\cite{pardiso}. Vse
 knjižnice in programi so verzije 2016.1.150 za Linux.
 
-Oglejmo si najprej, kateri deli postopka so časovno najpotratnejši. Iz časovne analize v
+Oglejmo si najprej, kateri deli postopka so časovno najbolj potratni. Iz časovne analize v
 razdelku~\ref{sec:casovna-zahtevnost} lahko sklepamo, da je to računanje funkcij oblike,
 ki traja $O(m^2n N)$ časa ali pa reševanje sistema. Da bi bolje razumeli, koliko časa stane kateri
 del, to izmerimo. Na sliki~\ref{fig:poisson-square-time-distribution} vidimo porazdelitev časa, ki ga posamezni
