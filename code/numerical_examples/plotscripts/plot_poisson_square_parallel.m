@@ -31,9 +31,11 @@ end
 
 set(gca, 'XScale', 'log')
 % title('Speedup in parallel execution using Pardiso solver.')
-xlabel('N')
+xlabel('$N$')
 ylabel('$t_k$ / $t_1$')
-legend(legendvals, 'Location', 'NE')
+h = legend(legendvals, 'Location', 'NE');
+title(h, '$k$', 'interpreter', 'latex')
+xlim([2e3, 6e6])
 
 f2 = setfig('b2');
 grid minor
