@@ -437,8 +437,8 @@ Prostor tenzorjev drugega reda opremimo s skalarnim produktom
   Vsak tenzor $s$ lahko zapišemo kot $s = \frac12 (s+s^\T) + \frac12(s-s^\T)$.
   Če je $s \in Sym(V)\cap Asym(V)$ je $s^\T = -s^\T$ od koder sledi $s = 0$.
   Vsota je res direktna. Ker velja za simetričen $s$ in antisimetričen $t$ tudi
-  \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t, \]
-  od koder sledi $s:t = 0$, je vsota ortogonalna.
+  \[ s:t = \tr(s^\T t) =  -\tr(s t^\T) = -\tr(s^\T t) = -s:t, \] od koder sledi $s:t = 0$, je vsota
+  ortogonalna.
 \end{proof}
 
 \begin{definicija}
@@ -450,7 +450,7 @@ Prostor tenzorjev drugega reda opremimo s skalarnim produktom
   V koordinatah je $(\div t)_i = t_{ij,j}$.
 \end{definicija}
 
-Zakaj je ravno to prava definicija, nam pove naslednji izrek.
+Zakaj je ravno to prava definicija, pove naslednji izrek.
 \begin{izrek}[Gauss]
   \label{izr:gauss}
   Naj bo $\Omega$ odprta povezana omejena množica z odsekoma gladkim robom, $\vn$ zunanja enotska
@@ -747,7 +747,7 @@ preslikava
   (t, \vX) &\mapsto \chi_t(\chi_R^{-1}(\vX))
 \end{align}
 gladka kot funkcija iz $\R^4$ v $\R^3$.
-Preslikava $\tilde x$ nam podaja zvezo med prostorsko in referenčno konfiguracijo:
+Preslikava $\tilde x$ podaja zvezo med prostorsko in referenčno konfiguracijo:
 \begin{equation}
   \label{eq:pros-ref}
   \vx = \tilde x(t, \vX).
@@ -1042,7 +1042,7 @@ Na površini tega podtelesa zunanji del kontinuuma deluje na podtelo, toda ekviv
 bi zunanji del odstranili in na površino preostanka delovali z enakim poljem sil, kot je prej
 deloval zunanji del.
 
-Ta razmislek nam ponuja naslednji opis notranjih in površinskih sil telesa. V nekem trenutku $t$
+Ta razmislek ponuja naslednji opis notranjih in površinskih sil telesa. V nekem trenutku $t$
 se postavimo v neko točko $\vx$ v telesu in si zamislimo neko podtelo, tako da je izbrana točka
 na njegovi površini. Tedaj obstaja vektor $\vt$, ki predstavlja silo, s katero preostali kontinuum
 deluje v tej točki na izbrano podtelo. Če bi si izbrali drugo podtelo, bi bila v splošnem sila
@@ -1125,7 +1125,7 @@ kar je točno to, kar smo želeli pokazati.
 \end{proof}
 
 Izkaže se, da velja še več, in sicer da je vektor $\vt$ linearno odvisen od normale. S pomočjo
-prejšnje trditve lahko pokažemo naslednji izrek, ki nam zagotovi obstoj matematičnega objekta,
+prejšnje trditve lahko pokažemo naslednji izrek, ki zagotovi obstoj matematičnega objekta,
 s pomočjo katerega opišemo napetost v materialu.
 \begin{izrek}[Cauchyjev izrek o napetosti]
   Obstaja tenzor $\ts$, tako da velja
@@ -1197,7 +1197,7 @@ relacijo~\eqref{eq:cauchy-reciprocal}, dobimo
 \[
   \vt_{\vn} = \sum_{i=1}^3 (\vn \cdot\vec{e}_i) \vt_{\vec{e}_i}.
 \]
-Ta zveza nam pove, kako je napetost na poljubni ploskvi povezana z napetostmi na koordinatnih
+Ta zveza pove, kako je napetost na poljubni ploskvi povezana z napetostmi na koordinatnih
 ploskvah. To nam dovoljuje definicijo \emph{Cauchyjevega napetostnega tenzorja}
 $\ts$
 \[
@@ -1317,7 +1317,7 @@ konfiguracija na začetku gibanja.
   deformacije}.
 \end{definicija}
 
-Tenzor $F$ je drugega reda in nam v vsaki točki predstavlja lokalno deformacijo
+Tenzor $F$ je drugega reda in v vsaki točki predstavlja lokalno deformacijo
 telesa. Privzeli smo že, da je $\vx$ difeomorfizem, torej je $F$ neizrojen,
 dodatno pa bomo privzeli še, da gibanje $\vx$ \emph{ohranja orientacijo}, saj
 so taka vsa gibanja v realnosti. Od tod sledi, da je $\det F > 0$.
@@ -1891,7 +1891,7 @@ za vsak $\vv \in E$. Šibka oblika enačbe se torej glasi
 \begin{equation*}
    \langle \vv, \vu - \vu\,^\ast \rangle_E = 0.
 \end{equation*}
-Ker je $\vu-\vu\,^\ast$ pravokoten na vse $\vv \in E$, nam ne preostane drugega,
+Ker je $\vu-\vu\,^\ast$ pravokoten na vse $\vv \in E$, ne preostane drugega,
 kot da je $\vu = \vu\,^\ast$ enolična rešitev v smislu definicije~\ref{def:sibka}.
 \end{proof}
 
@@ -2034,7 +2034,7 @@ Metoda, predstavljena v tem razdelku bo reševala enačbo v krepki obliki in bo 
 
 \subsection{Izpeljava}
 
-Izpeljavo začnimo z osvežitvijo spomina na metodo končnih diferenc, ki nam bo
+Izpeljavo začnimo z osvežitvijo spomina na metodo končnih diferenc, ki bo
 služila kot motivacija.
 
 \subsubsection{Ideja in motivacija}
@@ -2061,7 +2061,7 @@ dolžine $h = \frac{b-a}{N}$ z delilnimi točkami $x_i = a + i h$, za $i = 0, \d
 teh točk uvedemo neznanko $u_i$, ki predstavlja neznano funkcijsko vrednost v točki $x_i$. S pomočjo
 vrednosti $u_{i-1}, u_i$ in $u_{i+1}$ želimo aproksimirati $u''(x_i)$. To nam bo dalo zvezo
 med spremenljivkami in ko jo uporabimo za vse notranje točke ter upoštevamo še robne pogoje, dobimo
-sistem linearnih enačb, katerega rešitev nam da aproksimacijo funkcije $u$.
+sistem linearnih enačb, katerega rešitev da aproksimacijo funkcije $u$.
 
 Funkcijo $u$ v okolici $x_i$ aproksimiramo z interpolacijskim polinomom, njene odvode pa z odvodi
 interpolacijskega polinoma. Za izračun interpolacijskega polinoma zapišimo nastavek
@@ -2264,7 +2264,7 @@ komponente so bazne funkcije $b_i$.
 Če bi poznali vrednosti $u(x_i)$ za $i \in \I(p)$, potem bi za aproksimiranko
 $\uh$ v najboljšem primeru zahtevali  $\hat{u}(x_i) = u(x_i)$, za vsak $i \in \I(p)$.
 Ker funkcijskih vrednosti $u(x_i)$ ne poznamo, uvedimo spremenljivke $u_i$ za vsako točko v domeni,
-ki nam bodo predstavljale neznane prave vrednosti in nadaljujmo s simbolnim računanjem.
+ki predstavljajo neznane prave vrednosti in nadaljujmo s simbolnim računanjem.
 Če zahteve za interpolacijo po vrsticah zapišemo v sistem linearnih enačb, dobimo
 \begin{equation}
 \begin{bmatrix}
@@ -2391,7 +2391,7 @@ elementov, torej je skupno število neničelnih elementov
 Enakost je lahko dosežena, lahko pa je tudi stroga, saj so kakšni koeficienti v $\phi_{\L, x_i}$ lahko
 tudi 0, kot se to zgodi pri Dirichletovih robnih pogojih.
 
-Rešitev sistema~\eqref{eq:discretized-system} nam da aproksimacijo $u(x_i) \approx u_i$, kar vzamemo
+Rešitev sistema~\eqref{eq:discretized-system} da aproksimacijo $u(x_i) \approx u_i$, kar vzamemo
 za numerično rešitev problema~\eqref{eq:general-problem}.
 
 \subsection{Posebni primeri}
@@ -2531,7 +2531,7 @@ kar je ravno iskana aproksimacija.
 \begin{opomba}
   Metodo za izračun funkcije oblike je zelo elegantno implementirati v
   Wolfram Mathematici~\cite{mathematica}, kar olajša simbolno raziskovanje takih aproksimacij.
-  Enačbe~(\ref{eq:fdm-special-case-start}--\ref{eq:fdm-special-case-end}) so bile izračunane s
+  Enačbe~(\ref{eq:fdm-special-case-start}--\ref{eq:fdm-special-case-end}) so izračunane s
   programom~\ref{prog:shape-mathematica}.
 
 \begin{listing}[!h]
@@ -2765,7 +2765,7 @@ Za dano domeno $\Omega$ in množico diskretizacijskih točk $\X$ definirajmo
   S(\X) &= \min_{\substack{x, y \in \X \\ x \neq y}} \|x-y\|.
 \end{align}
 Količina $h$ pove, kolikšna je maksimalna razdalja do najbližje točke kjerkoli v domeni in intuitivno
-opisuje, kako dobro smo z diskretizacijskimi točkami pokrili domeno. Največji krog, ki ga lahko
+opisuje, kako dobro z diskretizacijskimi točkami pokrijemo domeno. Največji krog, ki ga lahko
 narišemo v domeni, ne da bi v notranjosti vseboval kakšno diskretizacijsko točko, je ravno radija
 $h_\Omega(\X)$. Količina $S$ pove, kolikšna je najmanjša razdalja med dvema sosednjima točkama in
 karakterizira stabilnost metode. Dobra diskretizacija želi pri danem številu točk maksimizirati $S$
@@ -2924,13 +2924,13 @@ vrstici~\ref{line:closest} je potrebno poiskati najti nekaj najbližjih sosedov 
 iskanja najbližjih sosedov \ang{nearest neighbour search} je znana in dobro raziskana tema z
 razvitimi veliko podatkovnimi strukturami, ki podpirajo grajenje, iskanje, vstavljanje in brisanje v
 logaritemskem času. Večina jih temelji na delitvi prostora na različne hierarhično urejene
-podprostore, ki jih potem hranimo v drevesni strukturi, kar nam omogoča logaritemski dostop. Med
+podprostore, ki jih potem hranimo v drevesni strukturi, kar omogoča logaritemski dostop. Med
 bolj znanimi strukturami so \emph{$k$-d tree}~\cite{moore1991intoductory}, \emph{ball
 tree}~\cite{omohundro1989five} in \emph{cover tree}~\cite{beygelzimer2006cover}. V
 članku~\cite{kibriya2007empirical} je narejena empirična primerjava med zgornjimi tremi strukturami,
 ki pokaže, da se v primeru nizkih dimenzij (kar gotovo vsebuje $d \leq 3$) najbolje obnese
 $k$-d drevo. Poleg tega $k$-d drevo deluje najbolje tudi, ko imajo točke, v katerih
-bomo iskali sosede, podobno porazdelitev kot točke, iz katerih smo naredili drevo, kar v našem
+bomo iskali sosede, podobno porazdelitev kot točke, iz katerih naredimo drevo, kar v našem
 primeru drži. Če vključimo še dejstvo, da je $k$-d drevo tudi najpopularnejša rešitev za
 problem najbližjih sosedov in ima na voljo veliko prosto dostopnih implementacij, je to dovolj
 argumentov, da jo uporabimo tudi mi. Specifična uporabljena implementacija je predstavljena
@@ -3085,7 +3085,7 @@ kjer $\sigma_w$ imenujemo parameter oblike \ang{shape parameter} uteži.
 Velja opozoriti, da je ta funkcija praktično nič, če smo več kot $3\sigma_w$
 stran od središča ($w(3\sigma_w) \approx 0.0001234$). Če na primer izberemo
 $\sigma_w = r_\chi$, se vsi sosedi, ki so dlje kot $r_\chi$ stran, v
-aproksimaciji ne upoštevajo, ne glede na to, kako velik $n$ smo izbrali.
+aproksimaciji ne upoštevajo, ne glede na to, kako velik $n$ izberemo.
 Ponavadi se za $\sigma_w$ začne izbirati vrednosti okoli $r_\chi$, je
 pa potrebno optimalno vrednost določiti za vsak posamezen problem posebej.
 
@@ -3164,7 +3164,7 @@ utrujenosti materialov, opisanega v uvodu. V nadaljnjem besedilu in na vseh graf
 opisana v razdelku~\ref{sec:numericna-metoda}, označena s kratico MLSM \ang{Meshless Local Strong
 Form Method}. Če ni drugače navedeno, so vse meritve narejene na računalniku z eno centralno
 procesno enoto \verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako
-podpira dve niti izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so bili prevedeni s
+podpira dve niti izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so prevedeni s
 prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem
 sistemu Manjaro Linux.
 
@@ -3178,14 +3178,16 @@ Oglejmo si najprej preprost primer reševanja enodimenzionalne Poissonove enačb
 \end{align}
 ki ima analitično rešitev $u(x) = \cos(1) x - \sin(x)$.
 Na sliki~\ref{fig:mlsm-fdm-err} je prikazana konvergenca metode končnih diferenc
-in MLSM. Metoda MLSM je bila uporabljena s parametri, pri katerih velja
+in MLSM. Metoda MLSM je uporabljena s parametri, pri katerih velja
 trditev~\ref{trd:eq-to-fdm}, torej $n=m=3$, $w=1$, $\b b = \{1, x, x^2\}$.
-Pri obeh metodah smo uporabili dvojno in enojno natančnost računanja s plavajočo
-vejico. Za primerjavo smo rešili problem tudi z višjim redom $n=m=5$, $w=1$,
-$\b b = \{1, x, x^2, x^3, x^4\}$. V obeh primerih smo uporabili direktno metodo
-SuperLU za reševanje sistema enačb. Za vsakega od teh primerov smo izračunali
-diskretno $L_\infty$ napako v diskretizacijskih točkah: \[ L_\infty = \max_{x\in
-X} |\hat{u}(x) - u(x)|. \]
+Pri obeh metodah uporabimo dvojno in enojno natančnost računanja s plavajočo
+vejico. Za primerjavo problem rešimo tudi z višjim redom $n=m=5$, $w=1$,
+$\b b = \{1, x, x^2, x^3, x^4\}$. V obeh primerih uporabimo direktno metodo
+SuperLU za reševanje sistema enačb. Za vsakega od teh primerov izračunamo
+diskretno $L_\infty$ napako v diskretizacijskih točkah:
+\begin{equation}
+   L_\infty = \max_{x\in X} |\hat{u}(x) - u(x)|.
+\end{equation}
 
 \begin{figure}[h]
   \centering
@@ -3304,7 +3306,7 @@ monomi, Gaussovimi funkcijami~(G), multikvadratičnimi funkcijami~(MQ) in inverz
 multikvadratičnimi funkcijami~(IMQ).  Za parametre vedno vzemimo $n = m = 9$, kar sovpada s primeri
 iz razdelka~\ref{sec:posebni-primeri}. Pri monomih dodajmo tudi primer $n = 9$ in $m = 6$. Za
 parameter oblike pri radialnih baznih funkcijah vzemimo $\sigma_b = 100\, r_\chi$. Za utež vzemimo
-Gaussovo utež z $\sigma_w = \frac34 r_\chi$. V vseh primerih je bila za reševanje sistema enačb
+Gaussovo utež z $\sigma_w = \frac34 r_\chi$. V vseh primerih je za reševanje sistema enačb
 uporabljena direktna metoda SuperLU.\footnote{Iterativni BiCGSTAB algoritem je vrnil enake
 rezultate.} Primerjava napak je prikazana na sliki~\ref{fig:poisson-square-convergence}.
 
@@ -3347,13 +3349,13 @@ sistem~\eqref{eq:shape-system} za izračun funkcije oblike z večanjem parametra
   \includegraphics[width=\iw]{images/poisson_square_rbf_konv_k_mon.pdf}
   \caption[Konvergenčne krivulje za Gaussove funkcije.]{Konvergenčne krivulje
   za Gaussove funkcije pri čedalje večjem $\sigma$ in za monome ($\sigma =
-  \infty$). Uporabili smo $n = m = 5$ in Gaussovo utež s parametrom $\sigma_w =
+  \infty$). Uporabljeni parametri so $n = m = 5$ in Gaussova utež s parametrom $\sigma_w =
   \frac34 r_\chi$.}
   \label{fig:rbf-konv-k-mon}
 \end{figure}
 
 Da si izboljšamo intuicijo o pomenu parametrov oblike pri uporabi radialnih
-baznih funkcij in uteži, naredimo še eno analizo, ki nam bo pomagala pri izbiri
+baznih funkcij in uteži, naredimo še eno analizo, ki bo pomagala pri izbiri
 parametrov pri bolj zapletenih problemih. Problem~\eqref{eq:poisson-problem}
 rešimo za različne izbire parametrov oblike baznih funkcij ($\sigma_b$) in
 Gaussove funkcije uteži ($\sigma_w$) ter primerjajmo natančnost rešitve.
@@ -3388,7 +3390,7 @@ nekatere enačbe v sistemu~\eqref{eq:shape-system} pomnožijo s približno $\exp
 lahko pripelje tudi izbira prevelikega parametra $\sigma_b$, kajti za $\sigma_b = 70\,r_\chi$ so vsi
 elementi matrike $B$ med $1.00041$ in $1$. Boljši vpogled v obrnljivost matrike $B$ nam da graf na
 sliki~\ref{fig:poisson-square-sigma-dep-cutoff}, ki predstavlja število odrezanih singularnih
-vrednosti pri SVD razcepu, s pomočjo katerega smo izračunali psevdoinverz matrike $WB$.
+vrednosti pri SVD razcepu, s pomočjo katerega izračunamo psevdoinverz matrike $WB$.
 Aproksimacija je res neodvisna od uteži na predelu, kjer nismo odrezali nobene singularne vrednosti,
 torej približno na območju $[0, 70] \times [0.3, \infty)$, drugje pa lahko utež vpliva na izračun
 psevdoinverza in število odrezanih singularnih vrednosti.
@@ -3396,10 +3398,10 @@ psevdoinverza in število odrezanih singularnih vrednosti.
 Kvaliteta aproksimacije je za $\sigma_b$ blizu 0 zelo slaba, saj imajo bazne funkcije neničelno
 vrednost samo v svojem centru. Nato napaka pada z večanjem $\sigma_b$, dokler ne pridemo v območje
 numerične neobrnljivosti matrike $B$. Tam pride v igro regularizacija v SVD razcepu, ki nam lahko
-pomaga, kar lahko vidimo v pasu nizke napake okoli $\sigma_w = 1$. Na
+tudi pomaga, kar vidimo v pasu nizke napake okoli $\sigma_w = 1$. Na
 sliki~\ref{fig:poisson-square-sigma-dep-cutoff} vidimo, da se z večanjem $\sigma_b$ reže čedalje več
-singularnih vrednosti in sčasoma bi aproksimacija spet postala nestabilna. Podobno sliko dobimo
-pri različnih $N$, $n$ in ostalih izbirah baznih funkcij. Običajno zato izberemo sorazmerno velik
+singularnih vrednosti in sčasoma bi aproksimacija spet postala nestabilna. Podobno sliko dobimo pri
+različnih $N$, $n$ in ostalih izbirah baznih funkcij. Običajno zato izberemo sorazmerno velik
 parameter $\sigma_b$, okoli $150\,r_\chi$, za obliko uteži pa vzamemo približno $r_\chi$.
 
 V dosedanjih analizah smo videli, da se MLSM metoda obnaša enako ali slabše kot metoda končnih
@@ -3428,7 +3430,7 @@ Problem vpetega nosilca \ang{cantilever beam} je standarden problem v linearni e
 osnovnih testnih primerov za raziskovanje obnašanja numeričnih metod. Imejmo tanek nosilec dolžine
 $L$ in višine $D$, vpet na desnem koncu, ki ga na levem koncu navzdol potiska sila $P$ na enoto
 debeline. Idealizirana Timoshenkova teorija nosilcev nudi analitično rešitev za ta problem v primeru
-predpostavke o ravninski napetosti. Napetosti v nosilcu, ki smo ga postavili na območje $[0, L]
+predpostavke o ravninski napetosti. Napetosti v nosilcu, ki ga postavimo na območje $[0, L]
 \times [-D/2, D/2]$, so izpeljane v~\cite[str.\ 284--289, enačba 7.4.55]{slaughter2012linearized} in
 se izražajo kot
 \begin{align}
@@ -3507,11 +3509,11 @@ območjih, ki pripadajo notranjim točkam ali točkam na robu.
 Problem rešimo numerično z uporabo 9 monomov in 9 Gaussovih baznih funkcij z $\sigma_b =
 500\,r_\chi$, obakrat z Gaussovo utežjo $\sigma_w = r_\chi$.
 Linearni sistem enačb rešimo z iterativnim BiCGSTAB postopkom z ILUT predpogojevanjem
-kot opisano v razdelku~\ref{sec:solve-sparse}. Uporabili smo parametra $p=20$ in $\tau = 10^{-5}$.
+kot opisano v razdelku~\ref{sec:solve-sparse}. Pri ILUT uporabimo parametra $p=20$ in $\tau = 10^{-5}$.
 BiCGSTAB algoritem iteriramo največ 300-krat ali dokler ni ocena napake pod $10^{-13}$.
 Algoritem je v vseh primerih konvergiral.
 
-Za parametre problema smo izbrali $L = \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$,
+Za parametre problema izberemo $L = \unit[30]{m}$, $D = \unit[5]{m}$, $E = \unit[72.1]{GPa}$,
 $\nu = 0.33$, $P = \unit[1000]{N/m}$. Numerična rešitev je prikazana na
 sliki~\ref{fig:cantilever-beam-solution}. Omeniti je treba še, kako iz numerične rešitve $\b{u}$
 dobimo aproksimacijo za $\ts$. Komponente $\ts$ so linearne kombinacije odvodov $\vu$, tako da v
@@ -3563,8 +3565,8 @@ saj jih ocenjujemo iz pomikov, kaj zahteva še eno diferenčno aproksimacijo ve�
 
 Za demonstracijo splošnosti metode dodajmo v nosilec še nekaj lukenj. Nosilec pritrdimo na desnem
 koncu ($\vu = 0$) in vlecimo navzdol na levem z enakomerno porazdeljeno silo $P$ enake velikosti kot
-prej ($\vt = -P/D\vj$\,). V domeno smo razporedili $N = 177617$ diskretizacijskih točk z večjo
-gostoto okoli robov lukenj, po ustvarjanju domene pa smo jo še dodatno izboljšali z
+prej ($\vt = -P/D\vj$\,). V domeno razporedimo $N = 177617$ diskretizacijskih točk z večjo
+gostoto okoli robov lukenj, po ustvarjanju domene pa jo še dodatno izboljšamo z
 algoritmom~\ref{alg:relax} s 50 iteracijami na šestih sosedih z $F_0 = 10^{-3}$ in $\alpha = 3$.
 Upogib nosilca, obarvan z vrednostjo von Misesove napetosti, je prikazan na
 sliki~\ref{fig:cantilever-beam-with-holes}. Von Misesova napetost se za primer ravninske napetosti
@@ -3708,12 +3710,12 @@ zgornjem robu domene kot prej zahtevamo predpisano napetost. Za parametre proble
 Od tod dobimo širino kontakta $b = \unit[0.13]{mm}$ in maksimalni tlak $p_0 = \unit[2.6]{MPa}$.
 Za $H$ izberimo \unit[10]{mm}, torej približno 75-krat večjo domeno, kot je pojav, ki ga opazujemo.
 
-Numerično smo problem rešili na dva načina, z uporabo 9 monomov in 9 Gaussovih funkcij z $\sigma_b =
-350\,r_\chi$. Obakrat smo uporabili Gaussovo utež z $\sigma = r_\chi$. Za reševanje linearnega
-sistema enačb smo uporabili iterativni BiCGSTAB algoritem z ILUT predpogojevanjem. Uporabili smo
-parametra $p=20$ in $\tau = 10^{-5}$. BiCGSTAB algoritem smo iterirali največ 300-krat ali dokler ni
-bila ocena napake pod $10^{-13}$. Algoritem je v vseh primerih konvergiral. Na
-sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične metode.
+Numerično problem rešimo na dva načina, z uporabo 9 monomov in 9 Gaussovih funkcij z $\sigma_b =
+350\,r_\chi$. Obakrat uporabimo Gaussovo utež s $\sigma = r_\chi$. Za reševanje linearnega
+sistema enačb uporabimo iterativni BiCGSTAB algoritem z ILUT predpogojevanjem, s parametroma $p=20$
+in $\tau = 10^{-5}$. BiCGSTAB algoritem iteriramo največ 300-krat ali dokler ni ocena
+napake pod $10^{-13}$. Na sliki~\ref{fig:hertz-convergence} je prikazana konvergenca numerične
+metode.
 
 \begin{figure}[!h]
   \centering
@@ -4020,10 +4022,10 @@ koncentracijo napetosti okoli točke $x = a$ na površini, ki je mnogo večja ko
 Numerična metoda skupaj z vsemi dodatnimi orodji, za katere ni navedeno drugače, je bila
 implementirana na oddelku E6 Instituta ``Jožef Stefan'' v Laboratoriju za vzporedno in porazdeljeno
 računanje.\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/}} Implementirana je
-bila v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih
+v programskem jeziku \CC~\cite{stroustrup1995c++} zaradi hitrosti in dovolj močnih jezikovnih
 konstruktov, kot so recimo predloge \ang{templates}, ki omogočajo elegantno implementacijo. Podoben
 koncept uporablja knjižnica Eigen~\cite{eigenweb}, uporabljena za numerično linearno algebro. Za
-iskanje najbližjih sosedov je bila uporabljena knjižnica ANN~\cite{mount1998ann}. Celotna
+iskanje najbližjih sosedov je uporabljena knjižnica ANN~\cite{mount1998ann}. Celotna
 implementacija je prosto dostopna na repozitoriju programske skupine~\cite{utils_web} z
 dokumentacijo, prav tako na voljo na
 spletu\footnote{\url{http://www-e6.ijs.si/ParallelAndDistributedSystems/MeshlessMachine/}}.
@@ -4044,14 +4046,14 @@ sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
 
 \subsection{Vzporedno računanje}
 Oglejmo si še možnost pospešitve računanja s pomočjo paralelizacije.
-Vse meritve časa v tem razdelku so bile narejene na računalniku z dvema centralno procesnima enotama
+Vse meritve časa v tem razdelku so narejene na računalniku z dvema centralno procesnima enotama
 \texttt{Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz} s po 6 jedri, od katerih vsako jedro podpira dve
-niti izvajanja, in \unit[64]{GiB} pomnilnika. Programi so bili prevedeni z Intelovim~\CC{}
+niti izvajanja, in \unit[64]{GiB} pomnilnika. Programi so prevedeni z Intelovim~\CC{}
 prevajalnikom \texttt{icpc}  s stikali \texttt{-std=c++11 -O3 -DNDEBUG}
-na operacijskem sistemu Ubuntu Linux 14.04. Za matematične operacije je bila uporabljena Intelova
-knjižnica MKL~\cite{mkl}. Pri paralelizaciji je bila uporabljena Intelova implementacija knjižnice
+na operacijskem sistemu Ubuntu Linux 14.04. Za matematične operacije je uporabljena Intelova
+knjižnica MKL~\cite{mkl}. Pri paralelizaciji je uporabljena Intelova implementacija knjižnice
 OpenMP~\cite{dagum1998openmp} za paralelizacijo z deljenim pomnilnikom. Za reševanje sistemov
-linearnih enačb je bila uporabljena Intelova implementacija sistema Pardiso~\cite{pardiso}. Vse
+linearnih enačb je uporabljena Intelova implementacija sistema Pardiso~\cite{pardiso}. Vse
 knjižnice in programi so verzije 2016.1.150 za Linux.
 
 Oglejmo si najprej, kateri deli postopka so časovno najbolj potratni. Iz časovne analize v
