@@ -15,7 +15,7 @@ subplot(2, 2, 1)
 contourf(X/b, Y/b, sxx/p0, 30, 'LineStyle', 'none')
 xlabel('$x/b$')
 ylabel('$y/b$')
-title('$s_{xx}/p_0$', 'interpreter', 'latex')
+title('$\sigma_{xx}/p_0$', 'interpreter', 'latex')
 colorbar
 ax = gca;
 ax.Position(1) = 0.075;
@@ -27,7 +27,7 @@ contourf(X/b, Y/b, sxy/p0, 30, 'LineStyle', 'none')
 colorbar
 xlabel('$x/b$')
 ylabel('$y/b$')
-title('$s_{xy}/p_0$', 'interpreter', 'latex')
+title('$\sigma_{xy}/p_0$', 'interpreter', 'latex')
 ax = gca;
 ax.Position(3) = 0.35;
 ax.Position(1) = 0.56;
@@ -38,7 +38,7 @@ contourf(X/b, Y/b, syy/p0, 30, 'LineStyle', 'none')
 colorbar
 xlabel('$x/b$')
 ylabel('$y/b$')
-title('$s_{yy}/p_0$', 'interpreter', 'latex')
+title('$\sigma_{yy}/p_0$', 'interpreter', 'latex')
 ax = gca;
 ax.Position(1) = 0.075;
 ax.Position(3) = 0.35;
