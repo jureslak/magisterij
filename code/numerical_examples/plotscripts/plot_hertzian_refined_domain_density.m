@@ -14,5 +14,6 @@ xlabel('$x/b$')
 ylabel('$y/b$')
 title('$\log_2(r_c/r_{c}^{\max})$')
 colorbar
+colormap(flipud(colormap))
 
 exportfig(f1, [imagepath 'hertzian_refined_domain_density'], '-png', '-r300');

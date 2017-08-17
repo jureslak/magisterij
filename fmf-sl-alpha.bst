@@ -241,16 +241,16 @@ FUNCTION {bbl.etal}
 { "in~dr." }
 
 FUNCTION {bbl.editors}
-{ "ur." }
+{ "ur" }
 
 FUNCTION {bbl.editor}
-{ "ur." }
+{ "urednik" }
 
 FUNCTION {bbl.edby}
 { "ur." }
 
 FUNCTION {bbl.edition}
-{ "ur." }
+{ "izd." }
 
 FUNCTION {bbl.volume}
 { "" }

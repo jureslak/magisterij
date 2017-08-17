@@ -30,7 +30,7 @@
   linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black,
   menucolor=black, runcolor=black, urlcolor=black, pdfencoding=unicode
 ]{hyperref}
-
+\usepackage{doi}
 % naslednje ukaze ustrezno popravi
 \newcommand{\program}{Matematika} % ime studijskega programa
 \newcommand{\imeavtorja}{Jure Slak} % ime avtorja
@@ -324,21 +324,55 @@ Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearize
 
 \begin{center}
 \textbf{\naslovdela}\\[3mm]
-\textsc{Povzetek}
+\textsc{Povzetek} \\[2mm]
 \end{center}
-TODO
+
+V delu je predstavljena teorija linearne elastičnosti s poudarkom na natančni matematični
+formulaciji. Izpeljana je klasična Cauchyjeva momentna enačba, ki opisuje gibanje kontinuuma pod
+vplivom zunanjih sil. Pojasnjena je konstitutivna relacija med deformacijo in napetostjo, s pomočjo
+katere je izpeljana Navierova enačba. Pod primernimi pogoji sta dokazana obstoj in enoličnost njenih
+rešitev v šibkem smislu. Za pripravo na numerično reševanje sta obravnavani poenostavitvi enačbe na
+dve dimenziji. Iz metode končnih diferenc je izpeljana novejša, brezmrežna MLSM (Meshless Local
+Strong Form Method) metoda. Predstavljena je skupaj s postopki za generiranje, goščenje in
+razporejanje diskretizacijskih točk.  Na klasičnem primeru Poissonove enačbe je narejena analiza
+obnašanja metode glede na različne izbire parametrov. Pokazano je, da je tudi s to metodo možno
+rešiti klasične probleme iz elastostatike, in sicer je rešen problem vpetega nosilca in Hertzev
+kontaktni problem, na katerem je prikazano tudi delovanje algoritma za goščenje diskretizacije do
+vsaj 17 nivojev globoko. To služi kot predpriprava za reševanje elastostatičnega problema, ki izvira
+iz novejših raziskav na področju mehanike utrujenosti materialov in pokazano je ujemanje rešitve,
+dobljene z MLSM, z objavljeno referenčno rešitvijo. Za konec se posvetimo še implementaciji metode,
+času izvajanja in možnosti paralelizacije.
+
 \vfill
 \begin{center}
 \textbf{Solving linear elastostatic problems using meshless methods}\\[3mm] % prevod slovenskega naslova dela
-\textsc{Abstract}
+\textsc{Abstract} \\[2mm]
 \end{center}
-TODO
 
-\vfill\noindent
+A theory of linear elasticity with focus on exact mathematical formulation is presented in the work.
+The classical Cauchy momentum equation describing the motion of a continuum under external forces is
+described. Constitutive relation between stress and strain is explained, leading to the formulation
+of the Navier equation. Under suitable assumptions, the existence and uniqueness of its weak
+solutions is proven. Two simplifications that reduce the problem to two dimensions are presented. A
+recently developed MLSM (Meshless Local Strong Form Method) method is derived from the Finite
+Diference Method.  It is presented along with algorithms for domain discretization, relaxation and
+refinement. Analysis of the method's behaviour is made using the Poisson equation as a basic
+example. It is demonstrated that MLSM can be used to successfully solve elastostatic problems,
+namely the cantilever beam problem and Hetrzian contact problem. The latter is also used to
+demonstrate extensive use of domain refinement to the depth of 17 layers. This serves as a
+preparation for a more complex elastostatic problem which originates from recent research on
+fretting fatigue.  It is shown that the solution acquired with MLSM matches a published reference
+solution.  Finally, implementation details, execution time and parallelisation possibilities are
+discussed.
+
+\vfill
+
+\noindent
 \textbf{Math.~Subj.~Class.~(2010):} 74B05, 65N99, 65Y20 \\[1mm]
-\textbf{Ključne besede:} linearna elastostatika, brezmrežne metode \\[1mm]
-\textbf{Keywords:} linear elastostatics, meshless methods
-
+\textbf{Ključne besede:} linearna elastostatika, brezmrežne metode, problem vpetega nosilca, Hertzev
+kontaktni problem, vzporedno izvajanje \\[1mm]
+\textbf{Keywords:} linear elastostatics, meshless methods, cantilever beam problem, Hertzian contact
+problem, parallel execution
 
 \cleardoublepage
 
@@ -347,40 +381,44 @@ TODO
 
 \section{Uvod}
 
-Teorija linearne elastičnosti opisuje trdnine pod obremenitvijo v mirovanju. Z uporabo linearnih
-parcialnih diferencialnih enačb opisuje deformacije in napetosti v materialih in se zaradi tega
-močno uporablja v strojništvu in gradbeništvu. Enačbe, ki podajajo količine, ki nas zanimajo,
-so zelo redko rešljive na roke ali analitično in ne preostane nam drugega, kot da se reševanja
-lotimo z računalnikom. Numerično se probleme linearne elastičnosti ponavadi rešuje v šibki obliki z
-metodo končnih elementov~\cite{uienkiewicz2000finite}. Toda že v preteklosti so probleme reševali v
-krepki obliki z metodo končnih diferenc~\cite{hattel1995control} in metodo končnih
-volumnov~\cite{stone2003dynamic}. Poleg tega so se v bolj bližnji preteklosti za reševanje
-elastostatičnih problemov uporabljati tudi novejše brezmrežne metode v krepki in šibki
-obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da ne potrebujejo
-polne diskretizacije domene (npr.~z večkotniki) kot jo metoda končnih elementov, temveč le točke v
-domeni in poznavanje njihove lokalne medsebojne lege, kar omogoča večjo splošnost, lažjo posplošitev
-na višje dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo implementacijo. Poleg
-tega se sumi, da imajo prednost pri reševanju nekaterih problemov, kot npr.~pri problemih, kjer je
-treba premikati rob domene ali točke v notranjosti, kot na primer simulacije širjenja
-razpok~\cite{rao2000efficient}. Eno izmed brezmrežnih metod razvijamo s sodelavci  tudi v
-Laboratoriju za vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan'' in sodelujemo v
-mednarodnem projektu skupaj z Univerzo v Gentu in Univerzo v Luksemburgu na področju utrujanja
-materialov.
+% Gregor: Laboratorij za vzp. in por. rač. je z malimi, metoda končnih elementov tudi
 
-Tekom dela si bomo v razdelku~\ref{sec:mehanika} ogledali natančno matematično teorijo linearne
-elastodinamike, ki bo izpeljana iz splošnih aksiomov gibanja. Jasno bo označeno na katerih mestih smo
-naredili poenostavitve in pod kakšnimi predpostavkami. S tem bo nakazano, v katero smer se lahko
-razvijajo posplošitve teorije. Poseben poudarek bo dan Navierovi enačbi ter enoličnosti in obstoju
-njenih rešitev, opisanih v razdelku~\ref{sec:obstoj-enol}, in poenostavitvah, ki jo naredijo
-primernejšo za numerično reševanje. Brezmrežno metodo, ki bo kasneje v uporabi, bomo v
-razdelku~\ref{sec:numericna-metoda} izpeljali iz znane metode končnih diferenc. Metoda bo izpeljana
-v sorazmerno visoki splošnosti in v posebnih primerih bomo prepoznali znane posplošitve drugih
-metod. Metodo bomo v razdelku~\ref{sec:osnovni-zgledi} testirali na klasičnih zgledih in analizirali
-njeno obnašanje glede na različne izbire parametrov. Rezultati numerične aproksimacije
-elastostatičnega kontaktnega problema iz eksperimenta za raziskovanja utrujanja materialov, ki se
-ujemajo z nedavno objavljenimi~\cite{pereira2016convergence}, so opisani v razdelku~\ref{sec:fwo}. V
-razdelku~\ref{sec:implementacija} si ogledamo še implementacijske detajle metode in možnosti
-paralelizacije.
+Teorija statične linearne elastičnosti opisuje trdnine pod obremenitvijo v mirovanju. Enačbe, ki
+opisujejo deformacije, so zelo redko rešljive v zaprti obliki, zato se njihovega reševanja lotimo z
+uporabo numeričnih metod. Najpogosteje se  probleme linearne elastičnosti rešuje v šibki obliki z
+metodo končnih elementov~\cite{uienkiewicz2000finite}. Toda že v preteklosti so te probleme
+reševali tudi v krepki obliki z metodo končnih diferenc~\cite{hattel1995control}, kasneje pa
+so se za reševanje elastostatičnih problemov začele uporabljati tudi novejše, brezmrežne metode v
+krepki in šibki obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da,
+za razliko od metode končnih elementov, ne potrebujejo polne diskretizacije domene z večkotniki,
+temveč le nekaj diskretizacijskih točk v domeni in poznavanje njihove lokalne medsebojne lege. To
+brezmrežnim metodam omogoča večjo splošnost, lažjo posplošitev na višje
+dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo
+implementacijo~\cite{utils_web}. Poleg tega imajo brezmrežne metode prednost pri reševanju nekaterih
+problemov, pri katerih je potrebno premikati rob domene ali točke v notranjosti, kot npr.~simulacija
+širjenja razpok~\cite{rao2000efficient}. Eno izmed brezmrežnih metod~\cite{kosec2016local}, ki je
+opisana tudi v tem delu, razvijamo s sodelavci v Laboratoriju za vzporedno in porazdeljeno računanje
+na Institutu ``Jožef Stefan''. S to brezmrežno metodo želimo razviti tudi originalno numerično
+rešitev problema širjenja razpok~\cite{pereira2016convergence} v sklopu mednarodnega projekta
+``Multi-analysis of fretting fatigue using physical and virtual experiments'' skupaj z Univerzo v
+Gentu in Univerzo v Luksemburgu.
+
+V preostanku uvoda bomo ponovili matematične osnove, potrebne za razumevanje dela.  V
+razdelku~\ref{sec:mehanika} si bomo ogledali matematično teorijo linearne elastodinamike, ki bo
+izpeljana iz splošnih aksiomov gibanja. Jasno bo označeno, na katerih mestih so narejene
+poenostavitve in pod kakšnimi predpostavkami. S tem bo nakazano, v katero smer se lahko razvijajo
+posplošitve teorije. Poseben poudarek bo na Navierovi enačbi ter enoličnosti in obstoju njenih
+rešitev, opisanih v razdelku~\ref{sec:obstoj-enol}, in poenostavitvah, ki jo naredijo primernejšo za
+numerično reševanje. Zgoraj omenjeno brezmrežno metod bomo v razdelku~\ref{sec:numericna-metoda}
+izpeljali iz znane metode končnih diferenc. Metoda bo izpeljana v sorazmerno visoki splošnosti in v
+posebnih primerih bomo prepoznali druge znane metode.  Metodo bomo v
+razdelku~\ref{sec:osnovni-zgledi} testirali na klasičnih zgledih in analizirali njeno obnašanje
+glede na različne izbire parametrov, ogledali pa si bomo tudi njeno obnašanje na problemu vpetega
+nosilca in Hertzevem kontaktnem problemu. Slednji bo služil tudi kot priprava na reševanje
+elastostatičnega kontaktnega problema, motiviranega s strani mehanike utrujenosti materialov.
+Rezultati, ki se ujemajo z nedavno objavljenimi~\cite{pereira2016convergence}, so opisani v
+razdelku~\ref{sec:fwo}. V razdelku~\ref{sec:implementacija} si ogledamo še implementacijske
+podrobnosti metode, komentiramo čas izvajanja in se na kratko posvetimo paralelizaciji.
 
 \subsection{Notacija}
 Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.~$a, \alpha
@@ -1052,10 +1090,9 @@ bosta lokalno telesi izgledali enaki. Vektor $\vt$ je torej odvisen od izbrane t
 času, ko ga opazujemo in normale na izbrano površino podtelesa, ter ničesar drugega; neodvisen je na
 primer od ukrivljenosti ploskve v tisti točki. Temu razmisleku pravimo \emph{Cauchyjeva hipoteza}.
 
-\begin{aksiom}[Cauchyjeva hipoteza] TODO
-  V telesu obstaja vektorsko polje $\vt$, inducirano s površinskimi silami, ki
-  je odvisno samo od položaja, časa in normale na površino (resnično ali
-  namišljeno), kjer ga opazujemo. S simboli lahko zapišemo
+\begin{aksiom}[Cauchyjeva hipoteza]
+  Gostota površinske sile $\vt$ je odvisna samo od položaja, časa in normale
+  na površino (resnično ali namišljeno), kjer jo opazujemo. S simboli lahko zapišemo
   \begin{equation}
     \vt = \vt(t, \vx, \vn).
   \end{equation}
@@ -1695,7 +1732,7 @@ Nekoordinatni dokaz pa potrebuje nekaj dodatnih relacij iz razdelka~\ref{sec:uvo
 diferencialnih operatorjev, ki jih uporabimo v spodnjem izračunu:
 \begin{align*}
   \div\ts &= \lambda \div \tr(\eps) I + 2\mu \div \eps = \\ &=
-  \lambda \frac12(\div((\tr\grad u)I) + \div\tr\grad u^\T) + \mu \div(\grad u + \grad
+  \lambda \frac12(\div((\tr\grad u)I) + \div((\tr\grad u^\T)I) + \mu \div(\grad u + \grad
   u^\T) = \\
   &= \frac{\lambda}{2} (\div((\div u) I) + \div( (\div u)I)) + \mu \lap u + \mu
   \grad \div u = \\
@@ -2333,15 +2370,14 @@ kjer podobno kot v primeru~\ref{prim:fdm} definiramo
 \end{equation}
 Funkcional $\b\phi_{\L, p}$ je aproksimacija operatorja $\L$ v točki $p$. Pogosto ga imenujemo
 tudi \emph{funkcija oblike}~\ang{shape function}, saj v sebi nosi podatke o lokalni obliki domene in
-izboru okoliških točk ter seveda o obnašanju $\L$ v tej okolici. Funkcional $\b\phi_{\L, p}$ lahko
-izračunamo tudi, če funkcijskih vrednosti $\b{\tilde{u}}$ v okolici $p$ ne poznamo, in kasneje samo s
-skalarnim produktom $\b\phi_{\L, p} \b{\tilde{u}}$ dobimo aproksimacijo za $(\L u)(p)$. Lahko pa ga
-izkoristimo za zapis linearne enačbe
+izboru okoliških točk ter seveda o obnašanju $\L$ v tej okolici. Funkcional $\b\phi_{\L, p}$ je
+možno izračunati tudi, če funkcijskih vrednosti $\b{\tilde{u}}$ v okolici $p$ ne poznamo. Kasneje samo s
+skalarnim produktom $\b\phi_{\L, p} \b{\tilde{u}}$ dobimo aproksimacijo za $(\L u)(p)$, lahko pa
+$\b\phi_{\L, p}$ izkoristimo tudi za zapis linearne enačbe
 \begin{equation}
   \b\phi_{\L, p} \b{\tilde{u}} = f(p),
 \end{equation}
-ki je direktna aproksimacija diferencialne
-enačbe~\eqref{eq:general-problem} v točki $p$,
+ki je direktna aproksimacija diferencialne enačbe~\eqref{eq:general-problem} v točki $p$,
 \begin{equation}
   \label{eq:discrete-approx-in-one-point}
    (\L u)(p) = f(p).
@@ -2647,7 +2683,7 @@ $\sigma$ si izberemo v baznih funkcijah.
 \end{trditev}
 \begin{proof}
   Obe aproksimaciji smo izračunali že v primeru~\ref{prim:rbf} in
-  opombi~\ref{op:fdm-9}. Če pogledamo limito izraza~\eqref{eq:shape-gau9},
+  opombi~\ref{op:fdm-9}. Po krajšem izračunu limite izraza~\eqref{eq:shape-gau9},
   ko gre $\sigma \to \infty$, dobimo izraz~\eqref{eq:shape-mon9}.
 \end{proof}
 
@@ -2885,8 +2921,8 @@ $S$ pa se je precej izboljšal in izkazuje celo lepše obnašanje kot prej.
 \subsubsection{Goščenje diskretizacije}
 \label{sec:goscenje}
 Pri reševanju problemov z divje spreminjajočimi rešitvami, singularnostmi ali zelo majhnimi
-lokalnimi fenomeni si pogosto pomagamo z lokalnim zgoščevanjem krajevne diskretizacije v okolici
-dela rešitve, ki nas najbolj zanima. Pri metodah, ki temeljijo na triangulaciji domene, lahko
+lokalnimi fenomeni si pogosto pomagamo z lokalnim zgoščevanjem krajevne diskretizacije na delu
+domene. Pri metodah, ki temeljijo na triangulaciji domene, lahko
 trikotnike v območju interesa delimo in tako dobimo finejšo triangulacijo. Pri brezmrežnih
 metodah želimo doseči enak učinek, zato potrebujemo način, da gostimo točke na nekem območju.
 Postopek bomo imenovali \emph{goščenje} \ang{refinement}.
@@ -2905,15 +2941,15 @@ označeno s sivim kvadratkom. Kandidati za nove diskretizacijske točke so torej
 \begin{equation}
    \X' = \left\{ \frac{p+x}{2}; x \in L \right\}.
 \end{equation}
-Pri tem pazimo, da če sta tako $x$ kot $p$ točki na robu, je tudi njuno središče robna točka in jo
-projiciramo na rob domene, kot prikazano na primeru na sliki~\ref{fig:refine-algorithm} z dvema
-potemnjenima kvadratkoma. Če je katera izmed točk v $\X'$ izven $\zomega$, jo odstranimo iz množice
-kandidatov. Poleg tega se lahko zgodi, da so nekatere nove točke preblizu skupaj ali pa preblizu
-starim točkam, kar bi povzročilo nestabilnosti pri računanju funkcij oblike. Zato v parih točk, ki
-so bolj skupaj kot dovoljena razdalja $r_{\text{min}}$ zavržemo novejšo točko, če je ta preblizu
-kakšni stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo $r_\text{min} = f r_c$, kjer je $r_c$
-razdalja do najbližjega soseda~\eqref{eq:min-dist} in $f$ pozitiven faktor, ponavadi manjši od
-$\nicefrac{1}{2}$.
+Pri tem pazimo, da v primeru, ko sta tako $x$ kot $p$ točki na robu, tudi njuno središče okličemo
+za robno točko in jo projiciramo na rob domene, kot prikazano na primeru na
+sliki~\ref{fig:refine-algorithm} z dvema potemnjenima kvadratkoma. Če je katera izmed točk v $\X'$
+izven $\zomega$, jo odstranimo iz množice kandidatov. Poleg tega se lahko zgodi, da so nekatere nove
+točke preblizu skupaj ali pa preblizu starim točkam, kar bi povzročilo nestabilnosti pri računanju
+funkcij oblike. Zato v parih točk, ki so bolj skupaj kot dovoljena razdalja $r_{\text{min}}$
+zavržemo novejšo točko, če je ta preblizu kakšni stari. Za razdaljo $r_\text{min}$ ponavadi vzamemo
+$r_\text{min} = f r_c$, kjer je $r_c$ razdalja do najbližjega soseda~\eqref{eq:min-dist} in $f$
+pozitiven faktor, ponavadi manjši od $\nicefrac{1}{2}$.
 
 Zgornji postopek je lokalne narave in njegovo izvajanje je, zaradi iskanja sosedov, le logaritemsko
 odvisno od števila točk v domeni. Če želimo na nekem območju še gostejšo diskretizacijo, postopek
@@ -3162,14 +3198,13 @@ si lahko bralec prebere v~\cite{buhmann2000radial}.
 \section{Osnovni numerični zgledi}
 \label{sec:osnovni-zgledi}
 V tem razdelku si bomo ogledali obnašanje metode na čedalje bolj zapletenih numeričnih zgledih, da
-si zgradimo intuicijo o njenem delovanju in da se pripravimo na reševanje problema iz mehanike
-utrujenosti materialov, opisanega v uvodu. V nadaljnjem besedilu in na vseh grafih bo metoda,
-opisana v razdelku~\ref{sec:numericna-metoda}, označena s kratico MLSM \ang{Meshless Local Strong
-Form Method}. Če ni drugače navedeno, so vse meritve narejene na računalniku z eno centralno
-procesno enoto \verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako
-podpira dve niti izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so prevedeni s
-prevajalnikom \verb|g++| verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem
-sistemu Manjaro Linux.
+si zgradimo intuicijo o njenem delovanju in da se pripravimo na reševanje bolj zapletenih problemov.
+V nadaljnjem besedilu in na vseh grafih bo metoda, opisana v razdelku~\ref{sec:numericna-metoda},
+označena s kratico MLSM \ang{Meshless Local Strong Form Method}. Če ni drugače navedeno, so vse
+meritve narejene na računalniku z eno centralno procesno enoto
+\verb|Intel(R) Core(TM) i7-4700MQ CPU @2.40GHz| s štirimi jedri, od katerih vsako podpira dve niti
+izvajanja, in \unit[16]{GiB} DDR3 pomnilnika. Vsi programi so prevedeni s prevajalnikom \verb|g++|
+verzije 7.1.7 in stikali \verb|-std=c++14 -O3 -DNDEBUG| na operacijskem sistemu Manjaro Linux.
 
 \subsection{Enodimenzionalni robni problem}
 Oglejmo si najprej preprost primer reševanja enodimenzionalne Poissonove enačbe, ki smo ga uporabili
@@ -3295,9 +3330,9 @@ primerjavi z numerično je uporabljen $\ell = 181$.
   \begin{equation}
    \frac{\sinh \frac{k \pi  (1-y)}{2} \sinh \frac{k \pi y}{2}}{\cosh(\frac{k\pi}{2})}
   \end{equation}
-  ni numerično stabilno, ko $k$ raste, kajti tako števec kot imenovalec se približujeta
-  neskončnosti, kvocient pa ima končno limito. Ko ga želimo izračunati numerično je bolje uporabiti
-  stabilnejšo obliko
+  lahko povzroči prekoračitev \ang{overflow}, ko $k$ raste, kajti tako števec kot imenovalec se
+  približujeta neskončnosti. Kljub temu ima kvocient končno limito, zato je za numeričen izračun
+  bolje uporabiti obliko
   \begin{equation}
     \frac12\left( 1 - \frac{\exp(-k\pi y) + \exp(-k\pi(1-y)) }{1 + \exp(-k\pi)}\right),
   \end{equation}
@@ -3432,7 +3467,7 @@ parametrov spremeniti le definicijo domene, preostala programska koda je ostala 
 Problem vpetega nosilca \ang{cantilever beam} je standarden problem v linearni elastomehaniki in eden
 osnovnih testnih primerov za raziskovanje obnašanja numeričnih metod. Imejmo tanek nosilec dolžine
 $L$ in višine $D$, vpet na desnem koncu, ki ga na levem koncu navzdol potiska sila $P$ na enoto
-debeline. Idealizirana Timoshenkova teorija nosilcev nudi analitično rešitev za ta problem v primeru
+širine. Idealizirana Timoshenkova teorija nosilcev nudi analitično rešitev za ta problem v primeru
 predpostavke o ravninski napetosti. Napetosti v nosilcu, ki ga postavimo na območje $[0, L]
 \times [-D/2, D/2]$, so izpeljane v~\cite[str.\ 284--289, enačba 7.4.55]{slaughter2012linearized} in
 se izražajo kot
@@ -3810,7 +3845,7 @@ manjša, kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo 
 aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo, je prikazana na
 sliki~\ref{fig:hertz-solution}.
 
-\begin{figure}[!h]
+\begin{figure}[t]
   \centering
   \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
   \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
@@ -3866,10 +3901,11 @@ debelina materiala majhna in vse sile in napetosti so v ravnini materiala, torej
 predpostavki o ravninski napetosti in ga lahko prevedemo na dve dimenziji. Problem nas spominja na
 teorijo Hertzevega kontakta (\ref{sec:hertz}), le da ima prisotno tudi tangentno silo, osno napetost
 in končne dimenzije. V~\cite[razdelek 2]{pereira2016convergence} so opisani analitični izrazi za
-modeliranje napetosti, s katerimi cilindrična glava pritiska na vzorec. Označimo krivinski radij
-glave z $R$, širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak
-kot pri Hertzevem problemu, pri čemer upoštevamo, da je dolžinska gostota sile enaka $F/t$. Širina
-polovice kontaktnega območja se tako izraža~z
+modeliranje napetosti, s katerimi cilindrična glava pritiska na vzorec. Problem poenostavimo in
+simulirajmo pritisk glave z analitičnimi robnimi pogoji.  Označimo krivinski radij glave z $R$,
+širino vzorca z $W$, dolžino z $L$ in debelino z $t$. Izraz za širino kontakta je enak kot pri
+Hertzevem problemu, pri čemer upoštevamo, da je dolžinska gostota sile enaka $F/t$. Širina polovice
+kontaktnega območja se tako izraža~z
 \begin{equation}
    a = 2\sqrt{\frac{FR}{t \pi E^\ast}},
 \end{equation}
@@ -4133,11 +4169,14 @@ uporabnost na več neregularnih domenah.
 
 Metodo smo najprej testirali na preprosti Poissonovi enačbi, kjer smo analizirali obnašanje glede na
 uporabo različnih baznih funkcij in uteži ter različnega števila sosedov. V nadaljevanju smo rešili
-dva klasična primera iz elastostatike in sicer vpet nosilec ter Hertzev kontakt. Splošnost MLSM
-glede postavitve diskretizacijskih točk smo predstavili preko rešitve navrtanega vpetega
-nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici lukenj. Za konec
-smo rešili še primer iz mehanike utrujanja materialov in pokazali ujemanje metode z referenčno
-rešitvijo.
+dva klasična primera iz elastostatike: problem vpetega nosilca ter Hertzev kontaktni problem,
+na katerem smo dodatno demonstrirali možnost goščenja diskretizacije, saj smo domeno tako zgostili,
+da je razdalja med sosednjimi vozlišči na najbolj zgoščenem delu $2^{17}$-krat manjša kot na najmanj
+zgoščenem. Splošnost MLSM glede postavitve diskretizacijskih točk smo predstavili preko rešitve
+navrtanega vpetega nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici
+lukenj. Za konec smo rešili še primer primer, motiviran s strani mehanike utrujanja materialov in
+pokazali ujemanje metode z referenčno rešitvijo. Nekateri rezultati magistrskega dela so bili tudi
+poslani v objavo~\cite{slak2017refined}.
 
 Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti razpoke. V ta namen
 bomo MLSM obogatili z adaptacijo baznih funkcij, kar bomo potrebovali za opis konice razpoke. Za

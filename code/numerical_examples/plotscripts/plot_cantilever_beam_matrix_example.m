@@ -12,5 +12,6 @@ set(ch, 'YTick', tck, 'YTickLabel', lbl)
 % set(th, 'Units', 'normalized', 'Position', [0.55, -0.12], ...
 %   'VerticalAlignment', 'bottom', ...
 %   'HorizontalAlignment', 'center');
-
+% colormap(flipud(colormap))
+ 
 exportfig(f1, [imagepath 'cantilever_beam_matrix_example.pdf'], '-pdf')
