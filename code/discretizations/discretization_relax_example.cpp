@@ -25,6 +25,14 @@ int main() {
     th.join();
     th2.join();
 
+    HDF5IO file("circle_data.h5", HDF5IO::DESTROY);
+    file.openFolder("/random");
+    file.setDouble2DArray("positions", d.positions);
+    file.setIntArray("types", d.types);
+    file.openFolder("/relax");
+    file.setDouble2DArray("positions", domain.positions);
+    file.setIntArray("types", domain.types);
+
     return 0;
 }
 

@@ -101,6 +101,7 @@ CircleDomain<Vec2d> make_circle(double x, double y, double r,  double dy) {
 }
 
 int main() {
+    HDF5IO file("data/unusual_domains_wip.h5", HDF5IO::DESTROY);
 
     int n = 50;
     RectangleDomain<Vec2d> domain(0, 1);
@@ -116,7 +117,8 @@ int main() {
 
 //      data = {{0, 0, 0.5}, {-0.2938926261462365, 0.4045084971874737, 0.3333333333333333}, {-0.6109114649112877, 0.5075141619791229, 0.2222222222222222}, {-0.8222573574213218, 0.4388437187846902, 0.14814814814814814}, {-0.9093366540572437, 0.318989349247661, 0.09876543209876543}, {-0.9631546190946778, 0.4846240142476454, 0.09876543209876543}, {-0.7415304098651705, 0.6872957162846668, 0.14814814814814814}, {-0.8824276715385265, 0.7330760117476219, 0.09876543209876543}, {-0.7415304098651705, 0.8354438644328149, 0.09876543209876543}, {-0.2938926261462365, 0.737841830520807, 0.2222222222222222}, {-0.4245115711001194, 0.9176233848263509, 0.14814814814814814}, {-0.5654088327734754, 0.963403680289306, 0.09876543209876543}, {-0.4245115711001194, 1.065771532974499, 0.09876543209876543}, {-0.1632736811923536, 0.9176233848263509, 0.14814814814814814}, {-0.1632736811923536, 1.065771532974499, 0.09876543209876543}, {-0.022376419518997548, 0.963403680289306, 0.09876543209876543}, {0.29389262614623657, 0.4045084971874737, 0.3333333333333333}, {0.29389262614623657, 0.737841830520807, 0.2222222222222222}, {0.1632736811923537, 0.9176233848263509, 0.14814814814814814}, {0.02237641951899763, 0.963403680289306, 0.09876543209876543}, {0.1632736811923537, 1.065771532974499, 0.09876543209876543}, {0.4245115711001195, 0.9176233848263509, 0.14814814814814814}, {0.4245115711001195, 1.065771532974499, 0.09876543209876543}, {0.5654088327734755, 0.963403680289306, 0.09876543209876543}, {0.6109114649112877, 0.5075141619791228, 0.2222222222222222}, {0.7415304098651706, 0.6872957162846667, 0.14814814814814814}, {0.7415304098651706, 0.8354438644328148, 0.09876543209876543}, {0.8824276715385266, 0.7330760117476218, 0.09876543209876543}, {0.8222573574213218, 0.4388437187846901, 0.14814814814814814}, {0.9631546190946778, 0.48462401424764523, 0.09876543209876543}, {0.9093366540572437, 0.31898934924766087, 0.09876543209876543}};
 
-    double dy = 0.01;
+//      double dy = 0.01;  // for solving
+    double dy = 0.03;  // for drawing
     double r = data[0][2];
     double f = 2*r/dy;
     CircleDomain<Vec2d> domain3({data[0][0], data[0][1]}, r);
@@ -126,11 +128,15 @@ int main() {
         auto& x = data[i];
         domain3.add(make_circle(x[0], x[1], x[2], dy));
     }
+    file.openFolder("/drevo");
+    file.setFloat2DArray("pos", domain3.positions);
+    file.setIntArray("types", domain3.types);
 
 //      present(domain3);
 
     RectangleDomain<Vec2d> domain4({-2, -1}, {2, 1});
-    double dy2 = 0.02;
+//      double dy2 = 0.02; // for solving
+    double dy2 = 0.08; // for drawing
     domain4.fillUniformWithStep(dy2, dy2);
     domain4.subtract(make_circle(-1, 0, 0.7, dy2));
     domain4.subtract(make_circle(1, 0, 0.7, dy2));
@@ -138,9 +144,14 @@ int main() {
     domain4.add(make_circle(0.7, -0.1, 0.5, dy2));
 //      present(domain4, 1e-3);
 
+    file.openFolder("/luna");
+    file.setFloat2DArray("pos", domain4.positions);
+    file.setIntArray("types", domain4.types);
+
     prn("here");
     RectangleDomain<Vec3d> domain5(-1., 1.);
-    double dy3 = 0.05;
+//      double dy3 = 0.05;  // for solving
+    double dy3 = 0.15;  // for drawing
     double r3 = 0.75;
     domain5.fillUniformWithStep(dy3, dy3);
     {
@@ -159,12 +170,16 @@ int main() {
         domain5.subtract(domain6);
     }
 
-    VectorXd sol = solve3(domain5);
-    HDF5IO file("data/poisson_weird3d_wip.h5", HDF5IO::DESTROY);
-    file.openFolder("/calc");
-    file.setFloatArray("sol", sol);
+    file.openFolder("/cev");
     file.setFloat2DArray("pos", domain5.positions);
-    file.closeFile();
+    file.setIntArray("types", domain5.types);
+
+    VectorXd sol = solve3(domain5);
+    HDF5IO file2("data/poisson_weird3d_wip.h5", HDF5IO::DESTROY);
+    file2.openFolder("/calc");
+    file2.setFloatArray("sol", sol);
+    file2.setFloat2DArray("pos", domain5.positions);
+    file2.closeFile();
 
 
     return 0;

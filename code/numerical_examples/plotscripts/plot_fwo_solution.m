@@ -3,7 +3,8 @@ load([plotdatapath 'fwo_solution.mat'])
 
 f1 = setfig('b1');
 hold off
-scontour(xi/a, yi/a, svmi/10^6, 1000, 1000, 20, 'LineStyle', 'none')
+scontour(xi/a, yi/a, svmi/10^6, 1000, 1000, 100, 'LineStyle', 'none')
+% scatter(xi/a, yi/a, 15, svmi/10^6, 'filled');
 box on
 xlim([-3 3])
 ylim([-3,0])

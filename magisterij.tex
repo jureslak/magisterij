@@ -2748,7 +2748,7 @@ algoritem~\ref{alg:metoda}.
 \end{algorithm}
 
 \begin{algorithm}[!ht]
-  \caption{Izračun funkcije oblike.}
+  \caption{Izračun funkcije oblike za operator $\L$.}
   \textbf{Vhod:} Parametri metode: \\
   \begin{tabular}{llll}
     \algorithmlist & $\L$    & \ldots & parcialen diferencialen operator \\
@@ -2820,7 +2820,8 @@ Z nekaj osnovnimi operacijami kot so unija in razlika množic lahko opišemo že
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{images/domains_generated.png}
+  \includegraphics[width=\textwidth]{images/weird_domains.pdf}
+%   \includegraphics[width=\textwidth]{images/domains_generated.png}
   \caption{Primeri bolj zapletenih domen in njihovih diskretizacij.}
   \label{fig:domains}
 \end{figure}
@@ -2834,6 +2835,18 @@ boljšo diskretizacijo dobimo, če namesto psevdonaključnih števil pri izbiran
 uporabimo kvazinaključna števila, ki imajo manjšo diskrepanco~\cite{morokoff1994quasi} in so zato
 bolj primerna. Kljub njihovi splošnosti so naključne diskretizacije precej slabe, kot lahko vidimo
 na enakomerni naključni diskretizaciji kroga na sliki~\ref{fig:relax-circle} (levo).
+
+\begin{figure}[!ht]
+  \centering
+%   \includegraphics[width=0.3\textwidth]{images/domain_circle.png}
+%   \hspace{1em}
+%   \includegraphics[width=0.3\textwidth]{images/domain_circle_relaxed.png}
+  \includegraphics[width=0.6\textwidth]{images/relax_comparison.pdf}
+  \caption[Primerjava naključno diskretizirane in izboljšane domene.]{Primerjava domene z naključno
+  diskretizacijo (levo) in domene po izvedbi 10 iteracij algoritma~\ref{alg:relax} s parametri $F_0
+  = 10^{-2}$, $s = 6$, $\alpha = 3$ (desno).}
+  \label{fig:relax-circle}
+\end{figure}
 
 Vendar ni še vse izgubljeno, saj lahko zgoraj opisane enostavne postopke za diskretizacijo
 uporabimo, da dobimo začetni približek za boljšo diskretizacijo. Pri tem, da bi ta približek
@@ -2890,32 +2903,23 @@ diskretizacije kroga so prikazani na sliki~\ref{fig:relax-circle} (desno).
   \end{algorithmic}
 \end{algorithm}
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=0.3\textwidth]{images/domain_circle.png}
-  \hspace{1em}
-  \includegraphics[width=0.3\textwidth]{images/domain_circle_relaxed.png}
-  \caption[Primerjava naključno diskretizirane in izboljšane domene.]{Primerjava domene z naključno
-  diskretizacijo (levo) in domene po izvedbi 10 iteracij algoritma~\ref{alg:relax} s parametri $F_0
-  = 10^{-2}$, $s = 6$, $\alpha = 3$ (desno).}
-  \label{fig:relax-circle}
-\end{figure}
-
 Da algoritem izboljša kvaliteto aproksimacije se vidi tudi, če izračunamo
 parametra $h$ in $S$. Na sliki~\ref{fig:relax-hs} vidimo primerjavo med
 kvaliteto diskretizacije s Fibonaccijevo mrežo in njeno 30-kratno izboljšavo.
 Vidimo, da se je $h$ nekoliko izboljšal, za ceno večje variance,
 $S$ pa se je precej izboljšal in izkazuje celo lepše obnašanje kot prej.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
+  \vspace{-1ex}
   \centering
-  \includegraphics[width=\iw]{images/relax_improvement.pdf}
+  \includegraphics[width=0.6\textwidth]{images/relax_improvement.pdf}
+  \vspace{-2ex}
   \caption[Sprememba kvalitete diskretizacije po izboljšavi.]{Sprememba $h$ in
     $S$ po 30 iteracijah algoritma~\ref{alg:relax} s parametri $F_0 = 10^{-2}$,
-    $s = 6$, $\alpha = 3$ v enotskem dvodimenzionalnem krogu z začetno
-    Fibonaccijevo mrežo, v odvisnosti od $N$, z razmerjem robnih in notranjih
-  točk $x : \frac{12}{\pi} \sqrt{x}$.}
+    $s = 6$, $\alpha = 3$ v enotskem krogu z začetno
+    Fibonaccijevo mrežo, v odvisnosti od $N$.}
   \label{fig:relax-hs}
+  \vspace{-5ex}
 \end{figure}
 
 \subsubsection{Goščenje diskretizacije}
@@ -3340,7 +3344,7 @@ primerjavi z numerično je uporabljen $\ell = 181$.
 \end{opomba}
 
 Rešimo problem~\eqref{eq:poisson-problem} numerično, s štirimi različnimi nabori baznih funkcij:
-monomi, Gaussovimi funkcijami~(G), multikvadratičnimi funkcijami~(MQ) in inverznimi
+monomi (MON), Gaussovimi funkcijami~(G), multikvadratičnimi funkcijami~(MQ) in inverznimi
 multikvadratičnimi funkcijami~(IMQ).  Za parametre vedno vzemimo $n = m = 9$, kar sovpada s primeri
 iz razdelka~\ref{sec:posebni-primeri}. Pri monomih dodajmo tudi primer $n = 9$ in $m = 6$. Za
 parameter oblike pri radialnih baznih funkcijah vzemimo $\sigma_b = 100\, r_\chi$. Za utež vzemimo
@@ -3398,15 +3402,14 @@ parametrov pri bolj zapletenih problemih. Problem~\eqref{eq:poisson-problem}
 rešimo za različne izbire parametrov oblike baznih funkcij ($\sigma_b$) in
 Gaussove funkcije uteži ($\sigma_w$) ter primerjajmo natančnost rešitve.
 Graf napake je prikazan na sliki~\ref{fig:poisson-square-sigma-dep-error}.
-
 \begin{figure}[h]
   \centering
-  \begin{subfigure}[t]{0.45\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_error.png}
     \caption{Napaka v odvisnosti od $\sigma_b$ in $\sigma_w$.}
     \label{fig:poisson-square-sigma-dep-error}
   \end{subfigure}
-  \begin{subfigure}[t]{0.45\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\textwidth]{images/poisson_square_sigma_depedence_cutoff.png}
     \caption[Število odrezanih singularnih vrednosti.]{Število odrezanih
     singularnih vrednosti v odvisnosti od $\sigma_b$ in $\sigma_w$.}
@@ -3450,6 +3453,7 @@ domenah in v višjih dimenzijah. V dveh dimenzijah so bili za bazne funkcije upo
 x, y, x^2, y^2\}$ in $n=5$, v treh pa 9 Gaussovih baznih funkcij z $\sigma_b = 50\,r_\chi$ in
 Gaussovo utežjo s $\sigma_w = r_\chi$ na devetih točkah. V vseh primerih je bilo potrebno poleg
 parametrov spremeniti le definicijo domene, preostala programska koda je ostala enaka.
+\vspace{5ex}
 
 \begin{figure}[h]
   \centering
@@ -3607,7 +3611,18 @@ prej ($\vt = -P/D\vj$\,). V domeno razporedimo $N = 177617$ diskretizacijskih to
 gostoto okoli robov lukenj, po ustvarjanju domene pa jo še dodatno izboljšamo z
 algoritmom~\ref{alg:relax} s 50 iteracijami na šestih sosedih z $F_0 = 10^{-3}$ in $\alpha = 3$.
 Upogib nosilca, obarvan z vrednostjo von Misesove napetosti, je prikazan na
-sliki~\ref{fig:cantilever-beam-with-holes}. Von Misesova napetost se za primer ravninske napetosti
+sliki~\ref{fig:cantilever-beam-with-holes}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/cantilever_beam_with_holes.png}
+  \caption[Numerična rešitev upogiba nosilca z nekaj luknjami.]{Numerična
+  rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
+  povečani za faktor $10^5$.}
+  \label{fig:cantilever-beam-with-holes}
+\end{figure}
+
+Von Misesova napetost se za primer ravninske napetosti
 izračuna kot
 \begin{equation}
   \sigma_v = \sqrt{\sigma_{xx}^2-\sigma_{xx}\sigma_{yy}+\sigma_{yy}^2+3\sigma_{xy}^2},
@@ -3619,15 +3634,6 @@ označujejo najverjetnejša mesta za poškodbe. Največji pomik v tem primeru je
 \begin{equation}
   \max_{x \in \Omega} |\vu(x)| \approx \unit[1.55 \cdot 10^{-5}]{m} = \unit[15.5]{\mu m}.
 \end{equation}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\textwidth]{images/cantilever_beam_with_holes.png}
-  \caption[Numerična rešitev upogiba nosilca z nekaj luknjami.]{Numerična
-  rešitev upogiba nosilca z nekaj luknjami. Pomiki so zaradi boljše vidnosti
-  povečani za faktor $10^5$.}
-  \label{fig:cantilever-beam-with-holes}
-\end{figure}
 
 \subsection{Hertzev kontaktni problem}
 \label{sec:hertz}
@@ -3845,9 +3851,12 @@ manjša, kot smo jo bili sposobni doseči brez zgoščevanja. Vsak dodaten nivo 
 aproksimacijo. Numerična rešitev, pridobljena z najfinejšo diskretizacijo, je prikazana na
 sliki~\ref{fig:hertz-solution}.
 
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\iw]{images/hertzian_solution_deformed_vm.png}
+  \includegraphics[width=\textwidth]{images/hertzian_solution_deformed_vm.png}
   \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
   rešitev Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}. Zaradi
   boljše vidnosti so pomiki povečani za faktor $10^5$.}
@@ -3990,6 +3999,7 @@ v~\cite{pereira2016convergence}, za $N = 52659$ pri manjšem in $N = 178897$ pri
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
+  \vspace{-4ex}
   \caption{Ujemanje MLSM in FEM rešitve pri analizi kontakta.}
   \label{fig:fwo-ujemanje}
 \end{figure}
@@ -4046,7 +4056,7 @@ vogale. Primer izračunane napetosti za problem~\eqref{eq:fwo-problem} za $\mu=0
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\iw]{images/fwo_solution.png}
+  \includegraphics[width=\textwidth]{images/fwo_solution.png}
   \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=0.65$ in $R = \unit[50]{mm}$.}
   \label{fig:fwo-solution}
 \end{figure}
@@ -4117,7 +4127,7 @@ deljeni podatki pa se ne spreminjajo. Paralelizacija reševanja razpršenega sis
 ni tako enostavna in je področje mnogo raziskav z veliko razvitimi sistemi za reševanje, kot na
 primer Pardiso~\cite{pardiso}, PaStiX~\cite{henon2002pastix} in MUMPS~\cite{amestoy2000mumps}.
 Zaradi najlažje integracije z Eigen in dostopnosti v MKL knjižnici za osnovni test izberemo
-Pardiso~\cite{pardiso}. Isti robni problem sedaj rešimo vzporedno s $k$ nitmi in s $t_k(N)$ označimo
+Pardiso. Isti robni problem sedaj rešimo vzporedno s $k$ nitmi in s $t_k(N)$ označimo
 čas izvajanja programa s $k$ nitmi na problemu z $N$ točkami v domeni. Opazovali bomo \emph{faktor
 pohitritve} \ang{speed-up}
 \begin{equation}
