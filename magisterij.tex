@@ -17,10 +17,10 @@
 % \usepackage[all]{xy}  % diagrami
 % oblika strani
 \usepackage[
-  textwidth=15cm,
-  top=2.5cm,
-  bottom=2.5cm,
-  inner=3.5cm,
+  top=2.7cm,
+  bottom=2.7cm,
+  inner=4cm,
+  outer=2cm,
   footskip=40pt     % pozicija številke strani
 ]{geometry}
 \setlength{\overfullrule}{50pt} % označi predlogo vrstico
@@ -690,7 +690,7 @@ in s tem zaobidemo težave, ki bi nastale z obravnavo njihove diskretne atomske 
 pomeni, da atomsko strukturo ignoriramo, temveč se zavedamo, da moramo vzeti v obravnavo dovolj
 velik volumen, ki ga imenujemo \emph{reprezentativni volumski element} (REV), da odraža vse
 lastnosti materiala. Za volumne, manjše od RVE, ne moremo pričakovati, da bi jih teorija mehanike
-kontinuuma dobro opisala. Dejstvo, da trdnino modeliramo kot kontinuum nam omogoča, da jo delimo na
+kontinuuma dobro opisala. Dejstvo, da trdnino modeliramo kot kontinuum, nam omogoča, da jo delimo na
 poljubno majhne dele, in s tem dobimo osnovo za uporabo teorije infinitezimalnega računa. To
 modelsko predpostavko imenujemo \emph{hipoteza kontinuuma}. Poleg tega bomo predpostavili tudi
 gladkost drugih obravnavanih količin, kot npr.~gostota ali hitrost, s pomočjo katerih bomo na
@@ -743,7 +743,7 @@ koordinat.
 Gladkost gibanja glede na $t$ iz definicije~\ref{def:gibanje} pomeni, da je
 preslikava
 \begin{align}
-  \tilde{x}\colon \R \times B \subset \R \times \R^3&\to \R^3 \nonumber \\
+  \tilde{x}\colon \R \times B \subset \R \times \R^3&\to \R^3, \nonumber \\
   (t, \vX) &\mapsto \chi_t(\chi_R^{-1}(\vX))
 \end{align}
 gladka kot funkcija iz $\R^4$ v $\R^3$.
@@ -795,14 +795,14 @@ sebe.
 Vsako količino $\phi$, definirano na telesu $\B$, kot na primer temperaturo ali hitrost, lahko
 zapišemo na dva načina: v prostorskem ali v referenčnem položaju. Za funkcijo
 \begin{align}
-  \tilde \phi\colon B &\to \phi(\B) \nonumber \\
+  \tilde \phi\colon B &\to \phi(\B), \nonumber \\
   \vX&\mapsto \phi(\chi_R^{-1}(\vX)), \label{eq:toref}
 \end{align}
 pravimo, da je zapisana v referenčnem položaju in pišemo $\tilde\phi =
 \phi(\vX)$.
 Podobno za funkcijo
 \begin{align}
-  \hat \phi\colon B_t &\to \phi(\B) \nonumber \\
+  \hat \phi\colon B_t &\to \phi(\B), \nonumber \\
   \vx&\mapsto \phi(\chi_t^{-1}(\vx)), \label{eq:topro}
 \end{align}
 pravimo, da je zapisana v prostorskem položaju in pišemo $\hat\phi = \phi(\vx)$.
@@ -818,22 +818,22 @@ referenčni položaj, z malimi pa tiste, kjer odvajamo glede na prostorskega.
   Naj bo dana količina $\vartheta(t, X, Y, Z) = tX^2 + 2 ZY$, ki je zapisana v
   referenčnem položaju. Če jo zapišemo v prostorskih s pomočjo izpeljane
   inverzne relacije~\eqref{eq:gibanje-inv} iz primera~\ref{prim:gib}, dobimo
-  \[
+  \begin{equation*}
     \vartheta(t, x, y, z) = \frac{2 t x^2+2 y z \left(\sqrt{4 t x+1}-1\right)-x
     \sqrt{4 t x+1}+x}{2 t x}.
-  \]
+  \end{equation*}
   Demonstrirajmo še uporabo diferencialnih operatorjev, izračunajmo
-  \begin{align}
-    \dpar{\vartheta}{Y} &= 2Z  \\
+  \begin{align*}
+    \dpar{\vartheta}{Y} &= 2Z,  \\
     \dpar{\vartheta}{y} &= \frac{z \left(\sqrt{4 t x+1}-1\right)}{t x}.
-  \end{align}
+  \end{align*}
   Te odvode bi ponovno lahko zapisali kot funkcije referenčnega ali prostorskega položaja. Podobno se
   obnašajo časovni odvodi.
-  \begin{align}
-    \DDt{} \vartheta &= X^2 \\
+  \begin{align*}
+    \DDt{} \vartheta &= X^2, \\
     \ddt{} \vartheta &=  -\frac{\left(-2 t x+\sqrt{4 t x+1}-1\right) (x-2 y
     z)}{2 t^2 x \sqrt{4 t x+1}}.
-  \end{align}
+  \end{align*}
   Zapis $\DDt \vartheta(t, x, y, z)$ predstavlja torej časovni odvod $\vartheta$ pri konstantnem
   referenčnem položaju, zapisan v prostorski konfiguraciji. Izračunamo ga tako, da izraz prevedemo
   v referenčni položaj, odvajamo po času in prenesemo nazaj v prostorsko konfiguracijo. S simboli
@@ -932,10 +932,10 @@ ali površine, kar pogosto imenujemo \emph{tlak}.
 \begin{opomba}
   Zveznost družine funkcij podobno kot v definiciji~\ref{def:gibanje} pomeni, da je
   funkcija
-  \begin{align*}
-    \vf\colon \R \times B \subseteq \R \times \R^3 &\to \R^3 \\
+  \begin{align}
+    \vf\colon \R \times B \subseteq \R \times \R^3 &\to \R^3, \nonumber \\
     (t, \vX) &\mapsto \vf_t(\vx(t, \vX))
-  \end{align*}
+  \end{align}
   zvezna kot funkcija iz $\R^4$ v $\R^3$. Poenostavljeno pišemo $\vf$ in $\vt$ kar kot funkciji
   odvisni od $t$ in $\vx$, torej $\vf = \vf(t, \vx)$ in $\vt = \vt(t, \vx)$.
 \end{opomba}
@@ -1069,6 +1069,7 @@ privzetih aksiomov. Dokaza tega in naslednjega izreka sta povzeta po dokazih
 iz~\cite[str.\ 104--107]{hjelmstad2007fundamentals}.
 \begin{trditev}[Cauchyjeva recipročna relacija]
   \label{trd:cauchy-reciprocal}
+  Velja
   \begin{equation}
     \vt(t, \vx, -\vn) = -\vt(t, \vx, \vn).
     \label{eq:cauchy-reciprocal}
@@ -1169,12 +1170,12 @@ uporabimo aksiom~\ref{aks:gib} o ohranitvi gibalne količine, razpišemo integra
 tetraedra po posameznih ploskvah, pomnožimo izraz s konstantnim vektorjem $\vc$ in nato uporabimo
 izrek o povprečni vrednosti:
 \begin{align*}
-  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
+  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS, \\
 \int_{B_t} \rho\DDt{\vv} dV &= \int_{B_t} \vf dV +
   \int_{S_1} \vt_{-\ei} dS +
   \int_{S_2} \vt_{-\ej} dS +
   \int_{S_3} \vt_{-\ek} dS +
-  \int_{S_4} \vt_{\vn} dS
+  \int_{S_4} \vt_{\vn} dS,
   \\
   V (\rho\DDt{\vv})(\vx_1)\cdot\vc &= \left[V \vf(\vx_2) +
   a_1 \vt_{-\ei}(\vx_3) + a_2 \vt_{-\ej}(\vx_4) + a_3 \vt_{-\ek}(\vx_5) + a_4
@@ -1229,9 +1230,9 @@ Prevedimo najprej aksiom~\ref{aks:gib} o ohranitvi gibalne količine.
 \begin{proof}
 Za vsako telo s prostorsko konfiguracijo $B_t$ velja
 \begin{align*}
-  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS \\
-  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \ts \vn dS \\
-  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{B_t} \div \ts dV \\
+  \DDt{} \int_{B_t} \vv dm &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \vt dS, \\
+  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{\partial {B_t}} \ts \vn dS, \\
+  \int_{B_t} \DDt{\vv}\rho dV &= \int_{B_t} \vf dV + \int_{B_t} \div \ts dV, \\
   0 &= \int_{B_t}\left(\DDt{\vv}\rho - \vf - \div \ts\right) dV.
 \end{align*}
 V računu smo uporabili Gaussov izrek~\ref{izr:gauss} za tenzorje drugega reda in
@@ -1252,10 +1253,10 @@ Cauchyjevega napetostnega tenzorja.
 \begin{proof}
 Začnimo z zakonom o vrtilni količini~\eqref{eq:vrt} in ga prevedimo v lokalno
 obliko.
-\begin{equation}
+\begin{equation*}
   \DDt{}\int_{B_t}\vx \times \vv dm = \int_{B_t} \vx \times \vf dV +
   \int_{\partial B_t} \vx\times\vt dS.
-\end{equation}
+\end{equation*}
 Posvetimo se zadnjemu členu in ga pomnožimo s konstantnim vektorjem $\vw$:
 \begin{align*}
 \left(\int_{\partial B_t} \vx \times \vt dS\right)\cdot \vw  &=
@@ -1477,7 +1478,10 @@ obnaša kot pričakovano. Dokaz je povzet po~\cite[str.\ 56]{gurtin1982introduct
 \begin{trditev}
   \label{trd:eps-0}
   Infinitezimalni deformacijski tenzor $\eps$ je ničeln natanko tedaj, ko je
-  $\vu = \va + \vb \times \vX$, za konstantna vektorja $\va$ in $\vb$.
+  \begin{equation}
+    \vu = \va + \vb \times \vX,
+  \end{equation}
+  za konstantna vektorja $\va$ in $\vb$.
 \end{trditev}
 \begin{proof}
   Iz $\eps = 0$ direktno sledi $\Grad u = -\Grad u^\T$, torej je $\Grad u$ antisimetričen.
@@ -1547,9 +1551,9 @@ Materialom, pri katerih je zvezo med napetostjo in deformacijo možno opisati z 
 deformacije, pravimo \emph{hiperelastični materiali}.
 Če predpostavimo hiperelastičnost obravnavanega materiala, vidimo, da je
 \begin{equation}
-  \dpar{U}{\eps_{ij}} = \sigma_{ij} = C_{ijkl}\eps_{kl}
+  \dpar{U}{\eps_{ij}} = \sigma_{ij} = C_{ijkl}\eps_{kl}.
 \end{equation}
-in, če odvajamo še enkrat po $\eps_{kl}$, dobimo
+Odvajamo še enkrat po $\eps_{kl}$ in dobimo
 \begin{equation}
   \dpar{U}{\eps_{ij}\eps_{kl}} = C_{ijkl}.
 \end{equation}
@@ -1598,7 +1602,7 @@ ne moremo opisati, je les, saj zaradi letnic ni enak v vseh smereh. V strojnišk
 najdemo snovne lastnosti bolj pogosto opisane s parametroma $E$ in $\nu$, ki jima pravimo Youngov
 (prožnostni) modul in Poissonovo razmerje. Zveza med njima in Lam\'{e}jevima parametroma je dana z
 \begin{equation}
-   E = \frac{\mu(3\lambda+2\mu)}{\lambda+\mu} \qquad \nu = \frac{\lambda}{2(\lambda+\mu)}.
+   E = \frac{\mu(3\lambda+2\mu)}{\lambda+\mu}, \qquad \nu = \frac{\lambda}{2(\lambda+\mu)}.
 \end{equation}
 Pogosto najdemo tudi druge snovne parametre, kot na primer strižni modul ali stisljivost. Tabela
 pretvorb med različnimi parametri je na voljo v~\cite[tabela 5.1,
@@ -1763,9 +1767,9 @@ Ker je $\ts$ simetričen in pravokoten na antisimetrične tenzorje, je vseeno, �
 pri $\grad\vv$ upoštevamo samo simetrični del, $\eps(\vv) =
 \frac12(\grad\vv+\grad\vv^\T)$. Nadaljujemo z računom in dobimo
 \begin{align*}
-\int_{\Omega}(\div(\sigma \vv) - \ts:\eps(\vv)) dV + \int_{\Omega} \vv\cdot\vf dV &= 0 \\
+\int_{\Omega}(\div(\sigma \vv) - \ts:\eps(\vv)) dV + \int_{\Omega} \vv\cdot\vf dV &= 0, \\
 \int_{\partial \Omega}\sigma \vv \cdot \vn dS - \int_\Omega\ts:\eps(\vv) dV +
-\int_{\Omega} \vv\cdot\vf dV &= 0 \\
+\int_{\Omega} \vv\cdot\vf dV &= 0, \\
 \int_{\partial \Omega}\vv \cdot \vt dS - \int_\Omega\ts:\eps(\vv) dV +
 \int_{\Omega} \vv\cdot\vf dV &= 0. \qedhere
 \end{align*}
@@ -1789,11 +1793,10 @@ $C^2(\Omega, \R^3)$, za katere velja $\vu|_S = 0$. Označimo ta prostor s $C^2_S
 in na njem definirajmo bilinearno formo
 \begin{equation}
    \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV.
+   \label{eq:bilinear-form}
 \end{equation}
 \begin{trditev}
-  Bilinearna forma $
-  \langle \vu, \vv \rangle_E =  \int_{\Omega} \eps(\vu) : C : \eps(\vv) dV$ na
-  $C^2_S$ določa skalarni produkt.
+  Bilinearna forma~\eqref{eq:bilinear-form} določa skalarni produkt na $C^2_S$ .
 \end{trditev}
 \begin{proof}
 Simetričnost in bilinearnost sta očitni iz lastnosti integrala. Iz pozitivne
@@ -1833,7 +1836,7 @@ in dobimo, da vsaka komponenta $\vu$ in $|\vu|$ ležijo v $L^6$. Po posebnem
 primeru~\eqref{eq:vloz-rob} izreku o sledi~\ref{izr:soboljev-sled} dobimo, da na robu
 $\partial\Omega$ komponente in norma $\vu$ ležijo v $L^4$. Dobimo verigi zveznih vložitev
 \begin{align*}
-  E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^6(\Omega)]^3 \\
+  E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^6(\Omega)]^3, \\
   E &\hookrightarrow [H^1(\Omega)]^3 \hookrightarrow [L^4(\partial\Omega)]^3,
 \end{align*}
 ki prek norm na prvem in zadnjem prostoru implicirata neenakosti
@@ -1907,7 +1910,7 @@ Denimo, da imamo dve rešitvi $\vu_1$ in $\vu_2$ z enakimi robnimi pogoji.
 Ker sta tako $\vu_1$ kot $\vu_2$ šibki rešitvi, zadoščata
 \begin{align*}
 \int_{\Omega}\eps(\vu_1) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
-\int_{\Omega} \vf\cdot \vv &= 0 \\
+\int_{\Omega} \vf\cdot \vv &= 0, \\
 \int_{\Omega}\eps(\vu_2) : C : \eps(\vv) dV - \int_{\partial \Omega\setminus S} \vt\cdot \vv dS -
 \int_{\Omega} \vf\cdot \vv &= 0.
 \end{align*}
@@ -1972,7 +1975,7 @@ dvodimenzionalni primer, dobimo:
   \begin{bmatrix}
     \dpar{u}{x} & \frac12(\dpar{u}{y} + \dpar{v}{x}) \\
     \frac12(\dpar{u}{y} + \dpar{v}{x}) & \dpar{v}{y} \\
-  \end{bmatrix}
+  \end{bmatrix},
   \\
   \ts &=
   \begin{bmatrix}
@@ -2047,8 +2050,8 @@ jo bomo lahko posplošili v brezmrežno metodo.
 
 Rešujemo problem z mešanimi robnimi pogoji
 \begin{align}
-  u''(x) &= f(x) \quad \text{ na } (a, b) \nonumber \\
-  u(a) &= A  \label{eq:example-prob} \\
+  u''(x) &= f(x) \quad \text{ na } (a, b), \nonumber \\
+  u(a) &= A,  \label{eq:example-prob} \\
   u'(b) &= B, \nonumber
 \end{align}
 katerega rešitev poznamo v kvadraturah
@@ -2077,16 +2080,16 @@ interpolacijskega polinoma. Za izračun interpolacijskega polinoma zapišimo nas
 \end{equation}
 in zahtevajmo, da velja
 \begin{align}
-  \hat{u}(x_{i-1}) &= u_{i-1} \\
-  \hat{u}(x_{i}) &= u_{i} \\
+  \hat{u}(x_{i-1}) &= u_{i-1}, \\
+  \hat{u}(x_{i}) &= u_{i}, \\
   \hat{u}(x_{i+1}) &= u_{i+1}.
 \end{align}
 Levo stran zapišemo po definiciji~\eqref{eq:interp-uhat} in dobimo
 sistem enačb za $\b\alpha$
 \begin{align}
-  \alpha_0 + \alpha_1 (x_i -h) + \alpha_2 (x_i-h)^2 &= u_{i-1} \\
-  \alpha_0 + \alpha_1 x_{i} + \alpha_2 x_{i}^2 &= u_{i} \\
-  \alpha_0 + \alpha_1 (x_i +h) + \alpha_2 (x_i+h)^2 &= u_{i+1}
+  \alpha_0 + \alpha_1 (x_i -h) + \alpha_2 (x_i-h)^2 &= u_{i-1}, \\
+  \alpha_0 + \alpha_1 x_{i} + \alpha_2 x_{i}^2 &= u_{i}, \\
+  \alpha_0 + \alpha_1 (x_i +h) + \alpha_2 (x_i+h)^2 &= u_{i+1},
 \end{align}
 oziroma v matrični obliki
 \begin{equation}
@@ -2351,7 +2354,7 @@ v notranjosti izračunamo $\b\phi_{\L, x_i}$, za vsako točko $x_j$ na robu pa $
 Nato za vsak $x_i \in \X$ napišemo enačbo~\eqref{eq:discrete-approx-in-one-point} in dobimo
 sistem enačb
 \begin{align}
-  \b\phi_{\L, x_i} \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$ } \\
+  \b\phi_{\L, x_i} \b{\tilde{u}} &= f(x_i), \text{ za vsak $i$, tak, da je $x_i \in \Omega$,} \\
   \b\phi_{\Rc, x_i} \b{\tilde{u}} &= g(x_i), \text{ za vsak $i$, tak, da je $x_i \in \partial\Omega$.}
 \end{align}
 Te enačbe lahko zapišemo v matrični sistem
@@ -2760,7 +2763,7 @@ V poljubni $d$-dimenzionalni domeni $\Omega$ je težko dobro razporediti točke.
 Uvedimo dve količini, ki merita, kako dobra je diskretizacija domene.
 Za dano domeno $\Omega$ in množico diskretizacijskih točk $\X$ definirajmo
 \begin{align}
-  h_\Omega(\X) &= \max_{p \in \Omega} \min_{x \in \X} \|p - x\| \\
+  h_\Omega(\X) &= \max_{p \in \Omega} \min_{x \in \X} \|p - x\|, \\
   \label{eq:def-hs}
   S(\X) &= \min_{\substack{x, y \in \X \\ x \neq y}} \|x-y\|.
 \end{align}
@@ -3172,7 +3175,7 @@ sistemu Manjaro Linux.
 Oglejmo si najprej preprost primer reševanja enodimenzionalne Poissonove enačbe, ki smo ga uporabili
 že za motivacijo izpeljave numerične metode. Rešujmo problem
 \begin{align}
-  u''(x) &= \sin(x), \quad x \in (0, 1) \nonumber \\
+  u''(x) &= \sin(x), \quad x \in (0, 1), \nonumber \\
   u(0) &= 0,  \\
   u'(1) &= 0, \nonumber
 \end{align}
@@ -3235,7 +3238,7 @@ porabimo za reševanje, zato se enojne natančnosti zaradi njene zgodnje nestabi
 \subsection{Poissonova enačba}
 Oglejmo si obnašanje numerične rešitve klasične Poissonove enačbe na kvadratu:
 \begin{align}
-  \lap u &= 1, \quad (x, y) \in (0, 1) \times (0, 1)
+  \lap u &= 1, \quad (x, y) \in (0, 1) \times (0, 1),
   \label{eq:poisson-problem} \\
   u(x, 0) &= u(x, 1) = u(0, y) = u(1, y) = 0. \nonumber
 \end{align}
@@ -3440,7 +3443,7 @@ se izražajo kot
 \end{align}
 pomiki pa kot
 \begin{align}
-  u &= \frac{P y \left(3 D^2 (\nu +1)-4 \left(3 L^2+(\nu +2) y^2-3 x^2\right)\right)}{24 E I}
+  u &= \frac{P y \left(3 D^2 (\nu +1)-4 \left(3 L^2+(\nu +2) y^2-3 x^2\right)\right)}{24 E I},
   \label{eq:cantilever-beam-analytical-u} \\
   v &= -\frac{P \left(3 D^2 (\nu +1) (L-x)+4 (L-x)^2 (2 L+x)+12 \nu  x y^2\right)}{24 E I}, \label{eq:cantilever-beam-analytical-v}
 \end{align}
@@ -3465,8 +3468,8 @@ Navierove enačbe. Vektorsko polje razpišemo po komponentah, za primer dveh dim
 se razpiše v sistem dveh enačb
 \begin{align}
   \label{eq:navier-components-1}
-(\lambda +\mu ) \left(\dpar{^2u}{x^2}+\dpar{^2v}{xy}\right)+\mu  \left(\dpar{^2u}{x^2}+\dpar{^2u}{y^2}\right)+f_1&=0 \\
-(\lambda +\mu ) \left(\dpar{^2u}{xy}+\dpar{^2v}{y^2}\right)+\mu  \left(\dpar{^2v}{x^2}+\dpar{^2v}{y^2}\right)+f_2&=0
+(\lambda +\mu ) \left(\dpar{^2u}{x^2}+\dpar{^2v}{xy}\right)+\mu  \left(\dpar{^2u}{x^2}+\dpar{^2u}{y^2}\right)+f_1&=0, \\
+(\lambda +\mu ) \left(\dpar{^2u}{xy}+\dpar{^2v}{y^2}\right)+\mu  \left(\dpar{^2v}{x^2}+\dpar{^2v}{y^2}\right)+f_2&=0.
 \end{align}
 Enačbe so sklopljene preko operatorja $\grad\div$. Če domeno diskretiziramo z $N$ točkami, bomo
 namesto sistema $N\times N$ za neznano skalarno polje, sedaj reševali sistem $2N\times 2N$ za
@@ -3529,7 +3532,7 @@ Hookovega zakona~\eqref{eq:hooke-isotropic} dobimo $\ts$.
   $10^5$. Komponenta $\ts_{yy}$ je kot v analitični rešitvi enaka 0.}
   \label{fig:cantilever-beam-solution}
 \end{figure}
-Izračunajmo še, da je največji pomik
+Izračunamo še, da je največji pomik
 \begin{equation}
   \max_{x \in \Omega} |\vu(x)| \approx \unit[1.22 \cdot 10^{-5}]{m} = \unit[12.2]{\mu m}
 \end{equation}
@@ -3659,7 +3662,7 @@ Numerično želimo izračunati pomike in napetosti v materialu, zato rešimo sta
 enačbo~\eqref{eq:navier-stac}. Rešujemo problem
 \begin{align}
   (\lambda + \mu) \nabla(\nabla\cdot \vu) + \mu \nabla^2 \vu &= 0 \quad \text{ na } \Omega =
-  (-\infty, \infty) \times (-\infty, 0) \nonumber \\
+  (-\infty, \infty) \times (-\infty, 0), \nonumber \\
   \vt(x, 0) &= -p(x)\vj, \label{eq:hertzian-problem}  \\
   \lim_{x, y\to\infty} \vu(x, y) &= 0. \nonumber
 \end{align}
@@ -3887,8 +3890,8 @@ območji: območje drsenja in območje lepljenja. Tangentna napetost je dana s
   \tilde q(x) = \begin{cases}
       -\mu p_0 \left(\sqrt{1 - \frac{x^2}{a^2}} - \frac{c}{a}\sqrt{1 - \frac{x^2}{c^2}}\right);& |x|
       < c \\
-      -\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq |x| \leq a \\
-      0; & \text{sicer,}
+      -\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq |x| \leq a \;\;,\\
+      0; & \text{sicer}
     \end{cases}
 \end{equation}
 pri čemer je $c = a\sqrt{1 - \frac{Q}{\mu F}}$ in $\{x; |x| < c\}$ območje lepljenja.
@@ -3899,8 +3902,8 @@ Z njeno pomočjo izrazimo $q$ s
 q(x) = \begin{cases}
 -\mu p_0 \left(\sqrt{1 - \frac{x^2}{a^2}} - \frac{c}{a}\sqrt{1 - \frac{(x-e)^2}{c^2}}\right); &
 |x-e| < c \\
--\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq | x - e | \text{ in } |x| \leq a \\
-0; & \text{sicer,}
+-\mu p_0 \sqrt{1 - \frac{x^2}{a^2}}; & c \leq | x - e | \text{ in } |x| \leq a  \;\;,\\
+0; & \text{sicer}
 \end{cases}
 \end{equation}
 pri čemer mora veljati $\sax \leq 4\left( 1 - \sqrt{1-\frac{Q}{\mu F}} \right)$, da ekscentričnost
@@ -4167,7 +4170,7 @@ distribuiranih arhitekturah.
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{section}{Literatura}
-\bibliographystyle{fmf-sl-num}
+\bibliographystyle{fmf-sl-alpha}
 \bibliography{literatura}
 
 \end{document}
