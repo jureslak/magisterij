@@ -339,7 +339,7 @@ obnašanja metode glede na različne izbire parametrov. Pokazano je, da je z MLS
 klasične probleme iz elastostatike, in sicer na primeru problema vpetega nosilca in Hertzevega
 kontaktnega problema, na katerem je prikazano tudi delovanje algoritma za goščenje diskretizacije.
 To služi kot predpriprava za reševanje elastostatičnega problema, ki izvira iz novejših raziskav na
-področju mehanike utrujenosti materialov in pokazano je ujemanje rešitve, dobljene z MLSM, z
+področju mehanike utrujenosti materialov, in pokazano je, da se rešitev, dobljena z MLSM, ujema z
 objavljeno referenčno rešitvijo. Na koncu se posvetimo še implementaciji metode, času izvajanja in
 možnosti paralelizacije.
 
@@ -354,14 +354,14 @@ work.  The classical Cauchy momentum equation describing the motion of a continu
 forces is described. Constitutive relation between stress and strain is explained, leading to the
 formulation of the Navier equation. Under suitable assumptions, the existence and uniqueness of its
 weak solutions is proven. Two simplifications that reduce the problem to two dimensions are
-presented. A MLSM (Meshless Local Strong Form Method) method is derived from the Finite Diference
+presented. A MLSM (Meshless Local Strong Form Method) method is derived from the Finite Difference
 Method.  It is presented along with algorithms for domain discretization, relaxation and refinement.
 Analysis of the method's behaviour is made using the Poisson equation as a basic example. It is
 demonstrated that MLSM can be used to solve elastostatic problems, namely the cantilever beam and
-Hetrzian contact problems. The latter is also used to demonstrate the domain refinement. This serves
-as a preparation for a more complex elastostatic problem, which originates from recent research on
-fretting fatigue.  It is shown that the solution acquired with MLSM agrees with a published
-reference solution.  Finally, implementation details, execution time and parallelisation
+Hertzian contact problems. The latter is also used to demonstrate the domain refinement algorithm.
+This serves as a preparation for a more complex elastostatic problem, which originates from recent
+research on fretting fatigue.  It is shown that the solution acquired with MLSM agrees with a
+published reference solution.  Finally, implementation details, execution time and parallelisation
 possibilities are discussed.
 
 \vfill
@@ -387,7 +387,7 @@ opisujejo deformacije, so zelo redko rešljive v zaprti obliki, zato se njihoveg
 uporabo numeričnih metod. Najpogosteje se  probleme linearne elastičnosti rešuje v šibki obliki z
 metodo končnih elementov~\cite{uienkiewicz2000finite}. Že v preteklosti pa so te probleme reševali
 tudi v krepki obliki z metodo končnih diferenc~\cite{hattel1995control}, kasneje pa so se za
-reševanje elastostatičnih problemov začele uporabljati tudi novejše, brezmrežne metode tako v krepki
+reševanje elastostatičnih problemov začele uporabljati tudi novejše, brezmrežne metode, tako v krepki
 kot tudi šibki obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da, za
 razliko od metode končnih elementov, ne potrebujejo polne diskretizacije domene z večkotniki, temveč
 le poznavanje lokalne medsebojne lege med računskimi točkami. To brezmrežnim metodam omogoča večjo
@@ -417,6 +417,9 @@ elastostatičnega kontaktnega problema, motiviranega s strani mehanike utrujenos
 Rezultati, ki se ujemajo z nedavno objavljenimi~\cite{pereira2016convergence}, so opisani v
 razdelku~\ref{sec:fwo}. V razdelku~\ref{sec:implementacija} si ogledamo še implementacijske
 podrobnosti, komentiramo čas izvajanja in se na kratko posvetimo paralelizaciji.
+
+Besedilo vsebuje slikovno gradivo. Celotno slikovno gradivo, razen slike~\ref{fig:fwo-experiment}, je plod
+avtorjevega lastnega dela.
 
 \subsection{Notacija}
 Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.~$a, \alpha
@@ -734,7 +737,7 @@ podlagi privzetih fizikalnih zakonov izpeljali diferencialne enačbe, ki opisuje
 napetosti v materialu. Izkaže se, da ta teorija zelo dobro opisuje materiale, ki se uporabljajo v
 gradbeništvu in strojništvu, kot so kovine, beton in steklo, in je zaradi tega zelo pogosto
 uporabljena. Paketi za numerično analizo strukture zgradb so zato doživeli velik razvoj in komercialni
-uspeh~\cite{solidworks,hibbitt2001abaqus,autodesk}.
+uspeh~\cite{autodesk,hibbitt2001abaqus,solidworks}.
 
 Začnimo s tem, da natančno definiramo pojme kot so telo in gibanje, s pomočjo katerih bomo izpeljali
 enačbe, ki opisujejo pojave, ki nas zanimajo. Osnovna predstavitev teorije bo povzeta
@@ -2220,7 +2223,7 @@ na treh točkah
 \end{equation}
 ki bi jo izpeljali na enak način kot diferenco~\eqref{eq:uhat-der1}.
 
-Vse te enakosti zložimo v sistem enačb in ga zapišimo v matrični obliki
+Vse te enakosti zložimo v sistem enačb in ga zapišimo v matrični obliki:
 \begin{align}
   \frac{1}{h^2}
   \begin{bmatrix}
@@ -4181,16 +4184,16 @@ Metodo smo najprej testirali na preprosti Poissonovi enačbi, kjer smo analizira
 uporabo različnih baznih funkcij in uteži ter različnega števila sosedov. V nadaljevanju smo rešili
 dva klasična primera iz elastostatike: problem vpetega nosilca ter Hertzev kontaktni problem,
 na katerem smo dodatno demonstrirali možnost goščenja diskretizacije, saj smo domeno tako zgostili,
-da je razdalja med sosednjimi vozlišči na najbolj zgoščenem delu $2^{17}$-krat manjša kot na najmanj
-zgoščenem. Splošnost MLSM glede postavitve diskretizacijskih točk smo predstavili preko rešitve
-navrtanega vpetega nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v okolici
-lukenj. Za konec smo rešili še primer, motiviran s strani mehanike utrujanja materialov in
+da je bila razdalja med sosednjimi vozlišči na najbolj zgoščenem delu $2^{17}$-krat manjša kot na
+najmanj zgoščenem. Splošnost MLSM glede postavitve diskretizacijskih točk smo predstavili preko
+rešitve navrtanega vpetega nosilca, kjer smo morali opisati neregularno domeno ter zgostiti točke v
+okolici lukenj. Za konec smo rešili še primer, motiviran s strani mehanike utrujanja materialov, in
 pokazali ujemanje metode z referenčno rešitvijo. Nekateri rezultati magistrskega dela so bili tudi
 poslani v objavo~\cite{slak2017refined}.
 
 Nadaljnje delo bo usmerjeno v razvoj rešitvenega postopka za simulacijo rasti razpoke. V ta namen
 bomo MLSM obogatili z adaptacijo baznih funkcij, kar bomo potrebovali za opis konice razpoke. Za
-opis razpoke bomo prav tako potrebovali cenilko napake rešitve, saj ne bo več v naprej znano, kje
+opis razpoke bomo prav tako potrebovali cenilko napake rešitve, saj ne bo več vnaprej znano, kje
 lahko pričakujemo največje napake. Pri računanju funkcij oblike bomo problem v posebnih, a pogostih
 primerih, zastavili preko reševanja sistema in tako pridobili na času reševanja, ki bo pri
 simulacijah rasti razpoke postal pomemben faktor. V ta namen se bomo posvetili tudi implementaciji
