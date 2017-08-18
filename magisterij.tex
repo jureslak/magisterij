@@ -300,13 +300,13 @@ Datum:
 \section*{Program dela}
 V delu predstavite teorijo linearne elastičnosti s poudarkom na natančni matematični formulaciji.
 Izpeljite pripadajoče enačbe ravnovesja in nato z orodji funkcionalne analize obravnavajte
-enoličnost obstoja rešitve.
+enoličnost in obstoj rešitve.
 
 Iz metode končnih diferenc izpeljite bolj splošno numerično metodo, ki bo omogočala obravnavo
 neregularnih oblik, zgoščevanje porazdelitve računskih točk in spreminjanje reda natančnosti
 aproksimacij odvodov. Analizirajte delovanje metode na preprostih primerih in postopoma nadgrajujte
 problem do Hertzevega problema. Kot zadnji primer predstavite rešitev Hertzevega kontakta z
-upoštevanjem trenja in lepenja na stični površini. Kjer je mogoče rešitve podprite s primerjavami z
+upoštevanjem trenja in lepenja na stični površini. Kjer je mogoče, rešitve podprite s primerjavami z
 analitičnimi rešitvami in konvergenčnimi analizami.
 
 Osnovna literatura: \cite{lebedev2009introduction}, \cite{slaughter2012linearized}, \cite{hertz1882beruhrung}
@@ -3151,17 +3151,17 @@ izberemo radialne bazne funkcije s centri v sosedih~\cite{kosec2011h}.
   \centering
   \begin{subfigure}[t]{0.33\textwidth}
     \includegraphics[width=\textwidth]{images/rbf_mq.pdf}
-    \caption[Multikvadratične]{Multikvadratične \\ \ang{Multiquadric}  \\ $\psi(r) = \sqrt{r^2+\sigma_b^2}$}
+    \caption[Multikvadratične.]{Multikvadratične \\ \ang{Multiquadric}  \\ $\psi(r) = \sqrt{r^2+\sigma_b^2}$}
   \end{subfigure}
   \begin{subfigure}[t]{0.33\textwidth}
     \includegraphics[width=\textwidth]{images/rbf_imq.pdf}
-    \caption[Inverzne multikvadratične]{Inverzne multikvadratične \\ \ang{Inverse multiquadrics}  \\ $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$}
+    \caption[Inverzne multikvadratične.]{Inverzne multikvadratične \\ \ang{Inverse multiquadrics}  \\ $\psi(r) = 1 / \sqrt{r^2+\sigma_b^2}$}
   \end{subfigure}
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\textwidth]{images/rbf_gau.pdf}
-    \caption[Gaussove funkcije]{Gaussove funkcije \\ \ang{Gaussians} \\ $\psi(r) = \exp(-(r/\sigma_b)^2)$}
+    \caption[Gaussove funkcije.]{Gaussove funkcije \\ \ang{Gaussians} \\ $\psi(r) = \exp(-(r/\sigma_b)^2)$}
   \end{subfigure}
-  \caption[Najpogosteje uporabljene radialne bazne funkcije]{Najpogosteje uporabljene radialne bazne
+  \caption[Najpogosteje uporabljene radialne bazne funkcije.]{Najpogosteje uporabljene radialne bazne
   funkcije s parametrom oblike $\sigma_b$.}
   \label{fig:rbf}
 \end{figure}
@@ -3234,7 +3234,7 @@ diskretno $L_\infty$ napako v diskretizacijskih točkah:
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/lap1d_convergence.pdf}
-  \caption[Napaka FDM in MLSM metode.]{Napaka FDM in MLSM metode v primerjavi s pravilno rešitvijo.}
+  \caption[Napaka FDM in MLSM metod.]{Napaka FDM in MLSM metod v primerjavi s pravilno rešitvijo.}
   \label{fig:mlsm-fdm-err}
 \end{figure}
 
@@ -3355,7 +3355,7 @@ rezultate.} Primerjava napak je prikazana na sliki~\ref{fig:poisson-square-conve
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_convergence.pdf}
-  \caption[Konvergenca MLSM pri reševanju Poissonove enačbe]{Konvergenca MLSM
+  \caption[Konvergenca MLSM pri reševanju Poissonove enačbe.]{Konvergenca MLSM
   za različne parametre pri reševanju problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-convergence}
 \end{figure}
@@ -3372,7 +3372,7 @@ ki vsi rastejo linearno z $N$ s konstantnim razmerjem.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/poisson_square_time.pdf}
-  \caption[Čas izvajanja MLSM pri reševanju Poissonove enačbe]{Čas izvajanja za
+  \caption[Čas izvajanja MLSM pri reševanju Poissonove enačbe.]{Čas izvajanja za
   različne izbore parametrov pri reševanju
 problema~\eqref{eq:poisson-problem}.}
   \label{fig:poisson-square-time}
@@ -3596,7 +3596,8 @@ kjer s strešico označimo izračunane količine, brez strešice pa analitične.
 \begin{figure}[h]
   \centering
   \includegraphics[width=\iw]{images/cantilever_beam_convergence.pdf}
-  \caption{Konvergenca numerične metode pri reševanju problema vpetega nosilca.}
+  \caption[Konvergenca metode pri reševanju problema vpetega nosilca.]{Konvergenca numerične metode
+  pri reševanju problema vpetega nosilca.}
   \label{fig:cantilever-beam-convergence}
 \end{figure}
 Rezultati so podobni kot pri Poissonovi enačbi na sliki~\ref{fig:poisson-square-convergence}.
@@ -3764,9 +3765,8 @@ metode.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\iw]{images/hertzian_convergence.pdf}
-  \caption[Konvergenca metode pri reševanju Hertzevega kontaktnega
-  problema.]{Konvergenca metode pri reševanju Hertzevega kontaktnega
-  problema~\eqref{eq:hertzian-problem}.}
+  \caption[Konvergenca metode pri reševanju kontaktnega problema.]{Konvergenca metode pri reševanju
+  Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-convergence}
 \end{figure}
 
@@ -3823,12 +3823,12 @@ med razdaljo do najbližjega soseda in največjo možno razdaljo do najbližjega
   \end{subfigure}
   \begin{subfigure}[t]{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/hertzian_refined_domain_density.png}
-    \caption{Gostota diskretizacije zgoščene domene.}
+    \caption[Gostota diskretizacije zgoščene domene.]{Gostota diskretizacije zgoščene domene.}
     \label{fig:hertz-refined-domain-density}
   \end{subfigure}
-  \caption[Primer zgoščene domene s katero rešujemo Hertzev kontaktni
-  problem.]{Primer sedemnajstkrat zgoščene domene, s pomočjo katere lahko
-  bolj natančno rešimo Hertzev kontaktni problem~\eqref{eq:hertzian-problem}.}
+  \caption[Primer zgoščene domene, s katero rešujemo kontaktni problem.]{Primer sedemnajstkrat
+    zgoščene domene, s pomočjo katere lahko bolj natančno rešimo Hertzev kontaktni
+    problem~\eqref{eq:hertzian-problem}.}
   \label{fig:hertz-refined-domain-together}
 \end{figure}
 
@@ -3857,7 +3857,7 @@ sliki~\ref{fig:hertz-solution}.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{images/hertzian_solution_deformed_vm.png}
-  \caption[Numerična rešitev Hertzevega kontaktnega problema.]{Numerična
+  \caption[Numerična rešitev kontaktnega problema.]{Numerična
   rešitev Hertzevega kontaktnega problema~\eqref{eq:hertzian-problem}. Zaradi
   boljše vidnosti so pomiki povečani za faktor $10^5$.}
   \label{fig:hertz-solution}
@@ -3888,10 +3888,10 @@ sliki~\ref{fig:fwo-shema}, fotografija njegove izvedbe pa na sliki~\ref{fig:fwo-
   \begin{subfigure}[t]{0.35\textwidth}
     \centering
     \includegraphics[width=\textwidth]{images/experiment.png}
-    \caption[Fotografija eksperimenta]{Fotografija eksperimenta. \\ vir: Univerza v Luksemburgu}
+    \caption[Fotografija eksperimenta.]{Fotografija eksperimenta. \\ vir: Univerza v Luksemburgu}
     \label{fig:fwo-experiment}
   \end{subfigure}
-  \caption{Eksperiment za raziskovanje utrujanja materialov.}
+  \caption[Eksperiment za raziskovanje utrujanja materialov.]{Eksperiment za raziskovanje utrujanja materialov.}
 \end{figure}
 
 Z eksperimentom želimo napovedati nastanek in rast razpok. Problem obravnavamo v sklopu mednarodnega
@@ -4000,7 +4000,8 @@ v~\cite{pereira2016convergence}, za $N = 52659$ pri manjšem in $N = 178897$ pri
   \centering
   \includegraphics[width=\textwidth]{images/fwo_cases.pdf}
   \vspace{-4ex}
-  \caption{Ujemanje MLSM in FEM rešitve pri analizi kontakta.}
+  \caption[Ujemanje MLSM in FEM rešitve pri analizi kontakta.]{Ujemanje MLSM in FEM rešitve pri
+  analizi kontakta.}
   \label{fig:fwo-ujemanje}
 \end{figure}
 
@@ -4057,7 +4058,8 @@ vogale. Primer izračunane napetosti za problem~\eqref{eq:fwo-problem} za $\mu=0
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/fwo_solution.png}
-  \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=0.65$ in $R = \unit[50]{mm}$.}
+  \caption{Primer rešitve problema~\eqref{eq:fwo-problem} za $\mu=0.65$ in $R =
+  \unit[50]{mm}$.}
   \label{fig:fwo-solution}
 \end{figure}
 
@@ -4087,7 +4089,7 @@ sliki~\ref{fig:implementacija} je prikazan diagram izvedbe izračuna.
   \vspace{-2ex}
   \includegraphics[width=0.95\textwidth]{images/diagram_finished.pdf}
   \vspace{-1ex}
-  \caption[Diagram implementacije in izvedbe MLSM]{Diagram implementacije in
+  \caption[Diagram implementacije in izvedbe MLSM.]{Diagram implementacije in
   izvedbe algoritma~\ref{alg:metoda}.}
   \label{fig:implementacija}
   \vspace{-5ex}
