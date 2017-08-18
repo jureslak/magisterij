@@ -250,7 +250,7 @@ FUNCTION {bbl.edby}
 { "ur." }
 
 FUNCTION {bbl.edition}
-{ "ur." }
+{ "izd." }
 
 FUNCTION {bbl.volume}
 { "" }
@@ -753,7 +753,6 @@ FUNCTION {format.chapter.pages}
 FUNCTION {format.booktitle}
 {
   booktitle "booktitle" bibinfo.check
-  emphasize
 }
 FUNCTION {format.in.ed.booktitle}
 { format.booktitle duplicate$ empty$ 'skip$
