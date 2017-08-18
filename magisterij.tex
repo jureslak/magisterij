@@ -332,16 +332,16 @@ formulaciji. Izpeljana je klasična Cauchyjeva momentna enačba, ki opisuje giba
 vplivom zunanjih sil. Pojasnjena je konstitutivna relacija med deformacijo in napetostjo, s pomočjo
 katere je izpeljana Navierova enačba. Pod primernimi pogoji sta dokazana obstoj in enoličnost njenih
 rešitev v šibkem smislu. Za pripravo na numerično reševanje sta obravnavani poenostavitvi enačbe na
-dve dimenziji. Iz metode končnih diferenc je izpeljana novejša, brezmrežna MLSM (Meshless Local
+dve dimenziji. Iz metode končnih diferenc je izpeljana bolj splošna brezmrežna MLSM (Meshless Local
 Strong Form Method) metoda. Predstavljena je skupaj s postopki za generiranje, goščenje in
 razporejanje diskretizacijskih točk.  Na klasičnem primeru Poissonove enačbe je narejena analiza
-obnašanja metode glede na različne izbire parametrov. Pokazano je, da je tudi s to metodo možno
-rešiti klasične probleme iz elastostatike, in sicer je rešen problem vpetega nosilca in Hertzev
-kontaktni problem, na katerem je prikazano tudi delovanje algoritma za goščenje diskretizacije do
-vsaj 17 nivojev globoko. To služi kot predpriprava za reševanje elastostatičnega problema, ki izvira
-iz novejših raziskav na področju mehanike utrujenosti materialov in pokazano je ujemanje rešitve,
-dobljene z MLSM, z objavljeno referenčno rešitvijo. Za konec se posvetimo še implementaciji metode,
-času izvajanja in možnosti paralelizacije.
+obnašanja metode glede na različne izbire parametrov. Pokazano je, da je z MLSM možno rešiti
+klasične probleme iz elastostatike, in sicer na primeru problema vpetega nosilca in Hertzevega
+kontaktnega problema, na katerem je prikazano tudi delovanje algoritma za goščenje diskretizacije.
+To služi kot predpriprava za reševanje elastostatičnega problema, ki izvira iz novejših raziskav na
+področju mehanike utrujenosti materialov in pokazano je ujemanje rešitve, dobljene z MLSM, z
+objavljeno referenčno rešitvijo. Na koncu se posvetimo še implementaciji metode, času izvajanja in
+možnosti paralelizacije.
 
 \vfill
 \begin{center}
@@ -349,21 +349,20 @@ dobljene z MLSM, z objavljeno referenčno rešitvijo. Za konec se posvetimo še 
 \textsc{Abstract} \\[2mm]
 \end{center}
 
-A theory of linear elasticity with focus on exact mathematical formulation is presented in the work.
-The classical Cauchy momentum equation describing the motion of a continuum under external forces is
-described. Constitutive relation between stress and strain is explained, leading to the formulation
-of the Navier equation. Under suitable assumptions, the existence and uniqueness of its weak
-solutions is proven. Two simplifications that reduce the problem to two dimensions are presented. A
-recently developed MLSM (Meshless Local Strong Form Method) method is derived from the Finite
-Diference Method.  It is presented along with algorithms for domain discretization, relaxation and
-refinement. Analysis of the method's behaviour is made using the Poisson equation as a basic
-example. It is demonstrated that MLSM can be used to successfully solve elastostatic problems,
-namely the cantilever beam problem and Hetrzian contact problem. The latter is also used to
-demonstrate extensive use of domain refinement to the depth of 17 layers. This serves as a
-preparation for a more complex elastostatic problem which originates from recent research on
-fretting fatigue.  It is shown that the solution acquired with MLSM matches a published reference
-solution.  Finally, implementation details, execution time and parallelisation possibilities are
-discussed.
+A theory of linear elasticity with focus on exact mathematical formulation is presented in this
+work.  The classical Cauchy momentum equation describing the motion of a continuum under external
+forces is described. Constitutive relation between stress and strain is explained, leading to the
+formulation of the Navier equation. Under suitable assumptions, the existence and uniqueness of its
+weak solutions is proven. Two simplifications that reduce the problem to two dimensions are
+presented. A MLSM (Meshless Local Strong Form Method) method is derived from the Finite Diference
+Method.  It is presented along with algorithms for domain discretization, relaxation and refinement.
+Analysis of the method's behaviour is made using the Poisson equation as a basic example. It is
+demonstrated that MLSM can be used to solve elastostatic problems, namely the cantilever beam and
+Hetrzian contact problems. The latter is also used to demonstrate the domain refinement. This serves
+as a preparation for a more complex elastostatic problem, which originates from recent research on
+fretting fatigue.  It is shown that the solution acquired with MLSM agrees with a published
+reference solution.  Finally, implementation details, execution time and parallelisation
+possibilities are discussed.
 
 \vfill
 
@@ -386,22 +385,21 @@ problem, parallel execution
 Teorija statične linearne elastičnosti opisuje trdnine pod obremenitvijo v mirovanju. Enačbe, ki
 opisujejo deformacije, so zelo redko rešljive v zaprti obliki, zato se njihovega reševanja lotimo z
 uporabo numeričnih metod. Najpogosteje se  probleme linearne elastičnosti rešuje v šibki obliki z
-metodo končnih elementov~\cite{uienkiewicz2000finite}. Že v preteklosti pa so te probleme
-reševali tudi v krepki obliki z metodo končnih diferenc~\cite{hattel1995control}, kasneje pa
-so se za reševanje elastostatičnih problemov začele uporabljati tudi novejše, brezmrežne metode v
-krepki in šibki obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da,
-za razliko od metode končnih elementov, ne potrebujejo polne diskretizacije domene z večkotniki,
-temveč le nekaj diskretizacijskih točk v domeni in poznavanje njihove lokalne medsebojne lege. To
-brezmrežnim metodam omogoča večjo splošnost, lažjo posplošitev na višje
-dimenzije~\cite{dehghan2014numerical,li2013localized} in elegantnejšo
-implementacijo~\cite{utils_web}. Poleg tega imajo brezmrežne metode prednost pri reševanju nekaterih
-problemov, pri katerih je potrebno premikati rob domene ali točke v notranjosti, kot npr.~simulacija
-širjenja razpok~\cite{rao2000efficient}. Eno izmed brezmrežnih metod~\cite{kosec2016local}, ki je
-opisana tudi v tem delu, razvijamo s sodelavci v Laboratoriju za vzporedno in porazdeljeno računanje
-na Institutu ``Jožef Stefan''. S to brezmrežno metodo želimo razviti tudi originalno numerično
-rešitev problema širjenja razpok~\cite{pereira2016convergence} v sklopu mednarodnega projekta
-``Multi-analysis of fretting fatigue using physical and virtual experiments'' skupaj z Univerzo v
-Gentu in Univerzo v Luksemburgu.
+metodo končnih elementov~\cite{uienkiewicz2000finite}. Že v preteklosti pa so te probleme reševali
+tudi v krepki obliki z metodo končnih diferenc~\cite{hattel1995control}, kasneje pa so se za
+reševanje elastostatičnih problemov začele uporabljati tudi novejše, brezmrežne metode tako v krepki
+kot tudi šibki obliki~\cite{chen2006meshless,mavric2015local}. Prednost brezmrežnih metod je, da, za
+razliko od metode končnih elementov, ne potrebujejo polne diskretizacije domene z večkotniki, temveč
+le poznavanje lokalne medsebojne lege med računskimi točkami. To brezmrežnim metodam omogoča večjo
+splošnost, lažjo posplošitev na višje dimenzije~\cite{dehghan2014numerical,li2013localized} in
+elegantnejšo implementacijo~\cite{utils_web}. Poleg tega imajo brezmrežne metode prednost pri
+reševanju nekaterih problemov, pri katerih je potrebno premikati rob domene ali premeščati točke v
+notranjosti, kot npr.~pri~simulaciji širjenja razpok~\cite{rao2000efficient}. Eno izmed brezmrežnih
+metod~\cite{kosec2016local}, ki je opisana tudi v tem delu, razvijamo s sodelavci v Laboratoriju za
+vzporedno in porazdeljeno računanje na Institutu ``Jožef Stefan''. S to brezmrežno metodo želimo, v
+sklopu mednarodnega projekta ``Multi-analysis of fretting fatigue using physical and virtual
+experiments'' v sodelovanju z Univerzo v Gentu in Univerzo v Luksemburgu, razviti tudi originalno
+numerično rešitev problema širjenja razpok~\cite{pereira2016convergence} .
 
 V preostanku uvoda bomo ponovili matematične osnove, potrebne za razumevanje dela.  V
 razdelku~\ref{sec:mehanika} si bomo ogledali matematično teorijo linearne elastodinamike, ki bo
@@ -414,11 +412,11 @@ izpeljali iz znane metode končnih diferenc. Metoda bo izpeljana v sorazmerno vi
 posebnih primerih bomo prepoznali druge znane metode.  Metodo bomo v
 razdelku~\ref{sec:osnovni-zgledi} testirali na klasičnih zgledih in analizirali njeno obnašanje
 glede na različne izbire parametrov, ogledali pa si bomo tudi njeno obnašanje na problemu vpetega
-nosilca in Hertzevem kontaktnem problemu. Slednji bo služil tudi kot priprava na reševanje
+nosilca in Hertzevem kontaktnem problemu. Slednji bo služil kot priprava na reševanje
 elastostatičnega kontaktnega problema, motiviranega s strani mehanike utrujenosti materialov.
 Rezultati, ki se ujemajo z nedavno objavljenimi~\cite{pereira2016convergence}, so opisani v
 razdelku~\ref{sec:fwo}. V razdelku~\ref{sec:implementacija} si ogledamo še implementacijske
-podrobnosti metode, komentiramo čas izvajanja in se na kratko posvetimo paralelizaciji.
+podrobnosti, komentiramo čas izvajanja in se na kratko posvetimo paralelizaciji.
 
 \subsection{Notacija}
 Skalarje bomo označevali z malimi latinskimi ali grškimi črkami, npr.~$a, \alpha
