@@ -1,10 +1,10 @@
 %%
-%% This is file `fmf-en-label-num-predlog.bst',
+%% This is file `fmf-en-generated.bst',
 %% generated with the docstrip utility.
 %%
 %% The original source files were:
 %%
-%% merlin.mbs  (with options: `: (def) Numerical vonx,nm-init,ed-au,nmlm,x3,m1,dt-jnl,yr-com,xmth,tit-it,jttl-rm,vol-bf,vnum-x,volp-blk,jdt-vs,pp-last,num-xser,ser-vol,jnm-x,pre-pub,isbn,issn,doi,edpar,edby-par,edbyx,blk-com,in-col,pp,ed,abr,ednx,mth-bare,xedn,jabr,and-xcom,etal-xc,nfss,')
+%% merlin.mbs  (with options: `: (def) Numerical vonx,nm-init,ed-au,nmlm,x3,m1,dt-jnl,yr-com,xmth,tit-it,jttl-rm,vol-bf,vnum-sp,volp-blk,jdt-vs,pp-last,num-xser,ser-vol,jnm-x,pre-pub,doi,edpar,edby-par,edbyx,blk-com,in-col,pp,ed,abr,ednx,mth-bare,xedn,jabr,and-xcom,etal-xc,nfss,')
 %% ----------------------------------------
 %% *** FMF Bachelor's and Master's thesis ***
 %%
@@ -46,8 +46,6 @@ ENTRY
     eid
     howpublished
     institution
-    isbn
-    issn
     journal
     key
     month
@@ -256,13 +254,13 @@ FUNCTION {bbl.volume}
 { "" }
 
 FUNCTION {bbl.of}
-{ "of" }
+{ "od" }
 
 FUNCTION {bbl.number}
-{ "\v{s}t" }
+{ "s\v{t}." }
 
 FUNCTION {bbl.nr}
-{ "\v{s}t" }
+{ "s\v{t}." }
 
 FUNCTION {bbl.in}
 { "v" }
@@ -279,35 +277,38 @@ FUNCTION {bbl.chapter}
 FUNCTION {bbl.techrep}
 { "teh. por." }
 
+FUNCTION {bbl.bthesis}
+{ "diplomsko delo" }
+
 FUNCTION {bbl.mthesis}
-{ "magistrsko delo" }
+{ "magistsko delo" }
 
 FUNCTION {bbl.phdthesis}
 { "doktorska disertacija" }
 
-MACRO {jan} {"jan."}
+MACRO {jan} {"Jan."}
 
-MACRO {feb} {"feb."}
+MACRO {feb} {"Feb."}
 
-MACRO {mar} {"mar."}
+MACRO {mar} {"Mar."}
 
-MACRO {apr} {"apr."}
+MACRO {apr} {"Apr."}
 
-MACRO {may} {"maj"}
+MACRO {may} {"May"}
 
-MACRO {jun} {"jun."}
+MACRO {jun} {"Jun."}
 
-MACRO {jul} {"jul."}
+MACRO {jul} {"Jul."}
 
-MACRO {aug} {"avg."}
+MACRO {aug} {"Aug."}
 
-MACRO {sep} {"sep."}
+MACRO {sep} {"Sep."}
 
-MACRO {oct} {"okt."}
+MACRO {oct} {"Oct."}
 
-MACRO {nov} {"nov."}
+MACRO {nov} {"Nov."}
 
-MACRO {dec} {"dec."}
+MACRO {dec} {"Dec."}
 
 MACRO {acmcs} {"ACM Comput. Surv."}
 
@@ -462,24 +463,6 @@ FUNCTION {format.editors}
     }
   if$
 }
-FUNCTION {format.isbn}
-{ isbn "isbn" bibinfo.check
-  duplicate$ empty$ 'skip$
-    {
-      "ISBN " swap$ *
-    }
-  if$
-}
-
-FUNCTION {format.issn}
-{ issn "issn" bibinfo.check
-  duplicate$ empty$ 'skip$
-    {
-      "ISSN " swap$ *
-    }
-  if$
-}
-
 FUNCTION {format.doi}
 { doi empty$
     { "" }
@@ -619,7 +602,7 @@ FUNCTION {format.bvolume}
       "volume" bibinfo.check * *
       series "series" bibinfo.check
       duplicate$ empty$ 'pop$
-        { " " * swap$ * }
+        {" " * swap$ * }
       if$
       "volume and number" number either.or.check
     }
@@ -731,6 +714,16 @@ FUNCTION {format.vol.num.pages}
     }
   if$
   bolden
+  number "number" bibinfo.check duplicate$ empty$ 'skip$
+    {
+      swap$ duplicate$ empty$
+        { "there's a number but no volume in " cite$ * warning$ }
+        'skip$
+      if$
+      swap$
+      "(" swap$ * ")" *
+    }
+  if$ *
   format.year *
 }
 
@@ -936,7 +929,6 @@ FUNCTION {article}
     { format.journal.pages }
     { format.journal.eid }
   if$
-  format.issn output
   format.doi output
   format.note output
   fin.entry
@@ -965,7 +957,6 @@ FUNCTION {book}
   if$
   format.edition output
   format.date "year" output.check
-  format.isbn output
   format.doi output
   format.note output
   fin.entry
@@ -977,7 +968,6 @@ FUNCTION {booklet}
   howpublished "howpublished" bibinfo.check output
   address "address" bibinfo.check output
   format.date output
-  format.isbn output
   format.doi output
   format.note output
   fin.entry
@@ -1009,10 +999,6 @@ FUNCTION {inbook}
     }
   if$
   format.edition output
-  crossref missing$
-    { format.isbn output }
-    'skip$
-  if$
   format.date "year" output.check
   date.block
   format.pages "pages" output.check
@@ -1032,7 +1018,6 @@ FUNCTION {incollection}
       format.number.series output
       format.chapter.pages output
       format.edition output
-      format.isbn output
     }
     { format.incoll.inproc.crossref output.nonnull
       format.chapter.pages output
@@ -1059,8 +1044,6 @@ FUNCTION {inproceedings}
       if$
       format.bvolume output
       format.number.series output
-      format.isbn output
-      format.issn output
     }
     { format.incoll.inproc.crossref output.nonnull
     }
@@ -1110,6 +1093,20 @@ FUNCTION {mastersthesis}
   format.btitle
   "title" output.check
   bbl.mthesis format.thesis.type output.nonnull
+  school "school" bibinfo.warn output
+  address "address" bibinfo.check output
+  format.date "year" output.check
+  format.doi output
+  format.note output
+  fin.entry
+}
+
+FUNCTION {bachelorsthesis}
+{ output.bibitem
+  format.authors "author" output.check
+  format.btitle
+  "title" output.check
+  bbl.bthesis format.thesis.type output.nonnull
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
   format.date "year" output.check
@@ -1172,8 +1169,6 @@ FUNCTION {proceedings}
      }
   if$
       format.date "year" output.check
-  format.isbn output
-  format.issn output
   format.doi output
   format.note output
   fin.entry
@@ -1395,4 +1390,4 @@ FUNCTION {end.bib}
 EXECUTE {end.bib}
 %% End of customized bst file
 %%
-%% End of file `fmf-en-label-num-predlog.bst'.
+%% End of file `fmf-en-generated.bst'.
